@@ -1,5 +1,6 @@
 {
     "environment": "development",
     "port_express": 80,
-    "port_socketio": 100
+    "port_socketio": 100,
+    "angular_directory": "dist"
 }

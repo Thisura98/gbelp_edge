@@ -11,10 +11,18 @@ scripts - Project Scaffolding projects
 resources - Misc. Project Resources (images, text files, etc.)
 ```
 
-## Start
+## Scripts & Commands
 
-`/node/start.sh` - Start Nodemon on server
-in `/angular`, `ng serve` - Start Angular server
+#### Node
+Scripts in `/node` folder
+
+- `start.sh` - Start Nodemon on server
+
+#### Angular
+Scripts & commands in `/angular` folder
+
+`ng serve` - Start Angular server
+`build_to_node.sh` - Build Angular project into /node/dist folder
 
 ## Software Requirements
 
