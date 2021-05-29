@@ -1,5 +1,6 @@
 const pc = require('./src/Util/parseconfig');
 const l = require('./src/Util/logger');
+const api_handler = require('./src/Network/api_handler');
 
 const express = require('express');
 const app = express();
@@ -12,14 +13,14 @@ const indexFile = `${__dirname}/${const_angular_directory}/index.html`;
 
 // MARK: Any route that should match before it gets to the angular Application
 
-
+api_handler.handle(app);
 
 // MARK: Angular App (GET methods)
 // Angular App, its static files (js, css), fallthrough (catch-all get)
 
 // : The Angular Application
-app.get('/', (rq, re) => {
-    re.sendFile(indexFile);
+app.get('/', (req, res) => {
+    res.sendFile(indexFile);
 });
 
 // : The Angular Static files (js, css)
@@ -27,8 +28,8 @@ app.get('*.*', express.static(`${__dirname}/${const_angular_directory}`, {fallth
 
 // : Fall through option if file is not found
 //   Non-existed GET urls will show the Angular index.html file
-app.get('*', (rq, re) => {
-    re.sendFile(indexFile);
+app.get('*', (req, res) => {
+    res.sendFile(indexFile);
 });
 
 // END MARK
