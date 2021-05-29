@@ -1,6 +1,7 @@
 version: "3.9"
 services:
     mongo:
+        hostname: mongohost
         image: mongo
         restart: always
         ports:
