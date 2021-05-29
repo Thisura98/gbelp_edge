@@ -21,8 +21,8 @@ Scripts in `/node` folder
 ### Angular
 Scripts & commands in `/angular` folder
 
-`ng serve` - Start Angular server
-`build_to_node.sh` - Build Angular project into /node/dist folder
+- `ng serve` - Start Angular server
+- `build_to_node.sh` - Build Angular project into /node/dist folder
 
 ### DB
 Scripts in `/db` folder
