@@ -1,0 +1,49 @@
+<div class="container-element">
+    <mat-card class="reg-form">
+        <mat-card-header>
+            <mat-card-title>Registration Form</mat-card-title>
+            <mat-card-subtitle>Register your user with the GbELP | Edge system</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="register-form-container paragraphed-form">
+                <form id="register-form" [formGroup]="registerForm">
+                    <p class="register-form-row">
+                        <mat-form-field>
+                            <mat-label>User Type</mat-label>
+                            <mat-select formControlName="userType">
+                                <mat-option *ngFor="let t of userTypes" value="{{t[0]}}">{{t[1]}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </p>
+                    <p class="register-form-row">
+                        <mat-form-field>
+                            <mat-label>User Name</mat-label>
+                            <input matInput placeholder="Thisura" formControlName="userName">
+                        </mat-form-field>
+                    </p>
+                    <p class="register-form-row">
+                        <mat-form-field>
+                            <mat-label>User Email</mat-label>
+                            <input matInput placeholder="thisura@gmail.lk" formControlName="userEmail">
+                        </mat-form-field>
+                    </p>
+                    <p class="register-form-row">
+                        <mat-form-field>
+                            <mat-label>User Password</mat-label>
+                            <input 
+                                matInput placeholder="*******" formControlName="userPassword"
+                                (input)="passwordValue=getValue($event.target)"
+                            >
+                        </mat-form-field>
+                    </p>
+                    <p class="register-form-row">
+                        <mat-form-field>
+                            <mat-label>Password Confirmation Password</mat-label>
+                            <input matInput placeholder="*******" formControlName="userPasswordConfirmation">
+                        </mat-form-field>
+                    </p>
+                </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

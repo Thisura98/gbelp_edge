@@ -1,0 +1,13 @@
+.register-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-form-container > form{
+    width: 70%;
+}
+
+.register-form-row > mat-form-field{
+    width: 100%;
+}

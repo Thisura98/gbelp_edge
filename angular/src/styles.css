@@ -1,4 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #f7f7f7; }
+.paragraphed-form form > p{
+    margin-bottom: 0px;
+}
+
+/* Container Style */
+
+@media only screen and (max-width: 798px) {
+    .container-element{
+        display: flex;
+    }
+    /* Resize the immediate child of the container */
+    .container-element > :first-child{
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 798px) {
+    .container-element{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Resize the immediate child of the container */
+    .container-element > :first-child{
+        width: min(70vw, 1000px);
+    }
+}
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* Required for <mat-card> shadows */
+mat-card { margin:2em;  }
