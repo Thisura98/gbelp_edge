@@ -11,3 +11,7 @@
 .register-form-row > mat-form-field{
     width: 100%;
 }
+
+.register-form-error{
+    color: red;
+}

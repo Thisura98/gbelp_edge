@@ -18,32 +18,36 @@
                     <p class="register-form-row">
                         <mat-form-field>
                             <mat-label>User Name</mat-label>
-                            <input matInput placeholder="Thisura" formControlName="userName">
+                            <input matInput placeholder="Thisura" formControlName="userName" autocomplete="username">
                         </mat-form-field>
                     </p>
                     <p class="register-form-row">
                         <mat-form-field>
                             <mat-label>User Email</mat-label>
-                            <input matInput placeholder="thisura@gmail.lk" formControlName="userEmail">
+                            <input matInput placeholder="thisura@gmail.lk" formControlName="userEmail" autocomplete="email">
                         </mat-form-field>
                     </p>
                     <p class="register-form-row">
                         <mat-form-field>
                             <mat-label>User Password</mat-label>
-                            <input 
-                                matInput placeholder="*******" formControlName="userPassword"
-                                (input)="passwordValue=getValue($event.target)"
-                            >
+                            <input matInput placeholder="*******" formControlName="userPassword" type="password" autocomplete="current-password">
                         </mat-form-field>
                     </p>
                     <p class="register-form-row">
                         <mat-form-field>
                             <mat-label>Password Confirmation Password</mat-label>
-                            <input matInput placeholder="*******" formControlName="userPasswordConfirmation">
+                            <input matInput placeholder="*******" formControlName="userPasswordConfirmation" type="password" autocomplete="current-password">
                         </mat-form-field>
                     </p>
+
+                    <div class="register-form-error" [hidden]="passwordsMatch">Passwords should match!</div>
+                    <div class="register-form-error" [hidden]="passwordsMinLengthOk">Password should be atleast 8 characteres long!</div>
                 </form>
             </div>
         </mat-card-content>
+        <mat-card-actions class="center-card-actions">
+            <button mat-flat-button color="primary" (click)="registerClicked()">Register</button>
+            <button mat-flat-button (click)="cancelClicked()">Cancel</button>
+        </mat-card-actions>
     </mat-card>
 </div>

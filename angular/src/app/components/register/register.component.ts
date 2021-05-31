@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-register',
@@ -10,31 +13,93 @@ import { Observable } from 'rxjs';
 })
 export class RegisterComponent {
 
-  passwordValue: String = "";
-  // passwordValue: String = "";
+  passwordMinLength = 8;
 
   registerForm = new FormGroup({
     userType: new FormControl('', Validators.required),
     userName: new FormControl('', [Validators.required, Validators.nullValidator]),
     userEmail: new FormControl('', [Validators.email]),
-    userPassword: new FormControl('', [this.passwordValidator.bind(this)]),
+    userPassword: new FormControl('', [
+      Validators.required, 
+      Validators.minLength(this.passwordMinLength)
+    ]),
     userPasswordConfirmation: new FormControl('', null, )
-  });
+  }, { validators: this.formValidator });
 
-  // TODO: Get these from server
+  constructor(
+    private location: Location,
+    private router: Router,
+    private apiService: ApiService
+  ){}
+
+  // MARK: Data
   userTypes = Array<Array<String>>(
     ["1", "Teacher"],
     ["2", "Student"],
     ["3", "Parent"]
   );
 
-  private passwordValidator(value: AbstractControl): ValidationErrors{
-    console.log("passwordValue =", this.passwordValue)
-    return [];
+  /**
+   * Show/hide "Passwords do not match" message
+   */
+  get passwordsMatch(){
+    const pwField = this.registerForm.get('userPassword');
+    const pwConfirmField = this.registerForm.get('userPasswordConfirmation');
+
+    if (!(pwField?.touched || pwConfirmField?.touched)){
+      return true;
+    }
+
+    if (this.registerForm.touched && this.registerForm.dirty){
+      return this.registerForm.errors?.passwordConfirmationFailed != null
+    }
+    return true;
+  }
+
+  /**
+   * Show/hide "Password min length" message
+   */
+  get passwordsMinLengthOk(){
+    const pwField = this.registerForm.get('userPassword');
+    const pwConfirmField = this.registerForm.get('userPasswordConfirmation');
+
+    if (!(pwField?.touched || pwConfirmField?.touched)){
+      return true;
+    }
+
+    if (pwField?.valid && pwConfirmField?.valid){
+      return true;
+    }
+
+    return false;
+  }
+
+  // MARK: Private methods
+
+  private formValidator(control: AbstractControl): ValidationErrors | null{
+    const pw = control.get('userPassword')?.value;
+    const pw_confirm = control.get('userPasswordConfirmation')?.value;
+    if (pw && pw_confirm && pw == pw_confirm){
+      return { passwordConfirmationFailed: true };
+    }
+    else{
+      return null;
+    }
   }
   
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
+  }
+
+  registerClicked(){
+    console.log("Not implemented yet!")
+    this.apiService.getAuthToken("hello", "henlo").subscribe(resp => {
+      console.log(resp);
+    })
+  }
+
+  cancelClicked(){
+    this.location.back();
   }
 
 }

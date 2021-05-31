@@ -6,6 +6,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
     margin-bottom: 0px;
 }
 
+.center-card-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Container Style */
 
 @media only screen and (max-width: 798px) {

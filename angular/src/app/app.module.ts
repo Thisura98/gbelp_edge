@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select'
 import { MatCardModule } from '@angular/material/card';
 
+import { ApiService } from './services/api.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MatToolbarModule,
     MatIconModule,
@@ -33,7 +37,7 @@ import { MatCardModule } from '@angular/material/card';
     MatSelectModule,
     MatCardModule
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
