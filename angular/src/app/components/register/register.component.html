@@ -39,7 +39,7 @@
                             <input matInput placeholder="*******" formControlName="userPasswordConfirmation" type="password" autocomplete="current-password">
                         </mat-form-field>
                     </p>
-
+                    <div class="register-form-error" [hidden]="usernameOk">Username must be smaller than 100 characters and only consist of letters, underscores and numbers</div>
                     <div class="register-form-error" [hidden]="passwordsMatch">Passwords should match!</div>
                     <div class="register-form-error" [hidden]="passwordsMinLengthOk">Password should be atleast 8 characteres long!</div>
                 </form>

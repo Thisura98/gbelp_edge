@@ -17,7 +17,12 @@ export class RegisterComponent {
 
   registerForm = new FormGroup({
     userType: new FormControl('', Validators.required),
-    userName: new FormControl('', [Validators.required, Validators.nullValidator]),
+    userName: new FormControl('', [
+      Validators.required, 
+      Validators.nullValidator, 
+      Validators.maxLength(100),
+      Validators.pattern(/^[a-zA-Z1234567890_]+$/g)
+    ]),
     userEmail: new FormControl('', [Validators.email]),
     userPassword: new FormControl('', [
       Validators.required, 
@@ -38,6 +43,18 @@ export class RegisterComponent {
     ["2", "Student"],
     ["3", "Parent"]
   );
+
+  /**
+   * Username is smaller than max characters
+   */
+  get usernameOk(){
+    const unField = this.registerForm.get('userName');
+
+    if (!(unField?.touched))
+      return true;
+
+    return unField.valid
+  }
 
   /**
    * Show/hide "Passwords do not match" message
