@@ -1,19 +1,25 @@
-const pc = require('./src/Util/parseconfig');
-const l = require('./src/Util/logger');
-const api_handler = require('./src/Network/api_handler');
+const pc = require('./src/util/parseconfig');
+const l = require('./src/util/logger');
+const apiHandler = require('./src/network/api_handler');
+const sql = require('./src/util/connections/sql_connection');
 
 const express = require('express');
 const app = express();
 
 const config = pc.parseConfig('config.json');
-const const_port_express = config.port_express;
-const const_angular_directory = config.angular_directory;
+const constPortExpress = config.port_express;
+const constAngularDirectory = config.angular_directory;
 
-const indexFile = `${__dirname}/${const_angular_directory}/index.html`;
+const indexFile = `${__dirname}/${constAngularDirectory}/index.html`;
+
+/**
+ * Initialize DBs
+ */
+sql.initialize();
 
 // MARK: Any route that should match before it gets to the angular Application
 
-api_handler.handle(app);
+apiHandler.handle(app);
 
 // MARK: Angular App (GET methods)
 // Angular App, its static files (js, css), fallthrough (catch-all get)
@@ -24,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 // : The Angular Static files (js, css)
-app.get('*.*', express.static(`${__dirname}/${const_angular_directory}`, {fallthrough: false}));
+app.get('*.*', express.static(`${__dirname}/${constAngularDirectory}`, {fallthrough: false}));
 
 // : Fall through option if file is not found
 //   Non-existed GET urls will show the Angular index.html file
@@ -34,6 +40,6 @@ app.get('*', (req, res) => {
 
 // END MARK
 
-app.listen(const_port_express, () => {
-    l.logc(`Express app started listening on port '${const_port_express}'!`);
+app.listen(constPortExpress, () => {
+    l.logc(`Express app started listening on port '${constPortExpress}'!`);
 });
