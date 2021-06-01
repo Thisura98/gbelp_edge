@@ -8,6 +8,7 @@ const tables = {
     userTypeCapability: 'user_type_capability',
     userRelationship: 'user_relationship',
     userRelationshipType: 'user_relationship_type',
+    /// Higher ranking user of a userRelationship gains these capabilities
     userRelationshipCapability: 'user_relationship_capability'
 };
 
@@ -28,7 +29,31 @@ const columns = {
         userTypeId: 'user_type_id',
         name: 'name'
     },
-    
+    userCapability: {
+        capId: 'cap_id',
+        capName: 'cap_name',
+        capDesc: 'cap_desc'
+    },
+    userTypeCapability: {
+        userTypeId: 'user_type_id',
+        capId: 'cap_id'
+    },
+    userRelationship: {
+        id: 'rid',
+        userOneId: 'u_one_id',
+        userOneRank: 'u_one_rnk',
+        userTwoId: 'u_two_id',
+        userTwoRank: 'u_two_rnk',
+        relationshipType: 'type'
+    },
+    userRelationshipType: {
+        typeId: 'type_id',
+        typeName: 'name'
+    },
+    userRelationshipCapability: {
+        relationshipTypeId: 'relationship_type_id',
+        gainedCapabilityId: 'gained_cap_id'
+    }
 }
 
 module.exports.tables = tables;

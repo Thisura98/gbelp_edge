@@ -40,8 +40,59 @@ function migrateV1(db, migratedVer, completion){
         ${columns.users.userType} INT,
         ${columns.users.userPasswordHash} VARCHAR(33) NOT NULL,
         FOREIGN KEY (${columns.users.userType}) 
-            REFERENCES ${tables.userType}(${columns.userType.userTypeId})
-            ON UPDATE SET NULL ON DELETE SET NULL
+            REFERENCES ${tables.userType}(${columns.userType.userTypeId}) 
+            ON UPDATE CASCADE ON DELETE SET NULL
+    );`, errHandler);
+
+    db.query(`CREATE TABLE ${tables.userCapability} (
+        ${columns.userCapability.capId} INT AUTO_INCREMENT PRIMARY KEY,
+        ${columns.userCapability.capName} VARCHAR(100) NOT NULL,
+        ${columns.userCapability.capDesc} VARCHAR(300)
+    );`, errHandler);
+
+    db.query(`CREATE TABLE ${tables.userTypeCapability} (
+        ${columns.userTypeCapability.userTypeId} INT NOT NULL,
+        ${columns.userTypeCapability.capId} INT NOT NULL,
+        FOREIGN KEY (${columns.userTypeCapability.userTypeId}) 
+            REFERENCES ${tables.userType}(${columns.userType.userTypeId}) 
+            ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (${columns.userTypeCapability.capId}) 
+            REFERENCES ${tables.userCapability}(${columns.userCapability.capId}) 
+            ON UPDATE CASCADE ON DELETE CASCADE
+    );`, errHandler);
+
+    db.query(`CREATE TABLE ${tables.userRelationshipType} (
+        ${columns.userRelationshipType.typeId} INT AUTO_INCREMENT PRIMARY KEY,
+        ${columns.userRelationshipType.typeName} VARCHAR(100)
+    );`, errHandler);
+
+    db.query(`CREATE TABLE ${tables.userRelationship} (
+        ${columns.userRelationship.id} INT AUTO_INCREMENT PRIMARY KEY,
+        ${columns.userRelationship.userOneId} INT NOT NULL,
+        ${columns.userRelationship.userOneRank} INT NOT NULL,
+        ${columns.userRelationship.userTwoId} INT NOT NULL,
+        ${columns.userRelationship.userTwoRank} INT NOT NULL,
+        ${columns.userRelationship.relationshipType} INT NOT NULL,
+        FOREIGN KEY (${columns.userRelationship.relationshipType}) 
+            REFERENCES ${tables.userRelationshipType}(${columns.userRelationshipType.typeId}) 
+            ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (${columns.userRelationship.userOneId}) 
+            REFERENCES ${tables.users}(${columns.users.userId}) 
+            ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (${columns.userRelationship.userTwoId}) 
+            REFERENCES ${tables.users}(${columns.users.userId}) 
+            ON UPDATE CASCADE ON DELETE CASCADE
+    );`, errHandler);
+
+    db.query(`CREATE TABLE ${tables.userRelationshipCapability} (
+        ${columns.userRelationshipCapability.relationshipTypeId} INT NOT NULL,
+        ${columns.userRelationshipCapability.gainedCapabilityId} INT NOT NULL,
+        FOREIGN KEY (${columns.userRelationshipCapability.relationshipTypeId}) 
+            REFERENCES ${tables.userRelationshipType}(${columns.userRelationshipType.typeId}) 
+            ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY (${columns.userRelationshipCapability.gainedCapabilityId}) 
+            REFERENCES ${tables.userCapability}(${columns.userCapability.capId}) 
+            ON UPDATE CASCADE ON DELETE CASCADE
     );`, errHandler);
 
     setLastMigration(db, '1', () => {
