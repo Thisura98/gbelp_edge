@@ -3,7 +3,10 @@ const { tables, columns } = require('./sql_schema');
 const l = require('../../util/logger');
 
 /**
- * Initial table schemas (requires a db - does not create the db)
+ * Initial table schemas (requires a db - does not create the db).
+ * Does NOT create main application tables refer to SQL scripts
+ * for that.
+ * 
  * @param {mysql.Connection} db
  * @param {String} migratedVer
  * @param {function():void} completion
@@ -28,6 +31,16 @@ function migrateV1(db, migratedVer, completion){
         ${columns.metaConfig.value} VARCHAR(200)
     );`, errHandler);
 
+    // NOTE:
+    // Main tables are not created by this js function.
+    // They are deployed via a SQL script.
+
+    // ...
+    
+    // Assess the requirement thoroughly before
+    // attempting any sort of development...
+
+    /*
     db.query(`CREATE TABLE ${tables.userType} (
         ${columns.userType.userTypeId} INT AUTO_INCREMENT PRIMARY KEY,
         ${columns.userType.name} VARCHAR(100)
@@ -93,7 +106,7 @@ function migrateV1(db, migratedVer, completion){
         FOREIGN KEY (${columns.userRelationshipCapability.gainedCapabilityId}) 
             REFERENCES ${tables.userCapability}(${columns.userCapability.capId}) 
             ON UPDATE CASCADE ON DELETE CASCADE
-    );`, errHandler);
+    );`, errHandler);*/
 
     setLastMigration(db, '1', () => {
         completion();
@@ -144,7 +157,7 @@ function getCurrentMigrationVersion(db, callback){
  */
 function setLastMigration(db, value, callback){
     db.query(`INSERT INTO ${tables.metaConfig} VALUES ('migrate', '${value}')`, (err, _, __) => {
-        l.logc(err, "migrate-setMigration");
+        l.logc(err, "migrate:setMigration");
         callback();
     });
 }

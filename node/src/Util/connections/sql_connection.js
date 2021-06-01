@@ -4,7 +4,6 @@ const { DateTime } = require('luxon');
 const { tables, columns } = require('./sql_schema');
 const migrations = require('./sql_migrate');
 
-
 /**
  * Main DB pool
  * Use "pool.query" or, "c = pool.getConnection, c.query"
@@ -14,6 +13,14 @@ const migrations = require('./sql_migrate');
  * @type { mysql.Pool }
  */
 var pool = null;
+
+/**
+ * The Database Pool
+ * @returns { mysql.Pool }
+ */
+function getPool(){
+    return pool
+}
 
 /**
  * Initialize SQL connections
@@ -57,10 +64,13 @@ function formatDate(param){
 module.exports.initialize = initialize;
 
 /// Export the database pool
-module.exports.pool = pool;
+module.exports.getPool = getPool;
 
 /// Tables
 module.exports.tables = tables;
+
+/// Columns
+module.exports.columns = columns;
 
 /// DateTime format
 module.exports.formatDate = formatDate;

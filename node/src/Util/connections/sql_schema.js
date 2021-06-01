@@ -18,6 +18,12 @@ const columns = {
         key: 'meta_key',
         value: 'meta_value'
     },
+    userAuth: {
+        authId: 'auth_id',
+        userId: 'user_id',
+        authKey: 'auth_key',
+        expiryDate: 'expiry_date'
+    },
     users: {
         userId: 'user_id',
         userName: 'user_name',

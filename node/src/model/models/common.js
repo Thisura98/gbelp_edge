@@ -11,7 +11,12 @@ class Response{
         code,
         description,
         data
-    ){}
+    ){
+        this.success = success;
+        this.code = code;
+        this.description = description;
+        this.data = data;
+    }
 }
 
 module.exports.ResponseModel = Response;

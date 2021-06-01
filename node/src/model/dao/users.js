@@ -12,11 +12,10 @@ const { DateTime } = require('luxon');
  * @param {function(boolean):void} callback 
  */
 function createUser(username, email, typeId, passwordHash, callback){
-    db.query(
+    db.getPool().query(
         'INSERT INTO ?? VALUES(0, ??, ??, ??, ??)', 
         [db.tables.users, username, email, typeId, passwordHash],
         (err, res, fields) => {
-            l.logc(res, 'users');
             if (err){
                 l.logc(err, 'users:createUser');
                 callback(false);
@@ -38,7 +37,7 @@ function createToken(userId, callback){
     const date = DateTime.now().plus({hours: 2});
     const dateFormatted = db.formatDate(date);
 
-    db.query(
+    db.getPool().query(
         'INSERT INTO ?? VALUES(0, ??, ??, ??)',
         [db.tables.userAuth, userId, randomToken, dateFormatted],
         (err, res, _) => {
@@ -53,3 +52,50 @@ function createToken(userId, callback){
         }
     );
 }
+
+/**
+ * Checks whether a user & token match exists and is not expired.
+ * 
+ * @param {String} userId 
+ * @param {String} token 
+ * @param {function(Number):void} callback (-1: InvalidMissing, -2: InvalidExpired, 2: OK)
+ */
+function isTokenValidForUser(userId, token, callback){
+    const credentialsOk = 2;
+    const noMatch = -1;
+    const expired = -2;
+
+    const fromAndWhere = `FROM ${db.tables.userAuth}
+     WHERE ${db.columns.userAuth.userId} = '${userId}' 
+     AND ${db.columns.userAuth.authKey} = '${token}'`;
+    
+    db.getPool().query(`SELECT * ${fromAndWhere}`, (err, res, fields) => {
+        if (err){
+            l.logc(err, 'users:isTokenValidForUser');
+            callback(-1);
+        }
+        else if (res && res.length > 0){
+            const expiry = res[0].expiry_date;
+            const expiryDate = DateTime.fromJSDate(expiry);
+            const diff = expiryDate.diffNow('hours');
+            if (diff.hours < 0.0){
+                db.getPool().query(`DELETE ${fromAndWhere}`, (err, res, fields) => {
+                    if (err)
+                        l.logc(err, 'users:isTokenValidForUser:delToken');
+                    callback(expired);
+                });
+            }
+            else{
+                callback(credentialsOk);
+            }
+        }
+        else{
+            callback(noMatch);
+        }
+    });
+}
+
+
+module.exports.createUser = createUser;
+module.exports.createToken = createToken;
+module.exports.isTokenValidForUser = isTokenValidForUser;

@@ -1,10 +1,13 @@
 const express = require('express');
+const usersDAO = require('../model/dao/users');
 
 const { ResponseModel } = require('../model/models/common');
 const apiPrefix = 'api'
 
 const statusCodes = { 
-    missingAuth: 406,
+    serverError: 500,
+    missingAuth: 400,
+    authIdNoMatch: 406,
     missingCapabilities: 403,
     tokenExpired: 401
 }
@@ -14,16 +17,8 @@ const statusCodes = {
  * @param {express.Express} app Express.js App
  */
 function handle(app){
-    // WORKS!
     // Authorization Middleware (faux) for API calls
-    app.use(`/${apiPrefix}`, (req, res, next) => {
-        if (req.rawHeaders.includes('auth')){
-            next();
-        }
-        else{
-            res.sendStatus(statusCodes.missingAuth);
-        }
-    });
+    app.use(`/${apiPrefix}`, apiAuthorizationMiddleware);
 
     app.post(aurl('test'), (req, res) => {
         res.json(new ResponseModel(true, 200, "", null))
@@ -37,7 +32,9 @@ function handle(app){
         // todo
         // Check headers
         // if header 
-        res.json(new ResponseModel(true, 200, "Not implemented yet", null))
+        const obj = new ResponseModel(true, 200, "Not implemented yet", null);
+        console.log(JSON.stringify(obj));
+        res.json(obj)
     });
 
     // Fallbacks
@@ -49,6 +46,44 @@ function handle(app){
     app.post(`/${apiPrefix}`, (req, res) => {
         res.redirect('/');
     });
+}
+
+/**
+ * Authorize API requests
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ * @param {express.NextFunction} next 
+ */
+function apiAuthorizationMiddleware(req, res, next) {
+    if (req.url == aurl('create-user')){
+        next();
+    }
+    else{
+        const authOk = req.rawHeaders.includes('auth');
+        const userIdOk = req.rawHeaders.includes('uid');
+        if (authOk && userIdOk){
+            const auth = req.header('auth');
+            const userId = req.header('uid');
+            usersDAO.isTokenValidForUser(userId, auth, (lookupResult) => {
+                switch(lookupResult){
+                case 2:
+                    next()
+                    break;
+                case -2:
+                    res.sendStatus(statusCodes.tokenExpired)
+                    break;
+                case -1:
+                    res.sendStatus(statusCodes.authIdNoMatch);
+                    break;
+                default:
+                    res.sendStatus(statusCodes.serverError);
+                }
+            });
+        }
+        else{
+            res.sendStatus(statusCodes.missingAuth);
+        }
+    }
 }
 
 /**
