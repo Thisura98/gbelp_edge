@@ -36,8 +36,10 @@ function handle(app){
         });
     });
 
-    app.get(aurl('auth-token'), (req, res) => {
-        res.json(new ResponseModel(true, 200, "Not implemented yet", null))
+    app.post(aurl('login'), (req, res) => {
+        usersDAO.loginUser(req.body.email, req.body.ph, (status, msg, userId, token) => {
+            res.json(new ResponseModel(status, 200, msg, {user_id: userId, token: token}));
+        });
     });
 
     // Fallbacks
@@ -59,7 +61,8 @@ function handle(app){
  */
 function apiAuthorizationMiddleware(req, res, next) {
     const routeURL = req.originalUrl;
-    if (routeURL == aurl('create-user') || routeURL == aurl('user-types')){
+    const safeURLs = ['create-user', 'user-types', 'login'].map((v, i, m) => aurl(v));
+    if (safeURLs.find((url, _, __) => url == routeURL)){
         next();
     }
     else{

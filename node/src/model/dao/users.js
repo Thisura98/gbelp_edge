@@ -78,6 +78,44 @@ function createUser(username, email, typeId, passwordHash, callback){
 }
 
 /**
+ * Logins in a user if userEmail and password hashes match.
+ * Returns status, message, id and token.
+ * @param {string} userEmail 
+ * @param {string} pwHash 
+ * @param {function(boolean, string|null, string|null, string|null):void} callback 
+ */
+function loginUser(userEmail, pwHash, callback){
+
+    db.getPool().query(
+        'SELECT * FROM ?? WHERE LOWER(??) = LOWER(?) AND LOWER(??) = LOWER(?)',
+        [db.tables.users, db.columns.users.userEmail, userEmail, db.columns.users.userPasswordHash, pwHash],
+        (err, res, fields) => {
+            if (err){
+                l.logc(err, 'loginUser');
+                callback(false);
+            }
+            else{
+                if (res.length > 0 && res[0].user_id !== undefined){
+                    const userId = res[0][db.columns.users.userId];
+                    createToken(userId, (status, token) => {
+                        if (status){
+                            callback(true, "Success!", userId, token);
+                        }
+                        else{
+                            callback(false, "Could not retrieve token");
+                        }
+                    });
+                }
+                else{
+                    const msg = `User with email, "${userEmail}" was not found. Please register or try correcting your email address`;
+                    callback(false, msg);
+                }
+            }
+        }
+    )
+}
+
+/**
  * Create User Auth Token and return it
  * @param {String} userId 
  * @param {function(boolean, String | null):void} callback 
@@ -148,5 +186,6 @@ function isTokenValidForUser(userId, token, callback){
 
 module.exports.getDisplayUserTypes = getDisplayUserTypes;
 module.exports.createUser = createUser;
+module.exports.loginUser = loginUser;
 module.exports.createToken = createToken;
 module.exports.isTokenValidForUser = isTokenValidForUser;
