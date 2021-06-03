@@ -1,17 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthUserResponse, ServerResponseUserTypes } from 'src/app/models/user';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
   passwordMinLength = 8;
 
@@ -37,12 +38,12 @@ export class RegisterComponent {
     private apiService: ApiService
   ){}
 
+  ngOnInit(){
+    this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
+  }
+
   // MARK: Data
-  userTypes = Array<Array<String>>(
-    ["1", "Teacher"],
-    ["2", "Student"],
-    ["3", "Parent"]
-  );
+  userTypes: ServerResponseUserTypes | undefined;
 
   /**
    * Username is smaller than max characters

@@ -4,11 +4,30 @@ const { v4: uuidv4 } = require('uuid');
 const { DateTime } = require('luxon');
 
 /**
+ * Returns the list of user types as an object array
+ * @param {function():Object[]} callback 
+ */
+function getUserTypes(callback){
+    db.getPool().query(
+        'SELECT * FROM ??', [db.tables.userType],
+        (err, res, fields) => {
+            if (err){
+                l.logc(err, 'users:getUserTypes');
+            }
+            else{
+                // callback(db.mapResult(res, fields));
+                callback(res);
+            }
+        }
+    )
+}
+
+/**
  * Create a User
- * @param {string} username 
- * @param {string} email 
- * @param {string} passwordHash 
- * @param {string} typeId 
+ * @param {String} username 
+ * @param {String} email 
+ * @param {String} passwordHash 
+ * @param {String} typeId 
  * @param {function(boolean):void} callback 
  */
 function createUser(username, email, typeId, passwordHash, callback){
@@ -29,8 +48,8 @@ function createUser(username, email, typeId, passwordHash, callback){
 
 /**
  * Create User Auth Token and return it
- * @param {string} userId 
- * @param {function(boolean, string | null):void} callback 
+ * @param {String} userId 
+ * @param {function(boolean, String | null):void} callback 
  */
 function createToken(userId, callback){
     const randomToken = uuidv4();
@@ -96,6 +115,7 @@ function isTokenValidForUser(userId, token, callback){
 }
 
 
+module.exports.getUserTypes = getUserTypes;
 module.exports.createUser = createUser;
 module.exports.createToken = createToken;
 module.exports.isTokenValidForUser = isTokenValidForUser;

@@ -60,6 +60,44 @@ function formatDate(param){
     return (param).toFormat(format);
 }
 
+/**
+ * Converts snake case to camecase
+ * @param {String} snake 
+ */
+function snakeCaseToCamelCase(snake){
+    return snake.replace(
+        /([-_][a-z])/g,
+        (group) => group.toUpperCase()
+            .replace('-', '')
+            .replace('_', '')
+    );
+}
+
+/**
+ * Maps the snake case columns of a dataset
+ * into camelCase columns and generates
+ * a return-ready js object for the query result.
+ * @param {Array} res 
+ * @param {Array} fields 
+ * @returns 
+ */
+function mapResult(res, fields){
+    const mapped = res.map((row) => {
+        console.log('row:', row);
+        let obj = {};
+        let i = 0;
+        for (field of fields){
+            const fieldName = String(field.name);
+            const snakeCased = snakeCaseToCamelCase(fieldName);
+            console.log('Mapping', fieldName, 'as', snakeCased);
+            obj[snakeCased] = row[fieldName];
+            i++;
+        }
+        return obj;
+    });
+    return mapped;
+}
+
 /// Initialize
 module.exports.initialize = initialize;
 
@@ -74,3 +112,6 @@ module.exports.columns = columns;
 
 /// DateTime format
 module.exports.formatDate = formatDate;
+
+/// Mapper
+module.exports.mapResult = mapResult;

@@ -1,10 +1,10 @@
 import { ServerResponse, ServerResponsePlain } from './common-models';
 
-/*
-export class User{
-
+interface UserType{
+    user_type_id: Number;
+    name: String;
 }
 
-export class UserServerResponse extends ServerResponse<User>{}*/
-
 export interface AuthUserResponse extends  ServerResponsePlain{}
+
+export interface ServerResponseUserTypes extends  ServerResponse<UserType[]>{}

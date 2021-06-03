@@ -1,3 +1,4 @@
+const cors = require('cors');
 const pc = require('./src/util/parseconfig');
 const l = require('./src/util/logger');
 const apiHandler = require('./src/network/api_handler');
@@ -19,6 +20,9 @@ sql.initialize();
 
 // MARK: Any route that should match before it gets to the angular Application
 
+app.use(cors());
+
+// API calls handler
 apiHandler.handle(app);
 
 // MARK: Angular App (GET methods)

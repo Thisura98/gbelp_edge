@@ -24,14 +24,17 @@ function handle(app){
         res.json(new ResponseModel(true, 200, "", null))
     });
 
-    app.post(aurl('auth-token'), (req, res) => {
+    app.get(aurl('user-types'), (req, res) => {
+        usersDAO.getUserTypes((results) => {
+            res.json(new ResponseModel(true, 200, "Success", results));
+        })
+    })
+
+    app.get(aurl('auth-token'), (req, res) => {
         res.json(new ResponseModel(true, 200, "Not implemented yet", null))
     });
 
     app.post(aurl('create-user'), (req, res) => {
-        // todo
-        // Check headers
-        // if header 
         const obj = new ResponseModel(true, 200, "Not implemented yet", null);
         console.log(JSON.stringify(obj));
         res.json(obj)
@@ -49,13 +52,14 @@ function handle(app){
 }
 
 /**
- * Authorize API requests
+ * Authorize API requests with (auth + uid) headers
  * @param {express.Request} req 
  * @param {express.Response} res 
  * @param {express.NextFunction} next 
  */
 function apiAuthorizationMiddleware(req, res, next) {
-    if (req.url == aurl('create-user')){
+    const routeURL = req.originalUrl;
+    if (routeURL == aurl('create-user') || routeURL == aurl('user-types')){
         next();
     }
     else{
