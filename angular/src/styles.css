@@ -6,6 +6,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
     margin-bottom: 0px;
 }
 
+.mat-dialog-container {
+    min-width: min(300px, 80vw);
+}
+
 .center-card-actions{
     display: flex;
     justify-content: center;

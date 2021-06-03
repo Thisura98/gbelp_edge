@@ -4,10 +4,10 @@ export interface ServerResponsePlain{
     success: Boolean
 
     /** Request status code */
-    code: Number
+    code: number
 
     /** Optional Description */
-    description: String;
+    description: string;
 }
 
 /** Server Response with a Data Body */

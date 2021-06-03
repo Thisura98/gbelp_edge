@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd } from '@angular/router';
+import { DialogService } from './services/dialog.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ export class AppComponent {
   showRegister = false;
 
   constructor(
-    private router: Router
+    private router: Router,
+    public dialogService: DialogService
   ){}
 
   ngOnInit(){

@@ -15,7 +15,7 @@
                                     *ngFor="let t of userTypes?.data;" 
                                     value="{{t.user_type_id}}"
                                 >
-                                    {{t.name}}
+                                    {{t.name | titlecase}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>

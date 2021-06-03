@@ -6,6 +6,9 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthUserResponse, ServerResponseUserTypes } from 'src/app/models/user';
+import { Md5 } from 'ts-md5/dist/md5';
+import { UserService } from 'src/app/services/user.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +25,7 @@ export class RegisterComponent implements OnInit {
       Validators.required, 
       Validators.nullValidator, 
       Validators.maxLength(100),
-      Validators.pattern(/^[a-zA-Z1234567890_]+$/g)
+      Validators.pattern(/^[a-zA-Z1234567890_]+$/)
     ]),
     userEmail: new FormControl('', [Validators.email]),
     userPassword: new FormControl('', [
@@ -35,7 +38,9 @@ export class RegisterComponent implements OnInit {
   constructor(
     private location: Location,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private userService: UserService,
+    private dialogService: DialogService
   ){}
 
   ngOnInit(){
@@ -69,9 +74,9 @@ export class RegisterComponent implements OnInit {
     }
 
     if (this.registerForm.touched && this.registerForm.dirty){
-      return this.registerForm.errors?.passwordConfirmationFailed != null
+      return this.registerForm.errors == null
     }
-    return true;
+    return false;
   }
 
   /**
@@ -98,10 +103,10 @@ export class RegisterComponent implements OnInit {
     const pw = control.get('userPassword')?.value;
     const pw_confirm = control.get('userPasswordConfirmation')?.value;
     if (pw && pw_confirm && pw == pw_confirm){
-      return { passwordConfirmationFailed: true };
+      return null;
     }
     else{
-      return null;
+      return { passwordConfirmationFailed: true };
     }
   }
   
@@ -110,10 +115,33 @@ export class RegisterComponent implements OnInit {
   }
 
   registerClicked(){
-    console.log("Not implemented yet!")
-    this.apiService.getAuthToken("hello", "henlo").subscribe(resp => {
-      console.log(resp);
-    })
+    console.log("REgister Clicked!", this.registerForm.valid);
+    if (this.registerForm.valid){
+      const f = this.registerForm;
+      const md5 = new Md5();
+      const pwHash = md5.appendStr(f.get('userPassword')?.value).end().toString();
+      this.apiService.createUser(
+        f.get('userName')?.value,
+        f.get('userEmail')?.value,
+        f.get('userType')?.value,
+        pwHash
+      ).subscribe(status => {
+        if (status.success){
+          const userId = status.data.user_id;
+          const token = status.data.auth_token;
+          this.userService.setLoggedIn(userId, token);
+          // this.router.navigate(['/dashboard']);
+          this.dialogService.showDismissable('Success!', 'Welcome to Edge!');
+        }
+        else{
+          // todo: Show dialog service (error message)
+          this.dialogService.showDismissable('Error', status.description);
+        }
+      })
+    }
+    else{
+      this.dialogService.showDismissable('Registration', 'Please complete all fields correctory');
+    }
   }
 
   cancelClicked(){

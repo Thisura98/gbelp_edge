@@ -1,8 +1,9 @@
 import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ServerResponseUserTypes, AuthUserResponse } from 'src/app/models/user';
+import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserCreate } from 'src/app/models/user';
 import { Md5 } from 'ts-md5/dist/md5';
+import { ServerResponsePlain } from '../models/common-models';
 
 @Injectable({
     providedIn: 'root'
@@ -32,16 +33,15 @@ export class ApiService{
         return this.http.get<ServerResponseUserTypes>(url, { responseType: 'json' });
     }
 
-    getAuthToken(username: string, password: string): Observable<AuthUserResponse>{
-        const url = `${this.apiBaseUrl}/auth-token`;
-        const hashedPW = Md5.hashStr(password);
-        const params = { 
-            'uname': username,
-            'pw': hashedPW
+    createUser(username: string, email: string, typeId: number, pwHash: string): Observable<ServerResponseUserCreate>{
+        const url = this.aurl('create-user');
+        const data = {
+            username: username,
+            email: email, 
+            typeId: typeId,
+            ph: pwHash
         };
-        return this.http.get<AuthUserResponse>(url, {
-            params: params
-        })
+        return this.http.post<ServerResponseUserCreate>(url, data);
     }
 
 }
