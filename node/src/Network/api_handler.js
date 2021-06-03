@@ -42,6 +42,12 @@ function handle(app){
         });
     });
 
+    app.get(aurl('user-type-info'), (req, res) => {
+        usersDAO.getUserType(req.query.userId, (status, msg, objOrNull) => {
+            res.json(new ResponseModel(status, 200, msg, objOrNull));
+        })
+    });
+
     // Fallbacks
 
     app.post(`/${apiPrefix}/*`, (req, res) => {

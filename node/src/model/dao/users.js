@@ -23,6 +23,55 @@ function getDisplayUserTypes(callback){
 }
 
 /**
+ * Finds and returns the user
+ * @param {String} userId 
+ * @param {function(boolean, Object|null):void} callback 
+ */
+function getUser(userId, callback){
+    db.getPool().query(
+        'SELECT * FROM ? WHERE ?? = ?',
+        [db.tables.users, db.columns.users.userId, userId],
+        (err, res, fields) => {
+            if (err){
+                l.logc(err, 'getUser');
+                callback(false, null);
+            }
+            else{
+                callback(true, db.mapResult(res, fields));
+            }
+        }
+    )
+}
+
+/**
+ * Returns the user type object
+ * @param {String} userId 
+ * @param {function(boolean, string, object|null):void} callback 
+ */
+function getUserType(userId, callback){
+    db.getPool().query(
+        `SELECT T.${db.columns.userType.userTypeId}, T.${db.columns.userType.name}
+         FROM ${db.tables.users} U INNER JOIN ${db.tables.userType} T 
+         ON U.${db.columns.users.userType} = T.${db.columns.userType.userTypeId} 
+         WHERE U.${db.columns.users.userId} = '${userId}'`,
+        (err, res, fields) => {
+            if (err){
+                l.logc(err, 'getUser');
+                callback(false, "Server Error", null);
+            }
+            else{
+                if (res.length == 0){
+                    callback(false, "Could not find user", null);
+                }
+                else{
+                    callback(true, "", res[0]);
+                }
+            }
+        }
+    )
+}
+
+/**
  * Create a User
  * Callback receives status, reason, userId and token.
  * @param {String} username 
@@ -188,4 +237,6 @@ module.exports.getDisplayUserTypes = getDisplayUserTypes;
 module.exports.createUser = createUser;
 module.exports.loginUser = loginUser;
 module.exports.createToken = createToken;
+module.exports.getUser = getUser;
+module.exports.getUserType = getUserType;
 module.exports.isTokenValidForUser = isTokenValidForUser;
