@@ -5,6 +5,7 @@ const apiHandler = require('./src/network/api_handler');
 const sql = require('./src/util/connections/sql_connection');
 
 const express = require('express');
+const bp = require('body-parser'); // This is lame!
 const app = express();
 
 const config = pc.parseConfig('config.json');
@@ -18,9 +19,19 @@ const indexFile = `${__dirname}/${constAngularDirectory}/index.html`;
  */
 sql.initialize();
 
-// MARK: Any route that should match before it gets to the angular Application
+/**
+ * Allow CORS (Angular won't work without it)
+ */
+app.use(cors({
+    origin: config.allow_cors_on
+}));
 
-app.use(cors());
+/**
+ * Allow body parsing
+ */
+app.use(express.json());
+
+// MARK: Any route that should match before it gets to the angular Application
 
 // API calls handler
 apiHandler.handle(app);

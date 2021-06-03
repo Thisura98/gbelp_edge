@@ -25,19 +25,19 @@ function handle(app){
     });
 
     app.get(aurl('user-types'), (req, res) => {
-        usersDAO.getUserTypes((results) => {
+        usersDAO.getDisplayUserTypes((results) => {
             res.json(new ResponseModel(true, 200, "Success", results));
         })
     })
 
-    app.get(aurl('auth-token'), (req, res) => {
-        res.json(new ResponseModel(true, 200, "Not implemented yet", null))
+    app.post(aurl('create-user'), (req, res) => {
+        usersDAO.createUser(req.body.username, req.body.email, req.body.typeId, req.body.ph, (status, msg, userId, token) => {
+            res.json(new ResponseModel(status, 200, msg, { user_id: userId, token: token }));
+        });
     });
 
-    app.post(aurl('create-user'), (req, res) => {
-        const obj = new ResponseModel(true, 200, "Not implemented yet", null);
-        console.log(JSON.stringify(obj));
-        res.json(obj)
+    app.get(aurl('auth-token'), (req, res) => {
+        res.json(new ResponseModel(true, 200, "Not implemented yet", null))
     });
 
     // Fallbacks

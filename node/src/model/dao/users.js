@@ -7,9 +7,9 @@ const { DateTime } = require('luxon');
  * Returns the list of user types as an object array
  * @param {function():Object[]} callback 
  */
-function getUserTypes(callback){
+function getDisplayUserTypes(callback){
     db.getPool().query(
-        'SELECT * FROM ??', [db.tables.userType],
+        'SELECT * FROM ?? WHERE ?? <> 1', [db.tables.userType, db.columns.userType.userTypeId],
         (err, res, fields) => {
             if (err){
                 l.logc(err, 'users:getUserTypes');
@@ -24,26 +24,57 @@ function getUserTypes(callback){
 
 /**
  * Create a User
+ * Callback receives status, reason, userId and token.
  * @param {String} username 
  * @param {String} email 
  * @param {String} passwordHash 
  * @param {String} typeId 
- * @param {function(boolean):void} callback 
+ * @param {function(Boolean, string|null, int|null, string|null):void} callback 
  */
 function createUser(username, email, typeId, passwordHash, callback){
-    db.getPool().query(
-        'INSERT INTO ?? VALUES(0, ??, ??, ??, ??)', 
-        [db.tables.users, username, email, typeId, passwordHash],
-        (err, res, fields) => {
-            if (err){
-                l.logc(err, 'users:createUser');
-                callback(false);
+    db.getPool().getConnection((err, conn) => {
+        // Check existing emails
+        conn.query(
+            'SELECT COUNT(*) AS count FROM ?? WHERE ?? = "??";',
+            [db.tables.users, db.columns.users.userEmail, email],
+            (err, res, fields) => {
+                if (err){
+                    l.logc(err, 'users:createUser:checkExistingEmail');
+                    callback(false, null);
+                }
+                else{
+                    if (res[0].count == 0){
+                        conn.query(
+                            'INSERT INTO ?? VALUES(0, ?, ?, ?, ?)', 
+                            [db.tables.users, username, email, typeId, passwordHash],
+                            (err, res, fields) => {
+                                if (err){
+                                    l.logc(err, 'users:createUser');
+                                    callback(false, "Unexpected error occured");
+                                }
+                                else{
+                                    const newUserId = res.insertId;
+
+                                    createToken(newUserId, (status, token) => {
+                                        if (status){
+                                            callback(true, "", newUserId, token);
+                                        }
+                                        else{
+                                            l.logc("retrieve token for new user failed", 'users:creatUser:getToken')
+                                            callback(false, "Could not retrieve token");
+                                        }
+                                    });
+                                }
+                            }
+                        );
+                    }
+                    else{
+                        callback(false, "User already exists!")
+                    }
+                }
             }
-            else{
-                callback(true);
-            }
-        }
-    );
+        );
+    });
 }
 
 /**
@@ -57,7 +88,7 @@ function createToken(userId, callback){
     const dateFormatted = db.formatDate(date);
 
     db.getPool().query(
-        'INSERT INTO ?? VALUES(0, ??, ??, ??)',
+        'INSERT INTO ?? VALUES(0, ?, ?, ?)',
         [db.tables.userAuth, userId, randomToken, dateFormatted],
         (err, res, _) => {
             if (err){
@@ -115,7 +146,7 @@ function isTokenValidForUser(userId, token, callback){
 }
 
 
-module.exports.getUserTypes = getUserTypes;
+module.exports.getDisplayUserTypes = getDisplayUserTypes;
 module.exports.createUser = createUser;
 module.exports.createToken = createToken;
 module.exports.isTokenValidForUser = isTokenValidForUser;
