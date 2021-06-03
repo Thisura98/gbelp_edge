@@ -1,11 +1,14 @@
 import { isDevMode, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService{
 
-    constructor(){}
+    constructor(
+        private router: Router
+    ){}
 
     setLoggedIn(userId: string, token: string){
         localStorage.setItem('uid', userId);
@@ -28,6 +31,16 @@ export class UserService{
             return true;
         else
             return false;
+    }
+
+    /**
+     * Reidrect the user out of the system if they are logged out
+     * @param outPath {string} Redirection Path
+     */
+    routeOutIfLoggedOut(outPath: string = '/'){
+        if (!this.getIsLoggedIn){
+            this.router.navigate([outPath]);
+        }
     }
 
 }

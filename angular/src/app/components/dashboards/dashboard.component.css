@@ -1,0 +1,17 @@
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 100px);
+}
+
+.stacked{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.stacked :last-child{
+    margin-top: 10px;
+}

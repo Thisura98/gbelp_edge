@@ -1,9 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-interface DialogData{
+/**
+ * Dialog data interface
+ */
+export interface DialogData{
   title: string,
-  message: string
+  message: string,
+  onOkay: CallableFunction|undefined
 }
 
 @Component({
@@ -18,6 +22,11 @@ export class SimpleDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     console.log('simple.component:', this.data);
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.data.onOkay !== undefined){
+        this.data.onOkay();
+      }
+    });
   }
 
   onNoClick(): void {

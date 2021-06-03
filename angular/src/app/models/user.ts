@@ -7,7 +7,7 @@ interface UserType{
 
 interface UserAuth{
     user_id: string,
-    auth_token: string
+    token: string
 }
 
 export interface AuthUserResponse extends  ServerResponsePlain{}
@@ -15,3 +15,5 @@ export interface AuthUserResponse extends  ServerResponsePlain{}
 export interface ServerResponseUserTypes extends  ServerResponse<UserType[]>{}
 
 export interface ServerResponseUserAuth extends ServerResponse<UserAuth>{};
+
+export interface ServerResponseUserTypeInfo extends ServerResponse<UserType>{};

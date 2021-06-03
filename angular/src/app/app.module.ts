@@ -17,13 +17,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select'
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
 import { DialogService } from './services/dialog.service';
 import { SimpleDialogComponent } from './components/dialogs/simple/simple.component';
 import { LoginComponent } from './components/login/login.component';
-import { DashboardComponent } from './components/dashboards/dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboards/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { DashboardComponent } from './components/dashboards/dashboard/dashboard.
     MatInputModule,
     MatSelectModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   providers: [ApiService, UserService, DialogService],
   bootstrap: [AppComponent]

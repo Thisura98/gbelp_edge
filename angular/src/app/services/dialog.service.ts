@@ -10,9 +10,9 @@ export class DialogService{
     constructor(public dialog: MatDialog){
     }
 
-    showDismissable(title: string, message: string){
+    showDismissable(title: string, message: string, onOkay: CallableFunction|undefined = undefined){
         const dialogRef = this.dialog.open(SimpleDialogComponent, {
-            data: {title: title, message: message}
+            data: {title: title, message: message, onOkay: onOkay}
         });
       
         dialogRef.afterClosed().subscribe(result => {
