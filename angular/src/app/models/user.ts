@@ -5,7 +5,7 @@ interface UserType{
     name: string;
 }
 
-interface CreateUser{
+interface UserAuth{
     user_id: string,
     auth_token: string
 }
@@ -14,4 +14,4 @@ export interface AuthUserResponse extends  ServerResponsePlain{}
 
 export interface ServerResponseUserTypes extends  ServerResponse<UserType[]>{}
 
-export interface ServerResponseUserCreate extends ServerResponse<CreateUser>{};
+export interface ServerResponseUserAuth extends ServerResponse<UserAuth>{};

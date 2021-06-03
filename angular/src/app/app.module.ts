@@ -22,12 +22,16 @@ import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
 import { DialogService } from './services/dialog.service';
 import { SimpleDialogComponent } from './components/dialogs/simple/simple.component';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboards/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    SimpleDialogComponent
+    SimpleDialogComponent,
+    LoginComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,

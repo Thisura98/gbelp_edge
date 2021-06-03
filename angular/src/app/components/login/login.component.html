@@ -1,0 +1,30 @@
+<div class="container-element">
+    <mat-card class="login-form">
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>
+            <mat-card-subtitle>Login with account to continue</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="login-form-container paragraphed-form">
+                <form id="login-form" [formGroup]="loginForm">
+                    <p class="login-form-row">
+                        <mat-form-field>
+                            <mat-label>User Email</mat-label>
+                            <input matInput placeholder="thisura@gmail.lk" formControlName="userEmail" autocomplete="email">
+                        </mat-form-field>
+                    </p>
+                    <p class="login-form-row">
+                        <mat-form-field>
+                            <mat-label>User Password</mat-label>
+                            <input matInput placeholder="*******" formControlName="userPassword" type="password" autocomplete="current-password">
+                        </mat-form-field>
+                    </p>
+                </form>
+            </div>
+        </mat-card-content>
+        <mat-card-actions class="center-card-actions">
+            <button mat-flat-button color="primary" (click)="loginClicked()">Login</button>
+            <button mat-flat-button (click)="cancelClicked()">Cancel</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

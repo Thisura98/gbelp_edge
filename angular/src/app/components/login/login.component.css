@@ -1,0 +1,17 @@
+.login-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-container > form{
+    width: 70%;
+}
+
+.login-form-row > mat-form-field{
+    width: 100%;
+}
+
+.login-form-error{
+    color: red;
+}

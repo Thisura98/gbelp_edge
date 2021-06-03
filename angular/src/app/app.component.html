@@ -1,7 +1,9 @@
 <mat-toolbar>
+    <!--
     <button mat-icon-button aria-label="Menu Button">
       <mat-icon>menu</mat-icon>
     </button>
+    -->
     <span>Game-based E-Learning Platform</span>
     <span class="menu-spacer"></span>
 </mat-toolbar>
@@ -15,6 +17,18 @@
     </mat-card-content>
     <mat-card-actions class="center-card-actions">
       <button mat-flat-button color="primary" (click)="registerClicked()">Register</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div class="login-msg" *ngIf="showLogin">
+  <mat-card>
+    <mat-card-title>Welcome to Edge!</mat-card-title>
+    <mat-card-content>
+      If you have already created an Account, register here!
+    </mat-card-content>
+    <mat-card-actions class="center-card-actions">
+      <button mat-flat-button color="primary" (click)="loginClicked()">Login</button>
     </mat-card-actions>
   </mat-card>
 </div>

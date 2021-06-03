@@ -10,6 +10,7 @@ import { DialogService } from './services/dialog.service';
 export class AppComponent {
   title = 'App';
   showRegister = false;
+  showLogin = false;
 
   constructor(
     private router: Router,
@@ -20,11 +21,16 @@ export class AppComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd){
         this.showRegister = event.url == "/";
+        this.showLogin = this.showRegister;
       }
     });
   }
 
   registerClicked(){
     this.router.navigate(['/register']);
+  }
+
+  loginClicked(){
+    this.router.navigate(['/login']);
   }
 }
