@@ -1,5 +1,10 @@
 .load-container{
+    display: flex;
     justify-items: center;
     align-content: center;
     width: 100%;
+}
+
+.load-container > mat-progress-spinner{
+    margin: auto;
 }

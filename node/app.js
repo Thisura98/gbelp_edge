@@ -22,10 +22,9 @@ sql.initialize();
 
 /**
  * Allow CORS (Angular won't work without it)
+ * 04/06/2021 - Temporarily allowing all hosts (Angular + Ct.js)
  */
-app.use(cors({
-    origin: config.allow_cors_on
-}));
+app.use(cors());
 
 /**
  * Allow body parsing
