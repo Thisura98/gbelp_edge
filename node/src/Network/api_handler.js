@@ -1,16 +1,10 @@
 const express = require('express');
 const usersDAO = require('../model/dao/users');
+const sessionsDAO = require('../model/dao/sessions');
+const statusCodes = require('./status_codes');
 
 const { ResponseModel } = require('../model/models/common');
 const apiPrefix = 'api'
-
-const statusCodes = { 
-    serverError: 500,
-    missingAuth: 400,
-    authIdNoMatch: 406,
-    missingCapabilities: 403,
-    tokenExpired: 401
-}
 
 /**
  * Handler for API calls
@@ -48,6 +42,29 @@ function handle(app){
         })
     });
 
+    // @DEMO
+    app.get(aurl('student/getLatestSession'), (req, res) => {
+        sessionsDAO.getLatestSessionForUser(req.query.userId, (status, msg, obj) => {
+            res.json(new ResponseModel(status, 200, msg, obj));
+        }); 
+    });
+
+    // @DEMO
+    app.get(aurl('student/getObjectiveHistories'), (req, res) => {
+        sessionsDAO.getGameObjectiveHistories(
+            req.query.userId, req.query.sessionId, 
+            (status, msg, obj) => {
+                res.json(new ResponseModel(status, 200, msg, obj));
+        })
+    });
+
+    // @DEMO
+    app.delete(aurl('student/clearObjectiveHistories'), (req, res) => {
+        sessionsDAO.clearGameObjectiveHistories(req.query.userId, (status, msg, obj) => {
+            res.json(new ResponseModel(status, 200, msg, obj));
+        }); 
+    });
+
     // Fallbacks
 
     app.post(`/${apiPrefix}/*`, (req, res) => {
@@ -66,6 +83,7 @@ function handle(app){
  * @param {express.NextFunction} next 
  */
 function apiAuthorizationMiddleware(req, res, next) {
+
     const routeURL = req.originalUrl;
     const safeURLs = ['create-user', 'user-types', 'login'].map((v, i, m) => aurl(v));
     if (safeURLs.find((url, _, __) => url == routeURL)){

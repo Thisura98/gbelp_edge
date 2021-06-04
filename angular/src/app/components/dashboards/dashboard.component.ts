@@ -26,9 +26,9 @@ export class DashboardComponent implements OnInit {
       const userId = this.userService.getUserAndToken().userId!;
       this.apiService.getUserType(userId).subscribe(r => {
         const name = r.data.name;
-        this.router.navigate([`/dashboard/${name}`]);
+        this.router.navigate([`/dashboard/${name}`], {replaceUrl: true});
       })
-    }, 3000);
+    }, 1000);
 
   }
 

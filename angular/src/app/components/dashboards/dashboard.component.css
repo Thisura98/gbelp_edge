@@ -15,3 +15,21 @@
 .stacked :last-child{
     margin-top: 10px;
 }
+
+.dashboard-container{
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;;
+    width: 70%;
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+}
+
+.dashboard-container > *{
+    width: 100%;
+}
+
+.dashboard-container :not(:first-child){
+    margin-top: -10px;
+}

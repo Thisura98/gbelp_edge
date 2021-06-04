@@ -9,7 +9,11 @@ const tables = {
     userRelationship: 'user_relationship',
     userRelationshipType: 'user_relationship_type',
     /// Higher ranking user of a userRelationship gains these capabilities
-    userRelationshipCapability: 'user_relationship_capability'
+    userRelationshipCapability: 'user_relationship_capability',
+    gameSessions: 'gsessions',
+    gameSessionMembers: 'gsession_members',
+    gameSessionUserObjective: 'gsession_user_objective',
+    gameObjective: 'game_objective'
 };
 
 // Columns
@@ -59,6 +63,27 @@ const columns = {
     userRelationshipCapability: {
         relationshipTypeId: 'relationship_type_id',
         gainedCapabilityId: 'gained_cap_id'
+    },
+    gameSessions: {
+        sessionId: 'session_id',
+        typeId: 'type_id',
+        startTime: 'start_time',
+        endTime: 'end_time'
+    },
+    gameSessionMembers: {
+        sessionId: 'session_id',
+        userId: 'user_id'
+    },
+    gameSessionUserObjective: {
+        sessionId: 'session_id',
+        objectiveId: 'objective_id',
+        userId: 'user_id',
+        progress: 'progress',
+        lastUpdated: 'last_updated'
+    },
+    gameObjective: {
+        objectiveId: 'objective_id',
+        name: 'name'
     }
 }
 

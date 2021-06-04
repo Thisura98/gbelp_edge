@@ -2,6 +2,7 @@ const cors = require('cors');
 const pc = require('./src/util/parseconfig');
 const l = require('./src/util/logger');
 const apiHandler = require('./src/network/api_handler');
+const gameApiHandler = require('./src/network/game_api_handler');
 const sql = require('./src/util/connections/sql_connection');
 
 const express = require('express');
@@ -35,6 +36,9 @@ app.use(express.json());
 
 // API calls handler
 apiHandler.handle(app);
+
+// EDGE Game API calls handler
+gameApiHandler.handle(app);
 
 // MARK: Angular App (GET methods)
 // Angular App, its static files (js, css), fallthrough (catch-all get)

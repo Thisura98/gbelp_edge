@@ -1,7 +1,7 @@
 import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo } from 'src/app/models/user';
+import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -28,7 +28,6 @@ export class ApiService{
         private userService: UserService
     ){}
 
-    // MARK: User API Calls
 
     /**
      * Create API url
@@ -48,6 +47,8 @@ export class ApiService{
         });
         return h;
     }
+
+    // MARK: User API Calls
 
     getUserTypes(): Observable<ServerResponseUserTypes>{
         const url = this.aurl('user-types');
@@ -74,7 +75,6 @@ export class ApiService{
     getUserType(userId: string): Observable<ServerResponseUserTypeInfo>{
         const url = this.aurl('user-type-info');
         const data = { userId: userId };
-        console.log("getUserType Request Headers", this.getHeaders());
         return this.http.get<ServerResponseUserTypeInfo>(url, {
             headers: this.getHeaders(),
             params: data
@@ -82,5 +82,26 @@ export class ApiService{
     }
 
     // MARK END: User API calls
+
+    // MARK: Session API calls
+
+    // @DEMO
+    getLatestSessionDetailsFor(userId: string): Observable<ServerResponseLatestSession>{
+        const url = this.aurl('student/getLatestSession');
+        const data = { userId: userId };
+        return this.http.get<ServerResponseLatestSession>(url, {
+            headers: this.getHeaders(),
+            params: data
+        });
+    }
+
+    getGameObjectiveHistories(userId: string, sessionId: string): Observable<ServerResponseGameObjectiveHistories>{
+        const url = this.aurl('student/getObjectiveHistories');
+        const data = { userId: userId, sessionId: sessionId };
+        return this.http.get<ServerResponseGameObjectiveHistories>(url, {
+            headers: this.getHeaders(),
+            params: data
+        });
+    }
 
 }

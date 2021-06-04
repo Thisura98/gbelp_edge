@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, NavigationEnd } from '@angular/router';
-import { DialogService } from './services/dialog.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -11,19 +11,31 @@ export class AppComponent {
   title = 'App';
   showRegister = false;
   showLogin = false;
+  showDashboardLink = false;
+
+  get isLoggedIn(): boolean{
+    return this.userService.getIsLoggedIn()
+  }
 
   constructor(
     private router: Router,
-    public dialogService: DialogService
+    private userService: UserService
   ){}
 
   ngOnInit(){
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd){
-        this.showRegister = event.url == "/";
-        this.showLogin = this.showRegister;
+        this.updateMessageVisibility(event);
       }
     });
+  }
+
+  private updateMessageVisibility(event: NavigationEnd){
+    const shouldShowRegister = event.url == "/" && !this.isLoggedIn
+    const shouldShowDashboardLink = event.url == "/" && this.isLoggedIn
+    this.showRegister = shouldShowRegister;
+    this.showLogin = this.showRegister;
+    this.showDashboardLink = shouldShowDashboardLink;
   }
 
   registerClicked(){
@@ -32,5 +44,15 @@ export class AppComponent {
 
   loginClicked(){
     this.router.navigate(['/login']);
+  }
+
+  goToDashboardClicked(){
+    this.router.navigate(['/dashboard']);
+  }
+
+  logoutClicked(){
+    // todo clear auth token in db
+    this.userService.clearCredentials();
+    window.location.reload();
   }
 }

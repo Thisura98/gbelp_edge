@@ -15,6 +15,11 @@ export class UserService{
         localStorage.setItem('token', token);
     }
 
+    clearCredentials(){
+        localStorage.removeItem('uid');
+        localStorage.removeItem('token');
+    }
+
     /**
      * Return currently set userId and token
      */
@@ -27,7 +32,7 @@ export class UserService{
 
     getIsLoggedIn(): boolean{
         const res = this.getUserAndToken();
-        if (res.userId && res.token)
+        if (res.userId != null && res.token != null)
             return true;
         else
             return false;
@@ -38,7 +43,7 @@ export class UserService{
      * @param outPath {string} Redirection Path
      */
     routeOutIfLoggedOut(outPath: string = '/'){
-        if (!this.getIsLoggedIn){
+        if (!this.getIsLoggedIn()){
             this.router.navigate([outPath]);
         }
     }

@@ -18,13 +18,20 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 
 import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
 import { DialogService } from './services/dialog.service';
+import { GroupsService } from './services/groups.service';
+
 import { SimpleDialogComponent } from './components/dialogs/simple/simple.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboards/dashboard.component';
+import { SessioninfoComponent } from './components/dashboards/common/sessioninfo/sessioninfo.component';
+import { ObjectivehistoryComponent } from './components/dashboards/common/objectivehistory/objectivehistory.component';
+import { ProgresstrackerComponent } from './components/dashboards/common/progresstracker/progresstracker.component';
+import { StudentDashboardComponent } from './components/dashboards/student-dashboard/student-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +39,11 @@ import { DashboardComponent } from './components/dashboards/dashboard.component'
     RegisterComponent,
     SimpleDialogComponent,
     LoginComponent,
-    DashboardComponent
+    StudentDashboardComponent,
+    DashboardComponent,
+    SessioninfoComponent,
+    ObjectivehistoryComponent,
+    ProgresstrackerComponent
   ],
   imports: [
     CommonModule,
@@ -49,9 +60,10 @@ import { DashboardComponent } from './components/dashboards/dashboard.component'
     MatSelectModule,
     MatCardModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTableModule
   ],
-  providers: [ApiService, UserService, DialogService],
+  providers: [ApiService, UserService, DialogService, GroupsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
