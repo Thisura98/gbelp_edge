@@ -38,4 +38,13 @@ export class SessioninfoComponent implements OnInit {
     return formatDate(value, 'MMM d, y, h:mm:ss a', 'en-US');
   }
 
+  clearStats(){
+    const userId = this.userService.getUserAndToken().userId!;
+    this.apiService.clearHistories(userId).subscribe(r => {
+      if (r.success){
+        window.location.reload();
+      }
+    });
+  }
+
 }

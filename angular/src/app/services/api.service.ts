@@ -95,10 +95,20 @@ export class ApiService{
         });
     }
 
+    // @DEMO
     getGameObjectiveHistories(userId: string, sessionId: string): Observable<ServerResponseGameObjectiveHistories>{
         const url = this.aurl('student/getObjectiveHistories');
         const data = { userId: userId, sessionId: sessionId };
         return this.http.get<ServerResponseGameObjectiveHistories>(url, {
+            headers: this.getHeaders(),
+            params: data
+        });
+    }
+
+    clearHistories(userId: string): Observable<ServerResponsePlain>{
+        const url = this.aurl('student/clearObjectiveHistories');
+        const data = { userId: userId};
+        return this.http.delete<ServerResponseGameObjectiveHistories>(url, {
             headers: this.getHeaders(),
             params: data
         });
