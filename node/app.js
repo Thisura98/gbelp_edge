@@ -47,6 +47,10 @@ app.get('/', (req, res) => {
     res.sendFile(indexFile);
 });
 
+// @DEMO
+// : Demo Game
+app.get('/fs/demogame/*.*', express.static(`${__dirname}`, {fallthrough: false}));
+
 // : The Angular Static files (js, css)
 app.get('*.*', express.static(`${__dirname}/${constAngularDirectory}`, {fallthrough: false}));
 

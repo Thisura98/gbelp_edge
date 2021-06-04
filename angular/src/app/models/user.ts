@@ -22,6 +22,8 @@ export interface GameObjective{
     objective_id: number,
     user_id: number,
     progress: number,
+    max_value: number,
+    name: string,
     last_updated: string
 }
 

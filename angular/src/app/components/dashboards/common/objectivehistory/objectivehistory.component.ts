@@ -13,7 +13,7 @@ var ELEMENT_DATA = new MatTableDataSource<GameObjective>();
 })
 export class ObjectivehistoryComponent implements OnInit {
 
-  displayedColumns: string[] = ['session_id', 'objective_id', 'user_id', 'progress', 'last_updated'];
+  displayedColumns: string[] = ['session_id', 'objective_id', 'user_id', 'progress', 'name', 'last_updated'];
   dataSource = ELEMENT_DATA;
   loading = false;
 
@@ -42,5 +42,13 @@ export class ObjectivehistoryComponent implements OnInit {
         this.loading = false;
       });
     }, 1000);
+  }
+
+  sortData(){
+    var newSet = new Array<GameObjective>();
+
+    for (let v of ELEMENT_DATA.data){
+      
+    }
   }
 }

@@ -44,13 +44,17 @@ function getLatestSessionForUser(userId, callback){
  */
 function getGameObjectiveHistories(userId, sessionId, callback){
 
-    const tbl = db.tables.gameSessionUserObjective;
-    const col = db.columns.gameSessionUserObjective;
+    const t_sessionObjectives = db.tables.gameSessionUserObjective;
+    const t_objectives = db.tables.gameObjective;
+    const so = db.columns.gameSessionUserObjective;
+    const o = db.columns.gameObjective;
 
     db.getPool().query(
-        `SELECT * FROM ${tbl}
-         WHERE ${col.sessionId} = '${sessionId}'
-         AND ${col.userId} = '${userId}';
+        `SELECT SU.${so.sessionId}, SU.${so.objectiveId}, SU.${so.userId}, SU.${so.progress}, O.${o.maxValue}, O.${o.name}, SU.${so.lastUpdated}
+         FROM ${t_sessionObjectives} SU INNER JOIN ${t_objectives} O
+         ON SU.${so.objectiveId} = O.${o.objectiveId}
+         WHERE SU.${so.sessionId} = '${sessionId}'
+         AND SU.${so.userId} = '${userId}';
         `,
         (err, res, _) => {
             if (err){
