@@ -83,7 +83,8 @@ const columns = {
     },
     gameObjective: {
         objectiveId: 'objective_id',
-        name: 'name'
+        name: 'name',
+        maxValue: 'max_value'
     }
 }
 
