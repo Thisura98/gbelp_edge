@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/views/home/home.component';
+import { RegisterComponent } from './components/views/register/register.component';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
-import { DashboardComponent } from './components/dashboards/dashboard.component';
-import { StudentDashboardComponent } from './components/dashboards/student-dashboard/student-dashboard.component';
-import { TeacherDashboardComponent } from './components/dashboards/teacher-dashboard/teacher-dashboard.component';
-import { ParentDashboardComponent } from './components/dashboards/parent-dashboard/parent-dashboard.component';
+import { LoginComponent } from './components/views/login/login.component';
+import { DashboardComponent } from './components/views/dashboards/dashboard.component';
+import { StudentDashboardComponent } from './components/views/dashboards/student-dashboard/student-dashboard.component';
+import { TeacherDashboardComponent } from './components/views/dashboards/teacher-dashboard/teacher-dashboard.component';
+import { ParentDashboardComponent } from './components/views/dashboards/parent-dashboard/parent-dashboard.component';
 
 
 const routes: Routes = [
+  {path: "", component: HomeComponent},
   {path: "register", component: RegisterComponent},
   {path: "login", component: LoginComponent},
   {path: "dashboard", component: DashboardComponent},

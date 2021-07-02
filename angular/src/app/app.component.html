@@ -13,40 +13,5 @@
 </mat-toolbar>
 <!-- <a routerLink="/register" routerLinkActive="active">Link</a> -->
 
-<div class="registration-msg" *ngIf="showRegister">
-  <mat-card>
-    <mat-card-title>Get Registered!</mat-card-title>
-    <mat-card-content>
-      To get started using the Edge Game-based E-Learning System, you must first register!
-    </mat-card-content>
-    <mat-card-actions class="center-card-actions">
-      <button mat-flat-button color="primary" (click)="registerClicked()">Register</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
-
-<div class="login-msg" *ngIf="showLogin">
-  <mat-card>
-    <mat-card-title>Login with your Account!</mat-card-title>
-    <mat-card-content>
-      If you have already created an Account, register here!
-    </mat-card-content>
-    <mat-card-actions class="center-card-actions">
-      <button mat-flat-button color="primary" (click)="loginClicked()">Login</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
-
-<div class="login-msg" *ngIf="showDashboardLink">
-  <mat-card>
-    <mat-card-title>Welcome to the Edge Game Based Learning System!</mat-card-title>
-    <mat-card-content>
-      Click on the below button to login to your Dashboard!
-    </mat-card-content>
-    <mat-card-actions class="center-card-actions">
-      <button mat-flat-button color="primary" (click)="goToDashboardClicked()">Go To Dashboard</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
 
 <router-outlet></router-outlet>

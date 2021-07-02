@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RegisterComponent } from './components/register/register.component';
+import { RegisterComponent } from './components/views/register/register.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
@@ -25,13 +25,14 @@ import { UserService } from './services/user.service';
 import { DialogService } from './services/dialog.service';
 import { GroupsService } from './services/groups.service';
 
-import { SimpleDialogComponent } from './components/dialogs/simple/simple.component';
-import { LoginComponent } from './components/login/login.component';
-import { DashboardComponent } from './components/dashboards/dashboard.component';
-import { SessioninfoComponent } from './components/dashboards/common/sessioninfo/sessioninfo.component';
-import { ObjectivehistoryComponent } from './components/dashboards/common/objectivehistory/objectivehistory.component';
-import { ProgresstrackerComponent } from './components/dashboards/common/progresstracker/progresstracker.component';
-import { StudentDashboardComponent } from './components/dashboards/student-dashboard/student-dashboard.component';
+import { SimpleDialogComponent } from './components/ui/dialogs/simple/simple.component';
+import { LoginComponent } from './components/views/login/login.component';
+import { DashboardComponent } from './components/views/dashboards/dashboard.component';
+import { SessioninfoComponent } from './components/views/dashboards/common/sessioninfo/sessioninfo.component';
+import { ObjectivehistoryComponent } from './components/views/dashboards/common/objectivehistory/objectivehistory.component';
+import { ProgresstrackerComponent } from './components/views/dashboards/common/progresstracker/progresstracker.component';
+import { StudentDashboardComponent } from './components/views/dashboards/student-dashboard/student-dashboard.component';
+import { HomeComponent } from './components/views/home/home.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { StudentDashboardComponent } from './components/dashboards/student-dashb
     DashboardComponent,
     SessioninfoComponent,
     ObjectivehistoryComponent,
-    ProgresstrackerComponent
+    ProgresstrackerComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

@@ -12,8 +12,15 @@ export interface DialogData{
 
 @Component({
   selector: 'dialog-simple',
-  templateUrl: './simple.component.html',
-  styleUrls: ['./simple.component.css']
+  template: `
+    <h2 mat-dialog-title>{{this.data.title}}</h2>
+    <div mat-dialog-content>
+        {{data.message}}
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>OKAY</button>
+    </div>
+  `
 })
 export class SimpleDialogComponent {
 
