@@ -1,5 +1,4 @@
 const express = require('express');
-const sessionsDAO = require('../model/dao/sessions');
 const l = require('../util/logger');
 
 const { ResponseModel } = require('../model/models/common');
@@ -13,19 +12,6 @@ function handle(app){
     // Authorization Middleware (faux) for API calls
     app.use(`/${apiPrefix}`, apiAuthorizationMiddleware);
 
-    // @DEMO
-    app.post(aurl('objectiveUpdate'), (req, res) => {
-        // TODO: Move to MongoDB from MySQL
-        sessionsDAO.addGameObjectiveHistory(
-            req.body.userId, 
-            req.body.sessionId, 
-            req.body.objectiveId,
-            req.body.progress, 
-            (status, msg) => {
-                l.logc(`game-api: OBJ prog. updated! ${req.body.progress} (${req.body.sessionId}:${req.body.objectiveId})`);
-                res.json(new ResponseModel(status, 200, '', null));
-        });
-    });
 
     // Fallbacks
 

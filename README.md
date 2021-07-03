@@ -13,21 +13,21 @@ resources - Misc. Project Resources (images, text files, etc.)
 
 ## Scripts & Commands
 
-### Node
+### 1. DB
+Scripts in `/db` folder
+
+- `start.sh` - Start docker instance with MongoDB and MySQL (+admin panels)
+
+### 2. Node
 Scripts in `/node` folder
 
 - `start.sh` - Start Nodemon on server
 
-### Angular
+### 3. Angular
 Scripts & commands in `/angular` folder
 
 - `ng serve` - Start Angular server
 - `build_to_node.sh` - Build Angular project into /node/dist folder
-
-### DB
-Scripts in `/db` folder
-
-- `start.sh` - Start docker instance with MongoDB and MySQL (+admin panels)
 
 ## Software Requirements
 

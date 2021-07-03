@@ -1,6 +1,5 @@
 const express = require('express');
 const usersDAO = require('../model/dao/users');
-const sessionsDAO = require('../model/dao/sessions');
 const statusCodes = require('./status_codes');
 
 const { ResponseModel } = require('../model/models/common');
@@ -40,29 +39,6 @@ function handle(app){
         usersDAO.getUserType(req.query.userId, (status, msg, objOrNull) => {
             res.json(new ResponseModel(status, 200, msg, objOrNull));
         })
-    });
-
-    // @DEMO
-    app.get(aurl('student/getLatestSession'), (req, res) => {
-        sessionsDAO.getLatestSessionForUser(req.query.userId, (status, msg, obj) => {
-            res.json(new ResponseModel(status, 200, msg, obj));
-        }); 
-    });
-
-    // @DEMO
-    app.get(aurl('student/getObjectiveHistories'), (req, res) => {
-        sessionsDAO.getGameObjectiveHistories(
-            req.query.userId, req.query.sessionId, 
-            (status, msg, obj) => {
-                res.json(new ResponseModel(status, 200, msg, obj));
-        })
-    });
-
-    // @DEMO
-    app.delete(aurl('student/clearObjectiveHistories'), (req, res) => {
-        sessionsDAO.clearGameObjectiveHistories(req.query.userId, (status, msg, obj) => {
-            res.json(new ResponseModel(status, 200, msg, obj));
-        }); 
     });
 
     // Fallbacks
