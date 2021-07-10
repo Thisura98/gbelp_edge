@@ -53,17 +53,7 @@ export class UserstatusComponent implements OnInit {
   ) {
 
     this.utilsService.documentClickedTarget.subscribe((target) => {
-      if (!this.expanded)
-        return;
-
-      const insideUserStatus = this.userStatusElement?.nativeElement.contains(target);
-      const insideMenu = this.userStatusDropdown?.nativeElement.contains(target)
-
-      if (insideUserStatus || insideMenu){
-        return;
-      }
-
-      this.expanded = false;
+      this.handleTap(target);
     });
 
   }
@@ -78,6 +68,20 @@ export class UserstatusComponent implements OnInit {
 
   toggleExpanded(){
     this.expanded = !this.expanded;
+  }
+
+  handleTap(target: Element | Document | Window){
+    if (!this.expanded)
+        return;
+
+      const insideUserStatus = this.userStatusElement?.nativeElement.contains(target);
+      const insideMenu = this.userStatusDropdown?.nativeElement.contains(target)
+
+      if (insideUserStatus || insideMenu){
+        return;
+      }
+
+      this.expanded = false;
   }
 
   logoutPressed(){
