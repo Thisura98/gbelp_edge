@@ -6,7 +6,13 @@ import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
+  template: `
+    <div class="center">
+      <div class="stacked">
+          <mat-progress-spinner mode="indeterminate" [diameter]="40"></mat-progress-spinner>
+          <label>Loading Dashboard...</label>
+      </div>
+    </div>`,
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {

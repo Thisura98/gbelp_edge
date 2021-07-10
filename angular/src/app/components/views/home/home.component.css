@@ -210,6 +210,16 @@
     display: flex;
 }
 
+.section-footer-elem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
 @media only screen and (max-width: 800px) {   
     .section-footer{
         flex-direction: column;
@@ -219,25 +229,57 @@
 @media only screen and (min-width: 800px) {
     .section-footer{
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-evenly;
     }
 }
 
 .footer-elem-title{
     font-family: 'Roboto';
     font-size: 20px;
+    margin-top: 60px
 }
 
 .footer-elem-btn{
     background: #009EFF;
     box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 24px;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 10px 15px;
     color: white;
+    margin-top: 40px;
+}
+
+.footer-elem-btn:hover{
+    background: #46b8ff;
+    cursor: pointer;
+}
+
+.footer-elem-btn:active{
+    background: #0071b8;
+}
+
+.separator{
+    background-color: #d9d9d9;
+}
+
+@media only screen and (max-width: 800px){
+    .separator{
+        height: 1px;
+        margin: 0 50px;
+    }
+}
+
+@media only screen and (min-width: 800px){
+    .separator{
+        width: 1px;
+        margin: 50px 0;
+    }
 }
 
 .footer-elem-desc{
     font-size: 13px;
+    font-weight: 100;
     line-height: 106.69%;
     color: #666666;
+    margin-top: 50px;
+    margin-bottom: 60px;
 }
