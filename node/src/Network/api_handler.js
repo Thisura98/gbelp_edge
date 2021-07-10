@@ -24,14 +24,14 @@ function handle(app){
     })
 
     app.post(aurl('create-user'), (req, res) => {
-        usersDAO.createUser(req.body.username, req.body.email, req.body.typeId, req.body.ph, (status, msg, userId, token) => {
-            res.json(new ResponseModel(status, 200, msg, { user_id: userId, token: token }));
+        usersDAO.createUser(req.body.username, req.body.email, req.body.typeId, req.body.ph, (status, msg, userAndToken) => {
+            res.json(new ResponseModel(status, 200, msg, userAndToken));
         });
     });
 
     app.post(aurl('login'), (req, res) => {
-        usersDAO.loginUser(req.body.email, req.body.ph, (status, msg, userId, token) => {
-            res.json(new ResponseModel(status, 200, msg, {user_id: userId, token: token}));
+        usersDAO.loginUser(req.body.email, req.body.ph, (status, msg, userAndToken) => {
+            res.json(new ResponseModel(status, 200, msg, userAndToken));
         });
     });
 

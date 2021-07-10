@@ -78,7 +78,7 @@ function getUserType(userId, callback){
  * @param {String} email 
  * @param {String} passwordHash 
  * @param {String} typeId 
- * @param {function(Boolean, string|null, int|null, string|null):void} callback 
+ * @param {function(Boolean, string|null, object|null):void} callback 
  */
 function createUser(username, email, typeId, passwordHash, callback){
     db.getPool().getConnection((err, conn) => {
@@ -104,14 +104,30 @@ function createUser(username, email, typeId, passwordHash, callback){
                                 else{
                                     const newUserId = res.insertId;
 
-                                    createToken(newUserId, (status, token) => {
-                                        if (status){
-                                            callback(true, "", newUserId, token);
-                                        }
-                                        else{
-                                            l.logc("retrieve token for new user failed", 'users:creatUser:getToken')
-                                            callback(false, "Could not retrieve token");
-                                        }
+                                    conn.query(
+                                        `SELECT * FROM ${db.tables.userType} WHERE ${db.columns.userType.userTypeId} = ${typeId}`,
+                                        (err, res, fields) => {
+
+                                        createToken(newUserId, (status, token) => {
+
+                                            const userAndToken = {
+                                                user_id: newUserId,
+                                                user_name: username,
+                                                user_type_name: res[0][db.columns.userType.name],
+                                                user_type_id: typeId,
+                                                token: token
+                                            };
+
+                                            if (status){
+                                                callback(true, "", userAndToken);
+                                            }
+                                            else{
+                                                l.logc("retrieve token for new user failed", 'users:creatUser:getToken')
+                                                callback(false, "Could not retrieve token");
+                                            }
+                                        });
+
+
                                     });
                                 }
                             }
@@ -131,13 +147,23 @@ function createUser(username, email, typeId, passwordHash, callback){
  * Returns status, message, id and token.
  * @param {string} userEmail 
  * @param {string} pwHash 
- * @param {function(boolean, string|null, string|null, string|null):void} callback 
+ * @param {function(boolean, string|null, object|null):void} callback 
  */
 function loginUser(userEmail, pwHash, callback){
 
+    const U = db.columns.users;
+    const T = db.columns.userType;
+    const query = `
+        SELECT U.${U.userId} AS user_id, U.${U.userName} AS user_name, T.${T.name} AS user_type_name, U.${U.userType} AS user_type_id
+        FROM ${db.tables.users} U 
+        INNER JOIN ${db.tables.userType} T 
+        ON U.${U.userType} = T.${T.userTypeId}
+        WHERE LOWER(${U.userEmail}) = LOWER('${userEmail}')
+        AND LOWER(${U.userPasswordHash}) = LOWER('${pwHash}')
+    `;
+
     db.getPool().query(
-        'SELECT * FROM ?? WHERE LOWER(??) = LOWER(?) AND LOWER(??) = LOWER(?)',
-        [db.tables.users, db.columns.users.userEmail, userEmail, db.columns.users.userPasswordHash, pwHash],
+        query,
         (err, res, fields) => {
             if (err){
                 l.logc(err, 'loginUser');
@@ -145,10 +171,17 @@ function loginUser(userEmail, pwHash, callback){
             }
             else{
                 if (res.length > 0 && res[0].user_id !== undefined){
-                    const userId = res[0][db.columns.users.userId];
+                    const userId = res[0].user_id;
                     createToken(userId, (status, token) => {
                         if (status){
-                            callback(true, "Success!", userId, token);
+                            const userAndToken = {
+                                user_id: userId,
+                                user_name: res[0].user_name,
+                                user_type_name: res[0].user_type_name,
+                                user_type_id: res[0].user_type_id,
+                                token: token
+                            };
+                            callback(true, "Success!", userAndToken);
                         }
                         else{
                             callback(false, "Could not retrieve token");
