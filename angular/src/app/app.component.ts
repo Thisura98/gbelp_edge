@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { UserService } from './services/user.service';
+import { filter } from 'rxjs/operators';
+import { UtilsService } from './services/utils.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +17,20 @@ export class AppComponent {
   }
 
   constructor(
-    private userService: UserService
-  ){}
+    private userService: UserService,
+    private utilsService: UtilsService
+  ){
+
+  }
+
+  @HostListener('document:click', ['$event'])
+  documentClicked(event: Event){
+    if (event.target == null)
+      return;
+
+    const target = event.target as Window | Document | Element;
+    this.utilsService.documentClickedTarget.next(target);
+  }
 
   logoutClicked(){
     // todo clear auth token in db

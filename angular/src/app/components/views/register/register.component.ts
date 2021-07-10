@@ -127,10 +127,8 @@ export class RegisterComponent implements OnInit {
         pwHash
       ).subscribe(status => {
         if (status.success){
-          const userId = status.data.user_id;
-          const token = status.data.token;
-          this.userService.setLoggedIn(userId, token);
-          this.dialogService.showDismissable('Success!', 'Welcome to Edge!', () => {
+          this.userService.setLoggedIn(status.data);
+          this.dialogService.showDismissable('Successfully Registered', 'Welcome to Edge!', () => {
             this.router.navigate(['/dashboard']);
           });
         }

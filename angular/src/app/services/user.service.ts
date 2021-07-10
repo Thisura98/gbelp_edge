@@ -10,29 +10,37 @@ export class UserService{
         private router: Router
     ){}
 
-    setLoggedIn(userId: string, token: string){
-        localStorage.setItem('uid', userId);
-        localStorage.setItem('token', token);
+    setLoggedIn(data: any){
+        localStorage.setItem('uid', data.user_id);
+        localStorage.setItem('uname', data.user_name);
+        localStorage.setItem('utypename', data.user_type_name);
+        localStorage.setItem('token', data.token);
     }
 
     clearCredentials(){
         localStorage.removeItem('uid');
+        localStorage.removeItem('uname');
+        localStorage.removeItem('utypename');
         localStorage.removeItem('token');
     }
 
     /**
      * Return currently set userId and token
      */
-    getUserAndToken(): {userId: string|null; token: string|null}{
+    getUserAndToken(): {user: {userId: string|null, userName: string|null, userTypeName: string|null}; token: string|null}{
         return {
-            userId: localStorage.getItem('uid'),
+            user: {
+                userId: localStorage.getItem('uid')!,
+                userName: localStorage.getItem('uname')!,
+                userTypeName: localStorage.getItem('utypename')!
+            },
             token: localStorage.getItem('token')
         };
     }
 
     getIsLoggedIn(): boolean{
         const res = this.getUserAndToken();
-        if (res.userId != null && res.token != null)
+        if (res.user.userId != null && res.token != null)
             return true;
         else
             return false;

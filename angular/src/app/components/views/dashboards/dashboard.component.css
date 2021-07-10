@@ -33,3 +33,11 @@
 .dashboard-container :not(:first-child){
     margin-top: -10px;
 }
+
+/* POST DEMO CSS */
+
+.dashboard-nav{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}

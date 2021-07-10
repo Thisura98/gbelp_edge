@@ -25,7 +25,7 @@ import { UserService } from './services/user.service';
 import { DialogService } from './services/dialog.service';
 import { GroupsService } from './services/groups.service';
 
-import { SimpleDialogComponent } from './components/ui/dialogs/simple/simple.component';
+import { SimpleDialogComponent } from './components/ui/dialogs/simple.component';
 import { LoginComponent } from './components/views/login/login.component';
 import { DashboardComponent } from './components/views/dashboards/dashboard.component';
 import { SessioninfoComponent } from './components/views/dashboards/common/sessioninfo/sessioninfo.component';
@@ -34,19 +34,26 @@ import { ProgresstrackerComponent } from './components/views/dashboards/common/p
 import { StudentDashboardComponent } from './components/views/dashboards/student-dashboard/student-dashboard.component';
 import { HomeComponent } from './components/views/home/home.component';
 import { httpInterceptorProviders } from './interceptors';
+import { UserstatusComponent } from './components/views/dashboards/common/userstatus/userstatus.component';
+import { UtilsService } from './services/utils.service';
+import { Simple2DialogComponent } from './components/ui/dialogs/simple2.component';
+import { TeacherDashboardComponent } from './components/views/dashboards/teacher-dashboard/teacher-dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     SimpleDialogComponent,
+    Simple2DialogComponent,
     LoginComponent,
     StudentDashboardComponent,
+    TeacherDashboardComponent,
     DashboardComponent,
     SessioninfoComponent,
     ObjectivehistoryComponent,
     ProgresstrackerComponent,
-    HomeComponent
+    HomeComponent,
+    UserstatusComponent
   ],
   imports: [
     CommonModule,
@@ -64,10 +71,9 @@ import { httpInterceptorProviders } from './interceptors';
     MatCardModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
   ],
-  providers: [ApiService, UserService, DialogService, GroupsService, httpInterceptorProviders],
-  // providers: [ApiService, UserService, DialogService, GroupsService],
+  providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

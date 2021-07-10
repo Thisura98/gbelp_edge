@@ -25,14 +25,15 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // fixme use navigation events for this
     this.userService.routeOutIfLoggedOut();
 
     // stay for now
     setTimeout(() => {
-      const userId = this.userService.getUserAndToken().userId!;
+      const userId = this.userService.getUserAndToken().user.userId!;
       this.apiService.getUserType(userId).subscribe(r => {
         console.log("DashboardComponent", r);
-        const name = r.data.name;
+        const name = r.data.name == 'admin' ? 'teacher' : r.data.name;
         this.router.navigate([`/dashboard/${name}`], {replaceUrl: true});
       })
     }, 1000);

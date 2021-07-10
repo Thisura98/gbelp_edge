@@ -28,7 +28,6 @@ export class SimpleDialogComponent {
     public dialogRef: MatDialogRef<SimpleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
-    console.log('simple.component:', this.data);
     dialogRef.afterClosed().subscribe(result => {
       if (this.data.onOkay !== undefined){
         this.data.onOkay();

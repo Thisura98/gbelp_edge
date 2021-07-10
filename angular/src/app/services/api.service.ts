@@ -42,7 +42,7 @@ export class ApiService{
         const headerValues = this.userService.getUserAndToken();
         console.log("getHeaders:", headerValues);
         const h = new HttpHeaders({
-            'uid': headerValues.userId!,
+            'uid': headerValues.user.userId!,
             'auth': headerValues.token!
         });
         return h;

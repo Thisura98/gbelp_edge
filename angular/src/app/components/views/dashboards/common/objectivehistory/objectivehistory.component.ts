@@ -27,7 +27,7 @@ export class ObjectivehistoryComponent implements OnInit {
   }
 
   refreshDatasource(){
-    const userId = this.userService.getUserAndToken().userId!;
+    const userId = this.userService.getUserAndToken().user.userId!;
     const hardCodedSessionId = '1';
 
     this.loading = true;

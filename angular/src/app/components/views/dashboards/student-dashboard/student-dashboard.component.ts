@@ -16,9 +16,7 @@ export class StudentDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.userService.routeOutIfLoggedOut();
-    
   }
 
 }

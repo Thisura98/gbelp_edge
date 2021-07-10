@@ -56,12 +56,8 @@ export class LoginComponent implements OnInit {
         pwHash
       ).subscribe(status => {
         if (status.success){
-          const userId = status.data.user_id;
-          const token = status.data.token;
-          this.userService.setLoggedIn(userId, token);
-          this.dialogService.showDismissable('Success!', 'Welcome to Edge!', () => {
-            this.router.navigate(['/dashboard']);
-          });
+          this.userService.setLoggedIn(status.data);
+          this.router.navigate(['/dashboard']);
         }
         else{
           // todo: Show dialog service (error message)

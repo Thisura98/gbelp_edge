@@ -23,7 +23,7 @@ export class SessioninfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userId = this.userService.getUserAndToken().userId!;
+    const userId = this.userService.getUserAndToken().user.userId!;
     this.apiService.getLatestSessionDetailsFor(userId).subscribe(response => {
       if (response.success){
         // this.startTime.next(this.formatTime(response.data.start_time));
@@ -44,7 +44,7 @@ export class SessioninfoComponent implements OnInit {
   }
 
   clearStats(){
-    const userId = this.userService.getUserAndToken().userId!;
+    const userId = this.userService.getUserAndToken().user.userId!;
     this.apiService.clearHistories(userId).subscribe(r => {
       if (r.success){
         window.location.reload();
