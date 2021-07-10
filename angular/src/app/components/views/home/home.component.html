@@ -1,3 +1,81 @@
+<div id="top-gradient">
+    <div id="grad-left">
+        <div id="grad-left-container">
+            <p id="edge">EDGE</p>
+            <p id="sub">The Game Based e-Learning Platform</p>
+        </div>
+    </div>
+    <div id="grad-right">
+        <div id="links">
+            <div class="link" id="link-register" *ngIf="!isLoggedIn" (click)="registerClicked()">
+                <span class="link-name">Register</span>
+                <span class="link-img"><img src="assets/home/next.png" /></span>
+            </div>
+            <div class="link" id="link-login" *ngIf="!isLoggedIn" (click)="loginClicked()">
+                <span class="link-name">Login</span>
+                <span class="link-img"><img src="assets/home/next.png" /></span>
+            </div>
+            <div class="link" id="link-dashboard" *ngIf="!isLoggedIn" (click)="showDashboardClicked()">
+                <span class="link-name">Show dashboard</span>
+                <span class="link-img"><img src="assets/home/next.png" /></span>
+            </div>
+        </div>
+    </div>
+</div>
+<img id="bottom-image" src="assets/home/btmimg.jpg" />
+
+<div id="section-what" class="section">
+    <h3>What is <span class="section-hl">EDGE?</span></h3>
+    <div class="section-heading-underline"></div>
+    <div class="section-body">EDGE is a platform to let teachers create and publish Educational Games.</div>
+</div>
+
+<div id="section-how" class="section">
+    <h3>How to use <span class="section-hl">EDGE?</span></h3>
+    <div class="section-heading-underline"></div>
+    <div class="section-w-img">
+        <div class="section-element">
+            <img src="assets/home/svg_teach.jpeg">
+        </div>
+        <div class="section-element">
+            <div class="section-body-l"><span class="section-body-hl">Teachers</span> sign up to create and publish their games.</div>
+        </div>
+    </div>
+    <div class="section-w-img">
+        <div class="section-element">
+            <div class="section-body-l"><span class="section-body-hl">Students</span> sign up to play these games.</div>
+        </div>
+        <div class="section-element">
+            <img src="assets/home/svg_student.jpeg">
+        </div>
+    </div>
+    <div class="section-w-img">
+        <div class="section-element">
+            <img src="assets/home/svg_supervise.jpeg">
+        </div>
+        <div class="section-element">
+            <div class="section-body-l"><span class="section-body-hl">Parents</span> sign up to supervise student progress.</div>
+        </div>
+    </div>
+</div>
+
+<div id="section-get-started" class="section">
+    <h3>Let's get <span class="section-hl">Started!</span></h3>
+    <div class="section-heading-underline"></div>
+    <div class="section-footer">
+        <div class="section-footer-elem">
+            <div class="footer-elem-title">New around here?</div>
+            <div class="footer-elem-btn">Register with us</div>
+            <div class="footer-elem-desc">The system will guide you through the entire registration process.</div>
+        </div>
+        <div class="section-footer-elem">
+            <div class="footer-elem-title">New around here?</div>
+            <div class="footer-elem-btn">Register with us</div>
+            <div class="footer-elem-desc">The system will guide you through the entire registration process.</div>
+        </div>
+    </div>
+</div>
+
 <div class="registration-msg" *ngIf="!isLoggedIn">
     <mat-card>
         <mat-card-title>Get Registered!</mat-card-title>
@@ -5,7 +83,7 @@
             To get started using the Edge Game-based E-Learning System, you must first register!
         </mat-card-content>
         <mat-card-actions class="center-card-actions">
-            <button mat-flat-button color="primary" (click)="registerClicked()">Register</button>
+            <button mat-flat-button color="primary" >Register</button>
         </mat-card-actions>
     </mat-card>
 </div>
@@ -17,7 +95,7 @@
             If you have already created an Account, register here!
         </mat-card-content>
         <mat-card-actions class="center-card-actions">
-            <button mat-flat-button color="primary" (click)="loginClicked()">Login</button>
+            <button mat-flat-button color="primary" >Login</button>
         </mat-card-actions>
     </mat-card>
 </div>
@@ -29,7 +107,7 @@
             Click on the below button to login to your Dashboard!
         </mat-card-content>
         <mat-card-actions class="center-card-actions">
-            <button mat-flat-button color="primary" (click)="showDashboardClicked()">Go To Dashboard</button>
+            <button mat-flat-button color="primary" >Go To Dashboard</button>
         </mat-card-actions>
     </mat-card>
 </div>
