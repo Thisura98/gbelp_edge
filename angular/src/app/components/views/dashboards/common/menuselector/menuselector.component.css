@@ -1,0 +1,49 @@
+.ds-menuselector{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ds-ms-orb{
+    display: flex;
+}
+
+.ds-ms-orb > img{
+    width: 40px;
+    height: 40px;
+}
+
+.ds-ms-title{
+    margin-left: 8px;
+    font-size: 1.2rem;
+}
+
+.ds-ms-drop{
+    margin-left: 8px;
+}
+
+.ds-ms-drop > img{
+    width: 13px;
+    height: 9px;
+}
+
+.ds-selector-menu{
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    min-width: 210px;
+    overflow: hidden;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 8px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    cursor:default;
+}
+
+.ds-ms-mitem{
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.ds-ms-mitem:hover{
+    background-color: #E9E9E9;
+}

@@ -38,6 +38,7 @@ import { UserstatusComponent } from './components/views/dashboards/common/userst
 import { UtilsService } from './services/utils.service';
 import { Simple2DialogComponent } from './components/ui/dialogs/simple2.component';
 import { TeacherDashboardComponent } from './components/views/dashboards/teacher-dashboard/teacher-dashboard.component';
+import { MenuselectorComponent } from './components/views/dashboards/common/menuselector/menuselector.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { TeacherDashboardComponent } from './components/views/dashboards/teacher
     ObjectivehistoryComponent,
     ProgresstrackerComponent,
     HomeComponent,
-    UserstatusComponent
+    UserstatusComponent,
+    MenuselectorComponent
   ],
   imports: [
     CommonModule,
