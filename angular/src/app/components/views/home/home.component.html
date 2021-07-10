@@ -15,7 +15,7 @@
                 <span class="link-name">Login</span>
                 <span class="link-img"><img src="assets/home/next.png" /></span>
             </div>
-            <div class="link" id="link-dashboard" *ngIf="!isLoggedIn" (click)="showDashboardClicked()">
+            <div class="link" id="link-dashboard" *ngIf="isLoggedIn" (click)="showDashboardClicked()">
                 <span class="link-name">Show dashboard</span>
                 <span class="link-img"><img src="assets/home/next.png" /></span>
             </div>

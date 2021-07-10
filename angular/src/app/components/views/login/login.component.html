@@ -6,7 +6,7 @@
         </mat-card-header>
         <mat-card-content>
             <div class="login-form-container paragraphed-form">
-                <form id="login-form" [formGroup]="loginForm">
+                <form id="login-form" [formGroup]="loginForm" (keyup.enter)="loginClicked()">
                     <p class="login-form-row">
                         <mat-form-field>
                             <mat-label>User Email</mat-label>

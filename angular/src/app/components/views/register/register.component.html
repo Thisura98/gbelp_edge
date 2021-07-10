@@ -6,7 +6,7 @@
         </mat-card-header>
         <mat-card-content>
             <div class="register-form-container paragraphed-form">
-                <form id="register-form" [formGroup]="registerForm">
+                <form id="register-form" [formGroup]="registerForm" (keyup.enter)="registerClicked()">
                     <p class="register-form-row">
                         <mat-form-field>
                             <mat-label>User Type</mat-label>

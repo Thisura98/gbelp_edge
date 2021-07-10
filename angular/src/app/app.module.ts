@@ -33,6 +33,7 @@ import { ObjectivehistoryComponent } from './components/views/dashboards/common/
 import { ProgresstrackerComponent } from './components/views/dashboards/common/progresstracker/progresstracker.component';
 import { StudentDashboardComponent } from './components/views/dashboards/student-dashboard/student-dashboard.component';
 import { HomeComponent } from './components/views/home/home.component';
+import { httpInterceptorProviders } from './interceptors';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { HomeComponent } from './components/views/home/home.component';
     MatProgressSpinnerModule,
     MatTableModule
   ],
-  providers: [ApiService, UserService, DialogService, GroupsService],
+  providers: [ApiService, UserService, DialogService, GroupsService, httpInterceptorProviders],
+  // providers: [ApiService, UserService, DialogService, GroupsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

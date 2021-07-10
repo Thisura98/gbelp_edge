@@ -67,6 +67,7 @@ export class ApiService{
     }
 
     loginUser(email: string, pwHash: string): Observable<ServerResponseUserAuth>{
+        console.log('loginUser called');
         const url = this.aurl('login');
         const data = { email: email, ph: pwHash }
         return this.http.post<ServerResponseUserAuth>(url, data);
