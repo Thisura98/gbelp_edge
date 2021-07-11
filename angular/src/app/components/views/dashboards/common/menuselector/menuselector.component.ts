@@ -6,7 +6,7 @@ import { UtilsService } from 'src/app/services/utils.service';
 @Component({
   selector: 'app-dashboard-menuselector',
   template: `
-  <div class="ds-menuselector" (click)="toggleExpanded()" #dsMenuSelector>
+  <div class="ds-menuselector noselect" (click)="toggleExpanded()" #dsMenuSelector>
     <div class="ds-ms-orb"><img src="assets/dashboard/menu_overview.png"></div>
     <div class="ds-ms-title">{{menuName | titlecase }}</div>
     <div class="ds-ms-drop"><img src="assets/common/dropdownblue.png"></div>

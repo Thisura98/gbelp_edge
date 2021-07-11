@@ -6,7 +6,7 @@ import { UtilsService } from 'src/app/services/utils.service';
 @Component({
   selector: 'app-userstatus',
   template: `
-    <div class="dashboard-userstatus" (click)="toggleExpanded()" #dashboardUserStatus>
+    <div class="dashboard-userstatus noselect" (click)="toggleExpanded()" #dashboardUserStatus>
       <div>
         <div class="dashboard-us-name">{{userName}}</div>
         <div class="dashboard-us-role">{{userRole | titlecase}}</div>

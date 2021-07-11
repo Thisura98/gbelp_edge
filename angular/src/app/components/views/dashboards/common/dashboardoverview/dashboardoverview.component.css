@@ -1,0 +1,10 @@
+.db-ov-section-ongoing{ order: 1; }
+@media only screen and (max-width: 800px){
+    .db-ov-section-upcoming{ order: 2; }
+    .db-ov-section-notification{ order: 3; }
+}
+
+@media only screen and (min-width: 800px){
+    .db-ov-section-upcoming{ order: 3; }
+    .db-ov-section-notification{ order: 2; }
+}

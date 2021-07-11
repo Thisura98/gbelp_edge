@@ -1,1 +1,45 @@
-<p>dashboardgames works!</p>
+<div class="dyn-flex-fullwidth dyn-fjc-space-between">
+    <div class="dyn-games-contianer">
+        <div class="dyn-btn">
+            <span>Create Game</span><img class="dyn-btn-image" src="assets/common/pluswhite.png">
+        </div>
+    </div>
+    <div class="dyn-games-contianer">
+        <div class="dyn-search1">
+            <img src="assets/common/bluesearch.png">
+            <input class="search-field games-search" placeholder="Search..." #dashboardGamesSearch>
+        </div>
+    </div>
+</div>
+
+<div class="dyn-flex-fullwidth db-games-heading">
+    <h2>All Games</h2>
+</div>
+
+<div class="dyn-section-container">
+    <table class="db-games-table">
+        <thead>
+            <tr>
+                <th >Game</th>
+                <th >Type</th>
+                <th >Usage</th>
+                <th class="db-games-rowactioncol">Clone</th>
+                <th class="db-games-rowactioncol">Edit</th>
+                <th class="db-games-rowactioncol">Delete</th>
+                <th class="db-games-rowactioncol">Play</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="true" class="loading-row">
+                <td colspan="7">
+                    <div class="loading-row-content">
+                        <mat-progress-spinner class="load-container" mode="indeterminate" [diameter]="30">
+                        </mat-progress-spinner>
+                        Loading...
+                    </div>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
