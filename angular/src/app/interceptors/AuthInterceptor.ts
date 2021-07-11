@@ -56,7 +56,8 @@ export class AuthInterceptor implements HttpInterceptor{
          */
         if (response instanceof HttpResponseBase){
             if (response.status == this.statusCodes.authIdNoMatch || 
-                response.status == this.statusCodes.missingAuth
+                response.status == this.statusCodes.missingAuth || 
+                response.status == this.statusCodes.tokenExpired
             ){
                 this.userService.clearCredentials();
                 this.dialogService.showDismissable('User not Authenticated', 'Please login a try again', () => {
