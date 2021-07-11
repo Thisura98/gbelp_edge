@@ -1,1 +1,42 @@
-<p>dashboardgroups works!</p>
+<div class="dyn-flex-fullwidth dyn-fjc-space-between">
+    <div class="dyn-groups-contianer">
+        <div class="dyn-btn">
+            <span>Create Game</span><img class="dyn-btn-image" src="assets/common/pluswhite.png">
+        </div>
+    </div>
+    <div class="dyn-groups-contianer">
+        <div class="dyn-search1">
+            <img src="assets/common/bluesearch.png">
+            <input class="search-field groups-search" placeholder="Search..." #dashboardGroupsSearch>
+        </div>
+    </div>
+</div>
+
+<div class="dyn-flex-fullwidth db-groups-heading">
+    <h2>All Groups</h2>
+</div>
+
+<div class="dyn-section-container">
+    <table class="db-groups-table">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Members</th>
+                <th>Join Link</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="isLoading" class="loading-row">
+                <td colspan="4">
+                    <div class="loading-row-content">
+                        <mat-progress-spinner class="load-container" mode="indeterminate" [diameter]="30">
+                        </mat-progress-spinner>
+                        Loading...
+                    </div>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
