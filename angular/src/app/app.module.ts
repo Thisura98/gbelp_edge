@@ -39,6 +39,9 @@ import { UtilsService } from './services/utils.service';
 import { Simple2DialogComponent } from './components/ui/dialogs/simple2.component';
 import { TeacherDashboardComponent } from './components/views/dashboards/teacher-dashboard/teacher-dashboard.component';
 import { MenuselectorComponent } from './components/views/dashboards/common/menuselector/menuselector.component';
+import { DashboardoverviewComponent } from './components/views/dashboards/common/dashboardoverview/dashboardoverview.component';
+import { DashboardgamesComponent } from './components/views/dashboards/common/dashboardgames/dashboardgames.component';
+import { DashboardgroupsComponent } from './components/views/dashboards/common/dashboardgroups/dashboardgroups.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,10 @@ import { MenuselectorComponent } from './components/views/dashboards/common/menu
     ProgresstrackerComponent,
     HomeComponent,
     UserstatusComponent,
-    MenuselectorComponent
+    MenuselectorComponent,
+    DashboardoverviewComponent,
+    DashboardgamesComponent,
+    DashboardgroupsComponent
   ],
   imports: [
     CommonModule,

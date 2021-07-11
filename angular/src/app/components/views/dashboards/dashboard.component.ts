@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
       this.apiService.getUserType(userId).subscribe(r => {
         console.log("DashboardComponent", r);
         const name = r.data.name == 'admin' ? 'teacher' : r.data.name;
-        this.router.navigate([`/dashboard/${name}`], {replaceUrl: true});
+        this.router.navigate([`/dashboard/${name}/overview`], {replaceUrl: true});
       })
     }, 1000);
 

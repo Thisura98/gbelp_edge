@@ -8,6 +8,9 @@ import { DashboardComponent } from './components/views/dashboards/dashboard.comp
 import { StudentDashboardComponent } from './components/views/dashboards/student-dashboard/student-dashboard.component';
 import { TeacherDashboardComponent } from './components/views/dashboards/teacher-dashboard/teacher-dashboard.component';
 import { ParentDashboardComponent } from './components/views/dashboards/parent-dashboard/parent-dashboard.component';
+import { DashboardoverviewComponent } from './components/views/dashboards/common/dashboardoverview/dashboardoverview.component';
+import { DashboardgamesComponent } from './components/views/dashboards/common/dashboardgames/dashboardgames.component';
+import { DashboardgroupsComponent } from './components/views/dashboards/common/dashboardgroups/dashboardgroups.component';
 
 
 const routes: Routes = [
@@ -16,7 +19,14 @@ const routes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "dashboard", component: DashboardComponent},
   {path: "dashboard/student", component: StudentDashboardComponent},
-  {path: "dashboard/teacher", component: TeacherDashboardComponent},
+  {
+    path: "dashboard/teacher", component: TeacherDashboardComponent,
+    children: [
+      {path: "overview", component: DashboardoverviewComponent},
+      {path: "games", component: DashboardgamesComponent},
+      {path: "groups", component: DashboardgroupsComponent},
+    ]
+  },
   {path: "dashboard/parent", component: ParentDashboardComponent},
 ];
 

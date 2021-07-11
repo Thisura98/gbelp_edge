@@ -68,3 +68,30 @@ mat-card { margin:2em;  }
     font-family: 'Roboto Bold';
     src: url('assets/fonts/Roboto-Bold.ttf');
 }
+
+/* dyn styles */
+
+.dyn-section-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 800px){
+    .dyn-overview-section{
+        display: flex;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 800px){
+    .dyn-overview-section{
+        display: flex;
+        width: 50%;
+    }
+
+    .dyn-overview-section-wide{
+        display: flex;
+        width: 100%;
+    }
+}
