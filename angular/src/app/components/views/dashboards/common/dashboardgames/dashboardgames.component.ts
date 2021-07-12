@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Game{
   id: number
@@ -17,9 +18,15 @@ export class DashboardgamesComponent implements OnInit {
   isLoading = true
   data: Game[] = []
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  createGameClicked(){
+    this.router.navigate(['/game/create'], {replaceUrl: false});
   }
 
 }

@@ -95,6 +95,18 @@ mat-card { margin:2em;  }
     user-select: none; /* Standard */
 }
 
+.nopadding{
+    padding: 0px;
+}
+
+.nomargin{
+    margin: 0px;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
 /*****************/
 /* dyn styles */
 
@@ -153,4 +165,20 @@ mat-card { margin:2em;  }
     width: 20px;
     height: 20px;
     margin-left: 10px;
+}
+
+.dyn-textbox{
+    height: 27px;
+    border-radius: 11px;
+    border-width: 1px;
+    padding: 0 10px;
+    border-color: #CBCBCB;
+    outline-width: 0px;
+    outline-style: none;
+    border-style: solid;
+}
+
+.dyn-textbox::placeholder{
+    color: #959595;
+    font-style: italic;
 }

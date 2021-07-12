@@ -11,6 +11,7 @@ import { ParentDashboardComponent } from './components/views/dashboards/parent-d
 import { DashboardoverviewComponent } from './components/views/dashboards/common/dashboardoverview/dashboardoverview.component';
 import { DashboardgamesComponent } from './components/views/dashboards/common/dashboardgames/dashboardgames.component';
 import { DashboardgroupsComponent } from './components/views/dashboards/common/dashboardgroups/dashboardgroups.component';
+import { GameCreateComponent } from './components/views/game/create/create.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
     ]
   },
   {path: "dashboard/parent", component: ParentDashboardComponent},
+  {path: "game/create", component: GameCreateComponent},
 ];
 
 @NgModule({

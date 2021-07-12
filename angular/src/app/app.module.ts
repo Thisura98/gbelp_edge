@@ -42,6 +42,8 @@ import { MenuselectorComponent } from './components/views/dashboards/common/menu
 import { DashboardoverviewComponent } from './components/views/dashboards/common/dashboardoverview/dashboardoverview.component';
 import { DashboardgamesComponent } from './components/views/dashboards/common/dashboardgames/dashboardgames.component';
 import { DashboardgroupsComponent } from './components/views/dashboards/common/dashboardgroups/dashboardgroups.component';
+import { GameCreateComponent } from './components/views/game/create/create.component';
+import { DynamicsidebarComponent } from './components/ui/dynamicsidebar/dynamicsidebar.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { DashboardgroupsComponent } from './components/views/dashboards/common/d
     MenuselectorComponent,
     DashboardoverviewComponent,
     DashboardgamesComponent,
-    DashboardgroupsComponent
+    DashboardgroupsComponent,
+    GameCreateComponent,
+    DynamicsidebarComponent
   ],
   imports: [
     CommonModule,

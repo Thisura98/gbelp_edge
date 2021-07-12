@@ -3,7 +3,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    min-width: 300px;
+    min-width: 100px;
 }
 
 .dashboard-us-uimg{
@@ -33,7 +33,7 @@
     position: absolute;
     top: 70px;
     right: 10px;
-    min-width: 210px;
+    min-width: 100x;
     overflow: hidden;
 }
 
