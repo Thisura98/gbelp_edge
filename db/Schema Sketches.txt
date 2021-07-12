@@ -1,0 +1,17 @@
+--- Games (game_entry)
+
+id
+name
+type (1=single, 2=multi)
+level_switch (1=Time, 2=Score, 3=Manual (in-code))
+multi_user_limit (null | value) - applies to type = 2
+progress_bound_type (1=limit, 0=unlimited)
+
+project_id (link to mongo document)
+
+// 0 or 1 (tiny int length 1)
+rep_opt_objetives
+rep_opt_guidance_trg
+rep_opt_student_usg
+rep_opt_level_score
+rep_opt_level_time
