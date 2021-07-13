@@ -29,7 +29,8 @@ const routes: Routes = [
     ]
   },
   {path: "dashboard/parent", component: ParentDashboardComponent},
-  {path: "game/create", component: GameCreateComponent},
+  {path: "game/create", component: GameCreateComponent, data: {editMode: false}},
+  {path: "game/edit", component: GameCreateComponent, data: {editMode: true}}
 ];
 
 @NgModule({

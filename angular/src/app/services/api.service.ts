@@ -2,6 +2,7 @@ import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
+import { ServerResponseGameCreate } from '../models/game';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -83,6 +84,17 @@ export class ApiService{
     }
 
     // MARK END: User API calls
+
+    // MARK: Game Entry 
+
+    createGame(data: any): Observable<ServerResponseGameCreate>{
+        const url = this.aurl('create-game');
+        return this.http.post<ServerResponseGameCreate>(url, data, {
+            headers: this.getHeaders()
+        })
+    }
+
+    // MARK END: Game Entry
 
     // MARK: Session API calls
 

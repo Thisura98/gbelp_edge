@@ -1,5 +1,6 @@
 const express = require('express');
 const usersDAO = require('../model/dao/users');
+const gamesDAO = require('../model/dao/games');
 const statusCodes = require('./status_codes');
 
 const { ResponseModel } = require('../model/models/common');
@@ -12,6 +13,8 @@ const apiPrefix = 'api'
 function handle(app){
     // Authorization Middleware (faux) for API calls
     app.use(`/${apiPrefix}`, apiAuthorizationMiddleware);
+
+    // MARK: User
 
     app.post(aurl('test'), (req, res) => {
         res.json(new ResponseModel(true, 200, "", null))
@@ -39,6 +42,14 @@ function handle(app){
         usersDAO.getUserType(req.query.userId, (status, msg, objOrNull) => {
             res.json(new ResponseModel(status, 200, msg, objOrNull));
         })
+    });
+
+    // MARK: Game Entry
+
+    app.post(aurl('create-game'), (req, res) => {
+        gamesDAO.createGame(req.body, (status, msg, result) => {
+            res.json(new ResponseModel(status, 200, msg, result));
+        });
     });
 
     // Fallbacks

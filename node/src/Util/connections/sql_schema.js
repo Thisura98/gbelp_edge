@@ -13,7 +13,8 @@ const tables = {
     gameSessions: 'gsessions',
     gameSessionMembers: 'gsession_members',
     gameSessionUserObjective: 'gsession_user_objective',
-    gameObjective: 'game_objective'
+    gameObjective: 'game_objective',
+    gameEntry: 'game_entry'
 };
 
 // Columns
@@ -85,6 +86,20 @@ const columns = {
         objectiveId: 'objective_id',
         name: 'name',
         maxValue: 'max_value'
+    },
+    gameEntry: {
+        id: 'id',
+        name: 'name',
+        type: 'type',
+        levelSwitch: 'level_switch',
+        multiUserLimit: 'multi_user_limit',
+        progressBoundType: 'progress_bound_type',
+        projectId: 'project_id',
+        reportOptObjectives: 'rep_opt_objectives',
+        reportOptGuidanceTrg: 'rep_opt_guidance_trg',
+        reportOptStudentUsage: 'rep_opt_student_usg',
+        reportOptLevelScore: 'rep_opt_level_score',
+        reportOptLevelTime: 'rep_opt_level_time',
     }
 }
 

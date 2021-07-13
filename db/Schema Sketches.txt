@@ -1,4 +1,4 @@
---- Games (game_entry)
+Games (game_entry)
 
 id
 name

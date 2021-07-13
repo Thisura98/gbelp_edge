@@ -1,5 +1,5 @@
 <div class="container">
-    <app-dynamicsidebar>
+    <app-dynamicsidebar [items]="sidebarItems">
     </app-dynamicsidebar>
 
     <div class="container2">
@@ -78,6 +78,21 @@
                 </div>
             </div>
         </div>
+
+        <!-- Objectives Table -->
+        <div class="dyn-form" #objectivesForm>
+            <div class="dyn-form-col">
+                <div class="section-heading">
+                    <h2 class="heading">Objectives</h2>
+                    <a href="" (click)="addNewObjectiveClicked($event)">Add New</a>
+                </div>
+                <div class="dyn-form-row">
+                    <dyn-basic-table #objectivesTable></dyn-basic-table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guidance Trackers Table -->
 
     </div>
 

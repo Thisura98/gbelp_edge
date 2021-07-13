@@ -46,7 +46,6 @@ import { GameCreateComponent } from './components/views/game/create/create.compo
 import { DynamicsidebarComponent } from './components/ui/dynamicsidebar/dynamicsidebar.component';
 import { DynCheckboxComponent } from './components/ui/dyn-checkbox/dyn-checkbox.component';
 import { DynBasicTableComponent } from './components/ui/dyn-basic-table/dyn-basic-table.component';
-import { GameEditComponent } from './components/views/game/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -70,8 +69,7 @@ import { GameEditComponent } from './components/views/game/edit/edit.component';
     GameCreateComponent,
     DynamicsidebarComponent,
     DynCheckboxComponent,
-    DynBasicTableComponent,
-    GameEditComponent
+    DynBasicTableComponent
   ],
   imports: [
     CommonModule,
