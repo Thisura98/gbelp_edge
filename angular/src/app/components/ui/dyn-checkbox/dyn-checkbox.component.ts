@@ -1,4 +1,4 @@
-import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'dyn-checkbox',
@@ -34,6 +34,9 @@ export class DynCheckboxComponent implements OnInit {
 
   @Input()
   checked: boolean = false
+
+  @Output()
+  checkedChange = new EventEmitter<boolean>();
 
   @Input()
   disabled: boolean = false
@@ -79,6 +82,7 @@ export class DynCheckboxComponent implements OnInit {
     if (this.disabled)
       return;
     this.checked = !this.checked;
+    this.checkedChange.emit(this.checked);
   }
 
 }

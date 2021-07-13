@@ -1,5 +1,5 @@
 <div class="container">
-    <app-dynamicsidebar>
+    <app-dynamicsidebar [items]="sidebarItems">
     </app-dynamicsidebar>
 
     <div class="container2">
@@ -8,8 +8,8 @@
             <app-userstatus></app-userstatus>
         </div>
         <div class="buttons">
-            <div class="dyn-btn clickable btn-save" (click)="createButtonClicked()">Save</div>
-            <div class="dyn-btn clickable btn-cancel" (click)="canceledButtonClicked()">Cancel</div>
+            <div class="dyn-btn clickable btn-save">Save</div>
+            <div class="dyn-btn clickable btn-cancel">Cancel</div>
         </div>
         <div class="details-form dyn-form">
             <!-- Section Basic Details -->
@@ -17,11 +17,11 @@
                 <h2 class="heading">Details</h2>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Game Name</div>
-                    <input class="dyn-textbox" placeholder="Type name here..." [(ngModel)]="gameName"/>
+                    <input class="dyn-textbox" placeholder="Type name here..."/>
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Game Type</div>
-                    <select class="dyn-select" placeholder="Select a game type" [(ngModel)]="gameType" (change)="gameTypeDidChange()">
+                    <select class="dyn-select" placeholder="Select a game type">
                         <option selected value="1">Single Player</option>
                         <option value="2">Multi Player</option>
                     </select>
@@ -36,25 +36,19 @@
                 <h2 class="heading">Game Options</h2>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Concurrent user limit</div>
-                    <input 
-                        class="dyn-textbox tb-user-limit" placeholder="E.g. 5" 
-                        type="number" [disabled]="gameType!=2"
-                        [(ngModel)]="userLimit" />
+                    <input class="dyn-textbox tb-user-limit" placeholder="E.g. 5" type="number"/>
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Level Switching</div>
-                    <select class="dyn-select" placeholder="Select Level Switching" value=""
-                        [(ngModel)]="levelSwitching"
-                        (change)="levelSwitchingDidChange()">
+                    <select class="dyn-select" placeholder="Select Level Switching" value="">
                         <option value="1">Time Based</option>
                         <option value="2">Score Based</option>
-                        <option value="3">Manual</option>
+                        <option value="2">Manual</option>
                     </select>
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Objective Progress Upper Bound Type</div>
-                    <select class="dyn-select" placeholder="Object Bounds" value=""
-                        [(ngModel)]="progressBoundType">
+                    <select class="dyn-select" placeholder="Object Bounds" value="">
                         <option value="1">Limited</option>
                         <option value="0">Unlimited</option>
                     </select>
@@ -69,16 +63,31 @@
         <div class="reports-form dyn-form">
             <div class="dyn-form-col">
                 <div class="report-opt-container">
-                    <dyn-checkbox text="Objective Tracking Reports" [(checked)]="repOptObjectiveTracking"></dyn-checkbox>
-                    <dyn-checkbox text="Guidance Trigger Reports" [(checked)]="repOptGuidanceTrgTracking"></dyn-checkbox>
-                    <dyn-checkbox text="Student Usage Reports" [(checked)]="repOptStudentUsage" [disabled]="true"></dyn-checkbox>
-                    <dyn-checkbox text="Level Score Reports" [(checked)]="repOptScore" [disabled]="disableScoreReports"></dyn-checkbox>
-                    <dyn-checkbox text="Level Timing Reports" [(checked)]="repOptTiming" [disabled]="disableTimingReports"></dyn-checkbox>
+                    <dyn-checkbox text="hello"></dyn-checkbox>
+                    <dyn-checkbox text="hello" [checked]="true"></dyn-checkbox>
+                    <dyn-checkbox text="hello" [checked]="true" [disabled]="true"></dyn-checkbox>
+                    <dyn-checkbox text="hello" [checked]="true" [disabled]="true"></dyn-checkbox>
+                    <dyn-checkbox text="hello" [checked]="false" [disabled]="true"></dyn-checkbox>
+                    <dyn-checkbox text="hello" [checked]="false" [disabled]="true"></dyn-checkbox>
                     
                 </div>
             </div>
         </div>
 
+        <!-- Objectives Table -->
+        <div class="dyn-form">
+            <div class="dyn-form-col">
+                <div class="section-heading">
+                    <h2 class="heading">Objectives</h2>
+                    <a href="" (click)="addNewObjectiveClicked($event)">Add New</a>
+                </div>
+                <div class="dyn-form-row">
+                    <dyn-basic-table #objectivesTable></dyn-basic-table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guidance Trackers Table -->
     </div>
 
 </div>
