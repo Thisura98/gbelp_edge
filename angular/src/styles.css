@@ -141,15 +141,42 @@ mat-card { margin:2em;  }
     }
 }
 
+.dyn-form{
+    display: flex;
+    flex-direction: row;
+}
+
+.dyn-form-col{
+    display: flex;
+    flex-direction: column;
+}
+
+.dyn-form-row{
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+.dyn-form-label{
+    width: 200px;
+    font-family: 'Roboto';
+    font-weight: normal;
+    padding-right: 15px;
+}
+
 .dyn-btn{
     background-color: #0588D8;
-    padding: 12px 16px;
+    padding: 10px 16px;
     color: white;
     border-radius: 11px;
     display: flex;
     flex-direction: row;
     align-items: center;
     font-weight: 300;
+    height: 24px;
     -webkit-user-select: none; /* Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
@@ -176,6 +203,24 @@ mat-card { margin:2em;  }
     outline-width: 0px;
     outline-style: none;
     border-style: solid;
+    min-width: 147px;
+}
+
+.dyn-select{
+    min-width: 167px;
+    height: 27px;
+    border-radius: 11px;
+    border-width: 1px;
+    padding: 0 10px;
+    border-color: #CBCBCB;
+
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   appearance: none;
+   background-image: url(assets/common/dropdown-dyngray.png);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center right;
 }
 
 .dyn-textbox::placeholder{

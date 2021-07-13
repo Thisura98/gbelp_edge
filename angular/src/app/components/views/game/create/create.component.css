@@ -38,21 +38,32 @@
     margin-top: 20px;
 }
 
-.details-form{
-    display: flex;
-    flex-direction: column;;
-}
-
-.form-row{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 20px;
-}
-
 .subtitle{
     font-family: 'Roboto Light';
     font-size: 12px;
+}
+
+.options-column{
+    margin-left: 30px;
+}
+
+.dyn-form-col{
+    min-width: 400px;
+}
+
+.tb-user-limit{
+    width: 60px;
+    min-width: auto;
+}
+
+.report-opt-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 120px;
+}
+
+.report-opt-container > dyn-checkbox{
+    width: 300px;
+    margin: 13px 0;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems } from 'src/app/constants/constants';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -10,9 +11,12 @@ import { getGameSidebarItems } from 'src/app/constants/constants';
 })
 export class GameCreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.userService.routeOutIfLoggedOut();
   }
 
 }
