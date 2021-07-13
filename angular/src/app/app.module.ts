@@ -45,6 +45,7 @@ import { DashboardgroupsComponent } from './components/views/dashboards/common/d
 import { GameCreateComponent } from './components/views/game/create/create.component';
 import { DynamicsidebarComponent } from './components/ui/dynamicsidebar/dynamicsidebar.component';
 import { DynCheckboxComponent } from './components/ui/dyn-checkbox/dyn-checkbox.component';
+import { DynBasicTableComponent } from './components/ui/dyn-basic-table/dyn-basic-table.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { DynCheckboxComponent } from './components/ui/dyn-checkbox/dyn-checkbox.
     DashboardgroupsComponent,
     GameCreateComponent,
     DynamicsidebarComponent,
-    DynCheckboxComponent
+    DynCheckboxComponent,
+    DynBasicTableComponent
   ],
   imports: [
     CommonModule,
