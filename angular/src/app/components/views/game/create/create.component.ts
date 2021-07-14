@@ -2,13 +2,14 @@ import { Location } from '@angular/common';
 import { Component, OnInit, AfterContentInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 import { DynBasicTableComponent, DynBasicTableConfig } from 'src/app/components/ui/dyn-basic-table/dyn-basic-table.component';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-
+import { GameEntry } from '../../../../models/game';
 
 @Component({
   selector: 'app-game-create',
@@ -39,10 +40,11 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
 
   isEditMode: boolean = false;
   editingGameId: string | undefined;
+  isLoading: boolean = false;
 
   get sidebarItems(): DynamicSidebarItem[]{
     if (this.isEditMode)
-      return getGameSidebarItems();
+      return getGameSidebarItems('Overview');
     return [];
   }
 
@@ -58,20 +60,23 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
   ngOnInit(): void {
     this.userService.routeOutIfLoggedOut();
 
-    this.activateRoute.data.subscribe((data) => {
+    combineLatest([this.activateRoute.data, this.activateRoute.queryParamMap]).subscribe(([data, route]) => {
+      
       if (data.editMode){
         this.isEditMode = true;
+        this.editingGameId = route.get('gameId') ?? undefined;
         this.ngAfterContentInit();
+        this.loadData();
       }
-    });
-    this.activateRoute.queryParamMap.subscribe((params) => {
-      this.editingGameId = params.get('gameId') ?? undefined;
+
     });
   }
 
   createButtonClicked(){
+    const userId = this.userService.getUserAndToken().user.userId;
     const data = {
       name: this.gameName,
+      author_id: userId,
       type: this.gameType,
       multi_user_limit: this.userLimit,
       level_switch: this.levelSwitching,
@@ -112,6 +117,59 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       },
       replaceUrl: true
     })
+  }
+
+  private loadData(){
+    if (!this.isEditMode)
+      return;
+
+    const loadFailed = (reason: string) => {
+      this.dialogService.showDismissable('Game Load Failed', reason);
+    }
+
+    this.isLoading = true;
+    this.apiService.getGame(this.editingGameId!).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        if (response.success)
+          this.setEditData(response.data);
+        else
+          loadFailed(response.description);
+      },
+      error: (err) => {
+        this.isLoading = false
+        loadFailed(err)
+      }
+    });
+  }
+
+  private setEditData(data: GameEntry){
+
+    // Protect Unauthorized Editing
+
+    const userId = this.userService.getUserAndToken().user.userId;
+    const allowedAuthors = data.author_id.split(',');
+    const inList = allowedAuthors.find(id => id == userId);
+
+    if (inList == undefined){
+      this.dialogService.showDismissable('No Permission', 'You do not have permission to edit this game', () => {
+        this.location.back();
+      });
+      return
+    }
+
+    // Set data to UI
+
+    this.gameName = data.name;
+    this.gameType = data.type;
+    this.userLimit = data.multi_user_limit;
+    this.levelSwitching = data.level_switch;
+    this.progressBoundType = data.progress_bound_type;
+    this.repOptObjectiveTracking = data.rep_opt_objectives == 1;
+    this.repOptGuidanceTrgTracking = data.rep_opt_guidance_trg == 1;
+    this.repOptStudentUsage = data.rep_opt_student_usg == 1;
+    this.repOptScore = data.rep_opt_level_score == 1;
+    this.repOptTiming = data.rep_opt_level_time == 1;
   }
 
   canceledButtonClicked(){

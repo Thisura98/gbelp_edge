@@ -6,7 +6,7 @@
     max-height: 50vh;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 #grad-left-container{
@@ -20,11 +20,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50vw;
 }
 
 #grad-right{
-    width: 50vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,12 +116,11 @@
 /* sections */
 
 .section{
-    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    align-items: center;
+    align-items: stretch;
     margin-top: 20px;
 }
 
@@ -142,7 +139,7 @@
     height: 5px;
     background-color: #C5E9FF;
     border-radius: 4px;
-    margin: 0 0 40px 0;
+    margin: 0 auto 40px auto;
 }
 
 .section-body{
@@ -162,7 +159,7 @@
 @media only screen and (max-width: 800px) {
 
     .section{
-        width: calc(100vw - calc(20px));
+        /* width: calc(100vw - calc(20px)); */
         margin-left: 10px !important;
         padding-right: 10px !important;
     }
@@ -191,7 +188,7 @@
 
     .section-w-img .section-element{
         display: flex;
-        width: 50vw;
+        width: 50%;
         align-self: center;
         align-items: center;
         justify-content: center;
@@ -206,7 +203,6 @@
 
 .section-footer{
     background-color: #F9F9F9;
-    width: 100vw;
     display: flex;
 }
 
@@ -223,6 +219,7 @@
 @media only screen and (max-width: 800px) {   
     .section-footer{
         flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -282,4 +279,8 @@
     color: #666666;
     margin-top: 50px;
     margin-bottom: 60px;
+}
+
+#section-get-started{
+    padding: 0px !important;
 }

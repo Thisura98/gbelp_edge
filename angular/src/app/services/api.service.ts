@@ -2,7 +2,7 @@ import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
-import { ServerResponseGameCreate } from '../models/game';
+import { ServerResponseGameCreate, ServerResponseGameEntry } from '../models/game';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -92,6 +92,14 @@ export class ApiService{
         return this.http.post<ServerResponseGameCreate>(url, data, {
             headers: this.getHeaders()
         })
+    }
+
+    getGame(gameId: number | string): Observable<ServerResponseGameEntry>{
+        const url = this.aurl('game-entry');
+        return this.http.get<ServerResponseGameEntry>(url, {
+            headers: this.getHeaders(),
+            params: {id: gameId}
+        });
     }
 
     // MARK END: Game Entry

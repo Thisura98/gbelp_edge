@@ -4,7 +4,9 @@
 
     <div class="container2">
         <div class="nav">
-            <h4 class="small-heading">Create Game</h4>
+            <h4 class="small-heading">
+                {{ isEditMode ? 'Edit Game' : 'Create Game' }}
+            </h4>
             <app-userstatus></app-userstatus>
         </div>
         <div class="buttons">
@@ -26,7 +28,7 @@
                         <option value="2">Multi Player</option>
                     </select>
                 </div>
-                <div class="form-row subtitle">
+                <div class="form-row subtitle" *ngIf="!isEditMode">
                     More options will appear when you click “Save”
                 </div>
             </div>

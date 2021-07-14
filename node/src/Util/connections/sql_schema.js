@@ -89,6 +89,7 @@ const columns = {
     },
     gameEntry: {
         id: 'id',
+        authorId: 'author_id',
         name: 'name',
         type: 'type',
         levelSwitch: 'level_switch',

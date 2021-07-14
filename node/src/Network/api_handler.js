@@ -52,6 +52,12 @@ function handle(app){
         });
     });
 
+    app.get(aurl('game-entry'), (req, res) => {
+        gamesDAO.getGame(req.query.id, (status, msg, result) => {
+            res.json(new ResponseModel(status, 200, msg, result));
+        });
+    });
+
     // Fallbacks
 
     app.post(`/${apiPrefix}/*`, (req, res) => {
