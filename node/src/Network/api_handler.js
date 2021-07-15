@@ -58,6 +58,12 @@ function handle(app){
         });
     });
 
+    app.get(aurl('all-games'), (req, res) => {
+        gamesDAO.getAllGames((status, msg, result) => {
+            res.json(new ResponseModel(status, 200, msg, result));
+        });
+    });
+
     // Fallbacks
 
     app.post(`/${apiPrefix}/*`, (req, res) => {

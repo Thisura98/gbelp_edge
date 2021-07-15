@@ -23,3 +23,5 @@ export interface GameEntry{
 export interface ServerResponseGameCreate extends ServerResponse<CreateGame>{};
 
 export interface ServerResponseGameEntry extends ServerResponse<GameEntry>{};
+
+export interface ServerResponseAllGameEntries extends ServerResponse<GameEntry[]>{};

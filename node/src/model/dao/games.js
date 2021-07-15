@@ -82,5 +82,25 @@ function getGame(id, callback){
     });
 }
 
+/**
+ * Ret
+ * @param {function(boolean, string, Object} callback success, desc, object containing games
+ */
+function getAllGames(callback){
+    const query = `SELECT * FROM ${db.tables.gameEntry}`;
+    db.getPool().query(query, (err, res, fields) => {
+
+        l.logc('getAll-errors', err);
+
+        if (err == null && typeof res == "object"){
+            callback(true, `Succesfully received ${res.length} games`, res);
+        }
+        else{
+            callback(false, err, null);
+        }
+    });
+}
+
 module.exports.createGame = createGame;
 module.exports.getGame = getGame;
+module.exports.getAllGames = getAllGames;

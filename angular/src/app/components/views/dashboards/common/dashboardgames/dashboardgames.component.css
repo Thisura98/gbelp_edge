@@ -1,3 +1,12 @@
+.dyn-games-contianer{
+    display: flex;
+    flex-direction: row;
+}
+
+.refresh-btn{
+    margin-left: 8px;
+}
+
 .dyn-search1{
     border: 2px solid #529AC6;
     padding: 10px;
@@ -22,8 +31,49 @@
 
 .db-games-table{
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.db-games-rowactioncol{
-    width: 30px;
+.table-heading-row{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.heading-row-data, .heading-row-icon{
+    font-family: 'Roboto Medium';
+}
+
+.entry-row{
+    padding: 4px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.entry-row-data, .heading-row-data{
+    width: 27%;
+}
+
+.entry-row-icon, .heading-row-icon{
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.entry-row-icon > img{
+    width: 22px;
+    height: auto;
+}
+
+/* .entry-row td{
+    border-bottom: 1px solid #BDD5E3; 
+}*/
+
+.entry-row-separator{
+    width: 100%;
+    height: 1px;
+    background-color: #BDD5E3;
 }
