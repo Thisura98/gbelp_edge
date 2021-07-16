@@ -51,6 +51,11 @@ export class ApiService{
 
     // MARK: User API Calls
 
+    refreshToken(): Observable<ServerResponsePlain>{
+        const url = this.aurl('refresh-token');
+        return this.http.get<ServerResponsePlain>(url);
+    }
+
     getUserTypes(): Observable<ServerResponseUserTypes>{
         const url = this.aurl('user-types');
         return this.http.get<ServerResponseUserTypes>(url, { responseType: 'json' });

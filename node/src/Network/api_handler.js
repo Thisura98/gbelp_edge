@@ -20,6 +20,14 @@ function handle(app){
         res.json(new ResponseModel(true, 200, "", null))
     });
 
+    app.get(aurl('refresh-token'), (req, res) => {
+        /**
+         * If Auth headers are ok this will be the response for /api/refresh-token.
+         * Otherwise, see apiAuthorizationMiddleware function.
+         */
+        res.json(new ResponseModel(true, "", null));
+    });
+
     app.get(aurl('user-types'), (req, res) => {
         usersDAO.getDisplayUserTypes((results) => {
             res.json(new ResponseModel(true, 200, "Success", results));
@@ -82,7 +90,6 @@ function handle(app){
  * @param {express.NextFunction} next 
  */
 function apiAuthorizationMiddleware(req, res, next) {
-
     const routeURL = req.originalUrl;
     const safeURLs = ['create-user', 'user-types', 'login'].map((v, i, m) => aurl(v));
     if (safeURLs.find((url, _, __) => url == routeURL)){

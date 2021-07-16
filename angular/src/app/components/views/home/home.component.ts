@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
 import { UserService } from '../../../services/user.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent{
+export class HomeComponent implements OnInit{
 
   get isLoggedIn(): boolean{
     return this.userService.getIsLoggedIn()
@@ -15,9 +16,21 @@ export class HomeComponent{
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private apiService: ApiService
   ) { } 
 
+  ngOnInit(){
+    console.log('ngOninit');
+    if (this.userService.getIsLoggedIn()){
+      console.log('checking user');
+      this.refreshToken();
+    }
+  }
+
+  refreshToken(){
+    this.apiService.refreshToken().subscribe((_) => {});
+  }
 
   registerClicked(){
     this.router.navigate(['/register']);
