@@ -43,58 +43,18 @@
         </div>
 
         <ng-container *ngFor="let entry of data">
-            <div class="entry-row">
+            <div class="entry-row dyn-anim-fadein">
                 <div class="entry-row-data">{{entry.name}}</div>
                 <div class="entry-row-data">{{['', 'Single Player', 'Multi Player'][entry.type]}}</div>
                 <div class="entry-row-data">{{'N/A'}}</div>
                 <div class="entry-row-icon"><img src="assets/dashboard/ico_clone.png"></div>
-                <div class="entry-row-icon"><img src="assets/dashboard/ico_edit.png"></div>
+                <div class="entry-row-icon" (click)="editGameClicked(entry.id)">
+                    <img src="assets/dashboard/ico_edit.png">
+                </div>
                 <div class="entry-row-icon"><img src="assets/dashboard/ico_delete.png"></div>
                 <div class="entry-row-icon"><img src="assets/dashboard/ico_play.png"></div>
             </div>
-            <div class="entry-row-separator"></div>
+            <div class="entry-row-separator dyn-anim-fadein"></div>
         </ng-container>
     </div>
-
-    <!-- <table class="db-games-table">
-        <thead>
-            <tr class="db-games-header-row">
-                <th >Game</th>
-                <th >Type</th>
-                <th >Usage</th>
-                <th class="db-games-rowactioncol">Clone</th>
-                <th class="db-games-rowactioncol">Edit</th>
-                <th class="db-games-rowactioncol">Delete</th>
-                <th class="db-games-rowactioncol">Play</th>
-            </tr>
-        </thead>
-
-        <tbody *ngIf="isLoading" >
-            <tr class="loading-row">
-                <td colspan="7">
-                    <div class="loading-row-content">
-                        <mat-progress-spinner class="load-container" mode="indeterminate" [diameter]="30">
-                        </mat-progress-spinner>
-                        Loading...
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-
-        <tbody *ngIf="!isLoading">
-            <ng-container *ngFor="let entry of data">
-                <tr class="entry-row">
-                    <td>{{entry.name}}</td>
-                    <td>{{['', 'Single Player', 'Multi Player'][entry.type]}}</td>
-                    <td>{{'N/A'}}</td>
-                    <td class="entry-row-icon"><img src="assets/dashboard/ico_clone.png"></td>
-                    <td class="entry-row-icon"><img src="assets/dashboard/ico_edit.png"></td>
-                    <td class="entry-row-icon"><img src="assets/dashboard/ico_delete.png"></td>
-                    <td class="entry-row-icon"><img src="assets/dashboard/ico_play.png"></td>
-                </tr>
-                <tr><td class="entry-row-separator" colspan="7"></td></tr>
-            </ng-container>
-            
-        </tbody>
-    </table> -->
 </div>

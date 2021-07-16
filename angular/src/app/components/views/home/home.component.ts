@@ -21,9 +21,7 @@ export class HomeComponent implements OnInit{
   ) { } 
 
   ngOnInit(){
-    console.log('ngOninit');
     if (this.userService.getIsLoggedIn()){
-      console.log('checking user');
       this.refreshToken();
     }
   }

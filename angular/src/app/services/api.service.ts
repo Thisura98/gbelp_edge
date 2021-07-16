@@ -53,7 +53,9 @@ export class ApiService{
 
     refreshToken(): Observable<ServerResponsePlain>{
         const url = this.aurl('refresh-token');
-        return this.http.get<ServerResponsePlain>(url);
+        return this.http.get<ServerResponsePlain>(url, {
+            headers: this.getHeaders()
+        });
     }
 
     getUserTypes(): Observable<ServerResponseUserTypes>{
@@ -95,6 +97,13 @@ export class ApiService{
     createGame(data: any): Observable<ServerResponseGameCreate>{
         const url = this.aurl('create-game');
         return this.http.post<ServerResponseGameCreate>(url, data, {
+            headers: this.getHeaders()
+        })
+    }
+
+    editGame(data: any): Observable<ServerResponsePlain>{
+        const url = this.aurl('edit-game');
+        return this.http.put<ServerResponsePlain>(url, data, {
             headers: this.getHeaders()
         })
     }

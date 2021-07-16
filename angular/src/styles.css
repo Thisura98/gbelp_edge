@@ -232,3 +232,16 @@ mat-card { margin:2em;  }
     color: #959595;
     font-style: italic;
 }
+
+@keyframes dyn-anim-appear{
+    from { opacity: 0%; }
+    to { opacity: 100%; }
+}
+
+.dyn-anim-fadein{
+    animation-name: dyn-anim-appear;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+}

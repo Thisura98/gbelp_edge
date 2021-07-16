@@ -39,7 +39,7 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
   disableTimingReports: boolean = false
 
   isEditMode: boolean = false;
-  editingGameId: string | undefined;
+  editingGameId: number | undefined;
   isLoading: boolean = false;
 
   get sidebarItems(): DynamicSidebarItem[]{
@@ -64,7 +64,7 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       
       if (data.editMode){
         this.isEditMode = true;
-        this.editingGameId = route.get('gameId') ?? undefined;
+        this.editingGameId = parseInt(route.get('gameId') ?? "-1", 10);
         this.ngAfterContentInit();
         this.loadData();
       }
@@ -74,7 +74,8 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
 
   createButtonClicked(){
     const userId = this.userService.getUserAndToken().user.userId;
-    const data = {
+    let data = {
+      id: 0,
       name: this.gameName,
       author_id: userId,
       type: this.gameType,
@@ -88,18 +89,40 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       rep_opt_level_time: this.repOptTiming
     }
 
-    // get newly created game id
-    this.apiService.createGame(data).subscribe({
-      next: (response) => {
-        if (response.data.gameId != null)
-          this.gameCreatedSuccessfully(response.data.gameId);
-        else
-          this.notifyGameCreationError("Unknown error")
-      },
-      error: (err) => {
-        this.notifyGameCreationError(err as string);
-      },
-    });
+    /// MARK: Call Create game or Edit Game accordingly
+
+    if (this.isEditMode){
+
+      // Save Edited Game
+      data.id = this.editingGameId!;
+      this.apiService.editGame(data).subscribe({
+        next: (response) => {
+          if (response.success)
+            this.dialogService.showDismissable('Saved Successfully', '');
+          else
+            this.notifyGameCreationError(response.description);
+        },
+        error: (err) => {
+          this.notifyGameCreationError(JSON.stringify(err));
+        }
+      })
+    }
+    else{
+
+      // Create new game, and 
+      // get newly created game id
+      this.apiService.createGame(data).subscribe({
+        next: (response) => {
+          if (response.data.gameId != null)
+            this.gameCreatedSuccessfully(response.data.gameId);
+          else
+            this.notifyGameCreationError("Unknown error")
+        },
+        error: (err) => {
+          this.notifyGameCreationError(err as string);
+        },
+      });
+    }
   }
 
   private notifyGameCreationError(message: string | null){

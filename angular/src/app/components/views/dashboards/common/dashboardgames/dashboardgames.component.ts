@@ -31,7 +31,19 @@ export class DashboardgamesComponent implements OnInit {
   }
 
   refreshClicked(){
+    this.data = [];
     this.loadData();
+  }
+
+  editGameClicked(id: number){
+    this.router.navigate(
+      ['/game/edit'],
+      {
+        queryParams: {
+          gameId: id
+        }
+      }
+    )
   }
 
   private loadData(){
@@ -54,7 +66,6 @@ export class DashboardgamesComponent implements OnInit {
   private notifydataLoaded(response: ServerResponseAllGameEntries){
     this.isLoading = false
     this.data = response.data;
-    console.log('Data loaded', response);
   }
 
 }

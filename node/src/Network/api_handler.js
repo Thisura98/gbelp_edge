@@ -60,6 +60,12 @@ function handle(app){
         });
     });
 
+    app.put(aurl('edit-game'), (req, res) => {
+        gamesDAO.editGame(req.body, (status, msg, result) => {
+            res.json(new ResponseModel(status, 200, msg, result));
+        })
+    });
+
     app.get(aurl('game-entry'), (req, res) => {
         gamesDAO.getGame(req.query.id, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));

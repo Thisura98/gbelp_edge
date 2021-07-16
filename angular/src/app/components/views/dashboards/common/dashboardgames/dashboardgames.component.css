@@ -52,6 +52,10 @@
     align-items: center;
 }
 
+.entry-row:hover{
+    background-color: rgba(5, 136, 216, 15%);
+}
+
 .entry-row-data, .heading-row-data{
     width: 27%;
 }
@@ -66,6 +70,10 @@
 .entry-row-icon > img{
     width: 22px;
     height: auto;
+}
+
+.entry-row-icon{
+    cursor: pointer;
 }
 
 /* .entry-row td{
