@@ -122,8 +122,6 @@ function getGame(id, callback){
         sql: "SELECT * FROM ?? WHERE ?? = ? LIMIT 1",
         values: [db.tables.gameEntry, db.columns.gameEntry.id, id]
     }, (err, res, fields) => {
-        // l.logc(JSON.stringify(err), 'getGame-err');
-        // l.logc(JSON.stringify(res), 'getGame-result', id);
         if (err == null && res.length > 0){
             callback(true, `Successfully retrieved game id ${id}`, res[0])
         }
