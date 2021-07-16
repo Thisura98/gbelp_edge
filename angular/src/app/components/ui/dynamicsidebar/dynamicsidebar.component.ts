@@ -70,6 +70,13 @@ export class DynamicsidebarComponent implements OnInit {
   @Output()
   onClick = new EventEmitter<DynamicSidebarItem>();
 
+  @Output()
+  /**
+   * Event that handles back event. If provided,
+   * default back action will not occur.
+   */
+  onBack = new EventEmitter();
+
   isScreenSmall = false;
   isItemsExpanded = true;
 
@@ -151,7 +158,10 @@ export class DynamicsidebarComponent implements OnInit {
   }
 
   onBackClicked(){
-    this.location.back();
+    if (this.onBack.observers.length > 0)
+      this.onBack.emit();
+    else
+      this.location.back();
   }
 
   private navigateInheritingParams(item: DynamicSidebarItem){

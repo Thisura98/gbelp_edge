@@ -38,6 +38,22 @@ export class UserService{
         };
     }
 
+    /**
+     * Returns the navigation link safe user type, if 
+     * user is logged in.
+     */
+    getNavSafeUserType(): string | null{
+        const user = this.getUserAndToken().user;
+        if (user.userTypeName == null)
+            return null;
+        
+        const userType = user.userTypeName.toLowerCase();
+        
+        if (userType == 'admin')
+            return 'teacher';
+        return userType;
+    }
+
     getIsLoggedIn(): boolean{
         const res = this.getUserAndToken();
         if (res.user.userId != null && res.token != null)

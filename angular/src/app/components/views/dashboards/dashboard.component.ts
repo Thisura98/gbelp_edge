@@ -31,11 +31,15 @@ export class DashboardComponent implements OnInit {
     // stay for now
     setTimeout(() => {
       const userId = this.userService.getUserAndToken().user.userId!;
+      const userType = this.userService.getNavSafeUserType();
+
+      this.router.navigate([`/dashboard/${userType}/overview`], {replaceUrl: true});
+      /*
       this.apiService.getUserType(userId).subscribe(r => {
         console.log("DashboardComponent", r);
         const name = r.data.name == 'admin' ? 'teacher' : r.data.name;
         this.router.navigate([`/dashboard/${name}/overview`], {replaceUrl: true});
-      })
+      })*/
     }, 1000);
 
   }

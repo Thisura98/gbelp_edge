@@ -256,4 +256,11 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
     this.objectivesTable!.addRow();
   }
 
+  handleBack(){
+    const type = this.userService.getNavSafeUserType();
+    this.router.navigate([
+      `/dashboard/${type}/games`
+    ]);
+  }
+
 }
