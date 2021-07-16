@@ -14,7 +14,10 @@ import { GameEntry } from '../../../../models/game';
 @Component({
   selector: 'app-game-create',
   templateUrl: './create.component.html',
-  styleUrls: ['./create.component.css']
+  styleUrls: [
+    './create.component.css',
+    '../common/game.commonstyles.css'
+  ]
 })
 export class GameCreateComponent implements OnInit, AfterContentInit {
 

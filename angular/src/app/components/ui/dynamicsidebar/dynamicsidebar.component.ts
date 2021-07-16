@@ -1,6 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 export interface DynamicSidebarItem{
   name: string
@@ -12,7 +14,11 @@ export interface DynamicSidebarItem{
   /**
    * Selected image
    */
-  s: string
+  s: string,
+  /**
+   * Path to linked component
+   */
+  path: string | undefined
 }
 
 @Component({
@@ -34,6 +40,7 @@ export interface DynamicSidebarItem{
       <div class="dyn-sidebar-item clickable" 
         *ngFor="let item of items" 
         [ngClass]="{dynSidebarItemSelected: item.sel}"
+        (click)="onItemClicked(item)"
       >
         <img class="dyn-sidebar-item-img" src="{{item.sel ? item.s : item.n}}">
         <div>{{item.name}}</div>
@@ -47,6 +54,18 @@ export class DynamicsidebarComponent implements OnInit {
 
   @Input()
   items: DynamicSidebarItem[] = []
+
+  @Input()
+  /**
+   * If true, will use paths from items array to navigate on click.
+   */
+  followPath: boolean = true
+
+  @Input()
+  /**
+   * If true, forwards current query params to new path
+   */
+  inheritParams: boolean = true
 
   @Output()
   onClick = new EventEmitter<DynamicSidebarItem>();
@@ -86,7 +105,9 @@ export class DynamicsidebarComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private location: Location
+    private location: Location,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
 
   }
@@ -107,7 +128,22 @@ export class DynamicsidebarComponent implements OnInit {
   }
 
   onItemClicked(item: DynamicSidebarItem){
-    this.onClick?.emit(item);
+    console.log(JSON.stringify(item));
+
+    if (item.sel)
+      return;
+
+    if (this.onClick.observers.length == 0 && this.followPath && item.path != undefined){
+      if (this.inheritParams){
+        this.navigateInheritingParams(item)
+      }
+      else{
+        this.router.navigate([item.path]);
+      }
+    }
+    else{
+      this.onClick?.emit(item);
+    }
   }
 
   toggleExpand(){
@@ -116,6 +152,14 @@ export class DynamicsidebarComponent implements OnInit {
 
   onBackClicked(){
     this.location.back();
+  }
+
+  private navigateInheritingParams(item: DynamicSidebarItem){
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.router.navigate([item.path], {
+        queryParams: params
+      })
+    });
   }
 
 }
