@@ -48,6 +48,8 @@ import { DynCheckboxComponent } from './components/ui/dyn-checkbox/dyn-checkbox.
 import { DynBasicTableComponent } from './components/ui/dyn-basic-table/dyn-basic-table.component';
 import { GameEditResourcesComponent } from './components/views/game/edit/resources/resources.component';
 import { NotFoundComponent } from './components/views/not-found/not-found.component';
+import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.component';
+
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { NotFoundComponent } from './components/views/not-found/not-found.compon
     RegisterComponent,
     SimpleDialogComponent,
     Simple2DialogComponent,
+    FileUploadDialogComponent,
     LoginComponent,
     StudentDashboardComponent,
     TeacherDashboardComponent,

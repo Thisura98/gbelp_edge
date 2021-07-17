@@ -11,7 +11,10 @@
         </div>
         <div class="buttons">
             <div class="dyn-btn clickable btn-save">Save</div>
-            <div class="dyn-btn clickable btn-cancel">Cancel</div>
+            <div class="dyn-btn clickable btn-upload" (click)="uploadResourceClicked()">Upload Resource</div>
+            <input type="file" #resourceUploadInput class="file-uploader" (change)="uploadInputFileChanged($event)">
         </div>
     </div>
+
+    <dialog-fileuplaod *ngIf="isUploading" [progressFloat]="uploadProgress"></dialog-fileuplaod>
 </div>

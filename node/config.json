@@ -3,5 +3,6 @@
     "port_express": 80,
     "port_socketio": 100,
     "angular_directory": "dist",
-    "allow_cors_on": "http://localhost:4200"
+    "allow_cors_on": "http://localhost:4200",
+    "fs_res_path": "fs/res_upload"
 }

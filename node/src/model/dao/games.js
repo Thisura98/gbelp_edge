@@ -151,7 +151,17 @@ function getAllGames(callback){
     });
 }
 
+/**
+ * Upload a FormData resource to the file system sent by frontend
+ * @param {FormData} data Sent from Frontend
+ * @param {function(boolean, string)} callback 
+ */
+function uploadGameResource(data, callback){
+
+}
+
 module.exports.createGame = createGame;
 module.exports.editGame = editGame;
 module.exports.getGame = getGame;
 module.exports.getAllGames = getAllGames;
+module.exports.uploadGameResource = uploadGameResource;

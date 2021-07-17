@@ -1,11 +1,12 @@
 import { isDevMode, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
 import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameEntry } from '../models/game';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
+import { tap } from 'rxjs/operators';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -125,6 +126,60 @@ export class ApiService{
 
     // MARK END: Game Entry
 
+    // MARK: Game Editing
+
+    uploadGameResource(data: FormData, progressCallback: (progress: number) => void): Observable<ServerResponsePlain>{
+        const url = this.aurl('upload-resource');
+        const uploadingRequest = new HttpRequest('POST', url, data, {
+            headers: this.getHeaders(),
+            reportProgress: true
+        });
+        console.log('Starting upload...');
+        let observable = this.http.request(uploadingRequest).pipe(
+            tap((event) => {
+                console.log('event!');
+                switch(event.type){
+                    case HttpEventType.UploadProgress:
+                        console.log('Progress Event:', event.loaded, (event.total ?? 1))
+                        progressCallback(event.loaded / (event.total ?? 1))
+                        break;
+
+                    case HttpEventType.Response:
+                        let handled = false;
+                        if (event.body instanceof HttpResponse){
+                            if (event.body as HttpResponse<ServerResponsePlain>){
+                                handled = true;
+                                // subscriber.next((event.body as HttpResponse<ServerResponsePlain>)?.body ?? undefined);
+                            }
+                        }
+                        if (!handled){
+                            console.log('uploadGameResource', 'Please Debug:', JSON.stringify(event));
+                        }
+                        break;
+
+                    default:
+                        console.log('uploadGameResource', 'Ignoring event', JSON.stringify(event));
+                }
+            },
+            (error) => {
+                console.log('error', JSON.stringify(error));
+                //subscriber.error(error);
+            })
+        );
+
+        observable.subscribe((e) => {
+            console.log('Event Occured!', JSON.stringify(e));
+        })
+
+        return new Observable<ServerResponsePlain>();
+        /*
+        return new Observable<ServerResponsePlain>((subscriber) => {
+            
+        });*/
+    }
+
+    // MARK END: Game Editing
+
     // MARK: Session API calls
 
     // @DEMO
@@ -155,5 +210,26 @@ export class ApiService{
             params: data
         });
     }
+
+    // MARK: Private Methods
+
+    /*
+    private getEventMessage(event: HttpEvent<any>) {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            return `Uploading file "${file.name}" of size ${file.size}.`;
+      
+          case HttpEventType.UploadProgress:
+            // Compute and show the % done:
+            const percentDone = Math.round(100 * event.loaded / (event.total ?? 0));
+            return `File "${file.name}" is ${percentDone}% uploaded.`;
+      
+          case HttpEventType.Response:
+            return `File "${file.name}" was completely uploaded!`;
+      
+          default:
+            return `File "${file.name}" surprising upload event: ${event.type}.`;
+        }
+    }*/
 
 }

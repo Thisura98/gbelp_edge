@@ -1,10 +1,15 @@
 const express = require('express');
+const multer = require('multer');
 const usersDAO = require('../model/dao/users');
 const gamesDAO = require('../model/dao/games');
 const statusCodes = require('./status_codes');
+const pc = require('../util/parseconfig');
 
+const config = pc.parseConfig('config.json');
 const { ResponseModel } = require('../model/models/common');
 const apiPrefix = 'api'
+
+const upload = multer({dest: config.fs_res_path});
 
 /**
  * Handler for API calls
@@ -76,6 +81,17 @@ function handle(app){
         gamesDAO.getAllGames((status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
+    });
+
+    // MARK: Game Editing
+
+    // README: https://www.npmjs.com/package/multer
+
+    app.post(aurl('upload-resource'), upload.single('uploaddata'), (req, res) => {
+        console.log('upload-resource-body', JSON.stringify(req.file), JSON.stringify(req.body));
+        gamesDAO.uploadGameResource(res.body, (status, msg) => {
+            res.json(new ResponseModel(status, 200, msg, null));
+        })
     });
 
     // Fallbacks

@@ -47,6 +47,9 @@ app.get('/', (req, res) => {
     res.sendFile(indexFile);
 });
 
+// : Server File System Files
+app.get(`/${config.fs_res_path}/*`, express.static(`${__dirname}/`, {fallthrough: false}));
+
 // : The Angular Static files (js, css)
 app.get('*.*', express.static(`${__dirname}/${constAngularDirectory}`, {fallthrough: false}));
 
