@@ -49,6 +49,7 @@ import { DynBasicTableComponent } from './components/ui/dyn-basic-table/dyn-basi
 import { GameEditResourcesComponent } from './components/views/game/edit/resources/resources.component';
 import { NotFoundComponent } from './components/views/not-found/not-found.component';
 import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.component';
+import { GameDeleteComponent } from './components/views/game/delete/delete.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.co
     DynCheckboxComponent,
     DynBasicTableComponent,
     GameEditResourcesComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    GameDeleteComponent
   ],
   imports: [
     CommonModule,

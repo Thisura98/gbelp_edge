@@ -14,6 +14,7 @@ import { DashboardgroupsComponent } from './components/views/dashboards/common/d
 import { GameCreateComponent } from './components/views/game/create/create.component';
 import { GameEditResourcesComponent } from './components/views/game/edit/resources/resources.component';
 import { NotFoundComponent } from './components/views/not-found/not-found.component';
+import { GameDeleteComponent } from './components/views/game/delete/delete.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
   {path: "dashboard/parent", component: ParentDashboardComponent},
   {path: "game/create", component: GameCreateComponent, data: {editMode: false}},
   {path: "game/edit", component: GameCreateComponent, data: {editMode: true}},
+  {path: "game/delete", component: GameDeleteComponent},
   {path: "game/edit/resources", component: GameEditResourcesComponent},
   {path: "**", component: NotFoundComponent}
 ];

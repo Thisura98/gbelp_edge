@@ -46,6 +46,17 @@ export class DashboardgamesComponent implements OnInit {
     )
   }
 
+  deleteGameClicked(id: number){
+    this.router.navigate(
+      ['/game/delete'],
+      {
+        queryParams: {
+          gameId: id
+        }
+      }
+    )
+  }
+
   private loadData(){
     this.isLoading = true;
     this.apiService.getAllGames().subscribe({

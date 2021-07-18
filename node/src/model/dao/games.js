@@ -175,6 +175,77 @@ function getAllGames(callback){
 }
 
 /**
+ * Delete a game if it belongs to the provided userId.
+ * @param {string} gameId 
+ * @param {string} userId 
+ * @param {function(boolean, string, Object): void} callback 
+ */
+function deleteGame(gameId, userId, callback){
+    const t = sql.tables.gameEntry;
+    const c = sql.columns.gameEntry;
+    const selectAuthorsQuery = `SELECT ${c.authorId}, ${c.projectId} 
+        FROM ${t} 
+        WHERE ${c.id} = '${gameId}'
+    `;
+
+    sql.getPool().query(selectAuthorsQuery, (q1err, q1res, q1fields) => {
+        if (q1err != null || typeof q1res != 'object' || q1res.length == 0){
+            callback(false, 'Could not find Game Entry', null);
+            return;
+        }
+
+        // csv of author ids - checked allowed to delete
+        const authors = String(q1res[0][c.authorId]).split(',');
+
+        console.log('deleteGame-delete', 'authors', JSON.stringify(authors), 'userId', userId);
+        if (authors.find(a => a == userId) == undefined){
+            callback(false, 'User not allowed to delete this game', null);
+            return
+        }
+
+        // allowed to delete
+        const projectId = q1res[0][c.projectId];
+        deleteGameData(gameId, projectId, (status, description) => {
+            callback(status, description, null);
+        });
+    })
+}
+
+/**
+ * Internal function to delete data related to a game.
+ * @param {string} gameId 
+ * @param {string} projectId
+ * @param {function(boolean, string): void} callback 
+ */
+function deleteGameData(gameId, projectId, callback){
+    const t = sql.tables.gameEntry;
+    const c = sql.columns.gameEntry;
+    const deleteGameEntryQuery = `DELETE FROM ${t}
+        WHERE ${c.id} = '${gameId}'
+    `;
+
+    // Delete game entry
+    sql.getPool().query(deleteGameEntryQuery, (err, res, fields) => {
+        if (err != null || err != undefined){
+            l.logc(JSON.stringify(err), 'deleteGameData-err')
+            callback(false, 'Delete operation failed for Game Entry');
+            return;
+        }
+
+        // Delete project file
+        const GameProject = mongo.models.GameProject;
+        GameProject.deleteOne({_id: projectId}, (err2, res2) => {
+            if (err2){
+                callback(false, 'Delete operation failed for Game Project ' + JSON.stringify(err2));
+                return
+            }
+
+            callback(true, 'Deleted Game Entry and Project Files');
+        })
+    });
+}
+
+/**
  * Upload a FormData resource to the file system sent by frontend
  * @param {FormData} data Sent from Frontend
  * @param {function(boolean, string)} callback 
@@ -188,3 +259,4 @@ module.exports.editGame = editGame;
 module.exports.getGame = getGame;
 module.exports.getAllGames = getAllGames;
 module.exports.uploadGameResource = uploadGameResource;
+module.exports.deleteGame = deleteGame;

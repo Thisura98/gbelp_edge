@@ -71,6 +71,13 @@ function handle(app){
         })
     });
 
+    app.delete(aurl('delete-game'), (req, res) => {
+        const userId = req.header('uid');
+        gamesDAO.deleteGame(req.query.gameId, userId, (status, msg, _) => {
+            res.json(new ResponseModel(status, 200, msg));
+        });
+    });
+
     app.get(aurl('game-entry'), (req, res) => {
         gamesDAO.getGame(req.query.id, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));

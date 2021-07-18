@@ -109,6 +109,13 @@ export class ApiService{
         })
     }
 
+    deleteGame(gameId: string): Observable<ServerResponsePlain>{
+        const url = this.aurl(`delete-game?gameId=${gameId}`);
+        return this.http.delete<ServerResponsePlain>(url, {
+            headers: this.getHeaders() 
+        });
+    }
+
     getGame(gameId: number | string): Observable<ServerResponseGameEntry>{
         const url = this.aurl('game-entry');
         return this.http.get<ServerResponseGameEntry>(url, {

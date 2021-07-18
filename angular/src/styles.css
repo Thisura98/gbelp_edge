@@ -199,6 +199,12 @@ mat-card { margin:2em;  }
     margin-left: 10px;
 }
 
+body .dyn-btn-disabled{
+    background-color: gray;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .dyn-textbox{
     height: 27px;
     border-radius: 11px;
