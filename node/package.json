@@ -1,0 +1,24 @@
+{
+  "name": "edge_gbelp",
+  "version": "1.0.0",
+  "description": "Code for the backend server of the project",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "luxon": "^1.27.0",
+    "multer": "^1.4.2",
+    "mongoose": "^5.13.3",
+    "nodemon": "^2.0.7",
+    "mysql": "^2.18.1",
+    "socket.io": "^4.1.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
