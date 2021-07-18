@@ -50,7 +50,9 @@ function createGame(data, callback){
         
         // create games document in mongo 
 
-        // const project = new mongo.models.
+        // const project = new mongo.models.GameProject.
+        const project = new mongo.models.GameProject();
+        
 
         if (err == null){
             const response = {
