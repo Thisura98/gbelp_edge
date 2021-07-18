@@ -10,8 +10,9 @@ const { DateTime } = require('luxon');
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
 function createGame(data, callback){
+
     const c = sql.columns.gameEntry;
-    const columns_arr = [
+    let columns_arr = [
         c.id,
         c.authorId,
         c.name, c.type, c.levelSwitch, 
@@ -22,8 +23,7 @@ function createGame(data, callback){
         c.reportOptLevelScore,
         c.reportOptLevelTime
     ]
-    const columns = columns_arr.join(', ');
-    const values = [
+    let values = [
         0,
         data.author_id,
         data.name, data.type, data.level_switch,
@@ -34,36 +34,51 @@ function createGame(data, callback){
         data.rep_opt_level_score,
         data.rep_opt_level_time
     ]
-    const template = `${Array(columns_arr.length).fill('?')}`
 
-    const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
+    // create game entry in sql,
+    // then create games document in mongo
 
-    l.logc(query, 'createGame-query');
+    const proj = new mongo.models.GameProject({ resources: [] });
 
-    // create game entry in sql then,
-    // create games document in mongo
-
-    sql.getPool().query({
-        sql: query,
-        values: values
-    }, (err, results, fields) => {
-        
-        // create games document in mongo 
-
-        // const project = new mongo.models.GameProject.
-        const project = new mongo.models.GameProject();
-        
-
-        if (err == null){
-            const response = {
-                gameId: results.insertId
-            };
-            callback(true, "Successfully inserted", response);
+    proj.save((mongo_error, document) => {
+        if (mongo_error != null){
+            callback(false, 'Error creating Game Project', null);
+            return;
         }
-        else{
-            callback(false, "Server Error occured", null);
-        }
-    });
+        
+        /**
+         * .toString() is IMPORTANT. document._id are ObjectIDs
+         * and not strings. Trying to pass it to MySQL with throw
+         * head scratching errors where, the 'INSERT INTO'
+         * contains values such as '_bsonType'.
+         * 
+         * Had to learn this the hard way. DO NOT FORGET!
+         */
+        const projectId = document._id.toString();
+
+        columns_arr.push(c.projectId);
+        values.push(projectId);
+
+        const template = `${Array(columns_arr.length).fill('?')}`
+        const columns = columns_arr.join(', ');
+        const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
+
+        sql.getPool().query({
+            sql: query,
+            values: values
+        }, (err, results, fields) => {
+
+            if (err == null){
+                const response = {
+                    gameId: results.insertId
+                };
+                callback(true, "Successfully inserted", response);
+            }
+            else{
+                callback(false, "Server Error occured", null);
+            }
+        });
+    }) 
 }
 
 /**

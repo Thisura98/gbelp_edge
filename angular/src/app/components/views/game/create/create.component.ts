@@ -116,7 +116,7 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       // get newly created game id
       this.apiService.createGame(data).subscribe({
         next: (response) => {
-          if (response.data.gameId != null)
+          if (response.data?.gameId != undefined)
             this.gameCreatedSuccessfully(response.data.gameId);
           else
             this.notifyGameCreationError("Unknown error")

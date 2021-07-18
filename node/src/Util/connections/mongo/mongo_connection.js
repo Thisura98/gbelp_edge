@@ -14,7 +14,7 @@ var db = null;
 
 function initialize(){
     // 'edge_gbelp' is the name of our Mongo Database
-    const url = 'mongodb://localhost:7000/edge_gbelp';
+    const url = 'mongodb://root:root@localhost:7000/edge_gbelp?authSource=admin';
     const options = {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -35,4 +35,4 @@ function initialize(){
 }
 
 module.exports.initialize = initialize;
-module.exports.models = schema.models;
+module.exports.models = schema
