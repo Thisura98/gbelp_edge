@@ -1,5 +1,6 @@
 const l = require('../../util/logger');
-const db = require('../../util/connections/sql_connection');
+const sql = require('../../util/connections/sql/sql_connection');
+const mongo = require('../../util/connections/mongo/mongo_connection');
 const { v4: uuidv4 } = require('uuid');
 const { DateTime } = require('luxon');
 
@@ -9,7 +10,7 @@ const { DateTime } = require('luxon');
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
 function createGame(data, callback){
-    const c = db.columns.gameEntry;
+    const c = sql.columns.gameEntry;
     const columns_arr = [
         c.id,
         c.authorId,
@@ -35,16 +36,21 @@ function createGame(data, callback){
     ]
     const template = `${Array(columns_arr.length).fill('?')}`
 
-    const query = `INSERT INTO ${db.tables.gameEntry} (${columns}) VALUES (${template})`;
+    const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
 
     l.logc(query, 'createGame-query');
-    db.getPool().query({
+
+    // create game entry in sql then,
+    // create games document in mongo
+
+    sql.getPool().query({
         sql: query,
         values: values
     }, (err, results, fields) => {
         
-        l.logc(JSON.stringify(err), 'createGame-err');
-        l.logc(JSON.stringify(results), 'createGame-results');
+        // create games document in mongo 
+
+        // const project = new mongo.models.
 
         if (err == null){
             const response = {
@@ -64,7 +70,7 @@ function createGame(data, callback){
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
 function editGame(data, callback){
-    const c = db.columns.gameEntry;
+    const c = sql.columns.gameEntry;
     const columns_arr = [
         c.authorId,
         c.name, c.type, c.levelSwitch, 
@@ -90,14 +96,14 @@ function editGame(data, callback){
         return `${v} = ?`
     }).join(", ");
 
-    const query = `UPDATE ${db.tables.gameEntry} SET ${columnsAndTemplate} WHERE ${c.id} = ?`;
+    const query = `UPDATE ${sql.tables.gameEntry} SET ${columnsAndTemplate} WHERE ${c.id} = ?`;
 
     console.log('editGame-query', JSON.stringify({
         sql: query,
         values: values
     }));
 
-    db.getPool().query({
+    sql.getPool().query({
         sql: query,
         values: values,
     }, (err, res, fields) => {
@@ -118,9 +124,9 @@ function editGame(data, callback){
  * @param {function(boolean, string, Object | null)} callback success?, desc, result
  */
 function getGame(id, callback){
-    db.getPool().query({
+    sql.getPool().query({
         sql: "SELECT * FROM ?? WHERE ?? = ? LIMIT 1",
-        values: [db.tables.gameEntry, db.columns.gameEntry.id, id]
+        values: [sql.tables.gameEntry, sql.columns.gameEntry.id, id]
     }, (err, res, fields) => {
         if (err == null && res.length > 0){
             callback(true, `Successfully retrieved game id ${id}`, res[0])
@@ -139,8 +145,8 @@ function getGame(id, callback){
  * @param {function(boolean, string, Object} callback success, desc, object containing games
  */
 function getAllGames(callback){
-    const query = `SELECT * FROM ${db.tables.gameEntry}`;
-    db.getPool().query(query, (err, res, fields) => {
+    const query = `SELECT * FROM ${sql.tables.gameEntry}`;
+    sql.getPool().query(query, (err, res, fields) => {
 
         if (err == null && typeof res == "object"){
             callback(true, `Succesfully received ${res.length} games`, res);

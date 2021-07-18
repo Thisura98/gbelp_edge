@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const { tables, columns } = require('./sql_schema');
-const l = require('../../util/logger');
+const l = require('../../logger');
 
 /**
  * Initial table schemas (requires a db - does not create the db).

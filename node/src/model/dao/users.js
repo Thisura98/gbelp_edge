@@ -1,5 +1,5 @@
 const l = require('../../util/logger');
-const db = require('../../util/connections/sql_connection');
+const db = require('../../util/connections/sql/sql_connection');
 const { v4: uuidv4 } = require('uuid');
 const { DateTime } = require('luxon');
 

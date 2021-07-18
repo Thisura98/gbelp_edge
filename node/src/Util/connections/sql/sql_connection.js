@@ -1,8 +1,13 @@
-const l = require('../logger');
+const l = require('../../logger');
 const mysql = require('mysql');
 const { DateTime } = require('luxon');
 const { tables, columns } = require('./sql_schema');
 const migrations = require('./sql_migrate');
+
+/**
+ * Log Tag
+ */
+const tag = 'mysql';
 
 /**
  * Main DB pool
@@ -40,9 +45,11 @@ function initialize(){
     // so we're providing an explicit connection
     pool.getConnection((err, db) => {
         if (err)
-            l.logc(err, 'mysql:initialize');
-        else
+            l.logc(err, tag + ":init");
+        else{
             migrations.runMigrations(db);
+            l.logc('MySQL Connected', tag);
+        }
     })
 }
 

@@ -3,7 +3,8 @@ const pc = require('./src/util/parseconfig');
 const l = require('./src/util/logger');
 const apiHandler = require('./src/network/api_handler');
 const gameApiHandler = require('./src/network/game_api_handler');
-const sql = require('./src/util/connections/sql_connection');
+const sql = require('./src/util/connections/sql/sql_connection');
+const mongo = require('./src/util/connections/mongo/mongo_connection');
 
 const express = require('express');
 const bp = require('body-parser'); // This is lame!
@@ -19,6 +20,7 @@ const indexFile = `${__dirname}/${constAngularDirectory}/index.html`;
  * Initialize DBs
  */
 sql.initialize();
+mongo.initialize();
 
 /**
  * Allow CORS (Angular won't work without it)
