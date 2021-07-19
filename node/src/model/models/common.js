@@ -19,4 +19,23 @@ class Response{
     }
 }
 
+class ResponsePlain{
+    /**
+     * 
+     * @param {boolean} success 
+     * @param {number} code 
+     * @param {string} description 
+     */
+     constructor(
+        success,
+        code,
+        description
+    ){
+        this.success = success;
+        this.code = code;
+        this.description = description;
+    }
+}
+
 module.exports.ResponseModel = Response;
+module.exports.ResponsePlainModel = ResponsePlain;

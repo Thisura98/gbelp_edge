@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 
 // MARK: Schema Definitions
 
+const gameResourceSchema = new mongoose.Schema({
+    id: String,
+    filename: String,
+    type: String
+});
+
 const gameProjectSchema = new mongoose.Schema({
-    resources: [{
-        id: Number,
-        name: String,
-        filename: String
-    }]
+    resources: [gameResourceSchema]
 });
 
 module.exports = gameProjectSchema;

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
     selector: 'dialog-fileuplaod',
@@ -11,6 +11,10 @@ import { Component, Input } from "@angular/core";
                     <div class="dfu-progbar" [style.width]="progress"></div>
                 </div>
                 <h5>{{progress}} complete</h5>
+                <div class="dfu-buttons">
+                    <div class="dyn-btn clickable" *ngIf="showCancel" (click)="cancelPressed()">CANCEL</div>
+                    <div class="dyn-btn clickable" *ngIf="showOk">OK</div>
+                </div>
             </div>
         </div>
     </div>
@@ -47,9 +51,17 @@ import { Component, Input } from "@angular/core";
         height: 100%;
         background-color: #0588D8;
     }
+
+    .dyn-btn{
+        justify-content: center;
+    }
+
+    .dfu-buttons{
+        margin-top: 10px;
+    }
     `]
 })
-export class FileUploadDialogComponent{
+export class FileUploadDialogComponent {
 
     @Input()
     /**
@@ -57,9 +69,24 @@ export class FileUploadDialogComponent{
      */
     progressFloat: number = 0.0;
 
+    @Output()
+    onCancel = new EventEmitter();
+
+    get showCancel(): boolean{
+        return this.progressFloat < 100.0;
+    }
+
+    get showOk(): boolean{
+        return this.progressFloat == 100.0;
+    }
+
     get progress(): string{
         let visibleProg = this.progressFloat * 100.0;
         visibleProg = Math.round(visibleProg);
         return `${visibleProg}%`;
+    }
+
+    cancelPressed(){
+        this.onCancel.emit('');
     }
 }

@@ -3,6 +3,7 @@ const sql = require('../../util/connections/sql/sql_connection');
 const mongo = require('../../util/connections/mongo/mongo_connection');
 const { v4: uuidv4 } = require('uuid');
 const { DateTime } = require('luxon');
+const mimeParse = require('../../util/mime_parse');
 
 /**
  * Create a game entry
@@ -248,10 +249,51 @@ function deleteGameData(gameId, projectId, callback){
 /**
  * Upload a FormData resource to the file system sent by frontend
  * @param {FormData} data Sent from Frontend
- * @param {function(boolean, string)} callback 
+ * @param {File} file File object decoded by multer
+ * @param {function(boolean, string, Object)} callback status, desc, new project
  */
-function uploadGameResource(data, callback){
+function uploadGameResource(requestBody, file, callback){
+    // const fileName = file.filename
+    // const path = file.path (base path + filename = path appropriate for storing in db)
 
+    const mime = file.mimetype;
+    const filePath = String(file.path);
+    const projectId = String(requestBody.projectid);
+    let fileType = mimeParse(mime);
+
+    if (fileType == null){
+        callback(false, `Unsupported mime type ${mime}`);
+        return;
+    }
+
+    const newResource = {
+        filename: filePath,
+        type: fileType
+    };
+
+    mongo.models.GameProject.updateOne(
+        { _id: projectId },
+        { $push: { resources: newResource} },
+        null, // no query options
+        (err, res) => {
+            mongo.models.GameProject.findById(projectId, (err2, gameProject) => {
+                callback(true, 'OK', gameProject);
+            });
+        }
+    );
+
+    /*
+    mongo.models.GameProject.findById(projectId, (err, gameProject) => {
+        let resources = gameProject.resources;
+        
+        // resources.push(newResource);
+
+        // gameProject.resources = resources;
+
+        console.log('uploadGameResource-newGameProject!', JSON.stringify(err), JSON.stringify(gameProject))
+
+        callback(true, 'OK');
+    });*/
 }
 
 module.exports.createGame = createGame;

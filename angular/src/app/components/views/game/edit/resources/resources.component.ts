@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems } from 'src/app/constants/constants';
+import { GameEntry } from 'src/app/models/game';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -24,6 +25,7 @@ export class GameEditResourcesComponent implements OnInit {
 
   private storedUploadFormData: FormData = new FormData();
   private editingGameId: number | undefined;
+  private editingGame: GameEntry | undefined;
   
   get sidebarItems(): DynamicSidebarItem[]{
     return getGameSidebarItems('Resources');
@@ -40,6 +42,7 @@ export class GameEditResourcesComponent implements OnInit {
     this.userService.routeOutIfLoggedOut();
     this.activatedRoute.queryParams.subscribe(values => {
       this.editingGameId = values.gameId;
+      this.loadData();
     });
   }
 
@@ -58,10 +61,40 @@ export class GameEditResourcesComponent implements OnInit {
     this.storedUploadFormData = new FormData();
     this.storedUploadFormData.append('uploaddata', file, file.name);
     this.storedUploadFormData.append('gameid', this.editingGameId!.toString());
+    this.storedUploadFormData.append('projectid', this.editingGame!.project_id!.toString());
+
+    this.resourceUploadInput!.nativeElement.value = null;
+
     this.startUpload();
   }
 
+  uploadCancelPressed(){
+    // TODO: Actually cancel upload
+    this.isUploading = false;
+    window.location.reload();
+  }
+
   /* Private Functions */
+
+  private loadData(){
+    this.apiService.getGame(this.editingGameId!).subscribe({
+      next: (data) => {
+        if (data.data != undefined){
+          this.editingGame = data.data;
+        }
+        else{
+          this.handleDataLoadError('Could not load data');
+        }
+      },
+      error: (err) => {
+        this.handleDataLoadError(JSON.stringify(err));
+      }
+    });
+  }
+
+  private handleDataLoadError(message: any){
+    this.dialogService.showDismissable('Error Load Data', message, undefined);
+  }
 
   private startUpload(){
     this.isUploading = true;

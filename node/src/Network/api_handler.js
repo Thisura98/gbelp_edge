@@ -6,7 +6,7 @@ const statusCodes = require('./status_codes');
 const pc = require('../util/parseconfig');
 
 const config = pc.parseConfig('config.json');
-const { ResponseModel } = require('../model/models/common');
+const { ResponseModel, ResponsePlainModel } = require('../model/models/common');
 const apiPrefix = 'api'
 
 const upload = multer({dest: config.fs_res_path});
@@ -96,8 +96,8 @@ function handle(app){
 
     app.post(aurl('upload-resource'), upload.single('uploaddata'), (req, res) => {
         console.log('upload-resource-body', JSON.stringify(req.file), JSON.stringify(req.body));
-        gamesDAO.uploadGameResource(res.body, (status, msg) => {
-            res.json(new ResponseModel(status, 200, msg, null));
+        gamesDAO.uploadGameResource(req.body, req.file, (status, msg) => {
+            res.json(new ResponsePlainModel(status, 200, msg));
         })
     });
 

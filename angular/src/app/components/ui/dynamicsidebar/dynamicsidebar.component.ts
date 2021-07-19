@@ -122,12 +122,12 @@ export class DynamicsidebarComponent implements OnInit {
   ngOnInit(): void {
     this.breakpointObserver.observe(['(max-width:800px)']).subscribe((state) => {
       if (state.matches){
-        console.log('(max-width:800px) matches');
+        // console.log('(max-width:800px) matches');
         this.isScreenSmall = true;
         this.isItemsExpanded = false
       }
       else{
-        console.log('(max-width:800px) not matching');
+        // console.log('(max-width:800px) not matching');
         this.isScreenSmall = false;
         this.isItemsExpanded = true;
       }

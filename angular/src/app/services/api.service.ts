@@ -141,48 +141,45 @@ export class ApiService{
             headers: this.getHeaders(),
             reportProgress: true
         });
-        console.log('Starting upload...');
-        let observable = this.http.request(uploadingRequest).pipe(
-            tap((event) => {
-                console.log('event!');
-                switch(event.type){
-                    case HttpEventType.UploadProgress:
-                        console.log('Progress Event:', event.loaded, (event.total ?? 1))
-                        progressCallback(event.loaded / (event.total ?? 1))
-                        break;
+        const responseObserver = new Observable<ServerResponsePlain>((subscriber) => {
+            console.log('Starting upload...');
 
-                    case HttpEventType.Response:
-                        let handled = false;
-                        if (event.body instanceof HttpResponse){
-                            if (event.body as HttpResponse<ServerResponsePlain>){
-                                handled = true;
-                                // subscriber.next((event.body as HttpResponse<ServerResponsePlain>)?.body ?? undefined);
+            this.http.request<ServerResponsePlain>(uploadingRequest).subscribe({
+                next: (event) => {
+                    switch(event.type){
+                        case HttpEventType.UploadProgress:
+                            progressCallback(event.loaded / (event.total ?? 1))
+                            break;
+    
+                        case HttpEventType.Response:
+                            let handled = false;
+
+                            // console.log('Upload Request Response:', JSON.stringify(event.body));
+                            if (event instanceof HttpResponse){
+                                if (event.body != null){
+                                    handled = true
+                                    subscriber.next(event.body);
+                                }
                             }
-                        }
-                        if (!handled){
-                            console.log('uploadGameResource', 'Please Debug:', JSON.stringify(event));
-                        }
-                        break;
 
-                    default:
-                        console.log('uploadGameResource', 'Ignoring event', JSON.stringify(event));
+                            if (!handled)
+                                subscriber.error('Response received but expected type mismatched');
+                            break;
+    
+                        default:
+                            // console.log('uploadGameResource', 'Ignoring event', JSON.stringify(event));
+                            break;
+                    }
+                },
+                error: (err) => {
+                    subscriber.error(err);
                 }
-            },
-            (error) => {
-                console.log('error', JSON.stringify(error));
-                //subscriber.error(error);
             })
-        );
+        });
 
-        observable.subscribe((e) => {
-            console.log('Event Occured!', JSON.stringify(e));
-        })
+        console.log('uploadGameResource reached');
 
-        return new Observable<ServerResponsePlain>();
-        /*
-        return new Observable<ServerResponsePlain>((subscriber) => {
-            
-        });*/
+        return responseObserver;
     }
 
     // MARK END: Game Editing
