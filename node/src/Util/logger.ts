@@ -3,7 +3,7 @@
  * @param {string} message The log message
  * @param {string|null} tag An optional tag prefix
  */
-function logc(message, tag){
+export function logc(message: string, tag: string | null){
     const msg = String(message);
     if (tag == null)
         console.log("LOG:", msg);
@@ -12,4 +12,3 @@ function logc(message, tag){
 }
 
 
-module.exports.logc = logc;
