@@ -1,1 +1,1 @@
-npx nodemon app.js
+npx nodemon
