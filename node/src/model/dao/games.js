@@ -259,7 +259,7 @@ function uploadGameResource(requestBody, file, callback){
     const mime = file.mimetype;
     const filePath = String(file.path);
     const projectId = String(requestBody.projectid);
-    let fileType = mimeParse(mime);
+    let fileType = mimeParse.findResourceTypeFromMimeType(mime);
 
     if (fileType == null){
         callback(false, `Unsupported mime type ${mime}`);
