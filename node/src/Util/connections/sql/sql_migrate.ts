@@ -1,5 +1,6 @@
-const mysql = require('mysql');
-const { tables, columns } = require('./sql_schema');
+// const mysql = require('mysql');
+import mysql from 'mysql';
+import { tables, columns } from './sql_schema';
 const l = require('../../logger');
 
 /**
@@ -11,14 +12,14 @@ const l = require('../../logger');
  * @param {String} migratedVer
  * @param {function():void} completion
  */
-function migrateV1(db, migratedVer, completion){
+function migrateV1(db: mysql.Connection, migratedVer: string, completion: (() => void)){
     // Check current version
     if (shouldMigrate(migratedVer, 1)){
         completion();
         return;
     }
 
-    const errHandler = (err, _, __) => {
+    const errHandler: mysql.queryCallback = (err, _, __) => {
         if (err){
             l.logc(err, "migrateV1");
         }
@@ -116,22 +117,12 @@ function migrateV1(db, migratedVer, completion){
 }
 
 /**
- * Migrate the database schema to the latest version
- * @param {mysql.Connection} db
- */
-function runMigrations(db){
-    getCurrentMigrationVersion(db, (ver) => {
-        migrateV1(db, ver, () => {});
-    });
-}
-
-/**
  * Returns the current migration version.
  * If this is the initial run return ""
  * @param {mysql.Connection} db 
  * @param {function(string):void} callback 
  */
-function getCurrentMigrationVersion(db, callback){
+function getCurrentMigrationVersion(db: mysql.Connection, callback: ((version: string) => void)){
     db.query(
         `SELECT ${columns.metaConfig.value} 
         FROM ${tables.metaConfig} 
@@ -155,7 +146,7 @@ function getCurrentMigrationVersion(db, callback){
  * @param {String} value 
  * @param {function():void} callback 
  */
-function setLastMigration(db, value, callback){
+function setLastMigration(db: mysql.Connection, value: string, callback: () => void){
     db.query(`INSERT INTO ${tables.metaConfig} VALUES ('migrate', '${value}')`, (err, _, __) => {
         l.logc(err, "migrate:setMigration");
         callback();
@@ -170,8 +161,8 @@ function setLastMigration(db, value, callback){
  * @param {Number|string} thisVer 
  * @returns boolean
  */
-function shouldMigrate(dbVer, thisVer){
-    if (dbVer instanceof String && (dbVer == "" || dbVer == null)){
+function shouldMigrate(dbVer: number | string, thisVer: number | string){
+    if (typeof dbVer == 'string' && (dbVer == "" || dbVer == null)){
         return true;
     }
     else if (Number(dbVer) >= Number(thisVer)){
@@ -180,4 +171,12 @@ function shouldMigrate(dbVer, thisVer){
     return false;
 }
 
-module.exports.runMigrations = runMigrations;
+/**
+ * Migrate the database schema to the latest version
+ * @param {mysql.Connection} db
+ */
+export function runMigrations(db: mysql.Connection){
+    getCurrentMigrationVersion(db, (ver) => {
+        migrateV1(db, ver, () => {});
+    });
+}

@@ -1,8 +1,9 @@
-const l = require('../../logger');
-const mysql = require('mysql');
-const { DateTime } = require('luxon');
-const { tables, columns } = require('./sql_schema');
-const migrations = require('./sql_migrate');
+import * as l from '../../logger';
+import mysql from 'mysql';
+import { DateTime } from 'luxon';
+import { tables, columns } from './sql_schema';
+import * as migrations from './sql_migrate';
+import { assert } from 'console';
 
 /**
  * Log Tag
@@ -17,20 +18,22 @@ const tag = 'mysql';
  * 
  * @type { mysql.Pool }
  */
-var pool = null;
+var pool: mysql.Pool | null = null;
+
+export { tables, columns };
 
 /**
  * The Database Pool
  * @returns { mysql.Pool }
  */
-function getPool(){
+export function getPool(){
     return pool
 }
 
 /**
  * Initialize SQL connections
  */
-function initialize(){
+export function initialize(){
     // Init DB Connection Pool
     pool = mysql.createPool({
         connectionLimit: 10,
@@ -45,7 +48,7 @@ function initialize(){
     // so we're providing an explicit connection
     pool.getConnection((err, db) => {
         if (err)
-            l.logc(err, tag + ":init");
+            l.logc(err.message, tag + ":init");
         else{
             migrations.runMigrations(db);
             l.logc('MySQL Connected', tag);
@@ -58,7 +61,7 @@ function initialize(){
  * @param {DateTime} param 
  * @returns String
  */
-function formatDate(param){
+export function formatDate(param: DateTime){
     const format = 'yyyy-MM-dd HH:mm:ss';
     if (!(param instanceof DateTime)){
         l.logc(`${param} cannot be converted to MySQL DateTime format`, 'mysql');
@@ -71,7 +74,7 @@ function formatDate(param){
  * Converts snake case to camecase
  * @param {String} snake 
  */
-function snakeCaseToCamelCase(snake){
+function snakeCaseToCamelCase(snake: string){
     return snake.replace(
         /([-_][a-z])/g,
         (group) => group.toUpperCase()
@@ -88,16 +91,20 @@ function snakeCaseToCamelCase(snake){
  * @param {Array} fields 
  * @returns 
  */
-function mapResult(res, fields){
+export function mapResult(res: Array<string>, fields: Array<string>){
     const mapped = res.map((row) => {
         console.log('row:', row);
         let obj = {};
         let i = 0;
-        for (field of fields){
+        for (let field of fields){
+            // fixme: fields is NOT an Array<string>
+            // Find the type from users.js and fixit here.
+            assert(false, 'Implementation Not Complete')
+            /*
             const fieldName = String(field.name);
             const snakeCased = snakeCaseToCamelCase(fieldName);
             console.log('Mapping', fieldName, 'as', snakeCased);
-            obj[snakeCased] = row[fieldName];
+            obj[snakeCased] = row[fieldName];*/
             i++;
         }
         return obj;
@@ -105,20 +112,22 @@ function mapResult(res, fields){
     return mapped;
 }
 
+// Pre-typescript exports
+
 /// Initialize
-module.exports.initialize = initialize;
+// module.exports.initialize = initialize;
 
 /// Export the database pool
-module.exports.getPool = getPool;
+// module.exports.getPool = getPool;
 
 /// Tables
-module.exports.tables = tables;
+// module.exports.tables = tables;
 
 /// Columns
-module.exports.columns = columns;
+// module.exports.columns = columns;
 
 /// DateTime format
-module.exports.formatDate = formatDate;
+// module.exports.formatDate = formatDate;
 
 /// Mapper
-module.exports.mapResult = mapResult;
+// module.exports.mapResult = mapResult;

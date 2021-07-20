@@ -1,6 +1,7 @@
 const cors = require('cors');
-const pc = require('./src/util/parseconfig');
-const l = require('./src/util/logger');
+// const pc = require('./src/util/parseconfig');
+import * as pc from './src/util/parseconfig';
+import * as l from './src/util/logger';
 const apiHandler = require('./src/network/api_handler');
 const gameApiHandler = require('./src/network/game_api_handler');
 const sql = require('./src/util/connections/sql/sql_connection');

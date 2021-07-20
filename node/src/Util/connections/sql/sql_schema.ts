@@ -1,5 +1,5 @@
 // Tables
-const tables = {
+export const tables = {
     metaConfig: 'meta_config',
     users: 'users',
     userAuth: 'user_auth',
@@ -18,7 +18,7 @@ const tables = {
 };
 
 // Columns
-const columns = {
+export const columns = {
     metaConfig: {
         key: 'meta_key',
         value: 'meta_value'
@@ -103,6 +103,3 @@ const columns = {
         reportOptLevelTime: 'rep_opt_level_time',
     }
 }
-
-module.exports.tables = tables;
-module.exports.columns = columns;
