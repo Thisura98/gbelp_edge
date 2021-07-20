@@ -1,9 +1,9 @@
-const express = require('express');
-const multer = require('multer');
-const usersDAO = require('../model/dao/users');
-const gamesDAO = require('../model/dao/games');
-const statusCodes = require('./status_codes');
-const pc = require('../util/parseconfig');
+import express from 'express';
+import multer from 'multer';
+import * as usersDAO from '../model/dao/users';
+import * as gamesDAO from '../model/dao/games';
+import * as statusCodes from './status_codes';
+import * as pc from '../util/parseconfig';
 
 const config = pc.parseConfig('config.json');
 const { ResponseModel, ResponsePlainModel } = require('../model/models/common');
@@ -15,7 +15,7 @@ const upload = multer({dest: config.fs_res_path});
  * Handler for API calls
  * @param {express.Express} app Express.js App
  */
-function handle(app){
+export function handle(app: express.Express){
     // Authorization Middleware (faux) for API calls
     app.use(`/${apiPrefix}`, apiAuthorizationMiddleware);
 
@@ -52,7 +52,7 @@ function handle(app){
     });
 
     app.get(aurl('user-type-info'), (req, res) => {
-        usersDAO.getUserType(req.query.userId, (status, msg, objOrNull) => {
+        usersDAO.getUserType(req.query.userId! as string, (status, msg, objOrNull) => {
             res.json(new ResponseModel(status, 200, msg, objOrNull));
         })
     });
@@ -72,14 +72,16 @@ function handle(app){
     });
 
     app.delete(aurl('delete-game'), (req, res) => {
-        const userId = req.header('uid');
-        gamesDAO.deleteGame(req.query.gameId, userId, (status, msg, _) => {
+        const userId = req.header('uid') ?? '';
+        const gameId = req.query.gameId! as string
+        gamesDAO.deleteGame(gameId, userId, (status, msg, _) => {
             res.json(new ResponseModel(status, 200, msg));
         });
     });
 
     app.get(aurl('game-entry'), (req, res) => {
-        gamesDAO.getGame(req.query.id, (status, msg, result) => {
+        const gameId = req.query.id as string;
+        gamesDAO.getGame(gameId, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });
@@ -96,7 +98,7 @@ function handle(app){
 
     app.post(aurl('upload-resource'), upload.single('uploaddata'), (req, res) => {
         console.log('upload-resource-body', JSON.stringify(req.file), JSON.stringify(req.body));
-        gamesDAO.uploadGameResource(req.body, req.file, (status, msg) => {
+        gamesDAO.uploadGameResource(req.body, req.file!, (status, msg) => {
             res.json(new ResponsePlainModel(status, 200, msg));
         })
     });
@@ -118,7 +120,7 @@ function handle(app){
  * @param {express.Response} res 
  * @param {express.NextFunction} next 
  */
-function apiAuthorizationMiddleware(req, res, next) {
+export function apiAuthorizationMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const routeURL = req.originalUrl;
     const safeURLs = ['create-user', 'user-types', 'login'].map((v, i, m) => aurl(v));
     if (safeURLs.find((url, _, __) => url == routeURL)){
@@ -130,24 +132,24 @@ function apiAuthorizationMiddleware(req, res, next) {
         if (authOk && userIdOk){
             const auth = req.header('auth');
             const userId = req.header('uid');
-            usersDAO.isTokenValidForUser(userId, auth, (lookupResult) => {
+            usersDAO.isTokenValidForUser(userId!, auth!, (lookupResult) => {
                 switch(lookupResult){
                 case 2:
                     next()
                     break;
                 case -2:
-                    res.sendStatus(statusCodes.tokenExpired)
+                    res.sendStatus(statusCodes.errorCodes.tokenExpired)
                     break;
                 case -1:
-                    res.sendStatus(statusCodes.authIdNoMatch);
+                    res.sendStatus(statusCodes.errorCodes.authIdNoMatch);
                     break;
                 default:
-                    res.sendStatus(statusCodes.serverError);
+                    res.sendStatus(statusCodes.errorCodes.serverError);
                 }
             });
         }
         else{
-            res.sendStatus(statusCodes.missingAuth);
+            res.sendStatus(statusCodes.errorCodes.missingAuth);
         }
     }
 }
@@ -156,8 +158,6 @@ function apiAuthorizationMiddleware(req, res, next) {
  * Returns the full API URL 
  * @param {string} $suffix 
  */
-function aurl(suffix){
+function aurl(suffix: string){
     return `/${apiPrefix}/${suffix}`;
 }
-
-module.exports.handle = handle;

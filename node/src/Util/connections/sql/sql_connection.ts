@@ -1,5 +1,5 @@
 import * as l from '../../logger';
-import mysql from 'mysql';
+import mysql, { FieldInfo } from 'mysql';
 import { DateTime } from 'luxon';
 import { tables, columns } from './sql_schema';
 import * as migrations from './sql_migrate';
@@ -91,24 +91,20 @@ function snakeCaseToCamelCase(snake: string){
  * @param {Array} fields 
  * @returns 
  */
-export function mapResult(res: Array<string>, fields: Array<string>){
+export function mapResult(res: Array<string>, fields: Array<FieldInfo> | undefined): Object{
     const mapped = res.map((row) => {
         console.log('row:', row);
         let obj = {};
         let i = 0;
-        for (let field of fields){
-            // fixme: fields is NOT an Array<string>
-            // Find the type from users.js and fixit here.
-            assert(false, 'Implementation Not Complete')
-            /*
+        for (let field of fields!){
             const fieldName = String(field.name);
             const snakeCased = snakeCaseToCamelCase(fieldName);
             console.log('Mapping', fieldName, 'as', snakeCased);
-            obj[snakeCased] = row[fieldName];*/
+            (obj as any)[snakeCased] = (row as any)[fieldName];
             i++;
         }
         return obj;
-    });
+    })[0];
     return mapped;
 }
 

@@ -1,18 +1,18 @@
-const l = require('../../util/logger');
-const db = require('../../util/connections/sql/sql_connection');
-const { v4: uuidv4 } = require('uuid');
-const { DateTime } = require('luxon');
+import * as l from '../../util/logger';
+import * as db from '../../util/connections/sql/sql_connection';
+import { v4 as uuid } from 'uuid';
+import { DateTime } from 'luxon';
 
 /**
  * Returns the list of user types as an object array
  * @param {function():Object[]} callback 
  */
-function getDisplayUserTypes(callback){
-    db.getPool().query(
+export function getDisplayUserTypes(callback: (result: Object) => void){
+    db.getPool()!.query(
         'SELECT * FROM ?? WHERE ?? <> 1', [db.tables.userType, db.columns.userType.userTypeId],
         (err, res, fields) => {
             if (err){
-                l.logc(err, 'users:getUserTypes');
+                l.logc(err.message, 'users:getUserTypes');
             }
             else{
                 // callback(db.mapResult(res, fields));
@@ -27,13 +27,13 @@ function getDisplayUserTypes(callback){
  * @param {String} userId 
  * @param {function(boolean, Object|null):void} callback 
  */
-function getUser(userId, callback){
-    db.getPool().query(
+export function getUser(userId: string, callback: (status: boolean, result: Object | null) => void){
+    db.getPool()!.query(
         'SELECT * FROM ? WHERE ?? = ?',
         [db.tables.users, db.columns.users.userId, userId],
         (err, res, fields) => {
             if (err){
-                l.logc(err, 'getUser');
+                l.logc(err.message, 'getUser');
                 callback(false, null);
             }
             else{
@@ -48,15 +48,15 @@ function getUser(userId, callback){
  * @param {String} userId 
  * @param {function(boolean, string, object|null):void} callback 
  */
-function getUserType(userId, callback){
-    db.getPool().query(
+export function getUserType(userId: string, callback: (status: boolean, desc: string, result: Object | null) => void){
+    db.getPool()!.query(
         `SELECT T.${db.columns.userType.userTypeId}, T.${db.columns.userType.name}
          FROM ${db.tables.users} U INNER JOIN ${db.tables.userType} T 
          ON U.${db.columns.users.userType} = T.${db.columns.userType.userTypeId} 
          WHERE U.${db.columns.users.userId} = '${userId}'`,
         (err, res, fields) => {
             if (err){
-                l.logc(err, 'getUser');
+                l.logc(err.message, 'getUser');
                 callback(false, "Server Error", null);
             }
             else{
@@ -80,16 +80,19 @@ function getUserType(userId, callback){
  * @param {String} typeId 
  * @param {function(Boolean, string|null, object|null):void} callback 
  */
-function createUser(username, email, typeId, passwordHash, callback){
-    db.getPool().getConnection((err, conn) => {
+export function createUser(
+    username: string, email: string, typeId: string, passwordHash: string, 
+    callback: (status: boolean, message: string | null, result: object | null) => void
+){
+    db.getPool()!.getConnection((err, conn) => {
         // Check existing emails
         conn.query(
             'SELECT COUNT(*) AS count FROM ?? WHERE ?? = "??";',
             [db.tables.users, db.columns.users.userEmail, email],
             (err, res, fields) => {
                 if (err){
-                    l.logc(err, 'users:createUser:checkExistingEmail');
-                    callback(false, null);
+                    l.logc(err.message, 'users:createUser:checkExistingEmail');
+                    callback(false, null, null);
                 }
                 else{
                     if (res[0].count == 0){
@@ -98,8 +101,8 @@ function createUser(username, email, typeId, passwordHash, callback){
                             [db.tables.users, username, email, typeId, passwordHash],
                             (err, res, fields) => {
                                 if (err){
-                                    l.logc(err, 'users:createUser');
-                                    callback(false, "Unexpected error occured");
+                                    l.logc(err.message, 'users:createUser');
+                                    callback(false, "Unexpected error occured", null);
                                 }
                                 else{
                                     const newUserId = res.insertId;
@@ -123,7 +126,7 @@ function createUser(username, email, typeId, passwordHash, callback){
                                             }
                                             else{
                                                 l.logc("retrieve token for new user failed", 'users:creatUser:getToken')
-                                                callback(false, "Could not retrieve token");
+                                                callback(false, "Could not retrieve token", null);
                                             }
                                         });
 
@@ -134,7 +137,7 @@ function createUser(username, email, typeId, passwordHash, callback){
                         );
                     }
                     else{
-                        callback(false, "User already exists!")
+                        callback(false, "User already exists!", null)
                     }
                 }
             }
@@ -149,7 +152,11 @@ function createUser(username, email, typeId, passwordHash, callback){
  * @param {string} pwHash 
  * @param {function(boolean, string|null, object|null):void} callback 
  */
-function loginUser(userEmail, pwHash, callback){
+export function loginUser(
+    userEmail: string, 
+    pwHash: string, 
+    callback: (status: boolean, desc: string | null, result: Object | null) => void
+){
 
     const U = db.columns.users;
     const T = db.columns.userType;
@@ -162,12 +169,12 @@ function loginUser(userEmail, pwHash, callback){
         AND LOWER(${U.userPasswordHash}) = LOWER('${pwHash}')
     `;
 
-    db.getPool().query(
+    db.getPool()!.query(
         query,
         (err, res, fields) => {
             if (err){
-                l.logc(err, 'loginUser');
-                callback(false);
+                l.logc(err.message, 'loginUser');
+                callback(false, null, null);
             }
             else{
                 if (res.length > 0 && res[0].user_id !== undefined){
@@ -184,13 +191,13 @@ function loginUser(userEmail, pwHash, callback){
                             callback(true, "Success!", userAndToken);
                         }
                         else{
-                            callback(false, "Could not retrieve token");
+                            callback(false, "Could not retrieve token", null);
                         }
                     });
                 }
                 else{
                     const msg = `User with email, "${userEmail}" was not found. Please register or try correcting your email address`;
-                    callback(false, msg);
+                    callback(false, msg, null);
                 }
             }
         }
@@ -202,17 +209,17 @@ function loginUser(userEmail, pwHash, callback){
  * @param {String} userId 
  * @param {function(boolean, String | null):void} callback 
  */
-function createToken(userId, callback){
-    const randomToken = uuidv4();
+export function createToken(userId: string, callback: (status: boolean, desc: string | null) => void){
+    const randomToken = uuid();
     const date = DateTime.now().plus({hours: 2});
     const dateFormatted = db.formatDate(date);
 
-    db.getPool().query(
+    db.getPool()!.query(
         'INSERT INTO ?? VALUES(0, ?, ?, ?)',
         [db.tables.userAuth, userId, randomToken, dateFormatted],
         (err, res, _) => {
             if (err){
-                l.logc(err, 'users:createToken');
+                l.logc(err.message, 'users:createToken');
                 callback(false, null)
             }
             else{
@@ -230,7 +237,7 @@ function createToken(userId, callback){
  * @param {String} token 
  * @param {function(Number):void} callback (-1: InvalidMissing, -2: InvalidExpired, 2: OK)
  */
-function isTokenValidForUser(userId, token, callback){
+export function isTokenValidForUser(userId: string, token: string, callback: (status: number) => void){
     const credentialsOk = 2;
     const noMatch = -1;
     const expired = -2;
@@ -239,9 +246,9 @@ function isTokenValidForUser(userId, token, callback){
      WHERE ${db.columns.userAuth.userId} = '${userId}' 
      AND ${db.columns.userAuth.authKey} = '${token}'`;
     
-    db.getPool().query(`SELECT * ${fromAndWhere}`, (err, res, fields) => {
+    db.getPool()!.query(`SELECT * ${fromAndWhere}`, (err, res, fields) => {
         if (err){
-            l.logc(err, 'users:isTokenValidForUser');
+            l.logc(err.message, 'users:isTokenValidForUser');
             callback(-1);
         }
         else if (res && res.length > 0){
@@ -249,9 +256,9 @@ function isTokenValidForUser(userId, token, callback){
             const expiryDate = DateTime.fromJSDate(expiry);
             const diff = expiryDate.diffNow('hours');
             if (diff.hours < 0.0){
-                db.getPool().query(`DELETE ${fromAndWhere}`, (err, res, fields) => {
+                db.getPool()!.query(`DELETE ${fromAndWhere}`, (err, res, fields) => {
                     if (err)
-                        l.logc(err, 'users:isTokenValidForUser:delToken');
+                        l.logc(err.message, 'users:isTokenValidForUser:delToken');
                     callback(expired);
                 });
             }
@@ -264,12 +271,3 @@ function isTokenValidForUser(userId, token, callback){
         }
     });
 }
-
-
-module.exports.getDisplayUserTypes = getDisplayUserTypes;
-module.exports.createUser = createUser;
-module.exports.loginUser = loginUser;
-module.exports.createToken = createToken;
-module.exports.getUser = getUser;
-module.exports.getUserType = getUserType;
-module.exports.isTokenValidForUser = isTokenValidForUser;

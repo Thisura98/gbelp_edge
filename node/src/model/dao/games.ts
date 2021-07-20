@@ -1,16 +1,18 @@
-const l = require('../../util/logger');
-const sql = require('../../util/connections/sql/sql_connection');
-const mongo = require('../../util/connections/mongo/mongo_connection');
-const { v4: uuidv4 } = require('uuid');
-const { DateTime } = require('luxon');
-const mimeParse = require('../../util/mime_parse');
+import * as l from '../../util/logger';
+import * as sql from '../../util/connections/sql/sql_connection';
+import * as mongo from '../../util/connections/mongo/mongo_connection';
+import { v4 as uuidv4 } from 'uuid';
+import { DateTime } from 'luxon';
+import * as mimeParse from '../../util/mime_parse';
+import express from 'express';
+import multer from 'multer';
 
 /**
  * Create a game entry
  * @param {Object} data 
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
-function createGame(data, callback){
+export function createGame(data: any, callback: (status: boolean, desc: string, result: Object | null) => void){
 
     const c = sql.columns.gameEntry;
     let columns_arr = [
@@ -40,8 +42,8 @@ function createGame(data, callback){
     // then create games document in mongo
 
     const proj = new mongo.models.GameProject({ resources: [] });
-
-    proj.save((mongo_error, document) => {
+    
+    proj.save((mongo_error: any, document: any) => {
         if (mongo_error != null){
             callback(false, 'Error creating Game Project', null);
             return;
@@ -64,7 +66,7 @@ function createGame(data, callback){
         const columns = columns_arr.join(', ');
         const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
 
-        sql.getPool().query({
+        sql.getPool()!.query({
             sql: query,
             values: values
         }, (err, results, fields) => {
@@ -87,7 +89,7 @@ function createGame(data, callback){
  * @param {Object} data 
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
-function editGame(data, callback){
+export function editGame(data: any, callback: (status: boolean, desc: string, result: Object | null) => void){
     const c = sql.columns.gameEntry;
     const columns_arr = [
         c.authorId,
@@ -121,7 +123,7 @@ function editGame(data, callback){
         values: values
     }));
 
-    sql.getPool().query({
+    sql.getPool()!.query({
         sql: query,
         values: values,
     }, (err, res, fields) => {
@@ -141,8 +143,8 @@ function editGame(data, callback){
  * @param {string | number} id 
  * @param {function(boolean, string, Object | null)} callback success?, desc, result
  */
-function getGame(id, callback){
-    sql.getPool().query({
+export function getGame(id: string | number, callback: (status: boolean, desc: string, result: Object | null) => void){
+    sql.getPool()!.query({
         sql: "SELECT * FROM ?? WHERE ?? = ? LIMIT 1",
         values: [sql.tables.gameEntry, sql.columns.gameEntry.id, id]
     }, (err, res, fields) => {
@@ -162,15 +164,15 @@ function getGame(id, callback){
  * Ret
  * @param {function(boolean, string, Object} callback success, desc, object containing games
  */
-function getAllGames(callback){
+export function getAllGames(callback: (status: boolean, desc: string, result: Object | null) => void){
     const query = `SELECT * FROM ${sql.tables.gameEntry}`;
-    sql.getPool().query(query, (err, res, fields) => {
+    sql.getPool()!.query(query, (err, res, fields) => {
 
         if (err == null && typeof res == "object"){
             callback(true, `Succesfully received ${res.length} games`, res);
         }
         else{
-            callback(false, err, null);
+            callback(false, JSON.stringify(err), null);
         }
     });
 }
@@ -181,7 +183,7 @@ function getAllGames(callback){
  * @param {string} userId 
  * @param {function(boolean, string, Object): void} callback 
  */
-function deleteGame(gameId, userId, callback){
+export function deleteGame(gameId: string, userId: string, callback: (status: boolean, desc: string, result: Object | null) => void){
     const t = sql.tables.gameEntry;
     const c = sql.columns.gameEntry;
     const selectAuthorsQuery = `SELECT ${c.authorId}, ${c.projectId} 
@@ -189,7 +191,7 @@ function deleteGame(gameId, userId, callback){
         WHERE ${c.id} = '${gameId}'
     `;
 
-    sql.getPool().query(selectAuthorsQuery, (q1err, q1res, q1fields) => {
+    sql.getPool()!.query(selectAuthorsQuery, (q1err, q1res, q1fields) => {
         if (q1err != null || typeof q1res != 'object' || q1res.length == 0){
             callback(false, 'Could not find Game Entry', null);
             return;
@@ -218,7 +220,7 @@ function deleteGame(gameId, userId, callback){
  * @param {string} projectId
  * @param {function(boolean, string): void} callback 
  */
-function deleteGameData(gameId, projectId, callback){
+function deleteGameData(gameId: string, projectId: string, callback: (status: boolean, desc: string) => void){
     const t = sql.tables.gameEntry;
     const c = sql.columns.gameEntry;
     const deleteGameEntryQuery = `DELETE FROM ${t}
@@ -226,7 +228,7 @@ function deleteGameData(gameId, projectId, callback){
     `;
 
     // Delete game entry
-    sql.getPool().query(deleteGameEntryQuery, (err, res, fields) => {
+    sql.getPool()!.query(deleteGameEntryQuery, (err, res, fields) => {
         if (err != null || err != undefined){
             l.logc(JSON.stringify(err), 'deleteGameData-err')
             callback(false, 'Delete operation failed for Game Entry');
@@ -235,7 +237,7 @@ function deleteGameData(gameId, projectId, callback){
 
         // Delete project file
         const GameProject = mongo.models.GameProject;
-        GameProject.deleteOne({_id: projectId}, (err2, res2) => {
+        GameProject.deleteOne({_id: projectId}, (err2) => {
             if (err2){
                 callback(false, 'Delete operation failed for Game Project ' + JSON.stringify(err2));
                 return
@@ -252,7 +254,7 @@ function deleteGameData(gameId, projectId, callback){
  * @param {File} file File object decoded by multer
  * @param {function(boolean, string, Object)} callback status, desc, new project
  */
-function uploadGameResource(requestBody, file, callback){
+export function uploadGameResource(requestBody: any, file: Express.Multer.File, callback: (status: boolean, desc: string, result: Object | null) => void){
     // const fileName = file.filename
     // const path = file.path (base path + filename = path appropriate for storing in db)
 
@@ -262,7 +264,7 @@ function uploadGameResource(requestBody, file, callback){
     let fileType = mimeParse.findResourceTypeFromMimeType(mime);
 
     if (fileType == null){
-        callback(false, `Unsupported mime type ${mime}`);
+        callback(false, `Unsupported mime type ${mime}`, null);
         return;
     }
 
@@ -276,7 +278,7 @@ function uploadGameResource(requestBody, file, callback){
         { $push: { resources: newResource} },
         null, // no query options
         (err, res) => {
-            mongo.models.GameProject.findById(projectId, (err2, gameProject) => {
+            mongo.models.GameProject.findById(projectId, (err2: any, gameProject: any) => {
                 callback(true, 'OK', gameProject);
             });
         }

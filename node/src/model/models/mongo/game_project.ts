@@ -8,6 +8,6 @@ const gameResourceSchema = new Schema({
     type: String
 });
 
-default export const gameProjectSchema = new Schema({
+export const gameProjectSchema = new Schema({
     resources: [gameResourceSchema]
 });

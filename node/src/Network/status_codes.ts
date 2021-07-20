@@ -1,4 +1,4 @@
-module.exports = { 
+export const errorCodes = { 
     serverError: 500,
     missingAuth: 400,
     authIdNoMatch: 406,

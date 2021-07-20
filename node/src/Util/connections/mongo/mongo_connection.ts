@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const l = require('../../logger');
-const schema = require('./mongo_schema');
+import mongoose from 'mongoose';
+import * as l from '../../logger';
+import * as models from './mongo_schema';
 
 /**
  * Log Tag
@@ -12,7 +12,7 @@ const tag = 'mongo';
  */
 var db = null;
 
-function initialize(){
+export function initialize(){
     // 'edge_gbelp' is the name of our Mongo Database
     const url = 'mongodb://root:root@localhost:7000/edge_gbelp?authSource=admin';
     const options = {
@@ -34,5 +34,4 @@ function initialize(){
     });
 }
 
-module.exports.initialize = initialize;
-module.exports.models = schema
+export { models };
