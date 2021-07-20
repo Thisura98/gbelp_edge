@@ -6,8 +6,8 @@ const gameApiHandler = require('./src/network/game_api_handler');
 const sql = require('./src/util/connections/sql/sql_connection');
 const mongo = require('./src/util/connections/mongo/mongo_connection');
 
-const express = require('express');
-const bp = require('body-parser'); // This is lame!
+import express from 'express';
+// import bp from 'body-parser';
 const app = express();
 
 const config = pc.parseConfig('config.json');
@@ -15,6 +15,7 @@ const constPortExpress = config.port_express;
 const constAngularDirectory = config.angular_directory;
 
 const indexFile = `${__dirname}/${constAngularDirectory}/index.html`;
+
 
 /**
  * Initialize DBs
