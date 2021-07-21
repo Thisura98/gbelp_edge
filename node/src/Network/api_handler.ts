@@ -5,18 +5,19 @@ import * as gamesDAO from '../model/dao/games';
 import * as statusCodes from './status_codes';
 import * as pc from '../util/parseconfig';
 import * as l from '../util/logger';
+import { ResponseModel, ResponsePlainModel } from '../model/models/common';
 
 const config = pc.parseConfig('config.json');
-const { ResponseModel, ResponsePlainModel } = require('../model/models/common');
 const apiPrefix = 'api'
 
 const multerDiskWriteConfig = multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, config.fs_res_path);
     },
+    /*
     filename: (req, file, callback) => {
         callback(null, file.originalname);
-    }
+    }*/
 })
 
 const upload = multer({storage: multerDiskWriteConfig});
@@ -36,11 +37,9 @@ export function handle(app: express.Express){
     });
 
     app.get(aurl('refresh-token'), (req, res) => {
-        /**
-         * If Auth headers are ok this will be the response for /api/refresh-token.
-         * Otherwise, see apiAuthorizationMiddleware function.
-         */
-        res.json(new ResponseModel(true, "", null));
+        // If Auth headers are ok this will be the response for /api/refresh-token.
+        // Otherwise, see apiAuthorizationMiddleware function.
+        res.json(new ResponseModel(true, 200, "", null));
     });
 
     app.get(aurl('user-types'), (req, res) => {
@@ -105,11 +104,10 @@ export function handle(app: express.Express){
     // MARK: Game Editing
 
     // README: https://www.npmjs.com/package/multer
-
     app.post(aurl('upload-resource'), upload.single('uploaddata'), (req, res) => {
-        console.log('upload-resource-body', JSON.stringify(req.file), JSON.stringify(req.body));
-        gamesDAO.uploadGameResource(req.body, req.file!, (status, msg) => {
-            res.json(new ResponsePlainModel(status, 200, msg));
+        // console.log('upload-resource-body', JSON.stringify(req.file), JSON.stringify(req.body));
+        gamesDAO.uploadGameResource(req.body, req.file!, (status, msg, result) => {
+            res.json(new ResponseModel(status, 200, msg, result));
         })
     });
 

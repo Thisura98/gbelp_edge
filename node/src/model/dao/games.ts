@@ -281,7 +281,9 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
         return;
     }
 
+    const displayName = file.originalname.split('/');
     const newResource = {
+        displayName: displayName[Math.max(displayName.length - 1, 0)],
         filename: filePath,
         type: fileType
     };
@@ -296,24 +298,16 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
             });
         }
     );
-
-    /*
-    mongo.models.GameProject.findById(projectId, (err, gameProject) => {
-        let resources = gameProject.resources;
-        
-        // resources.push(newResource);
-
-        // gameProject.resources = resources;
-
-        console.log('uploadGameResource-newGameProject!', JSON.stringify(err), JSON.stringify(gameProject))
-
-        callback(true, 'OK');
-    });*/
 }
 
-module.exports.createGame = createGame;
-module.exports.editGame = editGame;
-module.exports.getGame = getGame;
-module.exports.getAllGames = getAllGames;
-module.exports.uploadGameResource = uploadGameResource;
-module.exports.deleteGame = deleteGame;
+export function deleteGameResource(
+    gameId: string, projectId: string, resourceId: string, userId: string,
+    callback: () => void
+){
+    // TODO
+    // 1. Make Author + projectId checking common.
+    // 1.5 Get Resource Array
+    // 2. Delete resource from collection
+    // 3. Delete file from file system
+    // 4. Return project
+}

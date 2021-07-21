@@ -79,11 +79,6 @@ export class GameEditResourcesComponent implements OnInit {
     window.location.reload();
   }
 
-  getAssetDisplayName(asset: GameProjectResource): string{
-    const split = asset.filename.split('/');
-    return split[Math.max(0, split.length - 1)];
-  }
-
   assetSelected(asset: GameProjectResource){
     if (this.selectedResource?._id == asset._id){
       this.selectedResource = undefined;
@@ -149,6 +144,7 @@ export class GameEditResourcesComponent implements OnInit {
    */
   private setGameProject(project: GameProject){
     this.gameListing!.project = project;
+    this.selectedResource = undefined;
 
     this.imageResources = project.resources.filter(v => {
       return v.type == GAME_RESOURCE_TYPE.IMAGE;

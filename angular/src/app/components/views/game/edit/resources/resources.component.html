@@ -26,7 +26,7 @@
                             (click)="assetSelected(res)">
                             <div class="asset-img-container"><img class="asset-img" src="{{res.filename | resurl}}"/></div>
                             <!-- <div class="asset-name">{{res._id}}</div> -->
-                            <div class="asset-name">{{getAssetDisplayName(res)}}</div>
+                            <div class="asset-name">{{res.displayName}}</div>
                         </div>
                     </div>
                 </div>
@@ -45,9 +45,12 @@
                     <div class="options-separator"></div>
                 </ng-container>
                 <ng-container *ngIf="selectedResource != undefined">
-                    <div class="options-selected-name">{{'"' + getAssetDisplayName(selectedResource!) + '" Selected'}}</div>
+                    <div class="options-selected-name">{{'"' + selectedResource!.displayName + '" Selected'}}</div>
                     <div class="options-selected-type">{{selectedResource!.type + " Resource" | titlecase}}</div>
                     <div class="options-separator"></div>
+                    <h4>Management</h4>
+                    <div class="dyn-btn clickable btn-rename">Rename</div>
+                    <div class="dyn-btn clickable btn-delete btn-danger">Delete</div>
                 </ng-container>
             </div>
         </div>

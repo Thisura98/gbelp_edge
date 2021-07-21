@@ -28,7 +28,6 @@ div.asset-container .asset-selected{
     /* height: 180px; */
     display: flex;
     flex-direction: column;
-    gap: 8px;
     border-radius: 8px;
 }
 
@@ -74,4 +73,18 @@ div.asset-container .asset-selected{
     height: 1px;
     background-color: #E3E3E3;
     margin: 30px 0;
+}
+
+.btn-danger{
+    background-color: #b90000;
+}
+
+.btn-delete, .btn-rename{
+    width: 50px;
+    text-align: center;
+    justify-content: center;
+}
+
+.btn-delete{
+    margin-top: 10px;
 }

@@ -2,8 +2,8 @@ export class ResponseModel{
     constructor(
         public success: boolean,
         public code: number,
-        public description: string,
-        public data: Object | null
+        public description: string | null,
+        public data: Object | null = null
     ){}
 }
 
@@ -11,6 +11,6 @@ export class ResponsePlainModel{
     constructor(
         public success: boolean,
         public code: number,
-        public description: string
+        public description: string | null
     ){}
 }

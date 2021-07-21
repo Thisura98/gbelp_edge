@@ -5,6 +5,7 @@ import { Schema } from 'mongoose';
 const gameResourceSchema = new Schema({
     id: String,
     filename: String,
+    displayName: String,
     type: String
 });
 

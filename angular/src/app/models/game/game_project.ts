@@ -1,6 +1,7 @@
 export interface GameProjectResource{
     _id: string,
     filename: string,
+    displayName: string,
     type: string
 }
 
