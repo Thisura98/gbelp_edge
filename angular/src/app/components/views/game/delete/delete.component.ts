@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GameEntry } from 'src/app/models/game';
+import { GameEntry } from 'src/app/models/game/game';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -61,7 +61,7 @@ export class GameDeleteComponent implements OnInit {
       this.apiService.getGame(this.gameId!).subscribe({
         next: (data) => {
           if (data.data != undefined){
-            this.game = data.data;
+            this.game = data.data.entry;
             this.gameName = this.game.name;
             this.isDeleteDisabled = false;
           }

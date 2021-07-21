@@ -9,7 +9,7 @@ import { getGameSidebarItems } from 'src/app/constants/constants';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-import { GameEntry } from '../../../../models/game';
+import { GameEntry } from '../../../../models/game/game';
 
 @Component({
   selector: 'app-game-create',
@@ -158,7 +158,7 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       next: (response) => {
         this.isLoading = false;
         if (response.success)
-          this.setEditData(response.data);
+          this.setEditData(response.data.entry);
         else
           loadFailed(response.description);
       },
@@ -199,7 +199,7 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
   }
 
   canceledButtonClicked(){
-    this.location.back();
+    this.handleBack();
   }
 
   gameTypeDidChange(){

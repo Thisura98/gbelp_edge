@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GameEntry, ServerResponseAllGameEntries } from 'src/app/models/game';
+import { GameEntry, ServerResponseAllGameEntries } from 'src/app/models/game/game';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 

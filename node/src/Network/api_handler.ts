@@ -79,7 +79,7 @@ export function handle(app: express.Express){
         });
     });
 
-    app.get(aurl('game-entry'), (req, res) => {
+    app.get(aurl('game-listing'), (req, res) => {
         const gameId = req.query.id as string;
         gamesDAO.getGame(gameId, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));

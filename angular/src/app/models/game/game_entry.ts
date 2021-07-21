@@ -1,9 +1,3 @@
-import { ServerResponse } from './common-models';
-
-interface CreateGame{
-    gameId: string
-}
-
 export interface GameEntry{
     id: number
     author_id: string
@@ -19,9 +13,3 @@ export interface GameEntry{
     rep_opt_level_score: number
     rep_opt_level_time: number
 }
-
-export interface ServerResponseGameCreate extends ServerResponse<CreateGame>{};
-
-export interface ServerResponseGameEntry extends ServerResponse<GameEntry>{};
-
-export interface ServerResponseAllGameEntries extends ServerResponse<GameEntry[]>{};

@@ -2,7 +2,7 @@ import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
-import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameEntry } from '../models/game';
+import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing } from '../models/game/game';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -116,9 +116,9 @@ export class ApiService{
         });
     }
 
-    getGame(gameId: number | string): Observable<ServerResponseGameEntry>{
-        const url = this.aurl('game-entry');
-        return this.http.get<ServerResponseGameEntry>(url, {
+    getGame(gameId: number | string): Observable<ServerResponseGameListing>{
+        const url = this.aurl('game-listing');
+        return this.http.get<ServerResponseGameListing>(url, {
             headers: this.getHeaders(),
             params: {id: gameId}
         });

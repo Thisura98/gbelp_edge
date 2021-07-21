@@ -149,7 +149,20 @@ export function getGame(id: string | number, callback: (status: boolean, desc: s
         values: [sql.tables.gameEntry, sql.columns.gameEntry.id, id]
     }, (err, res, fields) => {
         if (err == null && res.length > 0){
-            callback(true, `Successfully retrieved game id ${id}`, res[0])
+
+            const projectId = res[0][sql.columns.gameEntry.projectId];
+            mongo.models.GameProject.findById(projectId, null, null, (err, gameProject) => {
+                if (err){
+                    callback(false, 'Error retrieving game project file', null);
+                }
+                else{
+                    const result = {
+                        entry: res[0],
+                        project: gameProject
+                    }
+                    callback(true, `Successfully retrieved game id ${id}`, result)
+                }
+            })
         }
         else if (err == null && res.length == 0){
             callback(false, `Could not find game matching ID, '${id}'`, null);
@@ -275,7 +288,7 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
 
     mongo.models.GameProject.updateOne(
         { _id: projectId },
-        { $push: { resources: newResource} },
+        { $push: { resources: newResource } },
         null, // no query options
         (err, res) => {
             mongo.models.GameProject.findById(projectId, (err2: any, gameProject: any) => {
