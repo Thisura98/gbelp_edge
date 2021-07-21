@@ -1,5 +1,10 @@
 import { DynamicSidebarItem } from "../components/ui/dynamicsidebar/dynamicsidebar.component";
 
+export enum GAME_RESOURCE_TYPE{
+    SOUND = "sound",
+    IMAGE = "image"
+}
+
 /**
  * @param selected Item currently selected. Leave blank if none is selected.
  * @returns 

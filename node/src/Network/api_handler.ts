@@ -4,12 +4,22 @@ import * as usersDAO from '../model/dao/users';
 import * as gamesDAO from '../model/dao/games';
 import * as statusCodes from './status_codes';
 import * as pc from '../util/parseconfig';
+import * as l from '../util/logger';
 
 const config = pc.parseConfig('config.json');
 const { ResponseModel, ResponsePlainModel } = require('../model/models/common');
 const apiPrefix = 'api'
 
-const upload = multer({dest: config.fs_res_path});
+const multerDiskWriteConfig = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, config.fs_res_path);
+    },
+    filename: (req, file, callback) => {
+        callback(null, file.originalname);
+    }
+})
+
+const upload = multer({storage: multerDiskWriteConfig});
 
 /**
  * Handler for API calls

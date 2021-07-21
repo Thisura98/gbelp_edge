@@ -50,10 +50,13 @@ import { GameEditResourcesComponent } from './components/views/game/edit/resourc
 import { NotFoundComponent } from './components/views/not-found/not-found.component';
 import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.component';
 import { GameDeleteComponent } from './components/views/game/delete/delete.component';
+import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
 
 
 @NgModule({
   declarations: [
+    ResourceUrlTransformPipe,
+    
     AppComponent,
     RegisterComponent,
     SimpleDialogComponent,

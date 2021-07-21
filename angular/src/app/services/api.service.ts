@@ -2,7 +2,7 @@ import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
-import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing } from '../models/game/game';
+import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject } from '../models/game/game';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -18,11 +18,15 @@ import { tap } from 'rxjs/operators';
 })
 export class ApiService{
 
-    private get apiBaseUrl(): String{
+    private get serverBaseUrl(): string{
         if (isDevMode())
-            return "http://localhost:80/api";
+            return "http://localhost:80";
         else
-            return "https://edgeelp.lk/api";
+            return "https://edgeelp.lk";
+    }
+
+    private get apiBaseUrl(): string{
+        return this.serverBaseUrl + "/api";
     }
 
     constructor(
@@ -48,6 +52,10 @@ export class ApiService{
             'auth': headerValues.token!
         });
         return h;
+    }
+
+    getFileSystemBaseURL(): string{
+        return this.serverBaseUrl;
     }
 
     // MARK: User API Calls
@@ -135,16 +143,16 @@ export class ApiService{
 
     // MARK: Game Editing
 
-    uploadGameResource(data: FormData, progressCallback: (progress: number) => void): Observable<ServerResponsePlain>{
+    uploadGameResource(data: FormData, progressCallback: (progress: number) => void): Observable<ServerResponseGameProject>{
         const url = this.aurl('upload-resource');
         const uploadingRequest = new HttpRequest('POST', url, data, {
             headers: this.getHeaders(),
             reportProgress: true
         });
-        const responseObserver = new Observable<ServerResponsePlain>((subscriber) => {
+        const responseObserver = new Observable<ServerResponseGameProject>((subscriber) => {
             console.log('Starting upload...');
 
-            this.http.request<ServerResponsePlain>(uploadingRequest).subscribe({
+            this.http.request<ServerResponseGameProject>(uploadingRequest).subscribe({
                 next: (event) => {
                     switch(event.type){
                         case HttpEventType.UploadProgress:
@@ -177,7 +185,7 @@ export class ApiService{
             })
         });
 
-        console.log('uploadGameResource reached');
+        // console.log('uploadGameResource reached');
 
         return responseObserver;
     }

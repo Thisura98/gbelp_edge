@@ -252,6 +252,16 @@ body .dyn-btn-disabled{
     -webkit-animation-fill-mode: forwards;
 }
 
+.dyn-anim-fadein-delayed{
+    opacity: 0;
+    animation-name: dyn-anim-appear;
+    animation-duration: 0.28s;
+    animation-delay: 0.2s;
+    animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+}
+
 .dyn-backdrop{
     position: fixed;
     width: 100%;

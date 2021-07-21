@@ -14,6 +14,43 @@
             <div class="dyn-btn clickable btn-upload" (click)="uploadResourceClicked()">Upload Resource</div>
             <input type="file" #resourceUploadInput class="file-uploader hidden-input" (change)="uploadInputFileChanged($event)">
         </div>
+
+        <div class="container3">
+            <div class="sections-container">
+                <div class="section-images" *ngIf="imageResources.length > 0">
+                    <h2>Images</h2>
+                    <div class="asset-container">
+                        <div class="asset dyn-anim-fadein-delayed" 
+                            *ngFor="let res of imageResources" 
+                            [ngClass]="{'asset-selected': selectedResource?._id == res._id}"
+                            (click)="assetSelected(res)">
+                            <div class="asset-img-container"><img class="asset-img" src="{{res.filename | resurl}}"/></div>
+                            <!-- <div class="asset-name">{{res._id}}</div> -->
+                            <div class="asset-name">{{getAssetDisplayName(res)}}</div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section-sound" *ngIf="soundResources.length > 0">
+                    <h2>Sound</h2>
+                    <div class="asset-container">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="section-pane">
+                <h2>Options</h2>
+                <ng-container *ngIf="selectedResource == undefined">
+                    <div class="options-selected-type">Select a resource to get started</div>
+                    <div class="options-separator"></div>
+                </ng-container>
+                <ng-container *ngIf="selectedResource != undefined">
+                    <div class="options-selected-name">{{'"' + getAssetDisplayName(selectedResource!) + '" Selected'}}</div>
+                    <div class="options-selected-type">{{selectedResource!.type + " Resource" | titlecase}}</div>
+                    <div class="options-separator"></div>
+                </ng-container>
+            </div>
+        </div>
     </div>
 
     <dialog-fileuplaod 
@@ -21,4 +58,5 @@
         [progressFloat]="uploadProgress"
         (onCancel)="uploadCancelPressed()"
     ></dialog-fileuplaod>
+
 </div>

@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
-import { getGameSidebarItems } from 'src/app/constants/constants';
+import { GAME_RESOURCE_TYPE, getGameSidebarItems } from 'src/app/constants/constants';
 import { GameEntry, GameListing } from 'src/app/models/game/game';
+import { GameProject, GameProjectResource } from 'src/app/models/game/game_project';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -22,6 +23,10 @@ export class GameEditResourcesComponent implements OnInit {
 
   isUploading: boolean = false;
   uploadProgress: number = 0.0;
+
+  selectedResource: GameProjectResource | undefined;
+  imageResources: GameProjectResource[] = [];
+  soundResources: GameProjectResource[] = [];
 
   private storedUploadFormData: FormData = new FormData();
   private editingGameId: number | undefined;
@@ -74,6 +79,20 @@ export class GameEditResourcesComponent implements OnInit {
     window.location.reload();
   }
 
+  getAssetDisplayName(asset: GameProjectResource): string{
+    const split = asset.filename.split('/');
+    return split[Math.max(0, split.length - 1)];
+  }
+
+  assetSelected(asset: GameProjectResource){
+    if (this.selectedResource?._id == asset._id){
+      this.selectedResource = undefined;
+      return;
+    }
+    this.selectedResource = asset;
+
+  }
+
   /* Private Functions */
 
   private loadData(){
@@ -81,6 +100,7 @@ export class GameEditResourcesComponent implements OnInit {
       next: (data) => {
         if (data.data != undefined){
           this.gameListing = data.data;
+          this.setGameProject(data.data.project);
         }
         else{
           this.handleDataLoadError('Could not load data');
@@ -96,6 +116,9 @@ export class GameEditResourcesComponent implements OnInit {
     this.dialogService.showDismissable('Error Load Data', message, undefined);
   }
 
+  /**
+   * Upload images with data set in `storedUploadFormData`
+   */
   private startUpload(){
     this.isUploading = true;
     this.uploadProgress = 0.0;
@@ -106,6 +129,7 @@ export class GameEditResourcesComponent implements OnInit {
       next: (res) => {
         this.isUploading = false;
         if (res.success){
+          this.setGameProject(res.data);
           this.dialogService.showDismissable('Upload Successful!', '');
         }
         else{
@@ -118,6 +142,21 @@ export class GameEditResourcesComponent implements OnInit {
       },
       
     })
+  }
+
+  /**
+   * Set the project file and update view related varaibles.
+   */
+  private setGameProject(project: GameProject){
+    this.gameListing!.project = project;
+
+    this.imageResources = project.resources.filter(v => {
+      return v.type == GAME_RESOURCE_TYPE.IMAGE;
+    })
+
+    this.soundResources = project.resources.filter(v => {
+      return v.type == GAME_RESOURCE_TYPE.SOUND;
+    });
   }
 
 }
