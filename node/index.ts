@@ -6,6 +6,7 @@ import * as apiHandler from './src/network/api_handler';
 // import * as gameApiHandler from './src/network/game_api_handler';
 import * as sql from './src/util/connections/sql/sql_connection';
 import * as mongo from './src/util/connections/mongo/mongo_connection';
+import * as utils from './src/util/utils';
 
 import express from 'express';
 // import bp from 'body-parser';
@@ -17,6 +18,7 @@ const constAngularDirectory = config.angular_directory;
 
 const indexFile = `${__dirname}/${constAngularDirectory}/index.html`;
 
+utils.setRootPath(__dirname);
 
 /**
  * Initialize DBs

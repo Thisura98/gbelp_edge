@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import * as mimeParse from '../../util/mime_parse';
 import express from 'express';
 import multer from 'multer';
+import fs from 'fs';
 
 /**
  * Create a game entry
@@ -152,7 +153,7 @@ export function getGame(id: string | number, callback: (status: boolean, desc: s
         if (err == null && res.length > 0){
 
             const projectId = res[0][sql.columns.gameEntry.projectId];
-            mongo.models.GameProject.findById(projectId, null, null, (err, gameProject) => {
+            mongo.models.GameProject.findById(projectId, (err, gameProject) => {
                 if (err){
                     callback(false, 'Error retrieving game project file', null);
                 }
@@ -274,7 +275,6 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
     mongo.models.GameProject.updateOne(
         { _id: projectId },
         { $push: { resources: newResource } },
-        null, // no query options
         (err, res) => {
             mongo.models.GameProject.findById(projectId, (err2: any, gameProject: any) => {
                 callback(true, 'OK', gameProject);
@@ -283,9 +283,14 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
     );
 }
 
+/**
+ * 
+ * @param fileBasePathExcludingUploadPath 'Base path for the index.ts file not including fs/res_upload'
+ */
 export function deleteGameResource(
-    gameId: string, projectId: string, resourceId: string, userId: string,
-    callback: () => void
+    gameId: string, resourceId: string, userId: string,
+    fileBasePathExcludingUploadPath: string,
+    callback: (status: boolean, desc: string, result: Object | null) => void
 ){
     // TODO
     // 1. Make Author + projectId checking common.
@@ -293,4 +298,62 @@ export function deleteGameResource(
     // 2. Delete resource from collection
     // 3. Delete file from file system
     // 4. Return project 
+
+    console.log('deleteGameResource called', gameId, resourceId, userId);
+
+    utils.checkUserCanModifyGame(gameId, userId, (status, projectId) => {
+        if (!status){
+            callback(false, 'User not allowed to delete this game resource', null)
+            return;
+        }
+
+        mongo.models.GameProject.findById(projectId, (err, doc) => {
+            if (err){
+                callback(false, 'Could not find game with project id ' + projectId, null);
+                return;
+            }
+
+            const resourceArray = doc!.get('resources') as Array<any>;
+            const matchingResource = resourceArray.filter((r) => {return r._id == resourceId});
+
+            if (matchingResource.length == 0){
+                callback(false, 'Could not find project resource with id ' + resourceId, null);
+                return
+            }
+
+            const filePath = fileBasePathExcludingUploadPath + '/' + matchingResource[0].filename;
+
+            console.log('deleteGameResource going to delete', filePath);
+
+            fs.unlink(filePath, (err) => {
+                console.log('deleteGameResource fs err', JSON.stringify(err));
+                mongo.models.GameProject.updateOne(
+                    { _id: projectId},
+                    { $pull: { resources: { _id: resourceId } } },
+                    (err, doc) => {
+                        if (err){
+                            console.log('deleteGameResource', JSON.stringify(err))
+                        }
+                        else{
+                            callback(true, 'Deleted resource successfully!', doc);
+                        }
+                    }
+                );
+            });
+        });
+
+        /*
+        mongo.models.GameProject.updateOne(
+            {_id: projectId},
+            {$pull: {resources: resourceId} },
+            (err, res) => {
+                if (err){
+                    l.logc(JSON.stringify(err), 'delGameRes');
+                    callback(false, 'Could not remove game resource', null);
+                }
+
+
+            }
+        );*/
+    });
 }

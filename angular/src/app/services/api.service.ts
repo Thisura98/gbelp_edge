@@ -190,6 +190,13 @@ export class ApiService{
         return responseObserver;
     }
 
+    deleteGameResource(gameId: string, resourceId: string): Observable<ServerResponsePlain>{
+        const url = this.aurl(`delete-resource?gameId=${gameId}&resId=${resourceId}`);
+        return this.http.delete<ServerResponsePlain>(url, {
+            headers: this.getHeaders()
+        });
+    }
+
     // MARK END: Game Editing
 
     // MARK: Session API calls

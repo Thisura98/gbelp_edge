@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
@@ -51,7 +52,7 @@ export class GameEditResourcesComponent implements OnInit {
   ngOnInit(): void {
     this.userService.routeOutIfLoggedOut();
     this.activatedRoute.queryParams.subscribe(values => {
-      this.editingGameId = values.gameId;
+      this.editingGameId = values['gameId'];
       this.loadData();
     });
   }
@@ -123,8 +124,40 @@ export class GameEditResourcesComponent implements OnInit {
     console.log('player loading...', this.player.readyState, filePath);
   }
 
+  /**
+   * Red Delete button on side panel for resources was clicked
+   */
   resourceDeleteClicked(){
-    
+
+    this.dialogService.showYesNo(
+      'Confirm Deletion', 
+      'Are you sure you want to delete this resource?', () => {
+
+        const gameId = this.editingGameId!.toString();
+        const resourceId = this.selectedResource!._id;
+        this.apiService.deleteGameResource(gameId, resourceId).subscribe({
+          next: (r) => {
+            if (r && r.success){
+              switch(this.selectedResource!.type){
+                case GAME_RESOURCE_TYPE.IMAGE:
+                  this.imageResources = this.imageResources.filter(v => v._id != resourceId);
+                break;
+
+                case GAME_RESOURCE_TYPE.SOUND:
+                  this.soundResources = this.soundResources.filter(v => v._id != resourceId);
+                break;
+              }
+            }
+            else{
+              this.dialogService.showDismissable('Delete Failed', r.description);
+            }
+          },
+          error: () => {
+            this.dialogService.showDismissable('Delete Failed', 'Could not delete resource');
+          }
+        });
+
+    });
   }
 
   /* Private Functions */

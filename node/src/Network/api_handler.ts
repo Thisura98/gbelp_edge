@@ -5,6 +5,7 @@ import * as gamesDAO from '../model/dao/games';
 import * as statusCodes from './status_codes';
 import * as pc from '../util/parseconfig';
 import * as l from '../util/logger';
+import * as utils from '../util/utils';
 import { ResponseModel, ResponsePlainModel } from '../model/models/common';
 
 const config = pc.parseConfig('config.json');
@@ -109,6 +110,16 @@ export function handle(app: express.Express){
         gamesDAO.uploadGameResource(req.body, req.file!, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         })
+    });
+
+    app.delete(aurl('delete-resource'), (req, res) => {
+        const userId = req.header('uid')! as string;
+        const gameId = req.query.gameId! as string;
+        const resourceId = req.query.resId! as string;
+        const path = utils.getRootPath();
+        gamesDAO.deleteGameResource(gameId, resourceId, userId, path, (status, msg, result) => {
+            res.json(new ResponseModel(status, 200, msg, result));
+        });
     });
 
     // Fallbacks

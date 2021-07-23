@@ -1,14 +1,12 @@
 {
-  "compileOnSave": true,
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2018",
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,        /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true,
     "downlevelIteration": true,
-    "sourceMap": true,
   },
   "include": [
     "index.ts", 

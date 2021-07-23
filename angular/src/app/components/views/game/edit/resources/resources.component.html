@@ -61,7 +61,7 @@
                         {{ isPlayingSound ? "Stop" : "Play" }}
                         <span *ngIf="isPlayingSound" class="sound-time">{{ audioTimeLabel }}</span>
                     </div>
-                    <div class="dyn-btn clickable btn-rename">Rename</div>
+                    <div class="dyn-btn clickable btn-rename" style="display: none">Rename</div>
                     <div class="dyn-btn clickable btn-delete btn-danger" (click)="resourceDeleteClicked()">Delete</div>
                 </ng-container>
             </div>

@@ -1,5 +1,15 @@
 import * as sql from './connections/sql/sql_connection';
 
+let app_root_path = '';
+
+export function setRootPath(path: string){
+    app_root_path = path;
+}
+
+export function getRootPath(): string{
+    return app_root_path;
+}
+
 /**
  * Checks whether the provided user can modify the 
  * game.
