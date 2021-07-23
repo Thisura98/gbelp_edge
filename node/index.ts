@@ -1,11 +1,11 @@
-const cors = require('cors');
+import cors from 'cors';
 // const pc = require('./src/util/parseconfig');
 import * as pc from './src/util/parseconfig';
 import * as l from './src/util/logger';
-const apiHandler = require('./src/network/api_handler');
-const gameApiHandler = require('./src/network/game_api_handler');
-const sql = require('./src/util/connections/sql/sql_connection');
-const mongo = require('./src/util/connections/mongo/mongo_connection');
+import * as apiHandler from './src/network/api_handler';
+// import * as gameApiHandler from './src/network/game_api_handler';
+import * as sql from './src/util/connections/sql/sql_connection';
+import * as mongo from './src/util/connections/mongo/mongo_connection';
 
 import express from 'express';
 // import bp from 'body-parser';
@@ -41,7 +41,7 @@ app.use(express.json());
 apiHandler.handle(app);
 
 // EDGE Game API calls handler
-gameApiHandler.handle(app);
+// gameApiHandler.handle(app);
 
 // MARK: Angular App (GET methods)
 // Angular App, its static files (js, css), fallthrough (catch-all get)

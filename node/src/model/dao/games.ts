@@ -1,6 +1,7 @@
 import * as l from '../../util/logger';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as mongo from '../../util/connections/mongo/mongo_connection';
+import * as utils from '../../util/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTime } from 'luxon';
 import * as mimeParse from '../../util/mime_parse';
@@ -197,34 +198,16 @@ export function getAllGames(callback: (status: boolean, desc: string, result: Ob
  * @param {function(boolean, string, Object): void} callback 
  */
 export function deleteGame(gameId: string, userId: string, callback: (status: boolean, desc: string, result: Object | null) => void){
-    const t = sql.tables.gameEntry;
-    const c = sql.columns.gameEntry;
-    const selectAuthorsQuery = `SELECT ${c.authorId}, ${c.projectId} 
-        FROM ${t} 
-        WHERE ${c.id} = '${gameId}'
-    `;
-
-    sql.getPool()!.query(selectAuthorsQuery, (q1err, q1res, q1fields) => {
-        if (q1err != null || typeof q1res != 'object' || q1res.length == 0){
-            callback(false, 'Could not find Game Entry', null);
+    
+    utils.checkUserCanModifyGame(gameId, userId, (status, projectId) => {
+        if (!status){
+            callback(false, 'User not allowed to delete this game', null);
             return;
         }
-
-        // csv of author ids - checked allowed to delete
-        const authors = String(q1res[0][c.authorId]).split(',');
-
-        console.log('deleteGame-delete', 'authors', JSON.stringify(authors), 'userId', userId);
-        if (authors.find(a => a == userId) == undefined){
-            callback(false, 'User not allowed to delete this game', null);
-            return
-        }
-
-        // allowed to delete
-        const projectId = q1res[0][c.projectId];
-        deleteGameData(gameId, projectId, (status, description) => {
+        deleteGameData(gameId, projectId!, (status, description) => {
             callback(status, description, null);
         });
-    })
+    });
 }
 
 /**
@@ -309,5 +292,5 @@ export function deleteGameResource(
     // 1.5 Get Resource Array
     // 2. Delete resource from collection
     // 3. Delete file from file system
-    // 4. Return project
+    // 4. Return project 
 }

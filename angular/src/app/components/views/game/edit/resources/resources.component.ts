@@ -4,6 +4,7 @@ import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamic
 import { GAME_RESOURCE_TYPE, getGameSidebarItems } from 'src/app/constants/constants';
 import { GameEntry, GameListing } from 'src/app/models/game/game';
 import { GameProject, GameProjectResource } from 'src/app/models/game/game_project';
+import { ResourceUrlTransformPipe } from 'src/app/pipes/resource-url-transform.pipe';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -25,9 +26,12 @@ export class GameEditResourcesComponent implements OnInit {
   uploadProgress: number = 0.0;
 
   selectedResource: GameProjectResource | undefined;
+  isPlayingSound: boolean = false;
+  audioTimeLabel: string = '';
   imageResources: GameProjectResource[] = [];
   soundResources: GameProjectResource[] = [];
 
+  private player = new Audio();
   private storedUploadFormData: FormData = new FormData();
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
@@ -40,7 +44,8 @@ export class GameEditResourcesComponent implements OnInit {
     private apiService: ApiService,
     private dialogService: DialogService,
     private userService: UserService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private resourceUrlTransformPipe: ResourceUrlTransformPipe
   ) { }
 
   ngOnInit(): void {
@@ -86,6 +91,40 @@ export class GameEditResourcesComponent implements OnInit {
     }
     this.selectedResource = asset;
 
+  }
+
+  previewSoundBtnPressed(){
+    this.isPlayingSound = !this.isPlayingSound;
+
+    if (!this.isPlayingSound){
+      this.player.pause();
+      return;
+    }
+
+    const filePath = this.resourceUrlTransformPipe.transform(this.selectedResource!.filename);
+
+    this.audioTimeLabel = '';
+    this.player.src = filePath;
+    this.player.onended = (e) => {
+      this.isPlayingSound = false;
+    }
+    this.player.ontimeupdate = (e) => {
+      const cTimeRounded = Math.round(this.player.currentTime * 100) / 100.0;
+      const durationRounded = Math.round(this.player.duration * 100.0) / 100.0;
+
+      if (cTimeRounded == NaN || durationRounded == NaN)
+        return;
+
+      this.audioTimeLabel = `${cTimeRounded}/${durationRounded}`.replace('.', ':');
+    }
+    this.player.load();
+    this.player.play();  
+
+    console.log('player loading...', this.player.readyState, filePath);
+  }
+
+  resourceDeleteClicked(){
+    
   }
 
   /* Private Functions */

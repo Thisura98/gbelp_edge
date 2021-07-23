@@ -102,7 +102,7 @@ import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
     MatProgressSpinnerModule,
     MatTableModule,
   ],
-  providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, httpInterceptorProviders],
+  providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, ResourceUrlTransformPipe, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

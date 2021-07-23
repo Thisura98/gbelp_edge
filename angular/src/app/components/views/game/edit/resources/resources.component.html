@@ -34,7 +34,13 @@
                 <div class="section-sound" *ngIf="soundResources.length > 0">
                     <h2>Sound</h2>
                     <div class="asset-container">
-                        
+                        <div class="asset dyn-anim-fadein-delayed" 
+                            *ngFor="let res of soundResources" 
+                            [ngClass]="{'asset-selected': selectedResource?._id == res._id}"
+                            (click)="assetSelected(res)">
+                            <div class="asset-snd-container noselect"><img class="asset-snd noselect" src="/assets/game/musicnote.png"></div>
+                            <div class="asset-name">{{res.displayName}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,8 +55,14 @@
                     <div class="options-selected-type">{{selectedResource!.type + " Resource" | titlecase}}</div>
                     <div class="options-separator"></div>
                     <h4>Management</h4>
+                    <div class="dyn-btn clickable btn-play-sound" 
+                        *ngIf="selectedResource!.type == 'sound'"
+                        (click)="previewSoundBtnPressed()">
+                        {{ isPlayingSound ? "Stop" : "Play" }}
+                        <span *ngIf="isPlayingSound" class="sound-time">{{ audioTimeLabel }}</span>
+                    </div>
                     <div class="dyn-btn clickable btn-rename">Rename</div>
-                    <div class="dyn-btn clickable btn-delete btn-danger">Delete</div>
+                    <div class="dyn-btn clickable btn-delete btn-danger" (click)="resourceDeleteClicked()">Delete</div>
                 </ng-container>
             </div>
         </div>
