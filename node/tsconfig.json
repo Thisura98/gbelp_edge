@@ -10,7 +10,6 @@
   },
   "include": [
     "index.ts", 
-    "src/**/*.ts",
     "node_modules/@types/**/*"
   ],
   "exclude": [
