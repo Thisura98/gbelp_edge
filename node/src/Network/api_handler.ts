@@ -116,8 +116,7 @@ export function handle(app: express.Express){
         const userId = req.header('uid')! as string;
         const gameId = req.query.gameId! as string;
         const resourceId = req.query.resId! as string;
-        const path = utils.getRootPath();
-        gamesDAO.deleteGameResource(gameId, resourceId, userId, path, (status, msg, result) => {
+        gamesDAO.deleteGameResource(gameId, resourceId, userId, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });

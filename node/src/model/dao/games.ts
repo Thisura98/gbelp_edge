@@ -8,6 +8,7 @@ import * as mimeParse from '../../util/mime_parse';
 import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
+import fsPromises from 'fs/promises';
 
 /**
  * Create a game entry
@@ -213,6 +214,9 @@ export function deleteGame(gameId: string, userId: string, callback: (status: bo
 
 /**
  * Internal function to delete data related to a game.
+ * 
+ * Deletes the game entry, its project file and associated
+ * resources in the file system.
  * @param {string} gameId 
  * @param {string} projectId
  * @param {function(boolean, string): void} callback 
@@ -234,14 +238,47 @@ function deleteGameData(gameId: string, projectId: string, callback: (status: bo
 
         // Delete project file
         const GameProject = mongo.models.GameProject;
-        GameProject.deleteOne({_id: projectId}, (err2) => {
-            if (err2){
-                callback(false, 'Delete operation failed for Game Project ' + JSON.stringify(err2));
-                return
+
+        // Find project ilfe
+        GameProject.findById(projectId, (err, doc) => {
+            if (err || doc == null){
+                callback(false, 'Delete failed because project file does not exist');
+                return;
             }
 
-            callback(true, 'Deleted Game Entry and Project Files');
-        })
+            const resources = doc.get('resources') as Array<any>;
+
+            // We have the data, lets delete the project
+            GameProject.deleteOne({_id: projectId}, (err) => {
+                if (err){
+                    callback(false, 'Delete operation failed ' + JSON.stringify(err));
+                    return;
+                }
+
+                // No resources, can go ahead and send response
+                if (resources.length == 0){
+                    callback(true, 'Game Entry deleted successfully!');
+                    return;
+                }
+
+                // Create promises for each delete process
+                const rootPath = utils.getRootPath();
+                let promises = new Array<Promise<void>>();
+                for (const resource of resources){
+                    const filePath = rootPath + '/' + resource.filename;
+                    promises.push(fsPromises.unlink(filePath));
+                }
+
+                console.log('To delete', resources.length, 'resources, awaiting on Promise.all with', promises.length, 'promises...');
+
+                // Execute all delete resource promises in union.
+                Promise.all(promises).finally(() => {
+                    console.log('All delete resource promises resolved!');
+                    callback(true, 'Game Entry deleted successfully!');
+                })
+                    
+            });
+        });
     });
 }
 
@@ -289,15 +326,9 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
  */
 export function deleteGameResource(
     gameId: string, resourceId: string, userId: string,
-    fileBasePathExcludingUploadPath: string,
     callback: (status: boolean, desc: string, result: Object | null) => void
 ){
-    // TODO
-    // 1. Make Author + projectId checking common.
-    // 1.5 Get Resource Array
-    // 2. Delete resource from collection
-    // 3. Delete file from file system
-    // 4. Return project 
+    const fileBasePathExcludingUploadPath = utils.getRootPath();
 
     console.log('deleteGameResource called', gameId, resourceId, userId);
 

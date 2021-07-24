@@ -20,6 +20,10 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
     </div>
     `,
     styles: [`
+    .dyn-backdrop{
+        background-color: transparent;
+    }
+
     .dfu-container{
         display: flex;
         justify-content: center;
@@ -36,6 +40,8 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
         border-radius: 8px;
         padding: 10px;
         min-width: 300px;
+
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         /* min-height: 140px; */
     }
 
