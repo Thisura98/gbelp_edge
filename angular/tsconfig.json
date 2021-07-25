@@ -27,4 +27,8 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
+  "include": [
+    "./",
+    "../commons/src"
+  ]
 }

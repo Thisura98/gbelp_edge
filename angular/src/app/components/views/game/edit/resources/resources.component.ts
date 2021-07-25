@@ -2,13 +2,14 @@ import { HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
-import { GAME_RESOURCE_TYPE, getGameSidebarItems } from 'src/app/constants/constants';
+import { GameResourceType } from '../../../../../../../../commons/src/models/game/game';
 import { GameEntry, GameListing } from 'src/app/models/game/game';
 import { GameProject, GameProjectResource } from 'src/app/models/game/game_project';
 import { ResourceUrlTransformPipe } from 'src/app/pipes/resource-url-transform.pipe';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
+import { getGameSidebarItems } from 'src/app/constants/constants';
 
 @Component({
   selector: 'app-game-edit-resources',
@@ -139,11 +140,11 @@ export class GameEditResourcesComponent implements OnInit {
           next: (r) => {
             if (r && r.success){
               switch(this.selectedResource!.type){
-                case GAME_RESOURCE_TYPE.IMAGE:
+                case GameResourceType.IMAGE:
                   this.imageResources = this.imageResources.filter(v => v._id != resourceId);
                 break;
 
-                case GAME_RESOURCE_TYPE.SOUND:
+                case GameResourceType.SOUND:
                   this.soundResources = this.soundResources.filter(v => v._id != resourceId);
                 break;
               }
@@ -219,11 +220,11 @@ export class GameEditResourcesComponent implements OnInit {
     this.selectedResource = undefined;
 
     this.imageResources = project.resources.filter(v => {
-      return v.type == GAME_RESOURCE_TYPE.IMAGE;
+      return v.type == GameResourceType.IMAGE;
     })
 
     this.soundResources = project.resources.filter(v => {
-      return v.type == GAME_RESOURCE_TYPE.SOUND;
+      return v.type == GameResourceType.SOUND;
     });
   }
 

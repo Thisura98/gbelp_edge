@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { GameListing } from 'src/app/models/game/game';
+import { GameProject, GameProjectLevel } from 'src/app/models/game/game_project';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -20,6 +21,9 @@ export class GameEditLevelsComponent implements OnInit {
   get sidebarItems(): DynamicSidebarItem[]{
     return getGameSidebarItems('Levels');
   }
+
+  selectedLevel: GameProjectLevel | undefined;
+  gameLevels: GameProjectLevel[] = [];
   
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
@@ -59,6 +63,16 @@ export class GameEditLevelsComponent implements OnInit {
 
   private handleDataLoadError(message: any){
     this.dialogService.showDismissable('Error Load Data', message, undefined);
+  }
+
+  /**
+   * Set the project file and update view related varaibles.
+   */
+   private setGameProject(project: GameProject){
+    this.gameListing!.project = project;
+    this.selectedLevel = undefined;
+
+    this.gameLevels = project.levels;
   }
 
 }

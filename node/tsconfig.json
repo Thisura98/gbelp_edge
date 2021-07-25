@@ -10,7 +10,8 @@
   },
   "include": [
     "index.ts", 
-    "node_modules/@types/**/*"
+    "node_modules/@types/**/*",
+    "../commons/src"
   ],
   "exclude": [
     "dist",

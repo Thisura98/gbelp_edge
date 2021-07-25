@@ -9,7 +9,8 @@ import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-
+import { GameResourceType, GameType } from '../../../../commons/src/models/game/game';
+import * as Levels from '../../../../commons/src/models/game/levels';
 /**
  * Create a game entry
  * @param {Object} data 
@@ -44,7 +45,20 @@ export function createGame(data: any, callback: (status: boolean, desc: string, 
     // create game entry in sql,
     // then create games document in mongo
 
-    const proj = new mongo.models.GameProject({ resources: [], levels: [] });
+    let sampleLevels: Object[] = []
+
+    if (data.type == GameType.Singleplayer){
+        sampleLevels = Levels.getSinglePlayerLevelInitData(data.level_switch, null);
+    }
+    else if (data.type == GameType.Multiplayer){
+        sampleLevels = Levels.getMultiPlayerLevelInitData(data.level_switch, null);
+    }
+    else{
+        callback(false, `Unknown game type: "${data.type}"`, null);
+    }
+
+
+    const proj = new mongo.models.GameProject({ resources: [], levels: sampleLevels });
     
     proj.save((mongo_error: any, document: any) => {
         if (mongo_error != null){
