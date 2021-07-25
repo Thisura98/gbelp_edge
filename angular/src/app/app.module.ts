@@ -51,6 +51,7 @@ import { NotFoundComponent } from './components/views/not-found/not-found.compon
 import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.component';
 import { GameDeleteComponent } from './components/views/game/delete/delete.component';
 import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
+import { GameEditLevelsComponent } from './components/views/game/edit/levels/levels.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
     DynBasicTableComponent,
     GameEditResourcesComponent,
     NotFoundComponent,
-    GameDeleteComponent
+    GameDeleteComponent,
+    GameEditLevelsComponent
   ],
   imports: [
     CommonModule,

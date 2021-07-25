@@ -44,7 +44,7 @@ export function createGame(data: any, callback: (status: boolean, desc: string, 
     // create game entry in sql,
     // then create games document in mongo
 
-    const proj = new mongo.models.GameProject({ resources: [] });
+    const proj = new mongo.models.GameProject({ resources: [], levels: [] });
     
     proj.save((mongo_error: any, document: any) => {
         if (mongo_error != null){

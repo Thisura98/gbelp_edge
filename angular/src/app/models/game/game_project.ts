@@ -5,7 +5,16 @@ export interface GameProjectResource{
     type: string
 }
 
+export interface GameProjectLevel{
+    _id: string,
+    name: string,
+    displayMode: string,
+    exitCriteriaType: string,
+    exitCriteriaValue: string | null
+}
+
 export interface GameProject{
     _id: string,
-    resources: GameProjectResource[]
+    resources: GameProjectResource[],
+    levels: GameProjectLevel[]
 }

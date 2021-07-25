@@ -1,0 +1,36 @@
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <h4 class="small-heading">
+                Edit Levels
+            </h4>
+            <app-userstatus></app-userstatus>
+        </div>
+        <div class="buttons">
+            <div class="dyn-btn clickable btn-save">Save</div>
+            <div class="dyn-btn clickable btn-add-level">Add Level</div>
+            
+        </div>
+
+        <div class="container3">
+            <div class="section-container">
+                <div *ngFor="let level of gameLevels">
+                    <p>{{level._id}}</p>
+                    <p>{{level.name}}</p>
+                    <p>{{level.displayMode}}</p>
+                    <p>{{level.exitCriteriaType}}</p>
+                    <p>{{level.exitCriteriaValue}}</p>
+                </div>
+            </div>
+            <div class="section-pane">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
