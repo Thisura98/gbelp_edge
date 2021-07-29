@@ -1,0 +1,18 @@
+<div class="container">
+    <app-dynamicsidebar (onBack)="handleBack()">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <h4 class="small-heading">
+                Add New Levels
+            </h4>
+            <app-userstatus></app-userstatus>
+        </div>
+        <div class="buttons">
+            <div class="dyn-btn clickable btn-add" (click)="addButtonPressed()">Add Level</div>
+            <div class="dyn-btn clickable btn-cancel" (click)="cancelButtonPressed()">Cancel</div>
+        </div>
+    </div>
+
+</div>

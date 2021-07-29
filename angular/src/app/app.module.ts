@@ -52,6 +52,8 @@ import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.co
 import { GameDeleteComponent } from './components/views/game/delete/delete.component';
 import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
 import { GameEditLevelsComponent } from './components/views/game/edit/levels/levels.component';
+import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
+import { GameEditLevelItemComponent } from './components/views/game/edit/levels/item/item.component';
 
 
 @NgModule({
@@ -83,7 +85,9 @@ import { GameEditLevelsComponent } from './components/views/game/edit/levels/lev
     GameEditResourcesComponent,
     NotFoundComponent,
     GameDeleteComponent,
-    GameEditLevelsComponent
+    GameEditLevelsComponent,
+    GameEditLevelsAddComponentComponent,
+    GameEditLevelItemComponent
   ],
   imports: [
     CommonModule,

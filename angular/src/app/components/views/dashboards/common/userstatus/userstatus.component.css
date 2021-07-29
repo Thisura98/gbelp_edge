@@ -33,8 +33,9 @@
     position: absolute;
     top: 70px;
     right: 10px;
-    min-width: 100x;
+    min-width: 170px;
     overflow: hidden;
+    z-index: 10;
 }
 
 .dashboard-us-mitem {

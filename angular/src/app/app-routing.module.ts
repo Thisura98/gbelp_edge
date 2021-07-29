@@ -16,6 +16,7 @@ import { GameEditResourcesComponent } from './components/views/game/edit/resourc
 import { NotFoundComponent } from './components/views/not-found/not-found.component';
 import { GameDeleteComponent } from './components/views/game/delete/delete.component';
 import { GameEditLevelsComponent } from './components/views/game/edit/levels/levels.component';
+import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,7 @@ const routes: Routes = [
   {path: "game/delete", component: GameDeleteComponent},
   {path: "game/edit/resources", component: GameEditResourcesComponent},
   {path: "game/edit/levels", component: GameEditLevelsComponent},
+  {path: "game/edit/levels/add", component: GameEditLevelsAddComponentComponent},
   {path: "**", component: NotFoundComponent}
 ];
 

@@ -8,6 +8,8 @@ export interface GameProjectResource{
 export interface GameProjectLevel{
     _id: string,
     name: string,
+    type: string,
+    locked: boolean,
     displayMode: string,
     exitCriteriaType: string,
     exitCriteriaValue: string | null

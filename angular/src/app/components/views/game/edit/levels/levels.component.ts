@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { GameListing } from 'src/app/models/game/game';
@@ -32,7 +32,8 @@ export class GameEditLevelsComponent implements OnInit {
     private userService: UserService,
     private apiService: ApiService,
     private dialogService: DialogService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +41,14 @@ export class GameEditLevelsComponent implements OnInit {
       this.editingGameId = params['gameId'];
       this.loadData();
     });
+  }
+
+  addLevelClicked(){
+    this.router.navigate(['game/edit/levels/add'], {
+      queryParams: {
+        gameId: this.editingGameId
+      }
+    })
   }
 
   /* Private Methods */

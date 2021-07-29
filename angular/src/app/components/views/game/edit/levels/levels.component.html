@@ -11,19 +11,20 @@
         </div>
         <div class="buttons">
             <div class="dyn-btn clickable btn-save">Save</div>
-            <div class="dyn-btn clickable btn-add-level">Add Level</div>
+            <div class="dyn-btn clickable btn-add-level" (click)="addLevelClicked()">Add Level</div>
             
         </div>
 
         <div class="container3">
             <div class="section-container">
-                <div *ngFor="let level of gameLevels">
-                    <p>{{level._id}}</p>
-                    <p>{{level.name}}</p>
-                    <p>{{level.displayMode}}</p>
-                    <p>{{level.exitCriteriaType}}</p>
-                    <p>{{level.exitCriteriaValue}}</p>
-                </div>
+                <app-game-edit-level-item
+                    *ngFor="let level of gameLevels"
+                    [type]="level.type"
+                    [name]="level.name"
+                    [isSelected]="false"
+                    [isLocked]="level.locked"
+                >
+                </app-game-edit-level-item>
             </div>
             <div class="section-pane">
 
