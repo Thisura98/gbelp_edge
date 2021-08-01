@@ -53,6 +53,11 @@ export class GameEditLevelsComponent implements OnInit {
     })
   }
 
+  levelSelected(gameLevel: GameLevel){
+    console.log("Selected", gameLevel.name);
+    this.selectedLevel = gameLevel;
+  }
+
   /* Private Methods */
 
   private loadData(){

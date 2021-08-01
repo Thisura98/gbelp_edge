@@ -18,14 +18,15 @@
         <div class="container3">
             <div class="section-container">
                 <h2>Images</h2>
-                <app-game-edit-level-item
-                    *ngFor="let level of gameLevels"
-                    [type]="level.type"
-                    [name]="level.name + ' ' + level._id"
-                    [isSelected]="false"
-                    [isLocked]="level.locked"
-                >
-                </app-game-edit-level-item>
+                <div class="asset-container">
+                    <app-game-edit-level-item
+                        *ngFor="let level of gameLevels"
+                        [level]="level"
+                        [isSelected]="selectedLevel?._id == level._id"
+                        (onSelect)="levelSelected($event)"
+                    >
+                    </app-game-edit-level-item>
+                </div>
             </div>
 
         </div>

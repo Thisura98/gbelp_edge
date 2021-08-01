@@ -1,3 +1,14 @@
 .section-container, .section-pane{
     margin-top: 20px;
 }
+
+.asset-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+div.asset-container .asset-selected{
+    background-color: #C0E7FF;
+}

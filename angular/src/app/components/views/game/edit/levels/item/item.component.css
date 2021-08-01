@@ -1,0 +1,16 @@
+.asset-img{
+    height: 80px;
+    width: 130px;
+}
+
+.asset-name{
+    text-align: center;
+    width: 130px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+
+.asset-selected{
+    background-color: #C0E7FF;
+}
