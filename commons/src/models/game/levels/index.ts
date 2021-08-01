@@ -1,17 +1,24 @@
 /**
  * Defines how a level can exit
  */
-export class LevelExitCriteria {
-    public static time = "time"
-    public static score = "score"
-    public static manual = "manual"
+export enum LevelExitCriteria{
+    time = "time",
+    score = "score",
+    manual = "manual"
+}
+
+/**
+ * Helper for converting between numbers and strings for
+ * Level Exit Criteria
+ */
+export class LevelExitCriteriaHelper {
 
     public static fromNumber(levelExitCriteraAsNumber: number): LevelExitCriteria{
         switch(levelExitCriteraAsNumber){
             case 1: return LevelExitCriteria.time; break;
             case 2: return LevelExitCriteria.score; break;
             case 3: return LevelExitCriteria.manual; break;
-            default:  return "unknown_1";
+            default: return LevelExitCriteria.manual;
         }   
     }
 
@@ -59,7 +66,7 @@ export enum LevelTypeMulti{
 export class GameLevel{
 
     constructor(
-        public _id: string,
+        public _id: string | null,
         public name: string,
         public type: string,
         public displayMode: string,

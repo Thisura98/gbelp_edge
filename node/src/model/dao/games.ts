@@ -9,8 +9,10 @@ import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { GameResourceType, GameType } from '../../../../commons/src/models/game/game';
+import { GameResourceType } from '../../../../commons/src/models/game/resources';
+import { GameType } from '../../../../commons/src/models/game/game';
 import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
+import { ObjectId } from 'mongodb';
 /**
  * Create a game entry
  * @param {Object} data 
@@ -324,6 +326,7 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
 
     const displayName = file.originalname.split('/');
     const newResource = {
+        _id: new ObjectId(),
         displayName: displayName[Math.max(displayName.length - 1, 0)],
         filename: filePath,
         type: fileType

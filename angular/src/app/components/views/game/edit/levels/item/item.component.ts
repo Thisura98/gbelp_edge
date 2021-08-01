@@ -9,6 +9,7 @@ import { GameLevel } from '../../../../../../../../../commons/src/models/game/le
     (click)="onSelect.emit(level)">
     <div class="asset-img-container">
       <img class="asset-img" src="assets/game/levelbg.png"/>
+      <img class="asset-img-locked" src="assets/game/levellock.png" *ngIf="level?.locked ?? false" />
     </div>
     <div class="asset-name">{{level!.name | titlecase}}</div>
   </div>

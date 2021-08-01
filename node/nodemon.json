@@ -1,5 +1,9 @@
 {
-    "watch": ["src", "./index.ts"],
+    "watch": [
+        "src", 
+        "./index.ts",
+        "../commons/src"
+    ],
     "ext": "ts,json",
     "ignore": ["src/**/*.spec.ts"],
     "exec": "npx ts-node ./index.ts"

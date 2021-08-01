@@ -12,3 +12,12 @@
 div.asset-container .asset-selected{
     background-color: #C0E7FF;
 }
+
+
+app-game-edit-level-item{
+    /* width: 140px; */
+    /* height: 180px; */
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+}

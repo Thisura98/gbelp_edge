@@ -1,23 +1,24 @@
-import { LevelExitCriteria, LevelTypeSingle,  LevelTypeMulti, LevelDisplayMode } 
-from ".";
+import { LevelExitCriteria, LevelTypeSingle,  LevelTypeMulti, LevelDisplayMode, GameLevel, LevelExitCriteriaHelper } from ".";
+import { getNewObjectId } from "../../common";
 
 /**
  * Returns the initial game levels for a single player game.
  */
  export function getSinglePlayerLevelInitData(
     levelExitCriteria: LevelExitCriteria | number,
-    levelExitValue: string | null
-): Object[] {
+    levelExitValue: number | null
+): GameLevel[] {
 
     let lExitCriteria: LevelExitCriteria
 
     if (typeof levelExitCriteria == 'number')
-        lExitCriteria = LevelExitCriteria.fromNumber(levelExitCriteria);
+        lExitCriteria = LevelExitCriteriaHelper.fromNumber(levelExitCriteria);
     else
         lExitCriteria = levelExitCriteria;
 
     return [
         {
+            _id: getNewObjectId(),
             name: 'Title Screen',
             type: LevelTypeSingle.titleScreen,
             displayMode: LevelDisplayMode.replace,
@@ -26,6 +27,7 @@ from ".";
             exitCriteriaValue: null
         },
         {
+            _id: getNewObjectId(),
             name: 'Example Level Screen',
             type: LevelTypeSingle.genericLevel,
             displayMode: LevelDisplayMode.replace,
@@ -34,11 +36,12 @@ from ".";
             exitCriteriaValue: levelExitValue
         },
         {
+            _id: getNewObjectId(),
             name: 'Game Over Screen',
             type: LevelTypeSingle.gameOver,
             displayMode: LevelDisplayMode.replace,
             locked: true,
-            exitCriteriaType: null,
+            exitCriteriaType: lExitCriteria,
             exitCriteriaValue: null
         },
     ]
@@ -49,18 +52,19 @@ from ".";
  */
 export function getMultiPlayerLevelInitData(
     levelExitCriteria: LevelExitCriteria | number,
-    levelExitValue: string | null
-): Object[] {
+    levelExitValue: number | null
+): GameLevel[] {
 
     let lExitCriteria: LevelExitCriteria
 
     if (typeof levelExitCriteria == 'number')
-        lExitCriteria = LevelExitCriteria.fromNumber(levelExitCriteria);
+        lExitCriteria = LevelExitCriteriaHelper.fromNumber(levelExitCriteria);
     else
         lExitCriteria = levelExitCriteria;
 
     return [
         {
+            _id: getNewObjectId(),
             name: 'Title Screen',
             type: 'multi_title_screen',
             displayMode: 'on_top',
@@ -69,6 +73,7 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaValue: null
         },
         {
+            _id: getNewObjectId(),
             name: 'Staging Screen',
             type: 'multi_staging',
             displayMode: 'on_top',
@@ -77,6 +82,7 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaValue: null
         },
         {
+            _id: getNewObjectId(),
             name: 'Example Level Screen',
             type: 'multi_level',
             displayMode: 'on_top',
@@ -85,11 +91,12 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaValue: levelExitValue
         },
         {
+            _id: getNewObjectId(),
             name: 'Game Over Screen',
             type: 'multi_game_over',
             displayMode: 'on_top',
             locked: false,
-            exitCriteriaType: null,
+            exitCriteriaType: LevelExitCriteria.manual,
             exitCriteriaValue: null
         },
     ]

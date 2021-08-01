@@ -10,7 +10,13 @@
     word-wrap: break-word;
 }
 
+.asset-img-locked{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+}
 
-.asset-selected{
-    background-color: #C0E7FF;
+.asset-img-container{
+    position: relative;
 }
