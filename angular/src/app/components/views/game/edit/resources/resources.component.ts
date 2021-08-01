@@ -166,6 +166,9 @@ export class GameEditResourcesComponent implements OnInit {
   private loadData(){
     this.apiService.getGame(this.editingGameId!).subscribe({
       next: (data) => {
+
+        console.log(JSON.stringify(data));
+
         if (data.data != undefined){
           this.gameListing = data.data;
           this.setGameProject(data.data.project);
