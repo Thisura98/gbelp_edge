@@ -6,12 +6,22 @@ export enum GameType{
     Multiplayer = 2
 }
 
-/**
- * Games have resources (images, sounds) and are
- * stored in the project object in a common array.
- * Type helps distinguish the resource's meta data type.
- */
-export enum GameResourceType{
-    SOUND = "sound",
-    IMAGE = "image"
+export class GameEntry{
+    constructor(
+        public id: number, 
+        public author_id: string, 
+        public name: string, 
+        public type: number, 
+        public level_switch: number, 
+        public multi_user_limit: number, 
+        public progress_bound_type: number, 
+        public project_id: number | null, 
+        public rep_opt_objectives: number, 
+        public rep_opt_guidance_trg: number, 
+        public rep_opt_student_usg: number, 
+        public rep_opt_level_score: number, 
+        public rep_opt_level_time: number
+    ){
+        
+    }
 }

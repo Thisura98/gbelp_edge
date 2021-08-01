@@ -9,7 +9,7 @@ import { getGameSidebarItems } from 'src/app/constants/constants';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-import { GameEntry } from '../../../../models/game/game';
+import { GameEntry } from '../../../../../../../commons/src/models/game/game';
 
 @Component({
   selector: 'app-game-create',

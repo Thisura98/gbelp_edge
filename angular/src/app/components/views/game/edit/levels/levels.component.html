@@ -17,17 +17,15 @@
 
         <div class="container3">
             <div class="section-container">
+                <h2>Images</h2>
                 <app-game-edit-level-item
                     *ngFor="let level of gameLevels"
                     [type]="level.type"
-                    [name]="level.name"
+                    [name]="level.name + ' ' + level._id"
                     [isSelected]="false"
                     [isLocked]="level.locked"
                 >
                 </app-game-edit-level-item>
-            </div>
-            <div class="section-pane">
-
             </div>
 
         </div>

@@ -1,6 +1,6 @@
 import { ServerResponse } from '../common-models';
-import { GameEntry } from './game_entry';
-import { GameProject } from './game_project';
+import { GameEntry } from '../../../../../commons/src/models/game/game';
+import { GameProject } from '../../../../../commons/src/models/game/project';
 
 interface CreateGame{
     gameId: string
@@ -10,8 +10,6 @@ export interface GameListing{
     entry: GameEntry,
     project: GameProject
 }
-
-export { GameEntry };
 
 export interface ServerResponseGameCreate extends ServerResponse<CreateGame>{};
 

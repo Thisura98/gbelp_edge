@@ -56,15 +56,16 @@ export enum LevelTypeMulti{
 /**
  * Base class for a Level
  */
-export class Level{
+export class GameLevel{
 
     constructor(
+        public _id: string,
         public name: string,
         public type: string,
         public displayMode: string,
         public locked: boolean,
         public exitCriteriaType: string,
-        public exitCriteriaValue: number | undefined
+        public exitCriteriaValue: number | null
     ){
 
     }

@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { GameListing } from 'src/app/models/game/game';
-import { GameProject, GameProjectLevel } from 'src/app/models/game/game_project';
+import { GameProject } from '../../../../../../../../commons/src/models/game/project';
+import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -22,8 +23,9 @@ export class GameEditLevelsComponent implements OnInit {
     return getGameSidebarItems('Levels');
   }
 
-  selectedLevel: GameProjectLevel | undefined;
-  gameLevels: GameProjectLevel[] = [];
+  selectedLevel: GameLevel | undefined;
+  // gameLevels: GameProjectLevel[] = [];
+  gameLevels: GameLevel[] = [];
   
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
