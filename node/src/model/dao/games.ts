@@ -10,7 +10,7 @@ import multer from 'multer';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
 import { GameResourceType, GameType } from '../../../../commons/src/models/game/game';
-import * as Levels from '../../../../commons/src/models/game/levels';
+import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 /**
  * Create a game entry
  * @param {Object} data 
@@ -48,10 +48,10 @@ export function createGame(data: any, callback: (status: boolean, desc: string, 
     let sampleLevels: Object[] = []
 
     if (data.type == GameType.Singleplayer){
-        sampleLevels = Levels.getSinglePlayerLevelInitData(data.level_switch, null);
+        sampleLevels = LevelInitData.getSinglePlayerLevelInitData(data.level_switch, null);
     }
     else if (data.type == GameType.Multiplayer){
-        sampleLevels = Levels.getMultiPlayerLevelInitData(data.level_switch, null);
+        sampleLevels = LevelInitData.getMultiPlayerLevelInitData(data.level_switch, null);
     }
     else{
         callback(false, `Unknown game type: "${data.type}"`, null);

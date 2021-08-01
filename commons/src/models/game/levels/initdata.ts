@@ -1,34 +1,10 @@
-/**
- * Defines how a level can exit
- */
-export class LevelExitCriteria {
-    public static time = "time"
-    public static score = "score"
-    public static manual = "manual"
-
-    public static fromNumber(levelExitCriteraAsNumber: number): LevelExitCriteria{
-        switch(levelExitCriteraAsNumber){
-            case 1: return LevelExitCriteria.time; break;
-            case 2: return LevelExitCriteria.score; break;
-            case 3: return LevelExitCriteria.manual; break;
-            default:  return "unknown_1";
-        }   
-    }
-
-    public static toNumber(value: LevelExitCriteria): number{
-        switch(value){
-            case LevelExitCriteria.time: return 1;
-            case LevelExitCriteria.score: return 2;
-            case LevelExitCriteria.manual: return 3
-            default: return -1;
-        }
-    }
-}
+import { LevelExitCriteria, LevelTypeSingle,  LevelTypeMulti, LevelDisplayMode } 
+from ".";
 
 /**
  * Returns the initial game levels for a single player game.
  */
-export function getSinglePlayerLevelInitData(
+ export function getSinglePlayerLevelInitData(
     levelExitCriteria: LevelExitCriteria | number,
     levelExitValue: string | null
 ): Object[] {
@@ -43,22 +19,25 @@ export function getSinglePlayerLevelInitData(
     return [
         {
             name: 'Title Screen',
-            type: 'single_title_screen',
-            displayMode: 'on_top',
-            exitCriteriaType: 'manual',
+            type: LevelTypeSingle.titleScreen,
+            displayMode: LevelDisplayMode.replace,
+            locked: true,
+            exitCriteriaType: LevelExitCriteria.manual,
             exitCriteriaValue: null
         },
         {
             name: 'Example Level Screen',
-            type: 'single_level',
-            displayMode: 'on_top',
+            type: LevelTypeSingle.genericLevel,
+            displayMode: LevelDisplayMode.replace,
+            locked: false,
             exitCriteriaType: lExitCriteria,
             exitCriteriaValue: levelExitValue
         },
         {
             name: 'Game Over Screen',
-            type: 'single_game_over',
-            displayMode: 'on_top',
+            type: LevelTypeSingle.gameOver,
+            displayMode: LevelDisplayMode.replace,
+            locked: true,
             exitCriteriaType: null,
             exitCriteriaValue: null
         },
@@ -85,6 +64,7 @@ export function getMultiPlayerLevelInitData(
             name: 'Title Screen',
             type: 'multi_title_screen',
             displayMode: 'on_top',
+            locked: true,
             exitCriteriaType: 'manual',
             exitCriteriaValue: null
         },
@@ -92,6 +72,7 @@ export function getMultiPlayerLevelInitData(
             name: 'Staging Screen',
             type: 'multi_staging',
             displayMode: 'on_top',
+            locked: false,
             exitCriteriaType: 'manual',
             exitCriteriaValue: null
         },
@@ -99,6 +80,7 @@ export function getMultiPlayerLevelInitData(
             name: 'Example Level Screen',
             type: 'multi_level',
             displayMode: 'on_top',
+            locked: false,
             exitCriteriaType: lExitCriteria,
             exitCriteriaValue: levelExitValue
         },
@@ -106,6 +88,7 @@ export function getMultiPlayerLevelInitData(
             name: 'Game Over Screen',
             type: 'multi_game_over',
             displayMode: 'on_top',
+            locked: false,
             exitCriteriaType: null,
             exitCriteriaValue: null
         },

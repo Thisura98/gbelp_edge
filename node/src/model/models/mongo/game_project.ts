@@ -1,4 +1,5 @@
 import { Schema } from 'mongoose';
+import { Level } from '../../../../../commons/src/models/game/levels';
 
 // MARK: Schema Definitions
 
@@ -14,13 +15,16 @@ export const gameResourceSchema = new Schema({
  * 
  * `exitCriteriaValue` and `exitCriteriaType` are logically tied.
  */
-export const gameLevelSchema = new Schema({
-    name: String,
-    type: String,
-    displayMode: String,
-    exitCriteriaType: String,
-    exitCriteriaValue: String,
-});
+// export const gameLevelSchema = new Schema({
+//     name: String,
+//     type: String,
+//     locked: Boolean,
+//     displayMode: String,
+//     exitCriteriaType: String,
+//     exitCriteriaValue: String,
+// });
+
+// export const gameLevelSchema = 
 
 export const gameProjectSchema = new Schema({
     resources: [gameResourceSchema],
