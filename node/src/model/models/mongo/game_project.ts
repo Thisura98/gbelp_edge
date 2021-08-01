@@ -26,7 +26,7 @@ export const gameResourceSchema = new Schema({
 
 // export const gameLevelSchema = 
 
-export const gameProjectSchema = new Schema({
-    resources: [gameResourceSchema],
-    levels: [gameLevelSchema]
-});
+// export const gameProjectSchema = new Schema({
+//     resources: [gameResourceSchema],
+//     levels: [gameLevelSchema]
+// });

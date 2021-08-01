@@ -57,15 +57,13 @@ export function createGame(data: any, callback: (status: boolean, desc: string, 
         callback(false, `Unknown game type: "${data.type}"`, null);
     }
 
-
-    const proj = new mongo.models.GameProject({ resources: [], levels: sampleLevels });
-    
-    proj.save((mongo_error: any, document: any) => {
+    const proj = { resources: [], levels: sampleLevels };
+    mongo.Collections.getGameProjects().insertOne(proj, (mongo_error, result) => {
         if (mongo_error != null){
             callback(false, 'Error creating Game Project', null);
             return;
         }
-        
+    
         /**
          * .toString() is IMPORTANT. document._id are ObjectIDs
          * and not strings. Trying to pass it to MySQL with throw
@@ -74,7 +72,7 @@ export function createGame(data: any, callback: (status: boolean, desc: string, 
          * 
          * Had to learn this the hard way. DO NOT FORGET!
          */
-        const projectId = document._id.toString();
+        const projectId = result!.insertedId.toHexString();
 
         columns_arr.push(c.projectId);
         values.push(projectId);
@@ -98,7 +96,7 @@ export function createGame(data: any, callback: (status: boolean, desc: string, 
                 callback(false, "Server Error occured", null);
             }
         });
-    }) 
+    });
 }
 
 /**
@@ -167,19 +165,23 @@ export function getGame(id: string | number, callback: (status: boolean, desc: s
     }, (err, res, fields) => {
         if (err == null && res.length > 0){
 
-            const projectId = res[0][sql.columns.gameEntry.projectId];
-            mongo.models.GameProject.findById(projectId, (err, gameProject) => {
-                if (err){
-                    callback(false, 'Error retrieving game project file', null);
-                }
-                else{
-                    const result = {
-                        entry: res[0],
-                        project: gameProject
+            const projectId = mongo.toObjectId(res[0][sql.columns.gameEntry.projectId]);
+
+            mongo.Collections.getGameProjects().findOne(
+                {_id: mongo.toObjectId(projectId)},
+                (err, gameProject) => {
+                    if (err){
+                        callback(false, 'Error retrieving game project file', null);
                     }
-                    callback(true, `Successfully retrieved game id ${id}`, result)
+                    else{
+                        const result = {
+                            entry: res[0],
+                            project: gameProject!
+                        }
+                        callback(true, `Successfully retrieved game id ${id}`, result)
+                    }
                 }
-            })
+            );
         }
         else if (err == null && res.length == 0){
             callback(false, `Could not find game matching ID, '${id}'`, null);
@@ -250,49 +252,52 @@ function deleteGameData(gameId: string, projectId: string, callback: (status: bo
             return;
         }
 
-        // Delete project file
-        const GameProject = mongo.models.GameProject;
-
         // Find project ilfe
-        GameProject.findById(projectId, (err, doc) => {
-            if (err || doc == null){
-                callback(false, 'Delete failed because project file does not exist');
-                return;
+        mongo.Collections.getGameProjects().findOne(
+            {_id: mongo.toObjectId(projectId)},
+            (err, doc) => {
+                if (err || doc == null){
+                    callback(false, 'Delete failed because project file does not exist');
+                    return;
+                }
+
+                const resources = doc!['resources'] as Array<any>;
+
+                // console.log("Document", JSON.stringify(doc), "resources", resources);
+
+                mongo.Collections.getGameProjects().deleteOne(
+                    {_id: mongo.toObjectId(projectId)},
+                    (err) => {
+                        if (err){
+                            callback(false, 'Delete operation failed ' + JSON.stringify(err));
+                            return;
+                        }
+        
+                        // No resources, can go ahead and send response
+                        if (resources.length == 0){
+                            callback(true, 'Game Entry deleted successfully!');
+                            return;
+                        }
+        
+                        // Create promises for each delete process
+                        const rootPath = utils.getRootPath();
+                        let promises = new Array<Promise<void>>();
+                        for (const resource of resources){
+                            const filePath = rootPath + '/' + resource.filename;
+                            promises.push(fsPromises.unlink(filePath));
+                        }
+        
+                        console.log('To delete', resources.length, 'resources, awaiting on Promise.all with', promises.length, 'promises...');
+        
+                        // Execute all delete resource promises in union.
+                        Promise.all(promises).finally(() => {
+                            console.log('All delete resource promises resolved!');
+                            callback(true, 'Game Entry deleted successfully!');
+                        })
+                    }
+                )
             }
-
-            const resources = doc.get('resources') as Array<any>;
-
-            // We have the data, lets delete the project
-            GameProject.deleteOne({_id: projectId}, (err) => {
-                if (err){
-                    callback(false, 'Delete operation failed ' + JSON.stringify(err));
-                    return;
-                }
-
-                // No resources, can go ahead and send response
-                if (resources.length == 0){
-                    callback(true, 'Game Entry deleted successfully!');
-                    return;
-                }
-
-                // Create promises for each delete process
-                const rootPath = utils.getRootPath();
-                let promises = new Array<Promise<void>>();
-                for (const resource of resources){
-                    const filePath = rootPath + '/' + resource.filename;
-                    promises.push(fsPromises.unlink(filePath));
-                }
-
-                console.log('To delete', resources.length, 'resources, awaiting on Promise.all with', promises.length, 'promises...');
-
-                // Execute all delete resource promises in union.
-                Promise.all(promises).finally(() => {
-                    console.log('All delete resource promises resolved!');
-                    callback(true, 'Game Entry deleted successfully!');
-                })
-                    
-            });
-        });
+        )
     });
 }
 
@@ -309,6 +314,7 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
     const mime = file.mimetype;
     const filePath = String(file.path);
     const projectId = String(requestBody.projectid);
+    const projectIdAsObjectId = mongo.toObjectId(projectId);
     let fileType = mimeParse.findResourceTypeFromMimeType(mime);
 
     if (fileType == null){
@@ -323,13 +329,16 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
         type: fileType
     };
 
-    mongo.models.GameProject.updateOne(
-        { _id: projectId },
+    mongo.Collections.getGameProjects().updateOne(
+        { _id: projectIdAsObjectId},
         { $push: { resources: newResource } },
         (err, res) => {
-            mongo.models.GameProject.findById(projectId, (err2: any, gameProject: any) => {
-                callback(true, 'OK', gameProject);
-            });
+            mongo.Collections.getGameProjects().findOne(
+                {_id: projectIdAsObjectId},
+                (err2, gameProject) => {
+                    callback(true, 'OK', gameProject!);
+                }
+            )
         }
     );
 }
@@ -352,40 +361,44 @@ export function deleteGameResource(
             return;
         }
 
-        mongo.models.GameProject.findById(projectId, (err, doc) => {
-            if (err){
-                callback(false, 'Could not find game with project id ' + projectId, null);
-                return;
-            }
+        mongo.Collections.getGameProjects().findOne(
+            {_id: mongo.toObjectId(projectId)},
+            (err, doc) => {
+                if (err){
+                    callback(false, 'Could not find game with project id ' + projectId, null);
+                    return;
+                }
 
-            const resourceArray = doc!.get('resources') as Array<any>;
-            const matchingResource = resourceArray.filter((r) => {return r._id == resourceId});
+                const resourceArray = doc!.get('resources') as Array<any>;
+                const matchingResource = resourceArray.filter((r) => {return r._id == resourceId});
 
-            if (matchingResource.length == 0){
-                callback(false, 'Could not find project resource with id ' + resourceId, null);
-                return
-            }
+                if (matchingResource.length == 0){
+                    callback(false, 'Could not find project resource with id ' + resourceId, null);
+                    return
+                }
 
-            const filePath = fileBasePathExcludingUploadPath + '/' + matchingResource[0].filename;
+                const filePath = fileBasePathExcludingUploadPath + '/' + matchingResource[0].filename;
 
-            console.log('deleteGameResource going to delete', filePath);
+                console.log('deleteGameResource going to delete', filePath);
 
-            fs.unlink(filePath, (err) => {
-                console.log('deleteGameResource fs err', JSON.stringify(err));
-                mongo.models.GameProject.updateOne(
-                    { _id: projectId},
-                    { $pull: { resources: { _id: resourceId } } },
-                    (err, doc) => {
-                        if (err){
-                            console.log('deleteGameResource', JSON.stringify(err))
+                fs.unlink(filePath, (err) => {
+                    console.log('deleteGameResource fs err', JSON.stringify(err));
+
+                    mongo.Collections.getGameProjects().updateOne(
+                        {_id: mongo.toObjectId(projectId)},
+                        { $pull: { resources: { _id: mongo.toObjectId(resourceId) } } },
+                        (err, doc) => {
+                            if (err){
+                                console.log('deleteGameResource', JSON.stringify(err))
+                            }
+                            else{
+                                callback(true, 'Deleted resource successfully!', doc!);
+                            }
                         }
-                        else{
-                            callback(true, 'Deleted resource successfully!', doc);
-                        }
-                    }
-                );
-            });
-        });
+                    )
+                });
+            }
+        );
 
         /*
         mongo.models.GameProject.updateOne(
