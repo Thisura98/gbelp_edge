@@ -78,3 +78,24 @@ export class GameLevel{
     }
 
 }
+
+/**
+ * Helper methods for the GameLevel class
+ */
+export class GameLevelHelper{
+    static getFriendlyLevelType(level: GameLevel | undefined): string{
+        let type = (level?.type ?? "").toLowerCase();
+        if (type == "")
+          return type;
+
+        if (type.startsWith('single_')){
+          type = type.substring(6, type.length)
+        }
+        else if (type.startsWith('multi_')){
+          type = type.substring(5, type.length)
+        }
+
+        type = type.split('_').join(' ');
+        return type
+    }
+}

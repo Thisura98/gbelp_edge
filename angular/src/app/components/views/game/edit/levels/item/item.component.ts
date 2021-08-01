@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter, HostBinding } from '@angular/core';
-import { GameLevel } from '../../../../../../../../../commons/src/models/game/levels';
+import { GameLevel, GameLevelHelper } from '../../../../../../../../../commons/src/models/game/levels';
 
 @Component({
   selector: 'app-game-edit-level-item',
@@ -10,6 +10,7 @@ import { GameLevel } from '../../../../../../../../../commons/src/models/game/le
     <div class="asset-img-container">
       <img class="asset-img" src="assets/game/levelbg.png"/>
       <img class="asset-img-locked" src="assets/game/levellock.png" *ngIf="level?.locked ?? false" />
+      <div class="asset-type">{{levelType}}</div>
     </div>
     <div class="asset-name">{{level!.name | titlecase}}</div>
   </div>
@@ -23,9 +24,15 @@ export class GameEditLevelItemComponent implements OnInit {
   @Input() @HostBinding('class.asset-selected') isSelected: boolean = false
   @Output() onSelect: EventEmitter<GameLevel> = new EventEmitter();
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit(): void {
     // console.log(this.type, this.name, this.isSelected);
+  }
+
+  get levelType(): string{
+    let type = GameLevelHelper.getFriendlyLevelType(this.level).toUpperCase();
+    return type;
   }
 }

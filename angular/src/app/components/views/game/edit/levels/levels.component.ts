@@ -4,10 +4,11 @@ import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamic
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { GameListing } from 'src/app/models/game/game';
 import { GameProject } from '../../../../../../../../commons/src/models/game/project';
-import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
+import { LevelExitCriteria, GameLevel, GameLevelHelper } from '../../../../../../../../commons/src/models/game/levels';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
+import { GameEditLevelItemComponent } from './item/item.component';
 
 @Component({
   selector: 'app-game-edit-levels',
@@ -23,8 +24,8 @@ export class GameEditLevelsComponent implements OnInit {
     return getGameSidebarItems('Levels');
   }
 
+  selectedLevelIndex: number | undefined;
   selectedLevel: GameLevel | undefined;
-  // gameLevels: GameProjectLevel[] = [];
   gameLevels: GameLevel[] = [];
   
   private editingGameId: number | undefined;
@@ -54,8 +55,27 @@ export class GameEditLevelsComponent implements OnInit {
   }
 
   levelSelected(gameLevel: GameLevel){
-    console.log("Selected", gameLevel.name);
-    this.selectedLevel = gameLevel;
+    if (this.selectedLevel?._id == gameLevel._id){
+      this.selectedLevel = undefined;
+      this.selectedLevelIndex = undefined;
+    }
+    else{
+      this.selectedLevel = gameLevel;
+      this.selectedLevelIndex = this.gameLevels.indexOf(gameLevel);
+      console.log('Selected Level Index', this.selectedLevelIndex);
+    }
+  }
+
+  getFriendlyLevelName(gameLevel: GameLevel): string{
+    return GameLevelHelper.getFriendlyLevelType(gameLevel);
+  }
+
+  get isSelectedLevelExitCriteriaTime(): boolean{
+    return this.selectedLevel?.exitCriteriaType == LevelExitCriteria.time
+  }
+
+  get isSelectedLevelExitCriteriaScore(): boolean{
+    return this.selectedLevel?.exitCriteriaType == LevelExitCriteria.score
   }
 
   /* Private Methods */

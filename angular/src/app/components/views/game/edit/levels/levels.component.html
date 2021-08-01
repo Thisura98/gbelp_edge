@@ -28,7 +28,71 @@
                     </app-game-edit-level-item>
                 </div>
             </div>
+            <div class="section-pane">
+                <h2>Options</h2>
+                <ng-container *ngIf="selectedLevel == undefined">
+                    <div class="options-selected-type">Select a level to get started</div>
+                    <div class="options-separator"></div>
+                </ng-container>
+                <ng-container *ngIf="selectedLevel != undefined">
+                    <div class="options-selected-name">{{'"' + selectedLevel.name + '" Selected'}}</div>
+                    <div class="options-selected-type">
+                        {{"Type: " + (getFriendlyLevelName(selectedLevel) | titlecase)}}
+                    </div>
+                    <div class="options-selected-type" *ngIf="selectedLevel.locked">
+                        This level is locked. Only certain elements can be customized.
+                    </div>
+                    <div class="options-separator"></div>
+                    <h4>Level Settings</h4>
 
+                    <ng-container *ngIf="isSelectedLevelExitCriteriaTime">
+                        <div class="dyn-form-row">
+                            <div class="dyn-form-label">Level Name</div>
+                            <input class="dyn-textbox" type="text" placeholder="E.g. Level 1"/>
+                        </div>
+                        <div class="options-description">
+                            Set the Level's Identification Name
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="isSelectedLevelExitCriteriaScore">
+                        <div class="dyn-form-row">
+                            <div class="dyn-form-label">Winning Score</div>
+                            <input class="dyn-textbox" type="number" placeholder="E.g. 100"/>
+                        </div>
+                        <div class="options-description">
+                            Use nodes in the game editor to increase the player’s score. When the score reaches this value, the next level will automatically load.
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="isSelectedLevelExitCriteriaTime">
+                        <div class="dyn-form-row">
+                            <div class="dyn-form-label">Level Time <span class="grayed">(seconds)</span></div>
+                            <input class="dyn-textbox" type="number" placeholder="E.g. 240"/>
+                        </div>
+                        <div class="options-description">
+                            When the level's time runs out, the next level will automatically start.
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!selectedLevel.locked">
+                        <div class="dyn-form-row">
+                            <div class="dyn-form-label">Display Mode</div>
+                            <select class="dyn-select" placeholder="Select a game type">
+                                <option value="replace">Replace</option>
+                                <option value="on_top">On Top</option>
+                            </select>
+                        </div>
+                        <div class="options-description">
+                            Dispaly mode deteremines whether the level is displayed on-top of existing Levels, or replaces the currently displayed level.
+                        </div>
+                    </ng-container>
+
+                    <div class="options-separator"></div>
+                    <h4>Management</h4>
+                    <div class="btn-container">
+                        <div class="dyn-btn clickable btn-duplicate">Duplicate</div>
+                        <div class="dyn-btn clickable btn-delete btn-danger">Delete</div>
+                    </div>
+                </ng-container>
+            </div>
         </div>
 
     </div>
