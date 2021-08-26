@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import * as usersDAO from '../model/dao/users';
 import * as gamesDAO from '../model/dao/games';
+import * as levelsDAO from '../model/dao/levels';
 import * as statusCodes from './status_codes';
 import * as pc from '../util/parseconfig';
 import * as l from '../util/logger';
@@ -120,6 +121,16 @@ export function handle(app: express.Express){
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });
+
+    app.put(aurl('save-level'), (req, res) => {
+        const userId = req.header('uid')! as string;
+        const gameId = req.body.gameId! as string;
+        const projectId = req.body.projectId! as string;
+        const levels = req.body.levels! as any;
+        levelsDAO.saveLevel(gameId, projectId, userId, levels, (status, msg, result) => {
+            res.json(new ResponseModel(status, 200, msg, result))
+        });
+    })
 
     // Fallbacks
 

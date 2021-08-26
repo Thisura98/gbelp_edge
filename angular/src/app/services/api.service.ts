@@ -7,6 +7,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
 import { tap } from 'rxjs/operators';
+import { GameLevel } from '../../../../commons/src/models/game/levels';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -195,6 +196,16 @@ export class ApiService{
         return this.http.delete<ServerResponsePlain>(url, {
             headers: this.getHeaders()
         });
+    }
+
+    saveLevel(gameId: string, projectId: string, levels: GameLevel[]): Observable<ServerResponsePlain>{
+        const url = this.aurl(`save-level`);
+        const body = {
+            'gameId': gameId,
+            'projectId': projectId,
+            'levels': levels
+        }
+        return this.http.put<ServerResponsePlain>(url, body, {headers: this.getHeaders()});
     }
 
     // MARK END: Game Editing

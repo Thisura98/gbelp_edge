@@ -10,9 +10,8 @@
             <app-userstatus></app-userstatus>
         </div>
         <div class="buttons">
-            <div class="dyn-btn clickable btn-save">Save</div>
+            <div class="dyn-btn clickable btn-save" [class.disabled]="saveBtnDisabled" (click)="handleSaveButtonPressed()">{{saveBtnText}}</div>
             <div class="dyn-btn clickable btn-add-level" (click)="addLevelClicked()">Add Level</div>
-            
         </div>
 
         <div class="container3">

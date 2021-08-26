@@ -13,12 +13,14 @@ import { GameResourceType } from '../../../../commons/src/models/game/resources'
 import { GameType } from '../../../../commons/src/models/game/game';
 import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
+import DAOCallback from './commons';
+
 /**
  * Create a game entry
  * @param {Object} data 
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
-export function createGame(data: any, callback: (status: boolean, desc: string, result: Object | null) => void){
+export function createGame(data: any, callback: DAOCallback){
 
     const c = sql.columns.gameEntry;
     let columns_arr = [
@@ -106,7 +108,7 @@ export function createGame(data: any, callback: (status: boolean, desc: string, 
  * @param {Object} data 
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
-export function editGame(data: any, callback: (status: boolean, desc: string, result: Object | null) => void){
+export function editGame(data: any, callback: DAOCallback){
     const c = sql.columns.gameEntry;
     const columns_arr = [
         c.authorId,
@@ -160,7 +162,7 @@ export function editGame(data: any, callback: (status: boolean, desc: string, re
  * @param {string | number} id 
  * @param {function(boolean, string, Object | null)} callback success?, desc, result
  */
-export function getGame(id: string | number, callback: (status: boolean, desc: string, result: Object | null) => void){
+export function getGame(id: string | number, callback: DAOCallback){
     sql.getPool()!.query({
         sql: "SELECT * FROM ?? WHERE ?? = ? LIMIT 1",
         values: [sql.tables.gameEntry, sql.columns.gameEntry.id, id]
@@ -198,7 +200,7 @@ export function getGame(id: string | number, callback: (status: boolean, desc: s
  * Ret
  * @param {function(boolean, string, Object} callback success, desc, object containing games
  */
-export function getAllGames(callback: (status: boolean, desc: string, result: Object | null) => void){
+export function getAllGames(callback: DAOCallback){
     const query = `SELECT * FROM ${sql.tables.gameEntry}`;
     sql.getPool()!.query(query, (err, res, fields) => {
 
@@ -217,14 +219,14 @@ export function getAllGames(callback: (status: boolean, desc: string, result: Ob
  * @param {string} userId 
  * @param {function(boolean, string, Object): void} callback 
  */
-export function deleteGame(gameId: string, userId: string, callback: (status: boolean, desc: string, result: Object | null) => void){
+export function deleteGame(gameId: string, userId: string, callback: DAOCallback){
     
     utils.checkUserCanModifyGame(gameId, userId, (status, projectId) => {
         if (!status){
             callback(false, 'User not allowed to delete this game', null);
             return;
         }
-        deleteGameData(gameId, projectId!, (status, description) => {
+        deleteGameData(gameId, projectId!, (status, description, s) => {
             callback(status, description, null);
         });
     });
@@ -239,7 +241,7 @@ export function deleteGame(gameId: string, userId: string, callback: (status: bo
  * @param {string} projectId
  * @param {function(boolean, string): void} callback 
  */
-function deleteGameData(gameId: string, projectId: string, callback: (status: boolean, desc: string) => void){
+function deleteGameData(gameId: string, projectId: string, callback: DAOCallback){
     const t = sql.tables.gameEntry;
     const c = sql.columns.gameEntry;
     const deleteGameEntryQuery = `DELETE FROM ${t}
@@ -250,7 +252,7 @@ function deleteGameData(gameId: string, projectId: string, callback: (status: bo
     sql.getPool()!.query(deleteGameEntryQuery, (err, res, fields) => {
         if (err != null || err != undefined){
             l.logc(JSON.stringify(err), 'deleteGameData-err')
-            callback(false, 'Delete operation failed for Game Entry');
+            callback(false, 'Delete operation failed for Game Entry', null);
             return;
         }
 
@@ -259,7 +261,7 @@ function deleteGameData(gameId: string, projectId: string, callback: (status: bo
             {_id: mongo.toObjectId(projectId)},
             (err, doc) => {
                 if (err || doc == null){
-                    callback(false, 'Delete failed because project file does not exist');
+                    callback(false, 'Delete failed because project file does not exist', null);
                     return;
                 }
 
@@ -271,13 +273,13 @@ function deleteGameData(gameId: string, projectId: string, callback: (status: bo
                     {_id: mongo.toObjectId(projectId)},
                     (err) => {
                         if (err){
-                            callback(false, 'Delete operation failed ' + JSON.stringify(err));
+                            callback(false, 'Delete operation failed ' + JSON.stringify(err), null);
                             return;
                         }
         
                         // No resources, can go ahead and send response
                         if (resources.length == 0){
-                            callback(true, 'Game Entry deleted successfully!');
+                            callback(true, 'Game Entry deleted successfully!', null);
                             return;
                         }
         
@@ -294,7 +296,7 @@ function deleteGameData(gameId: string, projectId: string, callback: (status: bo
                         // Execute all delete resource promises in union.
                         Promise.all(promises).finally(() => {
                             console.log('All delete resource promises resolved!');
-                            callback(true, 'Game Entry deleted successfully!');
+                            callback(true, 'Game Entry deleted successfully!', null);
                         })
                     }
                 )
@@ -309,7 +311,7 @@ function deleteGameData(gameId: string, projectId: string, callback: (status: bo
  * @param {File} file File object decoded by multer
  * @param {function(boolean, string, Object)} callback status, desc, new project
  */
-export function uploadGameResource(requestBody: any, file: Express.Multer.File, callback: (status: boolean, desc: string, result: Object | null) => void){
+export function uploadGameResource(requestBody: any, file: Express.Multer.File, callback: DAOCallback){
     // const fileName = file.filename
     // const path = file.path (base path + filename = path appropriate for storing in db)
 
@@ -352,7 +354,7 @@ export function uploadGameResource(requestBody: any, file: Express.Multer.File, 
  */
 export function deleteGameResource(
     gameId: string, resourceId: string, userId: string,
-    callback: (status: boolean, desc: string, result: Object | null) => void
+    callback: DAOCallback
 ){
     const fileBasePathExcludingUploadPath = utils.getRootPath();
 

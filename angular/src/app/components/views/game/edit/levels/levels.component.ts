@@ -27,6 +27,9 @@ export class GameEditLevelsComponent implements OnInit {
     return getGameSidebarItems('Levels');
   }
 
+  saveBtnText: string = 'Save';
+  saveBtnDisabled: boolean = false;
+
   selectedLevelIndex: number | undefined;
   selectedLevel: GameLevel | undefined;
   gameLevels: GameLevel[] = [];
@@ -69,6 +72,18 @@ export class GameEditLevelsComponent implements OnInit {
     }
   }
 
+  get isSelectedLevelExitCriteriaTime(): boolean{
+    return this.selectedLevel?.exitCriteriaType == LevelExitCriteria.time
+  }
+
+  get isSelectedLevelExitCriteriaScore(): boolean{
+    return this.selectedLevel?.exitCriteriaType == LevelExitCriteria.score
+  }
+
+  getFriendlyLevelName(gameLevel: GameLevel): string{
+    return GameLevelHelper.getFriendlyLevelType(gameLevel);
+  }
+
   handleNameChanged(event: Event){
     const input = event.target as HTMLInputElement;
     this.selectedLevel!.name = input.value;
@@ -88,16 +103,16 @@ export class GameEditLevelsComponent implements OnInit {
     this.gameLevels[this.selectedLevelIndex!].displayMode = input.value;
   }
 
-  getFriendlyLevelName(gameLevel: GameLevel): string{
-    return GameLevelHelper.getFriendlyLevelType(gameLevel);
-  }
+  handleSaveButtonPressed(){
+    this.saveBtnText = 'Saving...';
+    this.saveBtnDisabled = true;
 
-  get isSelectedLevelExitCriteriaTime(): boolean{
-    return this.selectedLevel?.exitCriteriaType == LevelExitCriteria.time
-  }
-
-  get isSelectedLevelExitCriteriaScore(): boolean{
-    return this.selectedLevel?.exitCriteriaType == LevelExitCriteria.score
+    this.apiService.saveLevel(this.editingGameId!.toString(), this.gameListing!.project._id, this.gameLevels).subscribe((r) => {
+      this.resetSaveBtnState();
+    }, (e) => {
+      this.dialogService.showDismissable("Error while Saving", JSON.stringify(e));
+      this.resetSaveBtnState();
+    });
   }
 
   /* Private Methods */
@@ -121,6 +136,11 @@ export class GameEditLevelsComponent implements OnInit {
 
   private handleDataLoadError(message: any){
     this.dialogService.showDismissable('Error Load Data', message, undefined);
+  }
+
+  private resetSaveBtnState(){
+    this.saveBtnText = 'Save';
+    this.saveBtnDisabled = false;
   }
 
   /**
