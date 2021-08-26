@@ -20,6 +20,9 @@ import { GameEditLevelItemComponent } from './item/item.component';
 })
 export class GameEditLevelsComponent implements OnInit {
 
+  /**
+   * Left sidebar
+   */
   get sidebarItems(): DynamicSidebarItem[]{
     return getGameSidebarItems('Levels');
   }
@@ -64,6 +67,25 @@ export class GameEditLevelsComponent implements OnInit {
       this.selectedLevelIndex = this.gameLevels.indexOf(gameLevel);
       console.log('Selected Level Index', this.selectedLevelIndex);
     }
+  }
+
+  handleNameChanged(event: Event){
+    const input = event.target as HTMLInputElement;
+    this.selectedLevel!.name = input.value;
+    this.gameLevels[this.selectedLevelIndex!].name = input.value;
+  }
+
+  handleExitCriteriaValueChanged(event: Event){
+    const input = event.target as HTMLInputElement;
+    const value: number = +input.value
+    this.selectedLevel!.exitCriteriaValue = value;
+    this.gameLevels[this.selectedLevelIndex!].exitCriteriaValue = value;
+  }
+
+  handleDisplayModeChanged(event: Event){
+    const input = event.target as HTMLInputElement;
+    this.selectedLevel!.displayMode = input.value;
+    this.gameLevels[this.selectedLevelIndex!].displayMode = input.value;
   }
 
   getFriendlyLevelName(gameLevel: GameLevel): string{

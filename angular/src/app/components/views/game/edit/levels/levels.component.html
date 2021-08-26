@@ -17,7 +17,7 @@
 
         <div class="container3">
             <div class="section-container">
-                <h2>Images</h2>
+                <h2>Levels</h2>
                 <div class="asset-container">
                     <app-game-edit-level-item
                         *ngFor="let level of gameLevels"
@@ -45,10 +45,11 @@
                     <div class="options-separator"></div>
                     <h4>Level Settings</h4>
 
-                    <ng-container *ngIf="isSelectedLevelExitCriteriaTime">
+                    <ng-container *ngIf="isSelectedLevelExitCriteriaTime || isSelectedLevelExitCriteriaScore">
                         <div class="dyn-form-row">
                             <div class="dyn-form-label">Level Name</div>
-                            <input class="dyn-textbox" type="text" placeholder="E.g. Level 1"/>
+                            <input class="dyn-textbox" type="text" placeholder="E.g. Level 1" 
+                                [value]="selectedLevel.name" (change)="handleNameChanged($event)" />
                         </div>
                         <div class="options-description">
                             Set the Level's Identification Name
@@ -57,7 +58,8 @@
                     <ng-container *ngIf="isSelectedLevelExitCriteriaScore">
                         <div class="dyn-form-row">
                             <div class="dyn-form-label">Winning Score</div>
-                            <input class="dyn-textbox" type="number" placeholder="E.g. 100"/>
+                            <input class="dyn-textbox" type="number" placeholder="E.g. 100"
+                                [value]="selectedLevel.exitCriteriaValue" (change)="handleExitCriteriaValueChanged($event)"/>
                         </div>
                         <div class="options-description">
                             Use nodes in the game editor to increase the player’s score. When the score reaches this value, the next level will automatically load.
@@ -66,7 +68,8 @@
                     <ng-container *ngIf="isSelectedLevelExitCriteriaTime">
                         <div class="dyn-form-row">
                             <div class="dyn-form-label">Level Time <span class="grayed">(seconds)</span></div>
-                            <input class="dyn-textbox" type="number" placeholder="E.g. 240"/>
+                            <input class="dyn-textbox" type="number" placeholder="E.g. 240"
+                                [value]="selectedLevel.exitCriteriaValue" (change)="handleExitCriteriaValueChanged($event)"/>
                         </div>
                         <div class="options-description">
                             When the level's time runs out, the next level will automatically start.
@@ -75,9 +78,9 @@
                     <ng-container *ngIf="!selectedLevel.locked">
                         <div class="dyn-form-row">
                             <div class="dyn-form-label">Display Mode</div>
-                            <select class="dyn-select" placeholder="Select a game type">
-                                <option value="replace">Replace</option>
-                                <option value="on_top">On Top</option>
+                            <select class="dyn-select" placeholder="Select a game type" (change)="handleDisplayModeChanged($event)">
+                                <option value="replace" [selected]="selectedLevel.displayMode == 'replace'">Replace</option>
+                                <option value="on_top" [selected]="selectedLevel.displayMode == 'on_top'">On Top</option>
                             </select>
                         </div>
                         <div class="options-description">

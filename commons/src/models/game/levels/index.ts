@@ -73,9 +73,7 @@ export class GameLevel{
         public locked: boolean,
         public exitCriteriaType: string,
         public exitCriteriaValue: number | null
-    ){
-
-    }
+    ){}
 
 }
 
@@ -83,6 +81,10 @@ export class GameLevel{
  * Helper methods for the GameLevel class
  */
 export class GameLevelHelper{
+    /**
+     * Returns a display friendly name for the Game Level Type
+     * @param level Level to extra details from
+     */
     static getFriendlyLevelType(level: GameLevel | undefined): string{
         let type = (level?.type ?? "").toLowerCase();
         if (type == "")
