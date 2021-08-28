@@ -24,7 +24,10 @@ import { getNewObjectId } from "../../common";
             displayMode: LevelDisplayMode.replace,
             locked: true,
             exitCriteriaType: LevelExitCriteria.manual,
-            exitCriteriaValue: null
+            exitCriteriaValue: null,
+            scene: {
+                objects: []
+            }
         },
         {
             _id: getNewObjectId(),
@@ -33,7 +36,10 @@ import { getNewObjectId } from "../../common";
             displayMode: LevelDisplayMode.replace,
             locked: false,
             exitCriteriaType: lExitCriteria,
-            exitCriteriaValue: levelExitValue
+            exitCriteriaValue: levelExitValue,
+            scene: {
+                objects: []
+            }
         },
         {
             _id: getNewObjectId(),
@@ -42,7 +48,10 @@ import { getNewObjectId } from "../../common";
             displayMode: LevelDisplayMode.replace,
             locked: true,
             exitCriteriaType: lExitCriteria,
-            exitCriteriaValue: null
+            exitCriteriaValue: null,
+            scene: {
+                objects: []
+            }
         },
     ]
 }
@@ -70,7 +79,10 @@ export function getMultiPlayerLevelInitData(
             displayMode: 'on_top',
             locked: true,
             exitCriteriaType: 'manual',
-            exitCriteriaValue: null
+            exitCriteriaValue: null,
+            scene: {
+                objects: []
+            }
         },
         {
             _id: getNewObjectId(),
@@ -79,7 +91,10 @@ export function getMultiPlayerLevelInitData(
             displayMode: 'on_top',
             locked: false,
             exitCriteriaType: 'manual',
-            exitCriteriaValue: null
+            exitCriteriaValue: null,
+            scene: {
+                objects: []
+            }
         },
         {
             _id: getNewObjectId(),
@@ -88,7 +103,10 @@ export function getMultiPlayerLevelInitData(
             displayMode: 'on_top',
             locked: false,
             exitCriteriaType: lExitCriteria,
-            exitCriteriaValue: levelExitValue
+            exitCriteriaValue: levelExitValue,
+            scene: {
+                objects: []
+            }
         },
         {
             _id: getNewObjectId(),
@@ -97,7 +115,10 @@ export function getMultiPlayerLevelInitData(
             displayMode: 'on_top',
             locked: false,
             exitCriteriaType: LevelExitCriteria.manual,
-            exitCriteriaValue: null
+            exitCriteriaValue: null,
+            scene: {
+                objects: []
+            }
         },
     ]
 }

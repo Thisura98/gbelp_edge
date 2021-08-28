@@ -1,3 +1,5 @@
+import { LevelScene } from "./scene";
+
 /**
  * Defines how a level can exit
  */
@@ -6,31 +8,6 @@ export enum LevelExitCriteria{
     score = "score",
     manual = "manual"
 }
-
-/**
- * Helper for converting between numbers and strings for
- * Level Exit Criteria
- */
-export class LevelExitCriteriaHelper {
-
-    public static fromNumber(levelExitCriteraAsNumber: number): LevelExitCriteria{
-        switch(levelExitCriteraAsNumber){
-            case 1: return LevelExitCriteria.time; break;
-            case 2: return LevelExitCriteria.score; break;
-            case 3: return LevelExitCriteria.manual; break;
-            default: return LevelExitCriteria.manual;
-        }   
-    }
-
-    public static toNumber(value: LevelExitCriteria): number{
-        switch(value){
-            case LevelExitCriteria.time: return 1;
-            case LevelExitCriteria.score: return 2;
-            case LevelExitCriteria.manual: return 3
-            default: return -1;
-        }
-    }
-} 
 
 /**
  * Describes how a level should be displayed against
@@ -72,7 +49,8 @@ export class GameLevel{
         public displayMode: string,
         public locked: boolean,
         public exitCriteriaType: string,
-        public exitCriteriaValue: number | null
+        public exitCriteriaValue: number | null,
+        public scene: LevelScene
     ){}
 
 }
@@ -101,3 +79,28 @@ export class GameLevelHelper{
         return type
     }
 }
+
+/**
+ * Helper for converting between numbers and strings for
+ * Level Exit Criteria
+ */
+export class LevelExitCriteriaHelper {
+
+    public static fromNumber(levelExitCriteraAsNumber: number): LevelExitCriteria{
+        switch(levelExitCriteraAsNumber){
+            case 1: return LevelExitCriteria.time; break;
+            case 2: return LevelExitCriteria.score; break;
+            case 3: return LevelExitCriteria.manual; break;
+            default: return LevelExitCriteria.manual;
+        }   
+    }
+
+    public static toNumber(value: LevelExitCriteria): number{
+        switch(value){
+            case LevelExitCriteria.time: return 1;
+            case LevelExitCriteria.score: return 2;
+            case LevelExitCriteria.manual: return 3
+            default: return -1;
+        }
+    }
+} 

@@ -2,7 +2,7 @@ import * as StartScreen from "./lt_startscreen";
 
 export function getAllSingleplayerTemplates(): Object[]{
     return [
-        StartScreen.LevelTemplateStartScreenMultiplayer,
+        StartScreen.LevelTemplateStartScreenSingleplayer,
     ]
 }
 
