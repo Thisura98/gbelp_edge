@@ -1,0 +1,37 @@
+.container3{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.section-hierarchy, .section-scene-map, .section-pane{
+    margin-top: 20px;
+}
+
+.section-scene-map{
+    width: 100%;
+}
+
+.section-pane{
+    width: 340px;
+    min-width: 140px;
+    margin-right: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.section-pane .dyn-form-row:not(:first-child){
+    margin-top: 10px;
+}
+
+.asset-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.section-hierarchy{
+    width: 200px;
+    min-width: 140px;
+}

@@ -1,1 +1,35 @@
-<p>editor works!</p>
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <h4 class="small-heading">
+                Edit Levels
+            </h4>
+            <app-userstatus></app-userstatus>
+        </div>
+        <div class="buttons">
+            <div class="dyn-btn clickable btn-save">Save</div>
+            <div class="dyn-btn clickable btn-add-level">Add Level</div>
+        </div>
+
+        <div class="container3">
+            <div class="section-hierarchy">
+                <h2>Hierarchy</h2>
+            </div>
+            <div class="section-scene-map">
+                <h2>Scene Map</h2>
+                <div class="asset-container">
+                </div>
+            </div>
+            <div class="section-pane">
+                <h2>Library</h2>
+                <h2>Options</h2>
+                
+            </div>
+        </div>
+
+    </div>
+
+</div>
