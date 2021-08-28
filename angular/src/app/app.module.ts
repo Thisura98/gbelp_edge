@@ -54,6 +54,7 @@ import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
 import { GameEditLevelsComponent } from './components/views/game/edit/levels/levels.component';
 import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
 import { GameEditLevelItemComponent } from './components/views/game/edit/levels/item/item.component';
+import { GameEditorComponents } from './components/views/game/edit/editor/editor.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { GameEditLevelItemComponent } from './components/views/game/edit/levels/
     GameDeleteComponent,
     GameEditLevelsComponent,
     GameEditLevelsAddComponentComponent,
-    GameEditLevelItemComponent
+    GameEditLevelItemComponent,
+    GameEditorComponents
   ],
   imports: [
     CommonModule,
