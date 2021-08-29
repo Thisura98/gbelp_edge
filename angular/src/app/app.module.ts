@@ -55,6 +55,9 @@ import { GameEditLevelsComponent } from './components/views/game/edit/levels/lev
 import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
 import { GameEditLevelItemComponent } from './components/views/game/edit/levels/item/item.component';
 import { GameEditorComponents } from './components/views/game/edit/editor/editor.component';
+import { SceneComponent } from './components/views/game/edit/editor/scene/scene.component';
+import { AnimationComponent } from './components/views/game/edit/editor/animation/animation.component';
+import { LogicComponent } from './components/views/game/edit/editor/logic/logic.component';
 
 
 @NgModule({
@@ -88,7 +91,10 @@ import { GameEditorComponents } from './components/views/game/edit/editor/editor
     GameEditLevelsComponent,
     GameEditLevelsAddComponentComponent,
     GameEditLevelItemComponent,
-    GameEditorComponents
+    GameEditorComponents,
+    SceneComponent,
+    AnimationComponent,
+    LogicComponent
   ],
   imports: [
     CommonModule,

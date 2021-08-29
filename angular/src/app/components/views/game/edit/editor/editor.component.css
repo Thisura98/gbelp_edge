@@ -1,20 +1,22 @@
+.container2{
+    height: 100vh;
+}
+
 .container3{
     display: flex;
+    flex-grow: 1;
     flex-direction: row;
     justify-content: space-between;
-}
-
-.section-hierarchy, .section-scene-map, .section-pane{
     margin-top: 20px;
+    gap: 10px;
 }
 
-.section-scene-map{
-    width: 100%;
-}
+/* .section-hierarchy, .section-scene-map, .section-pane{
+    margin-top: 20px;
+} */
 
 .section-pane{
-    width: 340px;
-    min-width: 140px;
+    width: 240px;
     margin-right: 10px;
     max-height: 80vh;
     overflow-y: auto;
@@ -31,7 +33,32 @@
     gap: 15px;
 }
 
+/* Object Hierarchy (List) */
+
 .section-hierarchy{
-    width: 200px;
+    width: 140px;
     min-width: 140px;
+    display: flex;
+    flex-direction: column;
+}
+
+.object-list{
+    border: 1px solid #CBCBCB;
+    flex-grow: 1;
+    margin-bottom: 10px;
+}
+
+/* Scene Map (map-container + ...) [CANVAS] */
+
+.section-scene-map{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.map-container{
+    border: 1px solid #CBCBCB;
+    flex-grow: 1;
+    margin-bottom: 10px
 }

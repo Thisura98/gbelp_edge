@@ -122,7 +122,7 @@ export class GameEditLevelsComponent implements OnInit {
       next: (data) => {
         if (data.data != undefined){
           this.gameListing = data.data;
-          this.setGameProject(data.data.project);
+          this.setGameProject();
         }
         else{
           this.handleDataLoadError('Could not load data');
@@ -144,13 +144,11 @@ export class GameEditLevelsComponent implements OnInit {
   }
 
   /**
-   * Set the project file and update view related varaibles.
+   * Update view related varaibles.
    */
-   private setGameProject(project: GameProject){
-    this.gameListing!.project = project;
+   private setGameProject(){
     this.selectedLevel = undefined;
-
-    this.gameLevels = project.levels;
+    this.gameLevels = this.gameListing!.project.levels;
   }
 
 }
