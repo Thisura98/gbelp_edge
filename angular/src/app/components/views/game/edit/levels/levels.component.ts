@@ -46,6 +46,7 @@ export class GameEditLevelsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userService.routeOutIfLoggedOut();
     this.activatedRoute.queryParams.subscribe((params) => {
       this.editingGameId = params['gameId'];
       this.loadData();
