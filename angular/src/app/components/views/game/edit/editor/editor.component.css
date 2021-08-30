@@ -1,3 +1,11 @@
 .container2{
     height: 100vh;
 }
+
+.select-lvl-container{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

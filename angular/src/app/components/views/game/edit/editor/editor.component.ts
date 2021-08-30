@@ -68,6 +68,7 @@ export class GameEditorComponents implements OnInit {
 
   private handleLoadData(response: ServerResponseGameListing){
     this.gameListing = response.data;
+    this.gameLevels = this.gameListing!.project.levels;
     this.editorDataService.setData(response);
   }
 
