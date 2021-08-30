@@ -56,7 +56,6 @@ export class GameEditorComponents implements OnInit {
 
   didSelectLevel(event: Event){
     const levelId = (event.target as HTMLInputElement).value;
-    console.log("Input value", levelId);
 
     if (levelId == "-1")
       return;

@@ -21,7 +21,7 @@ export class SceneEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.editorDataService.getData().subscribe(value => {
-      console.log("SceneComponent:", JSON.stringify(value));
+      // console.log("SceneComponent:", JSON.stringify(value));
     });
     this.activatedRoute.queryParams.subscribe(params => {
       this.editingLevelId = params['levelId'];

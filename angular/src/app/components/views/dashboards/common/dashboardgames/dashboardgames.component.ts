@@ -23,7 +23,6 @@ export class DashboardgamesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('DashboardgamesComponent', '');
     this.loadData();
   }
 

@@ -47,7 +47,7 @@ export class ApiService{
 
     private getHeaders(): HttpHeaders{
         const headerValues = this.userService.getUserAndToken();
-        console.log("getHeaders:", headerValues);
+        // console.log("getHeaders:", headerValues);
         const h = new HttpHeaders({
             'uid': headerValues.user.userId!,
             'auth': headerValues.token!
@@ -85,7 +85,6 @@ export class ApiService{
     }
 
     loginUser(email: string, pwHash: string): Observable<ServerResponseUserAuth>{
-        console.log('loginUser called');
         const url = this.aurl('login');
         const data = { email: email, ph: pwHash }
         return this.http.post<ServerResponseUserAuth>(url, data);

@@ -69,7 +69,6 @@ export class GameEditLevelsComponent implements OnInit {
     else{
       this.selectedLevel = gameLevel;
       this.selectedLevelIndex = this.gameLevels.indexOf(gameLevel);
-      console.log('Selected Level Index', this.selectedLevelIndex);
     }
   }
 

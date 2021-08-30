@@ -125,7 +125,7 @@ export class GameEditResourcesComponent implements OnInit {
     this.player.load();
     this.player.play();  
 
-    console.log('player loading...', this.player.readyState, filePath);
+    // console.log('player loading...', this.player.readyState, filePath);
   }
 
   /**
@@ -170,7 +170,7 @@ export class GameEditResourcesComponent implements OnInit {
     this.apiService.getGame(this.editingGameId!).subscribe({
       next: (data) => {
 
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
 
         if (data.data != undefined){
           this.gameListing = data.data;

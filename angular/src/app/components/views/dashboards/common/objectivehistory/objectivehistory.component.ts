@@ -37,7 +37,6 @@ export class ObjectivehistoryComponent implements OnInit {
       this.apiService.getGameObjectiveHistories(userId, hardCodedSessionId).subscribe(response => {
         if (response.success){
           ELEMENT_DATA.data = response.data;
-          console.log("NEW DATA!", ELEMENT_DATA);
         }
         this.loading = false;
       });
