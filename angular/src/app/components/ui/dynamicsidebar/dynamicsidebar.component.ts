@@ -52,6 +52,12 @@ export interface DynamicSidebarItem{
 })
 export class DynamicsidebarComponent implements OnInit {
 
+  /**
+   * Keys (and values) filtered out from the query parameters
+   * when clicking on sidebar items. 
+   */
+  private readonly strippedParameters: string[] = ['levelId'];
+
   @Input()
   items: DynamicSidebarItem[] = []
 
@@ -166,8 +172,15 @@ export class DynamicsidebarComponent implements OnInit {
 
   private navigateInheritingParams(item: DynamicSidebarItem){
     this.activatedRoute.queryParams.subscribe((params) => {
+      let finalParams: { [key: string]: any } = {};
+
+      for (let key in params){
+        if (!this.strippedParameters.includes(key))
+          finalParams[key] = params[key];
+      }
+
       this.router.navigate([item.path], {
-        queryParams: params
+        queryParams: finalParams
       })
     });
   }

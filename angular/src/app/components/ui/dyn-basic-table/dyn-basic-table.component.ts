@@ -53,12 +53,12 @@ export class DynBasicTableComponent implements OnInit {
 
   setConfig(config: DynBasicTableConfig){
     this.config = config;
-    console.log("columns", this.config.columns);
+    // console.log("columns", this.config.columns);
     // this.changeDetector.markForCheck();
   }
 
   addRow(){
-    console.log("Row count increased!");
+    // console.log("Row count increased!");
     this.rowCount += 1;
   }
 
