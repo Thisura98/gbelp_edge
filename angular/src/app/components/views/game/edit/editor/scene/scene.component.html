@@ -2,6 +2,10 @@
     <div class="section-hierarchy">
         <h2>Hierarchy</h2>
         <div class="object-list">
+            <div class="hierarchy-item"
+                *ngFor="let obj of sceneObjects">
+                {{obj.name}}
+            </div>
         </div>
     </div>
     <div class="section-scene-map">
@@ -13,7 +17,9 @@
         <h2>Library</h2>
         <div class="library-panel">
             <!-- Library Item Styles are present in editor.component.css -->
-            <div class="library-item" *ngFor="let item of gameListing!.project.resources">
+            <div class="library-item noselect" 
+                *ngFor="let item of gameListing!.project.resources"
+                (dblclick)="didDoubleClickLibraryItem(item)">
                 <div class="library-item-img-container">
                     <!-- Image if Sound Resource -->
                     <!-- <img class="library-item-img"  -->

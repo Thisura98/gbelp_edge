@@ -21,6 +21,10 @@
     width: 72px;
 }
 
+.library-item:hover{
+    background-color: #E9F7FF;
+}
+
 .library-item-img{
     height: 40px;
     margin-top: 8px;

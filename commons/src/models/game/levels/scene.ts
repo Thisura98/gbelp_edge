@@ -1,3 +1,10 @@
+// import { getNewObjectId } from "../../common";
+import { GameProjectResource } from "../resources";
+
+export enum SceneObjectType{
+    sprite = 'sprite'
+}
+
 export class SceneObjectFrame{
     constructor(
         public x: number,
@@ -34,7 +41,7 @@ export enum SceneObjectSpriteStretch{
 
 export class SceneObject{
     constructor(
-        public _id: string,
+        public _id: string | null,
         public spriteResourceId: string,
         public type: string,
         public name: string,
@@ -45,7 +52,7 @@ export class SceneObject{
         public opacity: number,
         public spawnBehavior: string,
         public spriteStretch: string, 
-        public hidden: string,
+        public hidden: boolean,
     ){
     }
 }
@@ -56,3 +63,33 @@ export class LevelScene{
     ){}
 }
 
+export class SceneObjectHelper{
+
+    static createFromResource(
+        resource: GameProjectResource, 
+        frame: SceneObjectFrame | undefined = undefined
+    ): SceneObject{
+        let objframe: SceneObjectFrame
+
+        if (frame == undefined)
+            objframe = new SceneObjectFrame(0, 0, 100, 100);
+        else
+            objframe = frame;
+
+        return new SceneObject(
+            null,
+            resource._id,
+            SceneObjectType.sprite,
+            resource.displayName.replace(/[\.-_]/g, '_'),
+            objframe,
+            0,          // Rotation
+            SceneObjectPhysicsBehavior.solid.toString(),
+            SceneObjectPhysicsCollision.rect.toString(),
+            1.0,        // opacity
+            SceneObjectSpawnBehavior.perLevel.toString(),
+            SceneObjectSpriteStretch.fit.toString(),
+            false       // hidden?
+        )
+    }
+
+}
