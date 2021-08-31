@@ -77,7 +77,8 @@
                     <ng-container *ngIf="!selectedLevel.locked">
                         <div class="dyn-form-row">
                             <div class="dyn-form-label">Display Mode</div>
-                            <select class="dyn-select" placeholder="Select a game type" (change)="handleDisplayModeChanged($event)">
+                            <select class="dyn-select" placeholder="Select a game type" 
+                                (change)="handleDisplayModeChanged($event)">
                                 <option value="replace" [selected]="selectedLevel.displayMode == 'replace'">Replace</option>
                                 <option value="on_top" [selected]="selectedLevel.displayMode == 'on_top'">On Top</option>
                             </select>
@@ -91,6 +92,7 @@
                     <h4>Management</h4>
                     <div class="btn-container">
                         <div class="dyn-btn clickable btn-duplicate">Duplicate</div>
+                        <div class="dyn-btn clickable btn-edit" (click)="editLevelPressed()">Edit</div>
                         <div class="dyn-btn clickable btn-delete btn-danger">Delete</div>
                     </div>
                 </ng-container>

@@ -9,23 +9,25 @@
             </h4>
             <app-userstatus></app-userstatus>
         </div>
-        <ng-container *ngIf="selectedLevel != undefined">
-            <div class="buttons">
-                <div class="dyn-btn clickable btn-save">Save</div>
-                <div class="dyn-btn clickable btn-add-level">Add Level</div>
-            </div>
+        <ng-container *ngIf="didLoadData">
+            <ng-container *ngIf="selectedLevel != undefined">
+                <div class="buttons dyn-anim-fadein-delayed">
+                    <div class="dyn-btn clickable btn-save">Save</div>
+                    <div class="dyn-btn clickable btn-add-level">Add Level</div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="selectedLevel == undefined">
+                <div class="select-lvl-container dyn-anim-fadein-delayed">
+                    <h4>Select a Level to Continue</h4>
+                    <select class="dyn-select" placeholder="Select a game type" (change)="didSelectLevel($event)">
+                        <option value="-1">Select a level...</option>
+                        <option *ngFor="let level of gameLevels" value="{{level._id}}">{{level.name}}</option>
+                    </select>
+                </div>
+            </ng-container>
+            <router-outlet></router-outlet>
         </ng-container>
-        <ng-container *ngIf="selectedLevel == undefined">
-            <div class="select-lvl-container">
-                <h4>Select a Level to Continue</h4>
-                <select class="dyn-select" placeholder="Select a game type" (change)="didSelectLevel($event)">
-                    <option value="-1">Select a level...</option>
-                    <option *ngFor="let level of gameLevels" value="{{level._id}}">{{level.name}}</option>
-                </select>
-            </div>
-        </ng-container>
-
-        <router-outlet></router-outlet>
+    
 
     </div>
 

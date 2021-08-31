@@ -32,6 +32,7 @@ export class GameEditorComponents implements OnInit {
   selectedLevelIndex: number | undefined;
   selectedLevel: GameLevel | undefined;
   gameLevels: GameLevel[] = [];
+  didLoadData: boolean = false
   
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
@@ -101,6 +102,7 @@ export class GameEditorComponents implements OnInit {
 
       this.editorDataService.setData(response);
       this.navigateToDefaultChildIfNeeded();
+      this.didLoadData = true;
     });
   }
 

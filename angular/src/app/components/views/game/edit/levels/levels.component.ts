@@ -115,6 +115,15 @@ export class GameEditLevelsComponent implements OnInit {
     });
   }
 
+  editLevelPressed(){
+    this.router.navigate(['/game/edit/editor/scene'], {
+      queryParams: {
+        gameId: this.editingGameId,
+        levelId: this.selectedLevel!._id
+      }
+    })
+  }
+
   /* Private Methods */
 
   private loadData(){
