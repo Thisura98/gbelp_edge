@@ -11,6 +11,20 @@
     </div>
     <div class="section-pane">
         <h2>Library</h2>
+        <div class="library-panel">
+            <!-- Library Item Styles are present in editor.component.css -->
+            <div class="library-item" *ngFor="let item of gameListing!.project.resources">
+                <div class="library-item-img-container">
+                    <!-- Image if Sound Resource -->
+                    <!-- <img class="library-item-img"  -->
+                        <!-- src="/assets/game/musicnote.png" *ngIf="item.type == 'sound'"/> -->
+                    <img class="library-item-img" 
+                        [src]="item.filename | resurl" 
+                        *ngIf="item.type == 'image'"/>
+                </div>
+                <span class="library-item-title">{{item.displayName}}</span>
+            </div>
+        </div>
         <h2>Options</h2>
         
     </div>

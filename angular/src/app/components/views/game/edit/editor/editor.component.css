@@ -9,3 +9,27 @@
     align-items: center;
     justify-content: center;
 }
+
+/* Library Item */
+
+.library-item{
+    border: 1px solid #CBCBCB;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 72px;
+}
+
+.library-item-img{
+    height: 40px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.library-item-title{
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+/* End Library Item */

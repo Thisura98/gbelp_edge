@@ -24,7 +24,7 @@
     overflow-y: auto;
 }
 
-.section-pane .dyn-form-row:not(:first-child){
+.section-pane h2:not(:first-child){
     margin-top: 10px;
 }
 
@@ -63,4 +63,13 @@
     border: 1px solid #CBCBCB;
     flex-grow: 1;
     margin-bottom: 10px
+}
+
+/* Library Panel */
+
+.library-panel{
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    flex-wrap: wrap;
 }
