@@ -5,6 +5,7 @@ import * as gamesDAO from '../model/dao/games';
 import * as levelsDAO from '../model/dao/levels';
 import * as statusCodes from './status_codes';
 import * as pc from '../util/parseconfig';
+import * as path from 'path';
 import * as l from '../util/logger';
 import * as utils from '../util/utils';
 import { ResponseModel, ResponsePlainModel } from '../model/models/common';
@@ -14,12 +15,17 @@ const apiPrefix = 'api'
 
 const multerDiskWriteConfig = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, config.fs_res_path);
+        const mimetype = file.mimetype;
+        if (mimetype.includes('audio') || mimetype.includes('sound'))
+            callback(null, config.fs_res_path_sound);
+        else
+            callback(null, config.fs_res_path_image);
     },
-    /*
     filename: (req, file, callback) => {
-        callback(null, file.originalname);
-    }*/
+        const extension = path.extname(file.originalname);
+        const filename = Date.now() + path.extname(file.originalname);
+        callback(null, filename);
+    }
 })
 
 const upload = multer({storage: multerDiskWriteConfig});

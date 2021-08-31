@@ -1,4 +1,5 @@
 import * as sql from './connections/sql/sql_connection';
+import express from 'express';
 
 let app_root_path = '';
 

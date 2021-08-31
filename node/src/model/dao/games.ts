@@ -1,3 +1,4 @@
+import { Document } from 'mongodb';
 import * as l from '../../util/logger';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as mongo from '../../util/connections/mongo/mongo_connection';
@@ -374,7 +375,7 @@ export function deleteGameResource(
                     return;
                 }
 
-                const resourceArray = doc!.get('resources') as Array<any>;
+                const resourceArray = doc!['resources'] as Array<any>;
                 const matchingResource = resourceArray.filter((r) => {return r._id == resourceId});
 
                 if (matchingResource.length == 0){

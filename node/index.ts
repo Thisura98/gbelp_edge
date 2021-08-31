@@ -3,12 +3,15 @@ import cors from 'cors';
 import * as pc from './src/util/parseconfig';
 import * as l from './src/util/logger';
 import * as apiHandler from './src/network/api_handler';
+import { fileHandler } from './src/network/file_handler';
 // import * as gameApiHandler from './src/network/game_api_handler';
 import * as sql from './src/util/connections/sql/sql_connection';
 import * as mongo from './src/util/connections/mongo/mongo_connection';
 import * as utils from './src/util/utils';
 
 import express from 'express';
+import * as fs from 'fs';
+
 // import bp from 'body-parser';
 const app = express();
 
@@ -54,7 +57,8 @@ app.get('/', (req, res) => {
 });
 
 // : Server File System Files
-app.get(`/${config.fs_res_path}/*`, express.static(`${__dirname}/`, {fallthrough: false}));
+// app.get(`/${config.fs_res_path}/*`, express.static(`${__dirname}/`, {fallthrough: false}));
+fileHandler(app);
 
 // : The Angular Static files (js, css)
 app.get('*.*', express.static(`${__dirname}/${constAngularDirectory}`, {fallthrough: false}));
