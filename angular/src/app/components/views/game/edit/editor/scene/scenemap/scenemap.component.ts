@@ -1,6 +1,6 @@
-import { Component, EventEmitter, HostListener, Input, NgZone, OnInit, Output } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnInit, Output } from "@angular/core";
 import { GameListing } from "src/app/models/game/game";
-import { SceneObject } from "../../../../../../../../../../commons/src/models/game/levels/scene";
+import { SceneObject, SceneObjectFrame } from "../../../../../../../../../../commons/src/models/game/levels/scene";
 import { GameProjectResource } from "../../../../../../../../../../commons/src/models/game/resources";
 
 class Point{
@@ -33,18 +33,15 @@ export class SceneMapComponent implements OnInit{
 
     private currentDraggingObj: SceneObject | undefined;
     private currentDraggingObjIndex: number | undefined;
-    private currentDraggingOffset: Point | undefined
 
     constructor(
-        private zone: NgZone
+        private zone: NgZone,
+        private hostRef: ElementRef
     ){
         
     }
 
     ngOnInit(){
-        // addEventListener('mousedown', (e) => {
-        //     this.childMouseDown(e);
-        // });
     }
 
     /**
@@ -72,10 +69,16 @@ export class SceneMapComponent implements OnInit{
         return this.sceneObjects[this.selectedSceneObjIndex!];
     }
 
-    selectObject(obj: SceneObject){
-        const index = this.getIndexOfObject(obj);
-        this.selectedSceneObjIndex = index;
-        this.selectedSceneObjIndexChange.emit(index);
+    selectObject(obj: SceneObject | undefined){
+        if (typeof obj == 'undefined'){
+            this.selectedSceneObjIndex = undefined;
+            this.selectedSceneObjIndexChange.emit(undefined);    
+        }
+        else{
+            const index = this.getIndexOfObject(obj);
+            this.selectedSceneObjIndex = index;
+            this.selectedSceneObjIndexChange.emit(index);
+        }
     }
 
     /* Child move handling */
@@ -83,70 +86,64 @@ export class SceneMapComponent implements OnInit{
     @HostListener('mousedown', ['$event'])
     childMouseDown(event: Event){
         const mouseEvent = event as MouseEvent;
-        const element = event.target as HTMLElement;
-        const elementRect = (element).getBoundingClientRect()
-        console.log('Mouse Down', mouseEvent.clientX, mouseEvent.clientY, event.target);
+        const hostRect = this.getSceneMapDOMRect();
+        const relativeX = mouseEvent.x - hostRect.x;
+        const relativeY = mouseEvent.y - hostRect.y;
+        const clickedObjIndex = this.sceneObjects.findIndex((obj) => {
+            return this.checkFrameContains(obj.frame, relativeX, relativeY);
+        })
+
+        if (clickedObjIndex == -1){
+            this.selectObject(undefined);
+            return;
+        }
+
+        this.selectObject(this.sceneObjects[clickedObjIndex]);
+        this.currentDraggingObj = this.sceneObjects[clickedObjIndex];
+        this.currentDraggingObjIndex = clickedObjIndex;
+        
     }
 
     @HostListener('mousemove', ['$event'])
     childMouseMoveText(event: Event){
-        // event.preventDefault();
-        if (this.sceneObjects.length < 1)
-            return;
-        this.zone.run(() => {
-            const mouseEvent = event as MouseEvent;
-            this.sceneObjects[0].frame.x = mouseEvent.clientX;
-        });
-    }
-
-    // childMouseDown(event: Event, obj: SceneObject){
-    //     // console.log("Mouse down Test fired!", Date.now());
-    //     this.currentDraggingObjIndex = this.getIndexOfObject(obj);
-    //     this.currentDraggingObj = obj;
-
-    //     const mouseEvent = event as MouseEvent;
-    //     const elementRect = (event.target as HTMLElement).getBoundingClientRect()
-    //     console.log('Mouse Down', mouseEvent.clientX, mouseEvent.clientY);
-
-    //     this.currentDraggingOffset = new Point(
-    //         elementRect.x,
-    //         elementRect.y,
-    //     );
-    // }
-
-    childMouseMove(event: Event, obj: SceneObject){
-        if (this.currentDraggingObjIndex == undefined)
-            return;
-        this.logScene();
-        
         const mouseEvent = event as MouseEvent;
 
+        if (this.currentDraggingObjIndex == undefined)
+            return;
+
         if (mouseEvent.buttons != 1){
-            // Cancel the mouse event if Left Mouse button is not pressed.
-            this.childMouseUp(event, obj);
+            this.childMouseUp(event);
             return;
         }
 
-        const newAbsoluteX = mouseEvent.clientX - this.currentDraggingOffset!.x;
-        const newAbsoluteY = mouseEvent.clientY - this.currentDraggingOffset!.y;
+        const hostRect = this.moveRectToOrigin(this.getSceneMapDOMRect());
 
-        obj.frame.x = newAbsoluteX;
-        obj.frame.y = newAbsoluteY;
-
-        // this.getSelectedObject()!.frame.x = newAbsoluteX;
-        // this.getSelectedObject()!.frame.y = newAbsoluteY;
-
-        console.log("Moving Mouse", newAbsoluteX, newAbsoluteY, mouseEvent.buttons, obj.frame.x, obj.frame.y);
-
+        // Is Scene Object outside top left edge?
+        const newX = this.currentDraggingObj!.frame.x + mouseEvent.movementX;
+        const newY = this.currentDraggingObj!.frame.y + mouseEvent.movementY;
+        if (hostRect.left > newX || hostRect.top > newY)
+            return;
+        
+        // Is Scene Object outside bottom right edge?
+        const newMaxX = newX + this.currentDraggingObj!.frame.w;
+        const newMaxY = newY + this.currentDraggingObj!.frame.h;
+        if (hostRect.right < newMaxX || hostRect.bottom < newMaxY)
+            return;
+        
+        // Zone is important. Otherwise property change is not reflected.
+        this.zone.run(() => {
+            this.currentDraggingObj!.frame.x += mouseEvent.movementX;
+            this.currentDraggingObj!.frame.y += mouseEvent.movementY;
+        });
     }
 
-    childMouseUp(event: Event, obj: SceneObject){
+    @HostListener('mouseup', ['$event'])
+    childMouseUp(event: Event){
         this.currentDraggingObjIndex = undefined;
         this.currentDraggingObj = undefined;
 
         console.log("Mouse Up!");
-    }
-
+    }    
 
     /* private methods */
 
@@ -156,7 +153,7 @@ export class SceneMapComponent implements OnInit{
      */
     private getIndexOfObject(obj: SceneObject): number{
         return this.sceneObjects.findIndex((v) => {
-            v._id == obj._id
+            return v._id == obj._id
         });
     }
 
@@ -165,6 +162,38 @@ export class SceneMapComponent implements OnInit{
         for (let obj of this.sceneObjects){
             console.log(obj._id, obj.frame)
         }
+    }
+
+    /**
+     * Returns true if (x,y) is inside frame
+     * @returns boolean
+     */
+    private checkFrameContains(frame: SceneObjectFrame, x: number, y: number): boolean{
+        const c1 = frame.x <= x && frame.y <= y;
+        const c2 = (frame.x + frame.w) >= x;
+        const c3 = (frame.y + frame.h) >= y;
+
+        return c1 && c2 && c3;
+    }
+
+    /**
+     * Returns the DOM rect for the scene map
+     * @returns DOMRect
+     */
+    private getSceneMapDOMRect(): DOMRect{
+        const host = this.hostRef.nativeElement as HTMLElement;
+        return host.getBoundingClientRect()
+    }
+
+    /**
+     * Return DOMRect only containing the widht and height
+     * and origin is (0,0)
+     */
+    private moveRectToOrigin(rect: DOMRect): DOMRect{
+        return new DOMRect(
+            0, 0,
+            rect.width, rect.height
+        );
     }
 
 }

@@ -54,6 +54,9 @@ export class SceneEditorComponent implements OnInit {
     if (resCount > 0)
       sceneObject.name = sceneObject.name + '_' + (resCount + 1).toString();
 
+    // assign temporary id
+    sceneObject._id = 'temp_' + Date.now().toString()!
+
     console.log("Adding new object with frame", JSON.stringify(sceneObject.frame));
 
     this.sceneObjects.push(sceneObject);

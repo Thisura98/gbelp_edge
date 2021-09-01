@@ -10,7 +10,8 @@
 }
 
 .child-selected{
-    border: 2px solid #009EFF;
+    /* border: 2px solid #009EFF; */
+    outline: 2px solid #009EFF;
 }
 
 :host{

@@ -6,9 +6,11 @@
     [style.height.px]="obj.frame.h"
 
     [class.child-selected]="obj._id == getSelectedObject()?._id"
+    [attr.data-objid]="obj._id"
 >
     <img 
         class="noselect"
         draggable="false"
+        class="scene-child-img"
         [src]="getResource(obj.spriteResourceId)?.filename || '' | resurl" />
 </div>
