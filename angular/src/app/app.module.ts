@@ -58,7 +58,7 @@ import { GameEditorComponents } from './components/views/game/edit/editor/editor
 import { SceneEditorComponent } from './components/views/game/edit/editor/scene/scene.component';
 import { AnimationComponent } from './components/views/game/edit/editor/animation/animation.component';
 import { LogicComponent } from './components/views/game/edit/editor/logic/logic.component';
-import { SceneMapModule } from './modules/scene-map/scene-map.module';
+import { SceneMapComponent } from './components/views/game/edit/editor/scene/scenemap/scenemap.component';
 
 
 @NgModule({
@@ -95,7 +95,8 @@ import { SceneMapModule } from './modules/scene-map/scene-map.module';
     GameEditorComponents,
     SceneEditorComponent,
     AnimationComponent,
-    LogicComponent
+    LogicComponent,
+    SceneMapComponent
   ],
   imports: [
     CommonModule,
@@ -114,8 +115,7 @@ import { SceneMapModule } from './modules/scene-map/scene-map.module';
     MatCardModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatTableModule,
-    SceneMapModule
+    MatTableModule
   ],
   providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, ResourceUrlTransformPipe, TitleCasePipe, httpInterceptorProviders],
   bootstrap: [AppComponent]

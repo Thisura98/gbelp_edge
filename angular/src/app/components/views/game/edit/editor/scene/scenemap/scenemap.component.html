@@ -1,0 +1,14 @@
+<div class="scene-child" 
+    *ngFor="let obj of sceneObjects"
+    [style.top.px]="obj.frame.y"
+    [style.left.px]="obj.frame.x"
+    [style.width.px]="obj.frame.w"
+    [style.height.px]="obj.frame.h"
+
+    [class.child-selected]="obj._id == getSelectedObject()?._id"
+>
+    <img 
+        class="noselect"
+        draggable="false"
+        [src]="getResource(obj.spriteResourceId)?.filename || '' | resurl" />
+</div>

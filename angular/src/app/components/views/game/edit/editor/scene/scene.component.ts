@@ -54,6 +54,8 @@ export class SceneEditorComponent implements OnInit {
     if (resCount > 0)
       sceneObject.name = sceneObject.name + '_' + (resCount + 1).toString();
 
+    console.log("Adding new object with frame", JSON.stringify(sceneObject.frame));
+
     this.sceneObjects.push(sceneObject);
     this.selectedSceneObjIndex = this.sceneObjects.length - 1;
   }
