@@ -1,22 +1,16 @@
-
-.scene-child{
-    position: absolute;
-    /* border: 1px solid blue; */
+#scenemap-canvas{
+    flex-grow: 1;
 }
 
-.scene-child > img{
-    width: 100%;
-    height: 100%;
-}
-
-.child-selected{
-    /* border: 2px solid #009EFF; */
-    outline: 2px solid #009EFF;
+.canvas-container{
+    display: flex;
+    flex-grow: 1;
 }
 
 :host{
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: row;
     height: 100%;
     /* background-color: red; */
 }

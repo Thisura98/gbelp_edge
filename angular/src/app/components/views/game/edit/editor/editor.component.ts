@@ -100,7 +100,7 @@ export class GameEditorComponents implements OnInit {
         this.selectedLevelIndex = indexOfLevel;
       }
 
-      this.editorDataService.setData(response);
+      this.editorDataService.setGameListing(response);
       this.navigateToDefaultChildIfNeeded();
       this.didLoadData = true;
     });

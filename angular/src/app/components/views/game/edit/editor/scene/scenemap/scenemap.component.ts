@@ -1,7 +1,11 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnInit, Output } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { GameListing } from "src/app/models/game/game";
 import { SceneObject, SceneObjectFrame } from "../../../../../../../../../../commons/src/models/game/levels/scene";
 import { GameProjectResource } from "../../../../../../../../../../commons/src/models/game/resources";
+import { fabric } from 'fabric';
+import { ResourceUrlTransformPipe } from "src/app/pipes/resource-url-transform.pipe";
+import { EditorDataService } from "src/app/services/editor.data.service";
+import { debounceTime } from "rxjs/operators";
 
 class Point{
     constructor(
@@ -22,8 +26,6 @@ export class SceneMapComponent implements OnInit{
     @Input()
     gameListing: GameListing | undefined;
 
-    @Input()
-    sceneObjects: SceneObject[] = [];
 
     @Input()
     selectedSceneObjIndex: number | undefined;
@@ -31,17 +33,22 @@ export class SceneMapComponent implements OnInit{
     @Output()
     selectedSceneObjIndexChange = new EventEmitter<number>();
 
-    private currentDraggingObj: SceneObject | undefined;
-    private currentDraggingObjIndex: number | undefined;
+    private canvas: fabric.Canvas | undefined;
+    // private canvasObjects: fabric.Object[] = [];
+    private sceneObjects: SceneObject[] = [];
 
     constructor(
         private zone: NgZone,
-        private hostRef: ElementRef
+        private dataService: EditorDataService,
+        private hostRef: ElementRef,
+        private resTransformPipe: ResourceUrlTransformPipe,
     ){
         
     }
 
     ngOnInit(){
+        this.setupCanvas();
+        this.setupData();
     }
 
     /**
@@ -81,69 +88,14 @@ export class SceneMapComponent implements OnInit{
         }
     }
 
-    /* Child move handling */
+    @HostListener('window:resize', ['$event'])
+    windowResize(event: Event){
+        const element = this.hostRef.nativeElement! as HTMLElement
 
-    @HostListener('mousedown', ['$event'])
-    childMouseDown(event: Event){
-        const mouseEvent = event as MouseEvent;
-        const hostRect = this.getSceneMapDOMRect();
-        const relativeX = mouseEvent.x - hostRect.x;
-        const relativeY = mouseEvent.y - hostRect.y;
-        const clickedObjIndex = this.sceneObjects.findIndex((obj) => {
-            return this.checkFrameContains(obj.frame, relativeX, relativeY);
-        })
-
-        if (clickedObjIndex == -1){
-            this.selectObject(undefined);
-            return;
-        }
-
-        this.selectObject(this.sceneObjects[clickedObjIndex]);
-        this.currentDraggingObj = this.sceneObjects[clickedObjIndex];
-        this.currentDraggingObjIndex = clickedObjIndex;
-        
+        this.canvas?.setWidth(element.clientWidth);
+        this.canvas?.setHeight(element.clientHeight);
+        this.canvas?.calcOffset();
     }
-
-    @HostListener('mousemove', ['$event'])
-    childMouseMoveText(event: Event){
-        const mouseEvent = event as MouseEvent;
-
-        if (this.currentDraggingObjIndex == undefined)
-            return;
-
-        if (mouseEvent.buttons != 1){
-            this.childMouseUp(event);
-            return;
-        }
-
-        const hostRect = this.moveRectToOrigin(this.getSceneMapDOMRect());
-
-        // Is Scene Object outside top left edge?
-        const newX = this.currentDraggingObj!.frame.x + mouseEvent.movementX;
-        const newY = this.currentDraggingObj!.frame.y + mouseEvent.movementY;
-        if (hostRect.left > newX || hostRect.top > newY)
-            return;
-        
-        // Is Scene Object outside bottom right edge?
-        const newMaxX = newX + this.currentDraggingObj!.frame.w;
-        const newMaxY = newY + this.currentDraggingObj!.frame.h;
-        if (hostRect.right < newMaxX || hostRect.bottom < newMaxY)
-            return;
-        
-        // Zone is important. Otherwise property change is not reflected.
-        this.zone.run(() => {
-            this.currentDraggingObj!.frame.x += mouseEvent.movementX;
-            this.currentDraggingObj!.frame.y += mouseEvent.movementY;
-        });
-    }
-
-    @HostListener('mouseup', ['$event'])
-    childMouseUp(event: Event){
-        this.currentDraggingObjIndex = undefined;
-        this.currentDraggingObj = undefined;
-
-        console.log("Mouse Up!");
-    }    
 
     /* private methods */
 
@@ -158,11 +110,11 @@ export class SceneMapComponent implements OnInit{
     }
 
 
-    private logScene(){
-        for (let obj of this.sceneObjects){
-            console.log(obj._id, obj.frame)
-        }
-    }
+    // private logScene(){
+    //     for (let obj of this.sceneObjects){
+    //         console.log(obj._id, obj.frame)
+    //     }
+    // }
 
     /**
      * Returns true if (x,y) is inside frame
@@ -194,6 +146,85 @@ export class SceneMapComponent implements OnInit{
             0, 0,
             rect.width, rect.height
         );
+    }
+
+    private setupCanvas(){
+        const element = this.hostRef.nativeElement! as HTMLElement
+        const width = element.clientWidth;
+        const height = element.clientHeight
+        this.canvas = new fabric.Canvas('scenemap-canvas', {
+            backgroundColor: "#EFEFEF",
+            selection: true,
+            width: width,
+            height: height
+        });
+    }
+
+    private setupData(){
+        this.dataService.getSceneObjects().pipe(debounceTime(100)).subscribe(sceneObjects => {
+            this.sceneObjects = sceneObjects;
+            while(this.canvas!._objects.length > 0){
+                this.canvas!.remove(this.canvas!._objects[0]);
+            }
+            // this.canvas?.requestRenderAll();
+            this.updateCanvas();
+        });
+
+        this.dataService.onAddSceneObject().subscribe((obj) => {
+            this.addImageToCanvas(obj);
+        });
+    }
+
+    private updateCanvas(){
+        console.log(this.sceneObjects);
+        this.sceneObjects.forEach((obj) => {
+            this.addImageToCanvas(obj);
+        });
+    }
+
+    private addImageToCanvas(obj: SceneObject){
+        const fileName = this.getResource(obj.spriteResourceId)?.filename;
+        if (fileName == undefined)
+            return;
+        const url = this.resTransformPipe.transform(fileName);
+        console.log('updatingCanvas with', url);
+
+        fabric.Image.fromURL(url, (img) => {
+            img.left = obj.frame.x;
+            img.top = obj.frame.y;
+
+            const scaleX = obj.frame.w / img.getOriginalSize().width;
+            const scaleY = obj.frame.h / img.getOriginalSize().height;
+            img.scaleX = scaleX;
+            img.scaleY = scaleY;
+
+            img.angle = obj.rotation;
+
+            this.canvas?.add(img);
+            this.hookFabricObjectEvents(img, obj);
+        });
+    }
+
+    private hookFabricObjectEvents(obj: fabric.Image, sObj: SceneObject){
+        obj.on('moved', (e) => {
+            console.log(sObj.name, 'moved!')
+            sObj.frame.x = e.target!.left!;
+            sObj.frame.y = e.target!.top!;
+        });
+        obj.on('scaled', (e) => {
+            console.log(sObj.name, 'scaled!')
+            sObj.frame.x = e.target!.left!;
+            sObj.frame.y = e.target!.top!;
+            sObj.frame.w = obj.getOriginalSize()!.width * obj.scaleX!;
+            sObj.frame.h = obj.getOriginalSize()!.height * obj.scaleY!;
+        });
+        obj.on('rotated', (e) => {
+            console.log(sObj.name, 'rotated!', e.target!.angle)
+            sObj.frame.x = e.target!.left!;
+            sObj.frame.y = e.target!.top!;
+            sObj.rotation = e.target!.angle ?? 0.0;
+
+        });
     }
 
 }
