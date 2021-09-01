@@ -48,6 +48,20 @@
     border: 1px solid #CBCBCB;
     flex-grow: 1;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hierarchy-item{
+    background-color: #F8F8F8;
+    padding: 6px 12px;
+}
+
+.section-hierarchy .hierarchy-selected{
+    background-color: #E0F3FF;
+    color: #009EFF;
+    font-weight: bold;
 }
 
 /* Scene Map (map-container + ...) [CANVAS] */

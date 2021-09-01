@@ -33,8 +33,11 @@ export class SceneEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.editorDataService.getGameListing().subscribe(value => {
-      // console.log("SceneComponent:", JSON.stringify(value));
       this.gameListing = value?.data;
+    });
+    this.editorDataService.getSceneObjectSelection().subscribe(index => {
+      this.selectedSceneObjIndex = index;
+      console.log('getSceneObjectSelection', index)
     });
     this.activatedRoute.queryParams.subscribe(params => {
       this.editingLevelId = params['levelId'];
@@ -65,6 +68,12 @@ export class SceneEditorComponent implements OnInit {
     // Scene Objects
     // this.editorDataService.setSceneObjects(this.sceneObjects);
     this.editorDataService.addSceneObject(sceneObject);
+  }
+
+  getSelectedSceneObj(): SceneObject | undefined{
+    if (this.selectedSceneObjIndex == undefined)
+      return undefined;
+    return this.sceneObjects[this.selectedSceneObjIndex!];
   }
 
 }

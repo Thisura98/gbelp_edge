@@ -83,13 +83,12 @@ export class SceneMapComponent implements OnInit{
         return this.sceneObjects[this.selectedSceneObjIndex!];
     }
 
-    selectObject(obj: SceneObject | undefined){
-        if (typeof obj == 'undefined'){
+    selectObject(index: number | undefined){
+        if (typeof index == 'undefined'){
             this.selectedSceneObjIndex = undefined;
             this.dataService.setSceneObjectSelection(undefined);
         }
         else{
-            const index = this.getIndexOfObject(obj);
             this.selectedSceneObjIndex = index;
             this.dataService.setSceneObjectSelection(index);
         }
@@ -168,6 +167,7 @@ export class SceneMapComponent implements OnInit{
 
         // Listen to adding invidual scene objects
         this.dataService.onAddSceneObject().subscribe((obj) => {
+            this.sceneObjects!.push(obj);
             this.addImageToCanvas(obj);
         });
 
@@ -190,7 +190,7 @@ export class SceneMapComponent implements OnInit{
             width: width,
             height: height,
         });
-        this.addCanvasMovements();
+        this.addCanvasEvents();
     }
 
     private updateCanvas(){
@@ -229,6 +229,7 @@ export class SceneMapComponent implements OnInit{
 
             img.borderColor = "#009EFF";
             img.borderScaleFactor = 2;
+            img.data = obj._id;
 
             this.canvas?.add(img);
             this.hookFabricObjectEvents(img, obj);
@@ -261,7 +262,7 @@ export class SceneMapComponent implements OnInit{
      * Cmd / Ctrl + Left Click to move the canvas
      * todo: zoom
      */
-    private addCanvasMovements(){
+    private addCanvasEvents(){
         this.canvas!.on('mouse:down', (opt) => {
             var evt = opt.e;
             if (evt.metaKey === true) {
@@ -287,6 +288,26 @@ export class SceneMapComponent implements OnInit{
             this.canvas!.setViewportTransform(this.canvas!.viewportTransform!);
             this.canvasMovement!.isDragging = false;
             this.canvasMovement!.selection = true;
+        });
+        this.canvas!.on('selection:created', (opt) => {
+            const objId = opt.target!.data!;
+            const matchedIndex = this.sceneObjects.findIndex((o) => {
+                return o._id == objId;
+            });
+            console.log('selection:created', objId, matchedIndex);
+            this.selectObject(matchedIndex);
+        });
+        this.canvas!.on('selection:updated', (opt) => {
+            const objId = opt.target!.data!;
+            const matchedIndex = this.sceneObjects.findIndex((o) => {
+                return o._id == objId;
+            });
+            console.log('selection:updated', objId, matchedIndex);
+            this.selectObject(matchedIndex);
+        });
+        this.canvas!.on('selection:cleared', (opt) => {
+            console.log('selection:cleared', undefined);
+            this.selectObject(undefined);
         });
     }
 
