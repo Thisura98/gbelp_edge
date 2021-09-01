@@ -38,13 +38,7 @@ export class SceneMapComponent implements OnInit{
     @Input()
     gameListing: GameListing | undefined;
 
-
-    @Input()
-    selectedSceneObjIndex: number | undefined;
-
-    @Output()
-    selectedSceneObjIndexChange = new EventEmitter<number>();
-
+    private selectedSceneObjIndex: number | undefined;
     private canvasMovement = new CanvasMovement(false, false, 0, 0);
     private canvas: fabric.Canvas | undefined;
     // private canvasObjects: fabric.Object[] = [];
@@ -92,12 +86,12 @@ export class SceneMapComponent implements OnInit{
     selectObject(obj: SceneObject | undefined){
         if (typeof obj == 'undefined'){
             this.selectedSceneObjIndex = undefined;
-            this.selectedSceneObjIndexChange.emit(undefined);    
+            this.dataService.setSceneObjectSelection(undefined);
         }
         else{
             const index = this.getIndexOfObject(obj);
             this.selectedSceneObjIndex = index;
-            this.selectedSceneObjIndexChange.emit(index);
+            this.dataService.setSceneObjectSelection(index);
         }
     }
 
@@ -161,20 +155,8 @@ export class SceneMapComponent implements OnInit{
         );
     }
 
-    private setupCanvas(){
-        const element = this.hostRef.nativeElement! as HTMLElement
-        const width = element.clientWidth;
-        const height = element.clientHeight
-        this.canvas = new fabric.Canvas('scenemap-canvas', {
-            backgroundColor: "#EFEFEF",
-            selection: true,
-            width: width,
-            height: height
-        });
-        this.addCanvasMovements();
-    }
-
     private setupData(){
+        // Listen to setting all scene objects
         this.dataService.getSceneObjects().pipe(debounceTime(100)).subscribe(sceneObjects => {
             this.sceneObjects = sceneObjects;
             while(this.canvas!._objects.length > 0){
@@ -184,9 +166,31 @@ export class SceneMapComponent implements OnInit{
             this.updateCanvas();
         });
 
+        // Listen to adding invidual scene objects
         this.dataService.onAddSceneObject().subscribe((obj) => {
             this.addImageToCanvas(obj);
         });
+
+        // Listen to selection changes
+        this.dataService.getSceneObjectSelection().subscribe((sel) => {
+            this.selectedSceneObjIndex = sel;
+            this.updateCanvasSelection()
+        });
+    }
+
+    // MARK: Canvas Methods
+
+    private setupCanvas(){
+        const element = this.hostRef.nativeElement! as HTMLElement
+        const width = element.clientWidth;
+        const height = element.clientHeight
+        this.canvas = new fabric.Canvas('scenemap-canvas', {
+            backgroundColor: "#FFFFFF",
+            selection: true,
+            width: width,
+            height: height,
+        });
+        this.addCanvasMovements();
     }
 
     private updateCanvas(){
@@ -194,6 +198,15 @@ export class SceneMapComponent implements OnInit{
         this.sceneObjects.forEach((obj) => {
             this.addImageToCanvas(obj);
         });
+    }
+
+    private updateCanvasSelection(){
+        if (this.selectedSceneObjIndex == undefined)
+            this.canvas?.discardActiveObject();
+        else{
+            const nextActiveObj = this.canvas!._objects[this.selectedSceneObjIndex!];
+            this.canvas?.setActiveObject(nextActiveObj);
+        }
     }
 
     private addImageToCanvas(obj: SceneObject){
@@ -213,6 +226,9 @@ export class SceneMapComponent implements OnInit{
             img.scaleY = scaleY;
 
             img.angle = obj.rotation;
+
+            img.borderColor = "#009EFF";
+            img.borderScaleFactor = 2;
 
             this.canvas?.add(img);
             this.hookFabricObjectEvents(img, obj);
