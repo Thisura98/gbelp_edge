@@ -14,6 +14,18 @@ class Point{
     ){}
 }
 
+/**
+ * Tracks viewport transform events on Canvas
+ */
+class CanvasMovement{
+    constructor(
+        public isDragging: boolean,
+        public selection: boolean,
+        public lastPosX: number,
+        public lastPosY: number
+    ){}
+}
+
 @Component({
     selector: 'app-scene-map',
     templateUrl: './scenemap.component.html',
@@ -33,6 +45,7 @@ export class SceneMapComponent implements OnInit{
     @Output()
     selectedSceneObjIndexChange = new EventEmitter<number>();
 
+    private canvasMovement = new CanvasMovement(false, false, 0, 0);
     private canvas: fabric.Canvas | undefined;
     // private canvasObjects: fabric.Object[] = [];
     private sceneObjects: SceneObject[] = [];
@@ -158,6 +171,7 @@ export class SceneMapComponent implements OnInit{
             width: width,
             height: height
         });
+        this.addCanvasMovements();
     }
 
     private setupData(){
@@ -224,6 +238,39 @@ export class SceneMapComponent implements OnInit{
             sObj.frame.y = e.target!.top!;
             sObj.rotation = e.target!.angle ?? 0.0;
 
+        });
+    }
+
+    /**
+     * Cmd / Ctrl + Left Click to move the canvas
+     * todo: zoom
+     */
+    private addCanvasMovements(){
+        this.canvas!.on('mouse:down', (opt) => {
+            var evt = opt.e;
+            if (evt.metaKey === true) {
+                this.canvasMovement.isDragging = true;
+                this.canvasMovement.selection = false;
+                this.canvasMovement.lastPosX = evt.clientX;
+                this.canvasMovement.lastPosY = evt.clientY;
+            }
+        });
+        this.canvas!.on('mouse:move', (opt) => {
+            if (!this.canvasMovement.isDragging)
+                return;
+                
+            var e = opt.e;
+            var vpt = this.canvas!.viewportTransform!;
+            vpt[4] += e.clientX - this.canvasMovement.lastPosX;
+            vpt[5] += e.clientY - this.canvasMovement.lastPosY;
+            this.canvas!.requestRenderAll();
+            this.canvasMovement.lastPosX = e.clientX;
+            this.canvasMovement.lastPosY = e.clientY;
+        });
+        this.canvas!.on('mouse:up', (opt) => {
+            this.canvas!.setViewportTransform(this.canvas!.viewportTransform!);
+            this.canvasMovement!.isDragging = false;
+            this.canvasMovement!.selection = true;
         });
     }
 
