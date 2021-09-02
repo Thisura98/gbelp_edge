@@ -47,7 +47,7 @@ import { getNewObjectId } from "../../common";
             type: LevelTypeSingle.gameOver,
             displayMode: LevelDisplayMode.replace,
             locked: true,
-            exitCriteriaType: lExitCriteria,
+            exitCriteriaType: LevelExitCriteria.manual,
             exitCriteriaValue: null,
             scene: {
                 objects: []
