@@ -24,7 +24,9 @@ export function saveLevel(gameId: string, projectId: string, userId: string, lev
 
     for (const lvl of levels){
         const item: any = lvl;
-        item._id = new ObjectId();
+        if (lvl._id == null){
+            item._id = (new ObjectId()).toHexString();
+        }
         finalLevels.push(item);
     }
 

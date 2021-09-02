@@ -91,9 +91,19 @@
                     <div class="options-separator"></div>
                     <h4>Management</h4>
                     <div class="btn-container">
-                        <div *ngIf="!selectedLevel.locked" class="dyn-btn clickable btn-duplicate" >Duplicate</div>
-                        <div class="dyn-btn clickable btn-edit" (click)="editLevelPressed()">Edit</div>
-                        <div *ngIf="!selectedLevel.locked" class="dyn-btn clickable btn-delete btn-danger">Delete</div>
+                        <div *ngIf="!selectedLevel.locked" 
+                            class="dyn-btn clickable btn-duplicate"
+                            (click)="duplicateLevelPressed()">
+                            Duplicate
+                        </div>
+                        <div class="dyn-btn clickable btn-edit" (click)="editLevelPressed()">
+                            Edit
+                        </div>
+                        <div *ngIf="!selectedLevel.locked" 
+                            class="dyn-btn clickable btn-delete btn-danger"
+                            (click)="deleteLevelPressed()">
+                            Delete
+                        </div>
                     </div>
                 </ng-container>
             </div>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SimpleDialogComponent } from '../components/ui/dialogs/simple.component';
 import { Simple2DialogComponent } from '../components/ui/dialogs/simple2.component';
 
@@ -8,8 +9,10 @@ import { Simple2DialogComponent } from '../components/ui/dialogs/simple2.compone
 })
 export class DialogService{
 
-    constructor(public dialog: MatDialog){
-    }
+    constructor(
+        public dialog: MatDialog,
+        public snackBar: MatSnackBar
+    ){}
 
     showDismissable(title: string, message: string, onOkay: CallableFunction|undefined = undefined){
         const dialogRef = this.dialog.open(SimpleDialogComponent, {
@@ -30,6 +33,12 @@ export class DialogService{
                 onYes: onYes,
                 onNo: onNo
             }
+        });
+    }
+
+    showSnackbar(title: string, duration: number | undefined = 1500){
+        this.snackBar.open(title, undefined, {
+            duration: duration
         });
     }
 

@@ -9,6 +9,7 @@ import * as path from 'path';
 import * as l from '../util/logger';
 import * as utils from '../util/utils';
 import { ResponseModel, ResponsePlainModel } from '../model/models/common';
+import { ObjectId } from 'mongodb';
 
 const config = pc.parseConfig('config.json');
 const apiPrefix = 'api'
@@ -111,6 +112,12 @@ export function handle(app: express.Express){
 
     // MARK: Game Editing
 
+    // Get a new mongodb object id
+    app.get(aurl('get-objectid'), (req, res) => {
+        const newObjectId = (new ObjectId()).toHexString();
+        res.json(new ResponseModel(true, 200, 'Created MongoDB Object ID', newObjectId));
+    });
+
     // README: https://www.npmjs.com/package/multer
     app.post(aurl('upload-resource'), upload.single('uploaddata'), (req, res) => {
         // console.log('upload-resource-body', JSON.stringify(req.file), JSON.stringify(req.body));
@@ -157,7 +164,9 @@ export function handle(app: express.Express){
  */
 export function apiAuthorizationMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const routeURL = req.originalUrl;
-    const safeURLs = ['create-user', 'user-types', 'login'].map((v, i, m) => aurl(v));
+    const safeURLs = [
+        'create-user', 'user-types', 'login', 'get-objectid'
+    ].map((v, i, m) => aurl(v));
     if (safeURLs.find((url, _, __) => url == routeURL)){
         next();
     }

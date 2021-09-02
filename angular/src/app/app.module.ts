@@ -19,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
@@ -115,7 +116,8 @@ import { SceneMapComponent } from './components/views/game/edit/editor/scene/sce
     MatCardModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    MatSnackBarModule
   ],
   providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, ResourceUrlTransformPipe, TitleCasePipe, httpInterceptorProviders],
   bootstrap: [AppComponent]

@@ -4,11 +4,12 @@ import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamic
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { GameListing } from 'src/app/models/game/game';
 import { GameProject } from '../../../../../../../../commons/src/models/game/project';
-import { LevelExitCriteria, GameLevel, GameLevelHelper } from '../../../../../../../../commons/src/models/game/levels';
+import { LevelExitCriteria, GameLevel, GameLevelHelper, LevelTypeSingle, LevelDisplayMode, LevelExitCriteriaHelper, LevelTypeMulti } from '../../../../../../../../commons/src/models/game/levels';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
 import { GameEditLevelItemComponent } from './item/item.component';
+import { LevelScene } from '../../../../../../../../commons/src/models/game/levels/scene';
 
 @Component({
   selector: 'app-game-edit-levels',
@@ -53,12 +54,55 @@ export class GameEditLevelsComponent implements OnInit {
     });
   }
 
+  /**
+   * Get Object Id and insert new level before the game over level.
+   */
   addLevelClicked(){
-    this.router.navigate(['game/edit/levels/add'], {
-      queryParams: {
-        gameId: this.editingGameId
+    this.apiService.getNewObjectId().subscribe((res) => {
+      const newObjectId = res.data;
+      const levelExitType = LevelExitCriteriaHelper.fromNumber(this.gameListing!.entry.level_switch);
+      const levelExitTypeValue = null;
+      const newLevel: GameLevel = new GameLevel(
+        newObjectId,
+        'New Level',
+        LevelTypeSingle.genericLevel,
+        LevelDisplayMode.replace,
+        false,
+        levelExitType,
+        levelExitTypeValue,
+        new LevelScene([])
+      );
+
+      const indexOfGameOver = this.gameLevels.findIndex((lvl) => {
+        return lvl.type == LevelTypeSingle.gameOver || lvl.type == LevelTypeMulti.gameOver;
+      })
+
+      if (indexOfGameOver == -1){
+        // add to end of array
+        this.gameLevels.push(newLevel);
       }
-    })
+      else{
+        // add before game over level
+        const insertIndex = Math.max(0, indexOfGameOver);
+        this.gameLevels.splice(insertIndex, 0, newLevel);
+      }
+    });
+  }
+
+  deleteLevelPressed(){
+    this.dialogService.showYesNo("Confirm Action", "Are you sure you want to delete this level?", () => {
+      this.gameLevels.splice(this.selectedLevelIndex!, 1);
+      this.dialogService.showSnackbar('Level Deleted');
+    });
+  }
+
+  duplicateLevelPressed(){
+    // Use spread operator to prevent 'pass by reference' issues
+    const levelToClone = {...this.gameLevels[this.selectedLevelIndex!]};
+    this.apiService.getNewObjectId().subscribe((res) => {
+      levelToClone._id = res.data;
+      this.gameLevels.splice(this.selectedLevelIndex! + 1, 0, levelToClone);
+    });
   }
 
   levelSelected(gameLevel: GameLevel){

@@ -18,3 +18,5 @@ export interface ServerResponseGameListing extends ServerResponse<GameListing>{}
 export interface ServerResponseAllGameEntries extends ServerResponse<GameEntry[]>{};
 
 export interface ServerResponseGameProject extends ServerResponse<GameProject>{};
+
+export interface ServerResponseGetObjectId extends ServerResponse<string>{};
