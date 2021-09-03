@@ -1,37 +1,42 @@
-import { Injector } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
 import { SceneObject } from "../../../../commons/src/models/game/levels/scene";
+import { SceneDataPack } from "../components/views/game/edit/editor/scene/scene.component";
+import { SceneMapDataPack } from "../components/views/game/edit/editor/scene/scenemap/scenemap.component";
 import { ServerResponseGameListing } from "../models/game/game";
 
-let gameListing = new BehaviorSubject<ServerResponseGameListing | null>(null);
-let sceneObjects = new BehaviorSubject<SceneObject[]>([]);
+let sceneData = new BehaviorSubject<SceneDataPack>(new SceneDataPack(undefined, undefined));
+let sceneMapData = new BehaviorSubject<SceneMapDataPack>(new SceneMapDataPack([], undefined));
 let addSceneObject = new Subject<SceneObject>();
 let sceneObjectSelection = new BehaviorSubject<number | undefined>(undefined);
 
+@Injectable()
 export class EditorDataService{
 
     contructor(){
         
     }
 
-    // Game Listing
+    // Scene Data
 
-    setGameListing(response: ServerResponseGameListing){
-        gameListing.next(response);
+    setSceneData(response: ServerResponseGameListing, selectedLevel: number | undefined){
+        const data = new SceneDataPack(response, selectedLevel)
+        sceneData.next(data);
     }
 
-    getGameListing(): BehaviorSubject<ServerResponseGameListing | null>{
-        return gameListing;
+    getSceneData(): BehaviorSubject<SceneDataPack>{
+        return sceneData;
     }
 
-    // Complete set of scene objects
+    // Scene Map Data
 
-    setSceneObjects(arr: SceneObject[]){
-        sceneObjects.next(arr);
+    setSceneMapData(sceneObjects: SceneObject[], selectedLevel: number | undefined){
+        const data = new SceneMapDataPack(sceneObjects, selectedLevel);
+        sceneMapData.next(data);
     }
 
-    getSceneObjects(): BehaviorSubject<SceneObject[]>{
-        return sceneObjects;
+    getSceneMapData(): BehaviorSubject<SceneMapDataPack>{
+        return sceneMapData;
     }
 
     // Add Individual Scene Object

@@ -1,17 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EditorDataService } from 'src/app/services/editor.data.service';
-import { GameListing } from 'src/app/models/game/game';
+import { GameListing, ServerResponseGameListing } from 'src/app/models/game/game';
 import { ResourceUrlTransformPipe } from 'src/app/pipes/resource-url-transform.pipe';
 import { SceneObject, SceneObjectHelper } from '../../../../../../../../../commons/src/models/game/levels/scene';
 import { GameProjectResource } from '../../../../../../../../../commons/src/models/game/resources';
 
+export class SceneDataPack{
+  constructor(
+      public gameListing: ServerResponseGameListing | undefined,
+      public selectedLevelIndex: number | undefined
+  ){}
+}
+
 @Component({
   selector: 'app-scene',
   templateUrl: './scene.component.html',
-  providers: [
-    {provide: EditorDataService, useClass: EditorDataService}
-  ],
+  // providers: [
+  //   {provide: EditorDataService, useClass: EditorDataService}
+  // ],
   styleUrls: [
     './scene.component.css',
     '../editor.component.css'
@@ -32,9 +39,19 @@ export class SceneEditorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.editorDataService.getGameListing().subscribe(value => {
-      this.gameListing = value?.data;
+    // Get from Parent Editor Component
+    this.editorDataService.getSceneData().subscribe(value => {
+      this.gameListing = value?.gameListing?.data;
+
+      if (value.selectedLevelIndex == undefined)
+        return;
+
+      // Set data for Child Scene Map Component
+      const levels = this.gameListing?.project?.levels ?? [];
+      this.sceneObjects = levels[value.selectedLevelIndex!].scene.objects;
+      this.editorDataService.setSceneMapData(this.sceneObjects, value.selectedLevelIndex);
     });
+    // Get from Child Scene Map Component
     this.editorDataService.getSceneObjectSelection().subscribe(index => {
       this.selectedSceneObjIndex = index;
       console.log('getSceneObjectSelection', index)

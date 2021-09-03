@@ -7,6 +7,13 @@ import { ResourceUrlTransformPipe } from "src/app/pipes/resource-url-transform.p
 import { EditorDataService } from "src/app/services/editor.data.service";
 import { debounceTime } from "rxjs/operators";
 
+export class SceneMapDataPack{
+    constructor(
+        public sceneObjects: SceneObject[],
+        public selectedLevelIndex: number | undefined
+    ){}
+}
+
 class Point{
     constructor(
         public x: number,
@@ -31,7 +38,11 @@ class CanvasMovement{
     templateUrl: './scenemap.component.html',
     styleUrls: [
         './scenemap.component.css'
-    ]
+    ],
+    // Resolve from the parent component's ElementInjector
+    // providers: [
+    //     {provide: EditorDataService, useClass: EditorDataService}
+    // ]
 })
 export class SceneMapComponent implements OnInit{
 
@@ -43,6 +54,7 @@ export class SceneMapComponent implements OnInit{
     private canvas: fabric.Canvas | undefined;
     // private canvasObjects: fabric.Object[] = [];
     private sceneObjects: SceneObject[] = [];
+    private selectedLevelIndex: number | undefined;
 
     constructor(
         private zone: NgZone,
@@ -156,8 +168,9 @@ export class SceneMapComponent implements OnInit{
 
     private setupData(){
         // Listen to setting all scene objects
-        this.dataService.getSceneObjects().pipe(debounceTime(100)).subscribe(sceneObjects => {
-            this.sceneObjects = sceneObjects;
+        this.dataService.getSceneMapData().pipe(debounceTime(100)).subscribe(pack => {
+            this.sceneObjects = pack.sceneObjects;
+            this.selectedLevelIndex = pack.selectedLevelIndex;
             while(this.canvas!._objects.length > 0){
                 this.canvas!.remove(this.canvas!._objects[0]);
             }
@@ -167,7 +180,6 @@ export class SceneMapComponent implements OnInit{
 
         // Listen to adding invidual scene objects
         this.dataService.onAddSceneObject().subscribe((obj) => {
-            this.sceneObjects!.push(obj);
             this.addImageToCanvas(obj);
         });
 

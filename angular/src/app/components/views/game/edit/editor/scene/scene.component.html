@@ -22,6 +22,8 @@
             <!-- Library Item Styles are present in editor.component.css -->
             <div class="library-item noselect" 
                 *ngFor="let item of gameListing!.project.resources"
+                matTooltip="Double click to Insert to Scene"
+                [matTooltipShowDelay]="1000"
                 (dblclick)="didDoubleClickLibraryItem(item)">
                 <div class="library-item-img-container">
                     <!-- Image if Sound Resource -->

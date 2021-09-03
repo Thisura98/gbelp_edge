@@ -10,6 +10,26 @@
     justify-content: center;
 }
 
+.buttons{
+    align-items: center;
+}
+
+.buttons-separator{
+    height: 70%;
+    width: 1px;
+    background-color: #DBDBDB;
+}
+
+.btn-save{
+    width: 70px;
+    align-items: center;
+    justify-content: center;
+}
+
+.level-title{
+    color: gray;
+}
+
 /* Library Item */
 
 .library-item{

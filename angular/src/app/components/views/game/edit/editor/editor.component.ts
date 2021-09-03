@@ -33,6 +33,7 @@ export class GameEditorComponents implements OnInit {
   selectedLevel: GameLevel | undefined;
   gameLevels: GameLevel[] = [];
   didLoadData: boolean = false
+  isSaving: boolean = false;
   
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
@@ -70,6 +71,25 @@ export class GameEditorComponents implements OnInit {
     });
   }
 
+  saveGame(){
+    console.log("Saving...");
+    this.isSaving = true;
+
+    console.log("Project levels:", this.gameListing!.project!.levels);
+    console.log("Local levels:", this.gameLevels)
+
+    this.apiService.saveLevel(
+      this.editingGameId!.toString(), 
+      this.gameListing!.project!._id, 
+      this.gameLevels
+    ).subscribe((r) => {
+      this.isSaving = false;
+      if (!r.success){
+        this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
+      }
+    });
+  }
+
   /* private methods */
 
   private loadData(){
@@ -100,7 +120,7 @@ export class GameEditorComponents implements OnInit {
         this.selectedLevelIndex = indexOfLevel;
       }
 
-      this.editorDataService.setGameListing(response);
+      this.editorDataService.setSceneData(response, this.selectedLevelIndex);
       this.navigateToDefaultChildIfNeeded();
       this.didLoadData = true;
     });

@@ -6,13 +6,25 @@
         <div class="nav">
             <h4 class="small-heading">
                 Edit Levels
+                <span class="level-title" *ngIf="selectedLevel != undefined">
+                    <span> - {{selectedLevel.name}}</span>
+                </span>
             </h4>
             <app-userstatus></app-userstatus>
         </div>
         <ng-container *ngIf="didLoadData">
             <ng-container *ngIf="selectedLevel != undefined">
                 <div class="buttons dyn-anim-fadein-delayed">
-                    <div class="dyn-btn clickable btn-save">Save</div>
+                    <div 
+                        class="dyn-btn clickable btn-save"
+                        [class.dyn-btn-disabled]="isSaving"
+                        (click)="saveGame()">
+                        {{isSaving ? "Saving..." : "Save Game"}}
+                    </div>
+                    <mat-progress-spinner 
+                        *ngIf="isSaving" [diameter]="20" mode="indeterminate">
+                    </mat-progress-spinner>
+                    <div class="buttons-separator"></div>
                     <div class="dyn-btn clickable btn-add-level">Add Level</div>
                 </div>
             </ng-container>
@@ -27,8 +39,6 @@
             </ng-container>
             <router-outlet></router-outlet>
         </ng-container>
-    
-
     </div>
 
 </div>
