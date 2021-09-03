@@ -56,6 +56,8 @@ export class SceneMapComponent implements OnInit{
     private sceneObjects: SceneObject[] = [];
     private selectedLevelIndex: number | undefined;
 
+    readonly kIgnoreSelectionEvent = 'scenemap:ignorSelectionEvent';
+
     constructor(
         private zone: NgZone,
         private dataService: EditorDataService,
@@ -213,11 +215,13 @@ export class SceneMapComponent implements OnInit{
     }
 
     private updateCanvasSelection(){
+        console.log("SceneMap: updateCanvasSelection");
         if (this.selectedSceneObjIndex == undefined)
             this.canvas?.discardActiveObject();
         else{
             const nextActiveObj = this.canvas!._objects[this.selectedSceneObjIndex!];
-            this.canvas?.setActiveObject(nextActiveObj);
+            this.canvas?.setActiveObject(nextActiveObj, new Event(this.kIgnoreSelectionEvent));
+            this.canvas?.requestRenderAll();
         }
     }
 
@@ -302,6 +306,9 @@ export class SceneMapComponent implements OnInit{
             this.canvasMovement!.selection = true;
         });
         this.canvas!.on('selection:created', (opt) => {
+            if (opt.e.type == this.kIgnoreSelectionEvent)
+                return;
+
             const objId = opt.target!.data!;
             const matchedIndex = this.sceneObjects.findIndex((o) => {
                 return o._id == objId;
@@ -310,14 +317,20 @@ export class SceneMapComponent implements OnInit{
             this.selectObject(matchedIndex);
         });
         this.canvas!.on('selection:updated', (opt) => {
+            if (opt.e.type == this.kIgnoreSelectionEvent)
+                return;
+
             const objId = opt.target!.data!;
             const matchedIndex = this.sceneObjects.findIndex((o) => {
                 return o._id == objId;
             });
-            console.log('selection:updated', objId, matchedIndex);
+            console.log('selection:updated', objId, matchedIndex, opt.e);
             this.selectObject(matchedIndex);
         });
         this.canvas!.on('selection:cleared', (opt) => {
+            if (opt.e.type == this.kIgnoreSelectionEvent)
+                return;
+                
             console.log('selection:cleared', undefined);
             this.selectObject(undefined);
         });

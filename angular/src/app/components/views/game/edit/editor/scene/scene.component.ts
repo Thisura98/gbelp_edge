@@ -16,6 +16,7 @@ export class SceneDataPack{
 @Component({
   selector: 'app-scene',
   templateUrl: './scene.component.html',
+  // Resolve from the parent component's ElementInjector
   // providers: [
   //   {provide: EditorDataService, useClass: EditorDataService}
   // ],
@@ -31,7 +32,6 @@ export class SceneEditorComponent implements OnInit {
 
   sceneObjects: SceneObject[] = [];
   selectedSceneObjIndex: number | undefined = 0;
-
 
   constructor(
     private editorDataService: EditorDataService,
@@ -91,6 +91,14 @@ export class SceneEditorComponent implements OnInit {
     if (this.selectedSceneObjIndex == undefined)
       return undefined;
     return this.sceneObjects[this.selectedSceneObjIndex!];
+  }
+
+  hierarchyItemClicked(item: SceneObject){
+    const index = this.sceneObjects.findIndex((obj) => { return obj._id == item._id });
+    if (index == -1)
+      return;
+
+    this.editorDataService.setSceneObjectSelection(index);
   }
 
 }

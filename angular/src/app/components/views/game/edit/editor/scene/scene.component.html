@@ -4,7 +4,8 @@
         <div class="object-list">
             <div class="hierarchy-item"
                 *ngFor="let obj of sceneObjects"
-                [class.hierarchy-selected]="obj._id == getSelectedSceneObj()?._id">
+                [class.hierarchy-selected]="obj._id == getSelectedSceneObj()?._id"
+                (click)="hierarchyItemClicked(obj)">
                 {{obj.name}}
             </div>
         </div>
