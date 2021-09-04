@@ -1,14 +1,28 @@
 import { Injectable, Injector } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
 import { SceneObject } from "../../../../commons/src/models/game/levels/scene";
-import { SceneDataPack } from "../components/views/game/edit/editor/scene/scene.component";
+import { GameProject } from "../../../../commons/src/models/game/project";
 import { SceneMapDataPack } from "../components/views/game/edit/editor/scene/scenemap/scenemap.component";
 import { ServerResponseGameListing } from "../models/game/game";
 
-let sceneData = new BehaviorSubject<SceneDataPack>(new SceneDataPack(undefined, undefined));
+export class EditorChildDataPack{
+    constructor(
+        public gameListing: ServerResponseGameListing | undefined,
+        public selectedLevelIndex: number | undefined
+    ){}
+  }
+
+let sceneData = new BehaviorSubject<EditorChildDataPack>(new EditorChildDataPack(undefined, undefined));
 let sceneMapData = new BehaviorSubject<SceneMapDataPack>(new SceneMapDataPack([], undefined));
 let addSceneObject = new Subject<SceneObject>();
 let sceneObjectSelection = new BehaviorSubject<number | undefined>(undefined);
+
+interface OnSaveListener{
+    callback: (project: GameProject) => void
+    id: number
+}
+let onSaveListeners: OnSaveListener[] = [];
+let onSaveIdCounter = 0;
 
 @Injectable()
 export class EditorDataService{
@@ -17,14 +31,64 @@ export class EditorDataService{
         
     }
 
+    /**
+     * Adds a listener and returns the listener's index in the listener array.
+     * @param listener The listener that will be called when a save is requested
+     */
+    addOnSaveListener(listener: (project: GameProject) => void): number{
+        onSaveIdCounter++;
+        const newListener = {
+            callback: listener,
+            id: onSaveIdCounter
+        };
+        onSaveListeners.push(newListener);
+        return newListener.id;
+    }
+
+    /**
+     * Give a chance to child components to modify game project.
+     * @param gameProject The game project to be modified
+     * @param callback Called once all save listeners have done processing
+     * @returns 
+     */
+    invokeAllSaveListeners(gameProject: GameProject, callback: () => void){
+        if (onSaveListeners.length == 0){
+            callback();
+            return;
+        }
+        const promises = onSaveListeners.map((listener) => {
+            return new Promise<GameProject>((resolve, reject) => {
+                listener.callback(gameProject);
+                resolve(gameProject);
+            });
+        })
+        console.log("Going to wait on all listeners...");
+        Promise.all(promises).then(() => {
+            console.log("All listeners resolved");
+            callback();
+        });
+    }
+
+    /**
+     * Removes a Save Listener added by addOnSaveListener
+     * @param id An id returned by `addOnSaveListener`
+     * @returns 
+     */
+    removeOnSaveListener(id: number){
+        const index = onSaveListeners.findIndex((obj) => obj.id == id);
+        if (index == -1)
+            return;
+        onSaveListeners.splice(index, 1);
+    }
+
     // Scene Data
 
-    setSceneData(response: ServerResponseGameListing, selectedLevel: number | undefined){
-        const data = new SceneDataPack(response, selectedLevel)
+    setEditorChildData(response: ServerResponseGameListing, selectedLevel: number | undefined){
+        const data = new EditorChildDataPack(response, selectedLevel)
         sceneData.next(data);
     }
 
-    getSceneData(): BehaviorSubject<SceneDataPack>{
+    getEditorChildData(): BehaviorSubject<EditorChildDataPack>{
         return sceneData;
     }
 

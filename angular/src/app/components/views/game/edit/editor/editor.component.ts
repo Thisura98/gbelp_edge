@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
@@ -23,7 +23,7 @@ import { LogicEditorComponent } from './logic/logic.component';
     '../../common/game.commonstyles.css'
   ]
 })
-export class GameEditorComponents implements OnInit {
+export class GameEditorComponents implements OnInit, AfterViewInit {
 
   /**
    * Left sidebar
@@ -52,7 +52,9 @@ export class GameEditorComponents implements OnInit {
 
   ngOnInit(): void {
     this.userService.routeOutIfLoggedOut();
+  }
 
+  ngAfterViewInit(){
     this.activatedRoute.queryParams.subscribe((map) => {
       this.editingGameId = map['gameId'];
       this.loadData();
@@ -78,18 +80,20 @@ export class GameEditorComponents implements OnInit {
     console.log("Saving...");
     this.isSaving = true;
 
-    console.log("Project levels:", this.gameListing!.project!.levels);
-    console.log("Local levels:", this.gameLevels)
+    this.editorDataService.invokeAllSaveListeners(this.gameListing!.project, () => {
+      console.log("Project levels:", this.gameListing!.project!.levels);
+      console.log("Local levels:", this.gameLevels)
 
-    this.apiService.saveLevel(
-      this.editingGameId!.toString(), 
-      this.gameListing!.project!._id, 
-      this.gameLevels
-    ).subscribe((r) => {
-      this.isSaving = false;
-      if (!r.success){
-        this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
-      }
+      this.apiService.saveLevel(
+        this.editingGameId!.toString(), 
+        this.gameListing!.project!._id, 
+        this.gameLevels
+      ).subscribe((r) => {
+        this.isSaving = false;
+        if (!r.success){
+          this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
+        }
+      });
     });
   }
 
@@ -157,7 +161,7 @@ export class GameEditorComponents implements OnInit {
         this.selectedLevelIndex = indexOfLevel;
       }
 
-      this.editorDataService.setSceneData(response, this.selectedLevelIndex);
+      this.editorDataService.setEditorChildData(response, this.selectedLevelIndex);
       this.navigateToDefaultChildIfNeeded();
       this.didLoadData = true;
     });
@@ -190,17 +194,7 @@ export class GameEditorComponents implements OnInit {
       this.navigateToLevelSelector();
     }
     else{
-      // go the the 'scene' child component.
-      this.router.navigate(
-        ['/game/edit/editor/scene'],
-        {
-          replaceUrl: true,
-          queryParams: {
-            gameId: this.editingGameId,
-            levelId: this.selectedLevel!._id
-          }
-        }
-      );
+      return;
     }
   }
 

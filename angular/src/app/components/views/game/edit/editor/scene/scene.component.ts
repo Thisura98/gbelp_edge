@@ -6,12 +6,6 @@ import { ResourceUrlTransformPipe } from 'src/app/pipes/resource-url-transform.p
 import { SceneObject, SceneObjectHelper } from '../../../../../../../../../commons/src/models/game/levels/scene';
 import { GameProjectResource } from '../../../../../../../../../commons/src/models/game/resources';
 
-export class SceneDataPack{
-  constructor(
-      public gameListing: ServerResponseGameListing | undefined,
-      public selectedLevelIndex: number | undefined
-  ){}
-}
 
 @Component({
   selector: 'app-scene',
@@ -40,7 +34,7 @@ export class SceneEditorComponent implements OnInit {
 
   ngOnInit(): void {
     // Get from Parent Editor Component
-    this.editorDataService.getSceneData().subscribe(value => {
+    this.editorDataService.getEditorChildData().subscribe(value => {
       this.gameListing = value?.gameListing?.data;
 
       if (value.selectedLevelIndex == undefined)

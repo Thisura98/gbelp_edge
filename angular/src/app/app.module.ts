@@ -21,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
 
 import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
@@ -118,7 +119,8 @@ import { SceneMapComponent } from './components/views/game/edit/editor/scene/sce
     MatProgressSpinnerModule,
     MatTableModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MonacoEditorModule
   ],
   providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, ResourceUrlTransformPipe, TitleCasePipe, httpInterceptorProviders],
   bootstrap: [AppComponent]

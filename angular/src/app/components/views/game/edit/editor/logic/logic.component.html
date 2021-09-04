@@ -1,1 +1,17 @@
-<p>logic works!</p>
+<div class="container3 dyn-anim-fadein-delayed">
+    <div class="section-editor">
+        <h2>Editor</h2>
+        <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" (init)="editorInit($event)"></ngx-monaco-editor>
+    </div>
+    <div class="section-pane">
+        <h2>Level Scripts</h2>
+        <div class="object-list">
+            <div class="script-item"
+                *ngFor="let title of scriptTypes; index as i"
+                [class.script-selected]="i == selectedScriptIndex"
+                (click)="scriptItemClicked(i)">
+                {{title}}
+            </div>
+        </div>
+    </div>
+</div>

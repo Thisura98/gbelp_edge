@@ -1,0 +1,50 @@
+.container3{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.section-editor{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.section-pane{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+.object-list{
+    border: 1px solid #CBCBCB;
+    flex-grow: 1;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.script-item{
+    background-color: #F8F8F8;
+    padding: 6px 12px;
+}
+
+.section-pane .script-selected{
+    background-color: #E0F3FF;
+    color: #009EFF;
+    font-weight: bold;
+}
+
+:host{
+    display: flex;
+    flex-grow: 1;
+}
+
+ngx-monaco-editor{
+    height: 100%;
+    margin-bottom: 10px;
+}
