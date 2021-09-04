@@ -6,16 +6,17 @@
         <div class="nav">
             <h4 class="small-heading">
                 Edit Levels
-                <span class="level-title" *ngIf="selectedLevel != undefined">
-                    <span> - {{selectedLevel.name}}</span>
-                </span>
             </h4>
+            <div class="buttons-separator nav-separator dyn-anim-fadein-delayed"></div>
             <!-- Level Selector -->
-            <div class="select-lvl-container dyn-anim-fadein-delayed"
-                *ngIf="selectedLevel == undefined">
+            <div class="select-lvl-container dyn-anim-fadein-delayed">
                 <select class="dyn-select" placeholder="Select a game type" (change)="didSelectLevel($event)">
                     <option value="-1">Select a level...</option>
-                    <option *ngFor="let level of gameLevels" value="{{level._id}}">{{level.name}}</option>
+                    <option 
+                        *ngFor="let level of gameLevels" value="{{level._id}}"
+                        [selected]="level._id == selectedLevel?._id">
+                        {{level.name}}
+                    </option>
                 </select>
             </div>
             <!-- Scene, Animation, Logic tabs -->
