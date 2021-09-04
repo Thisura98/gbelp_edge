@@ -27,6 +27,13 @@ import { getNewObjectId } from "../../common";
             exitCriteriaValue: null,
             scene: {
                 objects: []
+            },
+            logic: {
+                script: {
+                    setup: "",
+                    perframe: "",
+                    destroy: ""
+                }
             }
         },
         {
@@ -39,6 +46,13 @@ import { getNewObjectId } from "../../common";
             exitCriteriaValue: levelExitValue,
             scene: {
                 objects: []
+            },
+            logic: {
+                script: {
+                    setup: "",
+                    perframe: "",
+                    destroy: ""
+                }
             }
         },
         {
@@ -51,6 +65,13 @@ import { getNewObjectId } from "../../common";
             exitCriteriaValue: null,
             scene: {
                 objects: []
+            },
+            logic: {
+                script: {
+                    setup: "",
+                    perframe: "",
+                    destroy: ""
+                }
             }
         },
     ]
@@ -82,6 +103,13 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaValue: null,
             scene: {
                 objects: []
+            },
+            logic: {
+                script: {
+                    setup: "",
+                    perframe: "",
+                    destroy: ""
+                }
             }
         },
         {
@@ -94,6 +122,13 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaValue: null,
             scene: {
                 objects: []
+            },
+            logic: {
+                script: {
+                    setup: "",
+                    perframe: "",
+                    destroy: ""
+                }
             }
         },
         {
@@ -106,6 +141,13 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaValue: levelExitValue,
             scene: {
                 objects: []
+            },
+            logic: {
+                script: {
+                    setup: "",
+                    perframe: "",
+                    destroy: ""
+                }
             }
         },
         {
@@ -118,6 +160,13 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaValue: null,
             scene: {
                 objects: []
+            },
+            logic: {
+                script: {
+                    setup: "",
+                    perframe: "",
+                    destroy: ""
+                }
             }
         },
     ]

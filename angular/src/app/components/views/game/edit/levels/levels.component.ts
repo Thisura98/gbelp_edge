@@ -10,6 +10,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
 import { GameEditLevelItemComponent } from './item/item.component';
 import { LevelScene } from '../../../../../../../../commons/src/models/game/levels/scene';
+import { LevelLogic, LevelScript } from '../../../../../../../../commons/src/models/game/levels/logic';
 
 @Component({
   selector: 'app-game-edit-levels',
@@ -70,7 +71,10 @@ export class GameEditLevelsComponent implements OnInit {
         false,
         levelExitType,
         levelExitTypeValue,
-        new LevelScene([])
+        new LevelScene([]),
+        new LevelLogic(
+          new LevelScript('', '', '')
+        ),
       );
 
       const indexOfGameOver = this.gameLevels.findIndex((lvl) => {
