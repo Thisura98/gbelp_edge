@@ -58,8 +58,8 @@ import { GameEditLevelsAddComponentComponent } from './components/views/game/edi
 import { GameEditLevelItemComponent } from './components/views/game/edit/levels/item/item.component';
 import { GameEditorComponents } from './components/views/game/edit/editor/editor.component';
 import { SceneEditorComponent } from './components/views/game/edit/editor/scene/scene.component';
-import { AnimationComponent } from './components/views/game/edit/editor/animation/animation.component';
-import { LogicComponent } from './components/views/game/edit/editor/logic/logic.component';
+import { AnimationEditorComponent } from './components/views/game/edit/editor/animation/animation.component';
+import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
 import { SceneMapComponent } from './components/views/game/edit/editor/scene/scenemap/scenemap.component';
 
 @NgModule({
@@ -95,8 +95,8 @@ import { SceneMapComponent } from './components/views/game/edit/editor/scene/sce
     GameEditLevelItemComponent,
     GameEditorComponents,
     SceneEditorComponent,
-    AnimationComponent,
-    LogicComponent,
+    AnimationEditorComponent,
+    LogicEditorComponent,
     SceneMapComponent
   ],
   imports: [

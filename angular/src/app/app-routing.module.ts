@@ -19,6 +19,8 @@ import { GameEditLevelsComponent } from './components/views/game/edit/levels/lev
 import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
 import { GameEditorComponents } from './components/views/game/edit/editor/editor.component';
 import { SceneEditorComponent } from './components/views/game/edit/editor/scene/scene.component';
+import { AnimationEditorComponent } from './components/views/game/edit/editor/animation/animation.component';
+import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
 
 
 const routes: Routes = [
@@ -45,7 +47,9 @@ const routes: Routes = [
   {
     path: "game/edit/editor", component: GameEditorComponents,
     children: [
-      {path: "scene", component: SceneEditorComponent}
+      {path: "scene", component: SceneEditorComponent},
+      {path: "animation", component: AnimationEditorComponent},
+      {path: "logic", component: LogicEditorComponent}
     ]
   },
   {path: "**", component: NotFoundComponent}

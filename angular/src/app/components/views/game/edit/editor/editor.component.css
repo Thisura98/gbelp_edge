@@ -4,10 +4,24 @@
 
 .select-lvl-container{
     display: flex;
-    flex-grow: 1;
+    margin-left: 10px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.container2 .nav{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-stretch{
+    flex-grow: 1;
+}
+
+.buttons-separator.nav-separator{
+    margin-left: 10px;
+    height: 50%;
 }
 
 .buttons{
@@ -29,6 +43,36 @@
 .level-title{
     color: gray;
 }
+
+/* Editor Tabs */
+
+.editor-tabs{
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    gap: 10px;
+}
+
+.editor-tab{
+    cursor: pointer;
+}
+
+.editor-tab.selected{
+    color: #009EFF;
+    font-weight: bold;
+}
+
+.editor-tab-separator{
+    display: flex;
+    align-items: center;
+}
+
+.editor-tab-separator > img{
+    width: 4px;
+    height: 4px;
+}
+
+/* End Editor Tabs */
 
 /* Library Item */
 

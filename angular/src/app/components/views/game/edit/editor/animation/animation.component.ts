@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './animation.component.html',
   styleUrls: ['./animation.component.css']
 })
-export class AnimationComponent implements OnInit {
+export class AnimationEditorComponent implements OnInit {
 
   constructor() { }
 

@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './logic.component.html',
   styleUrls: ['./logic.component.css']
 })
-export class LogicComponent implements OnInit {
+export class LogicEditorComponent implements OnInit {
 
   constructor() { }
 

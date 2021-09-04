@@ -10,7 +10,42 @@
                     <span> - {{selectedLevel.name}}</span>
                 </span>
             </h4>
-            <app-userstatus></app-userstatus>
+            <!-- Level Selector -->
+            <div class="select-lvl-container dyn-anim-fadein-delayed"
+                *ngIf="selectedLevel == undefined">
+                <select class="dyn-select" placeholder="Select a game type" (change)="didSelectLevel($event)">
+                    <option value="-1">Select a level...</option>
+                    <option *ngFor="let level of gameLevels" value="{{level._id}}">{{level.name}}</option>
+                </select>
+            </div>
+            <!-- Scene, Animation, Logic tabs -->
+            <ng-container *ngIf="selectedLevel != undefined">
+                <div class="buttons-separator nav-separator dyn-anim-fadein-delayed"></div>
+                <div class="editor-tabs dyn-anim-fadein-delayed">
+                    <div class="editor-tab" 
+                        [class.selected]="getSelectedTabIndex() == 0"
+                        (click)="didSelectedEditorTab(0)">
+                        Scene
+                    </div>
+                    <div class="editor-tab-separator">
+                        <img src="assets/game/graydot.png">
+                    </div>
+                    <div class="editor-tab" 
+                        [class.selected]="getSelectedTabIndex() == 1"
+                        (click)="didSelectedEditorTab(1)">
+                        Animation
+                    </div>
+                    <div class="editor-tab-separator">
+                        <img src="assets/game/graydot.png">
+                    </div>
+                    <div class="editor-tab" 
+                        [class.selected]="getSelectedTabIndex() == 2"
+                        (click)="didSelectedEditorTab(2)">
+                        Logic
+                    </div>
+                </div>
+            </ng-container>
+            <app-userstatus class="nav-stretch"></app-userstatus>
         </div>
         <ng-container *ngIf="didLoadData">
             <ng-container *ngIf="selectedLevel != undefined">
@@ -26,15 +61,6 @@
                     </mat-progress-spinner>
                     <div class="buttons-separator"></div>
                     <div class="dyn-btn clickable btn-add-level">Add Level</div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="selectedLevel == undefined">
-                <div class="select-lvl-container dyn-anim-fadein-delayed">
-                    <h4>Select a Level to Continue</h4>
-                    <select class="dyn-select" placeholder="Select a game type" (change)="didSelectLevel($event)">
-                        <option value="-1">Select a level...</option>
-                        <option *ngFor="let level of gameLevels" value="{{level._id}}">{{level.name}}</option>
-                    </select>
                 </div>
             </ng-container>
             <router-outlet></router-outlet>

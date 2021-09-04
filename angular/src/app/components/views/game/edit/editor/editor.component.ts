@@ -8,6 +8,9 @@ import { ApiService } from 'src/app/services/api.service';
 import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EditorDataService } from 'src/app/services/editor.data.service';
+import { SceneEditorComponent } from './scene/scene.component';
+import { AnimationEditorComponent } from './animation/animation.component';
+import { LogicEditorComponent } from './logic/logic.component';
 
 @Component({
   selector: 'app-editor',
@@ -87,6 +90,40 @@ export class GameEditorComponents implements OnInit {
       if (!r.success){
         this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
       }
+    });
+  }
+
+  getSelectedTabIndex(): number | undefined{
+    const component = this.activatedRoute.children[0].component
+    if (component == SceneEditorComponent)
+      return 0;
+    else if (component == AnimationEditorComponent)
+      return 1;
+    else if (component == LogicEditorComponent)
+      return 2;
+    else
+      return undefined;
+  }
+
+  /**
+   * @param index Scene, Animation, Index (0, 1, 2)
+   */
+  didSelectedEditorTab(index: number){
+    const queryParams = {
+      gameId: this.editingGameId,
+      levelId: this.selectedLevel!._id
+    };
+    let command = '';
+
+    switch(index){
+      case 0: command = 'game/edit/editor/scene'; break;
+      case 1: command = 'game/edit/editor/animation'; break;
+      case 2: command = 'game/edit/editor/logic'; break;
+      default: return;
+    }
+
+    this.router.navigate([command], {
+      queryParams: queryParams
     });
   }
 
