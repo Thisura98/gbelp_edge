@@ -110,8 +110,8 @@ export class ApiService{
         })
     }
 
-    editGame(data: any): Observable<ServerResponsePlain>{
-        const url = this.aurl('edit-game');
+    saveGame(data: any): Observable<ServerResponsePlain>{
+        const url = this.aurl('save-game');
         return this.http.put<ServerResponsePlain>(url, data, {
             headers: this.getHeaders()
         })

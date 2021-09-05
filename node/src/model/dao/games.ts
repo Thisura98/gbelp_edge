@@ -109,7 +109,7 @@ export function createGame(data: any, callback: DAOCallback){
  * @param {Object} data 
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
-export function editGame(data: any, callback: DAOCallback){
+export function saveGame(data: any, callback: DAOCallback){
     const c = sql.columns.gameEntry;
     const columns_arr = [
         c.authorId,

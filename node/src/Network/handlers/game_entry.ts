@@ -10,8 +10,8 @@ export function handlerGameEntry(app: Express){
         });
     });
 
-    app.put(aurl('edit-game'), (req, res) => {
-        gamesDAO.editGame(req.body, (status, msg, result) => {
+    app.put(aurl('save-game'), (req, res) => {
+        gamesDAO.saveGame(req.body, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         })
     });
