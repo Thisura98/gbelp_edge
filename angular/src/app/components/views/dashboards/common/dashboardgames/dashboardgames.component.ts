@@ -4,7 +4,7 @@ import { GameEntry } from '../../../../../../../../commons/src/models/game/game'
 import { ServerResponseAllGameEntries } from 'src/app/models/game/game';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
-
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboardgames',
@@ -59,14 +59,9 @@ export class DashboardgamesComponent implements OnInit {
 
   private loadData(){
     this.isLoading = true;
-    this.apiService.getAllGames().subscribe({
-      next: (data) => {
-        this.notifydataLoaded(data);
-      },
-      error: (err) => {
-        this.notifyErrorLoading(JSON.stringify(err));
-      }
-    })
+    this.apiService.getAllGames().subscribe((data) => {
+      this.notifydataLoaded(data);
+    });
   }
 
   private notifyErrorLoading(err: any){

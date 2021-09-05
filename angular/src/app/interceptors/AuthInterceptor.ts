@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpErrorResponse, HttpResponseBase } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, filter } from "rxjs/operators";
 import { UserService } from "../services/user.service";
 import { DialogService } from "../services/dialog.service";
 import { Router } from "@angular/router";

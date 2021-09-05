@@ -41,16 +41,14 @@ export class GameDeleteComponent implements OnInit {
   }
 
   deleteButtonClicked(){
-    this.apiService.deleteGame(this.gameId!.toString()).subscribe({
-      next: (res) => {
-        if (res.success)
-          this.dialogService.showDismissable('Deleted Sucessfully!', '', () => {this.cancelButtonClicked()})
-        else
-        this.dialogService.showDismissable('Delete operation failed', res.description);
-      },
-      error: (err) => {
-        this.dialogService.showDismissable('Delete operation failed', JSON.stringify(err));
+    this.apiService.deleteGame(this.gameId!.toString()).subscribe((res) => {
+      if (res.success){
+        this.dialogService.showDismissable(
+          'Deleted Sucessfully!', '', () => {this.cancelButtonClicked()}
+        );
       }
+      else
+        this.dialogService.showDismissable('Delete operation failed', res.description);
     })
   }
 
@@ -58,19 +56,14 @@ export class GameDeleteComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.gameId = params['gameId'];
 
-      this.apiService.getGame(this.gameId!).subscribe({
-        next: (data) => {
-          if (data.data != undefined){
-            this.game = data.data.entry;
-            this.gameName = this.game.name;
-            this.isDeleteDisabled = false;
-          }
-          else{
-            this.handleDataLoadError('Could not load data');
-          }
-        },
-        error: (err) => {
-          this.handleDataLoadError(JSON.stringify(err));
+      this.apiService.getGame(this.gameId!).subscribe((data) => {
+        if (data.data != undefined){
+          this.game = data.data.entry;
+          this.gameName = this.game.name;
+          this.isDeleteDisabled = false;
+        }
+        else{
+          this.handleDataLoadError('Could not load data');
         }
       });
     });

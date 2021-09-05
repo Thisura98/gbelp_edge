@@ -20,8 +20,14 @@ import { GameEntry } from '../../../../../../../commons/src/models/game/game';
   ]
 })
 export class GameCreateComponent implements OnInit, AfterContentInit {
+  
+  /*
+  `static` on ViewChild: `true` because elements run before change detection happens.
+  If we change values in ngAfterViewInit, it will cause, 
+  ExpressionChangedAfterItHasBeenCheckedError.
+  */
 
-  @ViewChild('objectivesTable', {static: true})
+  @ViewChild('objectivesTable')
   objectivesTable: DynBasicTableComponent | undefined;
 
   @ViewChild('objectivesForm', {static: true})
@@ -98,32 +104,22 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
 
       // Save Edited Game
       data.id = this.editingGameId!;
-      this.apiService.saveGame(data).subscribe({
-        next: (response) => {
-          if (response.success)
-            this.dialogService.showDismissable('Saved Successfully', '');
-          else
-            this.notifyGameCreationError(response.description);
-        },
-        error: (err) => {
-          this.notifyGameCreationError(JSON.stringify(err));
-        }
-      })
+      this.apiService.saveGame(data).subscribe(response => {
+        if (response.success)
+          this.dialogService.showDismissable('Saved Successfully', '');
+        else
+          this.notifyGameCreationError(response.description);
+      });
     }
     else{
 
       // Create new game, and 
       // get newly created game id
-      this.apiService.createGame(data).subscribe({
-        next: (response) => {
-          if (response.data?.gameId != undefined)
-            this.gameCreatedSuccessfully(response.data.gameId);
-          else
-            this.notifyGameCreationError("Unknown error")
-        },
-        error: (err) => {
-          this.notifyGameCreationError(err as string);
-        },
+      this.apiService.createGame(data).subscribe((response) => {
+        if (response.data?.gameId != undefined)
+          this.gameCreatedSuccessfully(response.data.gameId);
+        else
+          this.notifyGameCreationError("Unknown error")
       });
     }
   }
@@ -154,18 +150,12 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
     }
 
     this.isLoading = true;
-    this.apiService.getGame(this.editingGameId!).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        if (response.success)
-          this.setEditData(response.data.entry);
-        else
-          loadFailed(response.description);
-      },
-      error: (err) => {
-        this.isLoading = false
-        loadFailed(err)
-      }
+    this.apiService.getGame(this.editingGameId!).subscribe((response) => {
+      this.isLoading = false;
+      if (response.success)
+        this.setEditData(response.data.entry);
+      else
+        loadFailed(response.description);
     });
   }
 
@@ -196,6 +186,16 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
     this.repOptStudentUsage = data.rep_opt_student_usg == 1;
     this.repOptScore = data.rep_opt_level_score == 1;
     this.repOptTiming = data.rep_opt_level_time == 1;
+
+    this.objectivesTable!.setConfig(new DynBasicTableConfig(true, [
+      {name: "Objective Name", type:"input:text"},
+      {name: "Description", type:"input:text"},
+      {name: "Maximum Progress", type:"input:number"},
+    ]))
+
+    this.objectivesTable!.data = [
+      ['Example Name', 'Description', '20']
+    ];
   }
 
   canceledButtonClicked(){
@@ -235,20 +235,6 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       this.objectivesForm!.nativeElement?.remove();
       return;
     }
-
-    /**
-     * static: true elements run before change detection happens.
-     * If we change values in ngAfterViewInit, it will cause, 
-     * ExpressionChangedAfterItHasBeenCheckedError.
-     * 
-     * So doing it here, before afterViewInit and with static:true
-     * is the best option.
-     */
-    this.objectivesTable!.setConfig(new DynBasicTableConfig(true, [
-      {name: "Objective Name", type:"input:text"},
-      {name: "Description", type:"input:text"},
-      {name: "Maximum Progress", type:"input:number"},
-    ]))
   }
 
   addNewObjectiveClicked(event: Event){
