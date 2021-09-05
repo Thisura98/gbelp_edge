@@ -32,7 +32,6 @@ import { SimpleDialogComponent } from './components/ui/dialogs/simple.component'
 import { LoginComponent } from './components/views/login/login.component';
 import { DashboardComponent } from './components/views/dashboards/dashboard.component';
 import { SessioninfoComponent } from './components/views/dashboards/common/sessioninfo/sessioninfo.component';
-import { ObjectivehistoryComponent } from './components/views/dashboards/common/objectivehistory/objectivehistory.component';
 import { ProgresstrackerComponent } from './components/views/dashboards/common/progresstracker/progresstracker.component';
 import { StudentDashboardComponent } from './components/views/dashboards/student-dashboard/student-dashboard.component';
 import { HomeComponent } from './components/views/home/home.component';
@@ -76,7 +75,6 @@ import { SceneMapComponent } from './components/views/game/edit/editor/scene/sce
     TeacherDashboardComponent,
     DashboardComponent,
     SessioninfoComponent,
-    ObjectivehistoryComponent,
     ProgresstrackerComponent,
     HomeComponent,
     UserstatusComponent,
