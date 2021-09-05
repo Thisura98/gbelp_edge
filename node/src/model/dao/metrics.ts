@@ -125,6 +125,7 @@ export function updateObjectives(
                 if (objOp.data.objective_id == newObj.objective_id){
                     objOp.operation = 'update';
                     markedForUpdate = true;
+                    objOp.data = newObj;
                     break;
                 }
             }
@@ -227,6 +228,7 @@ export function updateTrackers(
                 if (trackerOp.data.tracker_id == newTracker.tracker_id){
                     markedForUpdate = true;
                     trackerOp.operation = 'update';
+                    trackerOp.data = newTracker;
                     break;
                 }
             }
