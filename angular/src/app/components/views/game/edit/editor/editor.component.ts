@@ -76,7 +76,12 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     });
   }
 
-  saveGame(){
+  /**
+   * Saves the current level by collecting data
+   * from all children. 
+   * @param callback Invoked after successfull game save
+   */
+  saveGame(callback: (() => void) | undefined = undefined){
     console.log("Saving...");
     this.isSaving = true;
 
@@ -92,6 +97,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
         this.isSaving = false;
         if (!r.success){
           this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
+        }
+        else{
+          if (callback != undefined)
+            callback();
         }
       });
     });
@@ -113,6 +122,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
    * @param index Scene, Animation, Index (0, 1, 2)
    */
   didSelectedEditorTab(index: number){
+    if(index == this.getSelectedTabIndex())
+      return;
+
     const queryParams = {
       gameId: this.editingGameId,
       levelId: this.selectedLevel!._id
@@ -125,9 +137,11 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       case 2: command = 'game/edit/editor/logic'; break;
       default: return;
     }
-
-    this.router.navigate([command], {
-      queryParams: queryParams
+    
+    this.saveGame(() => {
+      this.router.navigate([command], {
+        queryParams: queryParams
+      });
     });
   }
 
