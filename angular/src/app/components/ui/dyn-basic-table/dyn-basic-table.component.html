@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let row of data">
+        <tr *ngFor="let row of data; index as i">
             <td 
                 *ngFor="let col of columns" 
                 class="dyn-table-cell"
@@ -26,7 +26,7 @@
                 </ng-container>
             </td>
             <ng-container *ngIf="config.showDelete">
-                <td class="delete-ico" (click)="delete.emit(row)">
+                <td class="delete-ico" (click)="emitDeleteEvent(row, i)">
                     <img src="/assets/dashboard/ico_delete.png">
                 </td>
             </ng-container>

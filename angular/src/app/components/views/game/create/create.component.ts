@@ -3,7 +3,7 @@ import { Component, OnInit, AfterContentInit, ViewChild, ElementRef } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
-import { DynBasicTableComponent, DynBasicTableConfig } from 'src/app/components/ui/dyn-basic-table/dyn-basic-table.component';
+import { DynBasicTableComponent, DynBasicTableConfig, DynBasicTableDeleteEvent } from 'src/app/components/ui/dyn-basic-table/dyn-basic-table.component';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { ApiService } from 'src/app/services/api.service';
@@ -161,6 +161,8 @@ export class GameCreateComponent implements OnInit {
     ]);
   }
 
+  // MARK: Add, Delete, Get Objective view methods
+
   addNewObjectiveClicked(event: Event){
     event.preventDefault();
     this.gameObjectives.push(
@@ -168,14 +170,17 @@ export class GameCreateComponent implements OnInit {
     );
   }
 
-  deleteObjectiveClicked(object: any){
-    const cast = object as GameObjective;
-    console.log('deleteObjectiveClicked', cast);
+  deleteObjectiveClicked(event: DynBasicTableDeleteEvent){
+    const index = event.index;
+    this.gameObjectives.splice(index, 1);
+    this.dialogService.showSnackbar('Refresh page to Undo Delete');
   }
 
   get objectiveTableConfig(): DynBasicTableConfig{
     return GameEditConstants.objectiveTableConfig;
   }
+
+  // MARK: Add, Delete, Get Trackers view methods
 
   addNewTrackerClicked(event: Event){
     event.preventDefault();
@@ -184,9 +189,10 @@ export class GameCreateComponent implements OnInit {
     );
   }
 
-  deleteTrackerClicked(object: any){
-    const cast = object as GameGuidanceTracker;
-    console.log('deleteTrackerClicked', cast);
+  deleteTrackerClicked(event: DynBasicTableDeleteEvent){
+    const index = event.index;
+    this.gameGuidanceTrackers.splice(index, 1);
+    this.dialogService.showSnackbar('Refresh page to Undo Delete');
   }
 
   get guidanceTrackerTableConfig(): DynBasicTableConfig{
@@ -203,7 +209,6 @@ export class GameCreateComponent implements OnInit {
   }
 
   private gameCreatedSuccessfully(gameId: string){
-    console.log("not implemented yet.", gameId);
     this.router.navigate(['game/edit'], {
       queryParams: {
         gameId: gameId
@@ -233,7 +238,6 @@ export class GameCreateComponent implements OnInit {
    */
   private getObjectivesAndTrackers(){
     this.apiService.getObjectives(this.editingGameId!).subscribe(response => {
-      console.log('getObjectives', response.data);
       if (response.success)
         this.setObjectives(response.data);
       else
@@ -241,7 +245,6 @@ export class GameCreateComponent implements OnInit {
     });
 
     this.apiService.getGuidanceTrackers(this.editingGameId!).subscribe(response => {
-      console.log('getTrackers', response.data);
       if (response.success)
         this.setGuidanceTrackers(response.data);
       else
@@ -294,7 +297,6 @@ export class GameCreateComponent implements OnInit {
 
   private setObjectives(data: GameObjective[]){
     this.gameObjectives = data;
-    console.log("Setting game objectives...", data);
   }
 
   private setGuidanceTrackers(data: GameGuidanceTracker[]){

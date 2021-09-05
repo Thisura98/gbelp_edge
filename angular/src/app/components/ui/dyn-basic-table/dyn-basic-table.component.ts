@@ -13,6 +13,11 @@ export interface DynBasicTableCol{
   type: 'static' | 'input:text' | 'input:number'
 }
 
+export interface DynBasicTableDeleteEvent{
+  object: any
+  index: number
+}
+
 export class DynBasicTableConfig{
   showDelete: boolean
   columns: DynBasicTableCol[]
@@ -36,7 +41,7 @@ export class DynBasicTableComponent implements OnInit {
   cellHeight: string = '30';
 
   @Output()
-  delete = new EventEmitter<any>();
+  delete = new EventEmitter<DynBasicTableDeleteEvent>();
 
   /**
    * data[rowIndex] = columnWiseData;
@@ -68,6 +73,10 @@ export class DynBasicTableComponent implements OnInit {
   updateData(event: Event, item: any, property: string){
     const elem = event.target as HTMLTextAreaElement;
     item[property] = elem.value;
+  }
+
+  emitDeleteEvent(obj: any, index: number){
+    this.delete.emit({object: obj, index: index});
   }
 
 }
