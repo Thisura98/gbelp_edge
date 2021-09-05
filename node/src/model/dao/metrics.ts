@@ -13,8 +13,14 @@ function createInsertQuery(
     columns: string[],
     values: string[],
 ): string{
+    const escapedValues = values.map((v) => {
+        if (v == null || v == undefined)
+            return v ?? 'null';
+        else
+            return sql.escape(v);
+    });
     const st_cols = '(' + columns.join(',') + ')';
-    const st_values = '(' + values.map(v => `'${v}'`).join(',') + ')';
+    const st_values = '(' + escapedValues.map(v => `${v}`).join(',') + ')';
     return `INSERT INTO ${table} ${st_cols} VALUES ${st_values}`;
 }
 
@@ -34,7 +40,14 @@ function createUpdateQuery(
 
     let sets: string[] = [];
     for (let i=0; i<columns.length; i++){
-        sets.push(`${columns[i]} = '${values[i]}'`);
+        const val = values[i];
+        if (val == null || val == undefined){
+            sets.push(`${columns[i]} = ${val ?? 'null'}`);
+        }
+        else{
+            const escaped = sql.escape(values[i]);
+            sets.push(`${columns[i]} = ${escaped}`);
+        }
     }
     const st_set = sets.join(',');
 
@@ -180,6 +193,8 @@ function createObjectivesQueryPromises(operations: DAOMergeOperation<IGameObject
                     break;
             }
 
+            console.log('createObjectivesQueryParams query', query);
+
             sql.getPool()!.query(query, (error, result) => {
                 if (error)
                     reject(error.message);
@@ -267,8 +282,8 @@ function createTrackerQueryPromises(operations: DAOMergeOperation<IGameGuidanceT
 
             switch(op.operation){
                 case 'insert':
-                    const i_columns = [c.trackerId, c.gameEntryId, c.name, c.message, c.maxThreshold]
-                    const i_values = ['null', `${obj.game_entry_id}`, obj.name, obj.message ?? 'null', `${obj.max_threshold}`];
+                    const i_columns = [c.gameEntryId, c.name, c.message, c.maxThreshold]
+                    const i_values = [`${obj.game_entry_id}`, obj.name, obj.message ?? 'null', `${obj.max_threshold}`];
                     query = createInsertQuery(table, i_columns, i_values);
                     break;
 
@@ -285,7 +300,9 @@ function createTrackerQueryPromises(operations: DAOMergeOperation<IGameGuidanceT
                     break;
             }
 
-            sql.getPool()!.query(query, (error, result) => {
+            console.log('createTrackerQueryPromises query', query);
+
+            sql.getPool()!.query( query, (error, result) => {
                 if (error)
                     reject(error.message);
                 else

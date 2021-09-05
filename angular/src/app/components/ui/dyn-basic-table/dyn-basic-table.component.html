@@ -19,10 +19,10 @@
                     {{row[col.property] | anytostr}}
                 </ng-container>
                 <ng-container *ngIf="col.type == 'input:number'">
-                    <input type="number" [value]="row[col.property]" />
+                    <input type="number" [(ngModel)]="row[col.property]" />
                 </ng-container>
                 <ng-container *ngIf="col.type == 'input:text'">
-                    <textarea rows="2">{{row[col.property]}}</textarea>
+                    <textarea rows="2" (change)="updateData($event, row, col.property)">{{row[col.property]}}</textarea>
                 </ng-container>
             </td>
             <ng-container *ngIf="config.showDelete">

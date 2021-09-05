@@ -29,6 +29,14 @@ export { tables, columns };
 export function getPool(){
     return pool
 }
+/**
+ * Escape an untrusted string to be used as a SQL value. Use this on user
+ * provided data.
+ * @param value Value to escape
+ * @param stringifyObjects If true, don't convert objects into SQL lists
+ * @param timeZone Convert dates from UTC to the given timezone.
+ */
+export const escape = mysql.escape;
 
 /**
  * Initialize SQL connections

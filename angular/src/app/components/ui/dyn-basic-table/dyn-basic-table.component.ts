@@ -44,6 +44,9 @@ export class DynBasicTableComponent implements OnInit {
   @Input()
   data: any[];
 
+  // @Output()
+  // dataChanged = new EventEmitter<any[]>();
+
   get columns(): DynBasicTableCol[]{
     return this.config.columns;
   }
@@ -60,6 +63,11 @@ export class DynBasicTableComponent implements OnInit {
 
   getObjectKeys(obj: any): string[]{
     return Object.keys(obj);
+  }
+
+  updateData(event: Event, item: any, property: string){
+    const elem = event.target as HTMLTextAreaElement;
+    item[property] = elem.value;
   }
 
 }
