@@ -1,6 +1,7 @@
 import { Express } from 'express';
 import { aurl } from '../api_handler';
 import * as gamesDAO from '../../model/dao/games';
+import * as metricsDAO from '../../model/dao/metrics';
 import { ResponseModel } from '../../model/models/common';
 
 export function handlerGameEntry(app: Express){
@@ -36,5 +37,19 @@ export function handlerGameEntry(app: Express){
         gamesDAO.getAllGames((status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
+    });
+
+    app.get(aurl('game-objectives'), (req, res) => {
+        const gameId = req.query.id as string;
+        metricsDAO.getObjectives(gameId, (status, msg, objects) => {
+            res.json(new ResponseModel(status, 200, msg, objects));
+        })
+    });
+
+    app.get(aurl('game-guidance-trackers'), (req, res) => {
+        const gameId = req.query.id as string;
+        metricsDAO.getGuidanceTrackers(gameId, (status, msg, objects) => {
+            res.json(new ResponseModel(status, 200, msg, objects));
+        })
     });
 }

@@ -212,36 +212,6 @@ export function getGame(id: string | number, callback: DAOCallback){
     });
 }
 
-/**
- * @param id Game Entry ID
- */
-export function getObjectives(id: string | number, callback: DAOCallback){
-    const query = `SELECT * FROM ${sql.tables.gameObjective} WHERE ${sql.columns.gameObjective.gameEntryId} = ${id}`;
-    sql.getPool()?.query(query, (error, result) => {
-        if (error){
-            callback(false, error.message, null);
-        }
-        else{
-            callback(true, 'Successfully obtained objectives', null);
-        }
-    });
-}
-
-/**
- * @param id Game Entry ID
- */
-export function getGuidanceTrackers(id: string | number, callback: DAOCallback){
-    const query = `SELECT * FROM ${sql.tables.gameObjective} WHERE ${sql.columns.gameGuidanceTracker.gameEntryId} = ${id}`;
-    sql.getPool()?.query(query, (error, result) => {
-        if (error){
-            callback(false, error.message, null);
-        }
-        else{
-            callback(true, 'Successfully obtained trackers', null);
-        }
-    });
-}
-
 
 /**
  * Ret
