@@ -107,7 +107,7 @@ export function updateObjectives(
 ){
     let objectivesOps: DAOMergeOperation<IGameObjective>[] = [];
 
-    const qGetObjectives = `SELECT * FROM ${sql.tables.gameObjective}`;
+    const qGetObjectives = `SELECT * FROM ${sql.tables.gameObjective} WHERE ${sql.columns.gameObjective.gameEntryId} = '${gameId}'`;
     const abort = (msg: MysqlError | string | undefined) => {
         if (typeof msg === 'string')
             l.logc(msg, 'updateObjectives error');
@@ -175,8 +175,8 @@ function createObjectivesQueryPromises(operations: DAOMergeOperation<IGameObject
 
             switch(op.operation){
                 case 'insert':
-                    const i_columns = [c.objectiveId, c.gameEntryId, c.name, c.description, c.maxValue];
-                    const i_values = ['null', `${obj.game_entry_id}`, obj.name, obj.description ?? 'null', `${obj.max_value}`];
+                    const i_columns = [c.gameEntryId, c.name, c.description, c.maxValue];
+                    const i_values = [`${obj.game_entry_id}`, obj.name, obj.description ?? 'null', `${obj.max_value}`];
                     query = createInsertQuery(table, i_columns, i_values);
                     break;
 
@@ -215,7 +215,7 @@ export function updateTrackers(
 ){
     let trackersOps: DAOMergeOperation<IGameGuidanceTracker>[] = [];
 
-    const qGetTrackers = `SELECT * FROM ${sql.tables.gameGuidanceTracker}`;
+    const qGetTrackers = `SELECT * FROM ${sql.tables.gameGuidanceTracker} WHERE ${sql.columns.gameObjective.gameEntryId} = '${gameId}'`;
     const abort = (msg: MysqlError | string | undefined) => {
         if (typeof msg === 'string')
             l.logc(msg, 'updateTrackers error');
