@@ -14,6 +14,7 @@ export const tables = {
     gameSessionMembers: 'gsession_members',
     gameSessionUserObjective: 'gsession_user_objective',
     gameObjective: 'game_objective',
+    gameGuidanceTracker: 'game_guidance_tracker',
     gameEntry: 'game_entry'
 };
 
@@ -84,8 +85,17 @@ export const columns = {
     },
     gameObjective: {
         objectiveId: 'objective_id',
+        gameEntryId: 'game_entry_id',
         name: 'name',
+        description: 'description',
         maxValue: 'max_value'
+    },
+    gameGuidanceTracker: {
+        trackerId: 'tracker_id',
+        gameEntryId: 'game_entry_id',
+        name: 'name',
+        message: 'message',
+        maxThreshold: 'max_threshold'
     },
     gameEntry: {
         id: 'id',

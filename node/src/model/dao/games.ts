@@ -1,20 +1,17 @@
-import { Document } from 'mongodb';
 import * as l from '../../util/logger';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as mongo from '../../util/connections/mongo/mongo_connection';
 import * as utils from '../../util/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { DateTime } from 'luxon';
+import { DateTime, ToSQLOptions } from 'luxon';
 import * as mimeParse from '../../util/mime_parse';
-import express from 'express';
-import multer from 'multer';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { GameResourceType } from '../../../../commons/src/models/game/resources';
 import { GameType } from '../../../../commons/src/models/game/game';
 import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
 import DAOCallback from './commons';
+import { updateObjectives, updateTrackers } from './metrics';
 
 /**
  * Create a game entry
@@ -138,11 +135,13 @@ export function saveGame(data: any, callback: DAOCallback){
 
     const query = `UPDATE ${sql.tables.gameEntry} SET ${columnsAndTemplate} WHERE ${c.id} = ?`;
 
+    /*
     console.log('editGame-query', JSON.stringify({
         sql: query,
         values: values
-    }));
+    }));*/
 
+    // Update game_entry
     sql.getPool()!.query({
         sql: query,
         values: values,
@@ -150,13 +149,29 @@ export function saveGame(data: any, callback: DAOCallback){
         // console.log('editGame-res', JSON.stringify(res));
         console.log('editGame-err', JSON.stringify(err));
         if (err == null && typeof res == 'object' && res.affectedRows && res.affectedRows > 0){
-            callback(true, 'Successfully updated!', null);
+            // callback(true, 'Successfully updated!', null);
+            updateObjectives(data.id as string, data.objectives ?? [], (status) => {
+                if (status){
+                    updateTrackers(data.id, data.trackers ?? [], (status) => {
+                        if (status){
+                            callback(true, 'Successfully updated!', null);
+                        }
+                        else{
+                            callback(false, 'Game & Objectives updated, failed to update trackers', null);
+                        }
+                    });
+                }
+                else{
+                    callback(false, 'Game updated, failed to update objectives', null);
+                }
+            });
         }
         else{
             callback(false, 'Server Error', null);
         }
     });
 }
+
 
 /**
  * Retrieve game entry from the DB
@@ -196,6 +211,37 @@ export function getGame(id: string | number, callback: DAOCallback){
         }
     });
 }
+
+/**
+ * @param id Game Entry ID
+ */
+export function getObjectives(id: string | number, callback: DAOCallback){
+    const query = `SELECT * FROM ${sql.tables.gameObjective} WHERE ${sql.columns.gameObjective.gameEntryId} = ${id}`;
+    sql.getPool()?.query(query, (error, result) => {
+        if (error){
+            callback(false, error.message, null);
+        }
+        else{
+            callback(true, 'Successfully obtained objectives', null);
+        }
+    });
+}
+
+/**
+ * @param id Game Entry ID
+ */
+export function getGuidanceTrackers(id: string | number, callback: DAOCallback){
+    const query = `SELECT * FROM ${sql.tables.gameObjective} WHERE ${sql.columns.gameGuidanceTracker.gameEntryId} = ${id}`;
+    sql.getPool()?.query(query, (error, result) => {
+        if (error){
+            callback(false, error.message, null);
+        }
+        else{
+            callback(true, 'Successfully obtained trackers', null);
+        }
+    });
+}
+
 
 /**
  * Ret
