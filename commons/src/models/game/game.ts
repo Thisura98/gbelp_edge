@@ -1,3 +1,6 @@
+import { GameObjective } from "./objectives";
+import { GameGuidanceTracker } from "./trackers";
+
 /**
  * Denotes the game type
  */
