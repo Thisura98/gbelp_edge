@@ -6,19 +6,19 @@ import { UserService } from "../services/user.service";
 import { DialogService } from "../services/dialog.service";
 import { Router } from "@angular/router";
 
+export const AuthInterceptorStatusCodes = {
+    missingAuth: 400,
+    authIdNoMatch: 406,
+    missingCapabilities: 403,
+    tokenExpired: 401
+};
+
 @Injectable()
 /**
  * If API response returns user not authenticated,
  * logout and show error message.
  */
 export class AuthInterceptor implements HttpInterceptor{
-
-    readonly statusCodes = {
-        missingAuth: 400,
-        authIdNoMatch: 406,
-        missingCapabilities: 403,
-        tokenExpired: 401
-    }
 
     constructor(
         private userService: UserService,
@@ -55,9 +55,10 @@ export class AuthInterceptor implements HttpInterceptor{
          * However the two are not mutually exclusive. Use HttpResponseBase casting.
          */
         if (response instanceof HttpResponseBase){
-            if (response.status == this.statusCodes.authIdNoMatch || 
-                response.status == this.statusCodes.missingAuth || 
-                response.status == this.statusCodes.tokenExpired
+            const code = AuthInterceptorStatusCodes;
+            if (response.status == code.authIdNoMatch || 
+                response.status == code.missingAuth || 
+                response.status == code.tokenExpired
             ){
                 this.userService.clearCredentials();
                 this.dialogService.showDismissable('User not Authenticated', 'Please login a try again', () => {

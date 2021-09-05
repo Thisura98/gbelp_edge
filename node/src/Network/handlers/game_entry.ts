@@ -13,6 +13,7 @@ export function handlerGameEntry(app: Express){
     app.put(aurl('save-game'), (req, res) => {
         gamesDAO.saveGame(req.body, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
+            // res.json(new ResponseModel(false, 200, 'This is a fake error', null));
         })
     });
 
