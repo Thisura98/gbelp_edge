@@ -204,7 +204,7 @@ export class GameEditResourcesComponent implements OnInit {
         this.isUploading = false;
         if (res.success){
           this.setGameProject(res.data);
-          this.dialogService.showDismissable('Upload Successful!', '');
+          this.dialogService.showSnackbar('Upload Successful!');
         }
         else{
           this.dialogService.showDismissable('Error Uploading Resource', JSON.stringify(res.description));
