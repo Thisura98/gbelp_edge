@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 export interface DynBasicTableCol{
   name: string
-  type: string
+  type: 'input:text' | 'input:number'
 }
 
 export class DynBasicTableConfig{
@@ -16,36 +16,26 @@ export class DynBasicTableConfig{
 
 @Component({
   selector: 'dyn-basic-table',
-  template: `
-    <table>
-      <thead>
-        <tr>
-          <td *ngFor="let col of config.columns">
-            {{col.name}}
-          </td>
-          <td *ngIf="config.showDelete">
-            Actions
-          </td>
-        </tr>
-      </thead>
-    </table>
-  `
+  templateUrl: './dyn-basic-table.component.html'
 })
 export class DynBasicTableComponent implements OnInit {
 
   config: DynBasicTableConfig = new DynBasicTableConfig(true, []);
 
   /**
-   * row[column] = data
+   * data[rowIndex] = columnWiseData;
    */
-  data: Map<number, Map<string, string>>;
+  data: string[][];
+
+  get columns(): DynBasicTableCol[]{
+    return this.config.columns;
+  }
 
   rowCount: number = 0;
 
   constructor(
-    private changeDetector: ChangeDetectorRef
   ) {
-    this.data = new Map();
+    this.data = [];
   }
 
   ngOnInit(): void {
@@ -57,8 +47,9 @@ export class DynBasicTableComponent implements OnInit {
     // this.changeDetector.markForCheck();
   }
 
-  addRow(){
+  addRow(row: string[]){
     // console.log("Row count increased!");
+    this.data.push(row);
     this.rowCount += 1;
   }
 

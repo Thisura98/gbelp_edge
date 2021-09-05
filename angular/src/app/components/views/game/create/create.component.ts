@@ -98,7 +98,7 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
 
       // Save Edited Game
       data.id = this.editingGameId!;
-      this.apiService.editGame(data).subscribe({
+      this.apiService.saveGame(data).subscribe({
         next: (response) => {
           if (response.success)
             this.dialogService.showDismissable('Saved Successfully', '');
@@ -253,7 +253,8 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
 
   addNewObjectiveClicked(event: Event){
     event.preventDefault();
-    this.objectivesTable!.addRow();
+    const newObject = ['', '', '0'];
+    this.objectivesTable!.addRow(newObject);
   }
 
   handleBack(){

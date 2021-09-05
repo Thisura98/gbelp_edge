@@ -1,2 +1,19 @@
-<p>dyn-basic-table works!</p>
-<p>number of rows: {{rowCount}}</p>
+<table>
+    <thead>
+        <tr>
+            <td *ngFor="let col of columns">
+                {{col.name}}
+            </td>
+            <td *ngIf="config.showDelete">
+                Actions
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of data">
+            <td *ngFor="let col of row">
+                {{col}}
+            </td>
+        </tr>
+    </tbody>
+</table>
