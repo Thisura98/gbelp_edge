@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysqlhost
--- Generation Time: Sep 05, 2021 at 04:59 AM
+-- Generation Time: Sep 05, 2021 at 05:04 AM
 -- Server version: 8.0.25
 -- PHP Version: 7.4.19
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `edge_gbelp`
 --
+CREATE DATABASE IF NOT EXISTS `edge_gbelp` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `edge_gbelp`;
 
 -- --------------------------------------------------------
 
@@ -53,6 +55,20 @@ INSERT INTO `game_entry` (`id`, `author_id`, `name`, `type`, `level_switch`, `mu
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `game_guidance_tracker`
+--
+
+CREATE TABLE `game_guidance_tracker` (
+  `tracker_id` int NOT NULL,
+  `game_entry_id` int DEFAULT NULL,
+  `name` varchar(200) NOT NULL,
+  `message` varchar(300) NOT NULL,
+  `max_threshold` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `game_objective`
 --
 
@@ -64,19 +80,12 @@ CREATE TABLE `game_objective` (
   `max_value` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `game_progress_tracker`
+-- Dumping data for table `game_objective`
 --
 
-CREATE TABLE `game_progress_tracker` (
-  `tracker_id` int NOT NULL,
-  `game_entry_id` int DEFAULT NULL,
-  `name` varchar(200) NOT NULL,
-  `message` varchar(300) NOT NULL,
-  `max_threshold` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `game_objective` (`objective_id`, `game_entry_id`, `name`, `description`, `max_value`) VALUES
+(5, 21, 'Upload 10/10 files', 'Upload all the files within the specified time period', 10);
 
 -- --------------------------------------------------------
 
@@ -312,18 +321,18 @@ ALTER TABLE `game_entry`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `game_guidance_tracker`
+--
+ALTER TABLE `game_guidance_tracker`
+  ADD PRIMARY KEY (`tracker_id`),
+  ADD KEY `fk_tracker_game_entry` (`game_entry_id`);
+
+--
 -- Indexes for table `game_objective`
 --
 ALTER TABLE `game_objective`
   ADD PRIMARY KEY (`objective_id`),
   ADD KEY `fk_objective_game_entry` (`game_entry_id`);
-
---
--- Indexes for table `game_progress_tracker`
---
-ALTER TABLE `game_progress_tracker`
-  ADD PRIMARY KEY (`tracker_id`),
-  ADD KEY `fk_tracker_game_entry` (`game_entry_id`);
 
 --
 -- Indexes for table `gsessions`
@@ -419,16 +428,16 @@ ALTER TABLE `game_entry`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
+-- AUTO_INCREMENT for table `game_guidance_tracker`
+--
+ALTER TABLE `game_guidance_tracker`
+  MODIFY `tracker_id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `game_objective`
 --
 ALTER TABLE `game_objective`
-  MODIFY `objective_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `game_progress_tracker`
---
-ALTER TABLE `game_progress_tracker`
-  MODIFY `tracker_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `objective_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `gsessions`
@@ -483,16 +492,16 @@ ALTER TABLE `user_type`
 --
 
 --
+-- Constraints for table `game_guidance_tracker`
+--
+ALTER TABLE `game_guidance_tracker`
+  ADD CONSTRAINT `fk_tracker_game_entry` FOREIGN KEY (`game_entry_id`) REFERENCES `game_entry` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
 -- Constraints for table `game_objective`
 --
 ALTER TABLE `game_objective`
   ADD CONSTRAINT `fk_objective_game_entry` FOREIGN KEY (`game_entry_id`) REFERENCES `game_entry` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
-
---
--- Constraints for table `game_progress_tracker`
---
-ALTER TABLE `game_progress_tracker`
-  ADD CONSTRAINT `fk_tracker_game_entry` FOREIGN KEY (`game_entry_id`) REFERENCES `game_entry` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `gsession_members`
