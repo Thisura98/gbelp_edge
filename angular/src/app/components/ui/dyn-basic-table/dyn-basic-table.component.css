@@ -1,0 +1,20 @@
+:host{
+    width: 100%;
+}
+
+.dyn-basic-table{
+    border: 1px solid #E1E1E1;
+    border-collapse: collapse;
+    width: 100%;;
+}
+
+.dyn-basic-table th{
+    font-weight: normal;
+    color: #9b9b9b
+}
+
+.dyn-basic-table td,
+.dyn-basic-table th{
+    border: 1px solid #E1E1E1;
+    padding: 8px 10px;
+}

@@ -16,6 +16,7 @@ export class DynBasicTableConfig{
 
 @Component({
   selector: 'dyn-basic-table',
+  styleUrls: ['./dyn-basic-table.component.css'],
   templateUrl: './dyn-basic-table.component.html'
 })
 export class DynBasicTableComponent implements OnInit {

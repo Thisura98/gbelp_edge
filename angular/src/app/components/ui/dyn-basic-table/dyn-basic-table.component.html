@@ -1,12 +1,12 @@
-<table>
+<table class="dyn-basic-table">
     <thead>
         <tr>
-            <td *ngFor="let col of columns">
+            <th *ngFor="let col of columns">
                 {{col.name}}
-            </td>
-            <td *ngIf="config.showDelete">
+            </th>
+            <th *ngIf="config.showDelete">
                 Actions
-            </td>
+            </th>
         </tr>
     </thead>
     <tbody>
