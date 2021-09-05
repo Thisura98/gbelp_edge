@@ -7,5 +7,9 @@
 			"path": "../commons"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"[typescript]": {
+			"editor.tabSize": 2
+		}
+	}
 }

@@ -62,6 +62,9 @@ import { AnimationEditorComponent } from './components/views/game/edit/editor/an
 import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
 import { SceneMapComponent } from './components/views/game/edit/editor/scene/scenemap/scenemap.component';
 import { AnyToStringPipe } from './pipes/any-to-string.pipe';
+import { DocsComponent } from './components/views/docs/docs.component';
+import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
+import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +101,10 @@ import { AnyToStringPipe } from './pipes/any-to-string.pipe';
     SceneEditorComponent,
     AnimationEditorComponent,
     LogicEditorComponent,
-    SceneMapComponent
+    SceneMapComponent,
+    DocsComponent,
+    DocsArticlesComponent,
+    ScriptReferenceArticleComponent
   ],
   imports: [
     CommonModule,

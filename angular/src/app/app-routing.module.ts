@@ -21,6 +21,9 @@ import { GameEditorComponents } from './components/views/game/edit/editor/editor
 import { SceneEditorComponent } from './components/views/game/edit/editor/scene/scene.component';
 import { AnimationEditorComponent } from './components/views/game/edit/editor/animation/animation.component';
 import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
+import { DocsComponent } from './components/views/docs/docs.component';
+import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
+import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
 
 
 const routes: Routes = [
@@ -50,6 +53,14 @@ const routes: Routes = [
       {path: "scene", component: SceneEditorComponent},
       {path: "animation", component: AnimationEditorComponent},
       {path: "logic", component: LogicEditorComponent}
+    ]
+  },
+  {path: "docs", component: DocsComponent},
+  {
+    path: "docs/articles", 
+    component: DocsArticlesComponent,
+    children: [
+      {path: "script/reference", component: ScriptReferenceArticleComponent}
     ]
   },
   {path: "**", component: NotFoundComponent}
