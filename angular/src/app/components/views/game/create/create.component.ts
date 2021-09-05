@@ -9,7 +9,7 @@ import { getGameSidebarItems } from 'src/app/constants/constants';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-import { GameEntry } from '../../../../../../../commons/src/models/game/game';
+import { GameEntry, SaveGameRequestData } from '../../../../../../../commons/src/models/game/game';
 
 @Component({
   selector: 'app-game-create',
@@ -83,10 +83,10 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
 
   createButtonClicked(){
     const userId = this.userService.getUserAndToken().user.userId;
-    let data = {
-      id: 0,
+    let data: SaveGameRequestData = {
+      id: '0',
       name: this.gameName,
-      author_id: userId,
+      author_id: userId!,
       type: this.gameType,
       multi_user_limit: this.userLimit,
       level_switch: this.levelSwitching,
@@ -95,7 +95,9 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       rep_opt_guidance_trg: this.repOptGuidanceTrgTracking,
       rep_opt_student_usg: true,
       rep_opt_level_score: this.repOptScore,
-      rep_opt_level_time: this.repOptTiming
+      rep_opt_level_time: this.repOptTiming,
+      objectives: [],
+      trackers: []
     }
 
     /// MARK: Call Create game or Edit Game accordingly
@@ -103,7 +105,7 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
     if (this.isEditMode){
 
       // Save Edited Game
-      data.id = this.editingGameId!;
+      data.id = this.editingGameId!.toString();
       this.apiService.saveGame(data).subscribe(response => {
         if (response.success)
           this.dialogService.showDismissable('Saved Successfully', '');

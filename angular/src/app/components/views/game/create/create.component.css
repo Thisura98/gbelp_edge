@@ -53,3 +53,7 @@
 .section-heading > a:visited{
     color: #009EFF;
 }
+
+.table-section{
+    width: 100%;
+}

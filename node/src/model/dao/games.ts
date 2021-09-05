@@ -7,7 +7,7 @@ import { DateTime, ToSQLOptions } from 'luxon';
 import * as mimeParse from '../../util/mime_parse';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { GameType } from '../../../../commons/src/models/game/game';
+import { GameType, SaveGameRequestData } from '../../../../commons/src/models/game/game';
 import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
 import DAOCallback from './commons';
@@ -106,7 +106,7 @@ export function createGame(data: any, callback: DAOCallback){
  * @param {Object} data 
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
-export function saveGame(data: any, callback: DAOCallback){
+export function saveGame(data: SaveGameRequestData, callback: DAOCallback){
     const c = sql.columns.gameEntry;
     const columns_arr = [
         c.authorId,

@@ -28,3 +28,42 @@ export class GameEntry{
         
     }
 }
+
+export interface SaveGameReportOptions{
+    /**
+     * Objective Reports Enabled?
+     */
+    rep_opt_objectives: number | boolean
+
+    /**
+     * Guidance Trigger Reports Enabled?
+     */
+     rep_opt_guidance_trg: number | boolean
+
+    /**
+     * Student Usage Reports Enbled?
+     */
+     rep_opt_student_usg: number | boolean
+
+    /**
+     * Level Score Reports Enabled?
+     */
+    rep_opt_level_score: number | boolean
+
+    /**
+     * Level Time Reports Enabled?
+     */
+    rep_opt_level_time: number | boolean
+}
+
+export interface SaveGameRequestData extends SaveGameReportOptions{
+    id: string
+    author_id: string
+    name: string
+    type: number
+    level_switch: number
+    multi_user_limit: number
+    progress_bound_type: number
+    objectives: GameObjective[]
+    trackers: GameGuidanceTracker[]
+}
