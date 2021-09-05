@@ -2,7 +2,7 @@ import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
-import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGetObjectId } from '../models/game/game';
+import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from '../models/game/game';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -136,6 +136,26 @@ export class ApiService{
         const url = this.aurl('all-games');
         return this.http.get<ServerResponseAllGameEntries>(url, {
             headers: this.getHeaders()
+        });
+    }
+
+    getObjectives(gameId: string | number): Observable<ServerResponseGetObjectives>{
+        const url = this.aurl('game-objectives');
+        return this.http.get<ServerResponseGetObjectives>(url, {
+            headers: this.getHeaders(),
+            params: {
+                gameId: gameId
+            }
+        });
+    }
+
+    getGuidanceTrackers(gameId: string | number): Observable<ServerResponseGetGuidanceTrackers>{
+        const url = this.aurl('game-guidance-trackers');
+        return this.http.get<ServerResponseGetGuidanceTrackers>(url, {
+            headers: this.getHeaders(),
+            params: {
+                gameId: gameId
+            }
         });
     }
 

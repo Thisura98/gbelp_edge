@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
 export interface DynBasicTableCol{
   name: string
@@ -21,6 +21,7 @@ export class DynBasicTableConfig{
 })
 export class DynBasicTableComponent implements OnInit {
 
+  @Input()
   config: DynBasicTableConfig = new DynBasicTableConfig(true, []);
 
   /**
@@ -42,11 +43,11 @@ export class DynBasicTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  setConfig(config: DynBasicTableConfig){
-    this.config = config;
-    console.log("columns", this.config.columns);
-    // this.changeDetector.markForCheck();
-  }
+  // setConfig(config: DynBasicTableConfig){
+  //   this.config = config;
+  //   console.log("columns", this.config.columns);
+  //   // this.changeDetector.markForCheck();
+  // }
 
   addRow(row: string[]){
     // console.log("Row count increased!");

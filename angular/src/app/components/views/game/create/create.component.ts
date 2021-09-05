@@ -10,6 +10,8 @@ import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
 import { GameEntry, SaveGameRequestData } from '../../../../../../../commons/src/models/game/game';
+import { GameObjective } from '../../../../../../../commons/src/models/game/objectives';
+import { GameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
 
 @Component({
   selector: 'app-game-create',
@@ -19,19 +21,7 @@ import { GameEntry, SaveGameRequestData } from '../../../../../../../commons/src
     '../common/game.commonstyles.css'
   ]
 })
-export class GameCreateComponent implements OnInit, AfterContentInit {
-  
-  /*
-  `static` on ViewChild: `true` because elements run before change detection happens.
-  If we change values in ngAfterViewInit, it will cause, 
-  ExpressionChangedAfterItHasBeenCheckedError.
-  */
-
-  @ViewChild('objectivesTable')
-  objectivesTable: DynBasicTableComponent | undefined;
-
-  @ViewChild('objectivesForm', {static: true})
-  objectivesForm: ElementRef | undefined;
+export class GameCreateComponent implements OnInit {
 
   gameName: string = ""
   gameType: number = 1 // single player
@@ -50,6 +40,9 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
   isEditMode: boolean = false;
   editingGameId: number | undefined;
   isLoading: boolean = false;
+
+  gameObjectives: GameObjective[] = [];
+  gameGuidanceTrackers: GameGuidanceTracker[] = [];
 
   get sidebarItems(): DynamicSidebarItem[]{
     if (this.isEditMode)
@@ -74,12 +67,13 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       if (data.editMode){
         this.isEditMode = true;
         this.editingGameId = parseInt(route.get('gameId') ?? "-1", 10);
-        this.ngAfterContentInit();
         this.loadData();
       }
 
     });
   }
+
+  // MARK: Event Handlers
 
   createButtonClicked(){
     const userId = this.userService.getUserAndToken().user.userId;
@@ -126,6 +120,70 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
     }
   }
 
+  canceledButtonClicked(){
+    this.handleBack();
+  }
+
+  gameTypeDidChange(){
+    console.log("new game type", this.gameType);
+  }
+
+  levelSwitchingDidChange(){
+    if (this.levelSwitching == 1){
+      // Time Based
+      this.repOptScore = false;
+      this.disableScoreReports = true;
+      this.disableTimingReports = false;
+    }
+    else if (this.levelSwitching == 2){
+      // Score Based
+      this.repOptTiming = false;
+      this.disableScoreReports = false;
+      this.disableTimingReports = true;
+    }
+    else if (this.levelSwitching == 3){
+      // Manual
+      this.repOptTiming = false
+      this.repOptScore = false;
+      this.disableScoreReports = true;
+      this.disableTimingReports = true;
+    }
+  }
+
+  handleBack(){
+    const type = this.userService.getNavSafeUserType();
+    this.router.navigate([
+      `/dashboard/${type}/games`
+    ]);
+  }
+
+  addNewObjectiveClicked(event: Event){
+    event.preventDefault();
+    // const newObject = ['', '', '0'];
+  }
+
+  get objectiveTableConfig(): DynBasicTableConfig{
+    return new DynBasicTableConfig(true, [
+      {name: "Objective Name", type:"input:text"},
+      {name: "Description", type:"input:text"},
+      {name: "Maximum Progress", type:"input:number"},
+    ])
+  }
+
+  addNewTrackerClicked(event: Event){
+
+  }
+
+  get guidanceTrackerTableConfig(): DynBasicTableConfig{
+    return new DynBasicTableConfig(true, [
+      {name: "Trigger Name", type:"input:text"},
+      {name: "Feedback", type:"input:text"},
+      {name: "Feedback Threshold", type:"input:number"},
+    ])
+  }
+
+  // MARK: Private Methods
+
   private notifyGameCreationError(message: string | null){
     this.dialogService.showDismissable(
       "Error", 
@@ -159,6 +217,14 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
       else
         loadFailed(response.description);
     });
+
+    this.apiService.getObjectives(this.editingGameId!).subscribe(response => {
+      this.setObjectives(response.data);
+    });
+
+    this.apiService.getGuidanceTrackers(this.editingGameId!).subscribe(response => {
+      this.setGuidanceTrackers(response.data);
+    });
   }
 
   private setEditData(data: GameEntry){
@@ -189,67 +255,23 @@ export class GameCreateComponent implements OnInit, AfterContentInit {
     this.repOptScore = data.rep_opt_level_score == 1;
     this.repOptTiming = data.rep_opt_level_time == 1;
 
-    this.objectivesTable!.setConfig(new DynBasicTableConfig(true, [
-      {name: "Objective Name", type:"input:text"},
-      {name: "Description", type:"input:text"},
-      {name: "Maximum Progress", type:"input:number"},
-    ]))
+    // this.objectivesTable!.setConfig(new DynBasicTableConfig(true, [
+    //   {name: "Objective Name", type:"input:text"},
+    //   {name: "Description", type:"input:text"},
+    //   {name: "Maximum Progress", type:"input:number"},
+    // ]))
 
-    this.objectivesTable!.data = [
-      ['Example Name', 'Description', '20']
-    ];
+    // this.objectivesTable!.data = [
+    //   ['Example Name', 'Description', '20']
+    // ];
   }
 
-  canceledButtonClicked(){
-    this.handleBack();
+  private setObjectives(data: GameObjective[]){
+    
   }
 
-  gameTypeDidChange(){
-    console.log("new game type", this.gameType);
-  }
-
-  levelSwitchingDidChange(){
-    if (this.levelSwitching == 1){
-      // Time Based
-      this.repOptScore = false;
-      this.disableScoreReports = true;
-      this.disableTimingReports = false;
-    }
-    else if (this.levelSwitching == 2){
-      // Score Based
-      this.repOptTiming = false;
-      this.disableScoreReports = false;
-      this.disableTimingReports = true;
-    }
-    else if (this.levelSwitching == 3){
-      // Manual
-      this.repOptTiming = false
-      this.repOptScore = false;
-      this.disableScoreReports = true;
-      this.disableTimingReports = true;
-    }
-  }
-
-  // MARK: Edit
-
-  ngAfterContentInit(): void{
-    if (!this.isEditMode){
-      this.objectivesForm!.nativeElement?.remove();
-      return;
-    }
-  }
-
-  addNewObjectiveClicked(event: Event){
-    event.preventDefault();
-    const newObject = ['', '', '0'];
-    this.objectivesTable!.addRow(newObject);
-  }
-
-  handleBack(){
-    const type = this.userService.getNavSafeUserType();
-    this.router.navigate([
-      `/dashboard/${type}/games`
-    ]);
+  private setGuidanceTrackers(data: GameGuidanceTracker[]){
+    
   }
 
 }

@@ -81,19 +81,29 @@
             </div>
         </div>
 
-        <!-- Objectives Table -->
-        <div class="dyn-form" #objectivesForm>
-            <div class="dyn-form-col table-section">
-                <div class="section-heading">
-                    <h2 class="heading">Objectives</h2>
-                    <a href="" (click)="addNewObjectiveClicked($event)">Add New</a>
+        <ng-container *ngIf="isEditMode">
+            <!-- Objectives Table -->
+            <div class="dyn-form" #objectivesForm>
+                <div class="dyn-form-col table-section">
+                    <div class="section-heading">
+                        <h2 class="heading">Objectives</h2>
+                        <a href="" (click)="addNewObjectiveClicked($event)">Add New</a>
+                    </div>
+                    <dyn-basic-table #objectivesTable [config]="objectiveTableConfig"></dyn-basic-table>
                 </div>
-                <dyn-basic-table #objectivesTable></dyn-basic-table>
             </div>
-        </div>
-
-        <!-- Guidance Trackers Table -->
-
+    
+            <!-- Guidance Trackers Table -->
+            <div class="dyn-form" #guidanceTrackersForm>
+                <div class="dyn-form-col table-section">
+                    <div class="section-heading">
+                        <h2 class="heading">Guidance Trackers</h2>
+                        <a href="" (click)="addNewTrackerClicked($event)">Add New</a>
+                    </div>
+                    <dyn-basic-table #objectivesTable [config]="guidanceTrackerTableConfig"></dyn-basic-table>
+                </div>
+            </div>
+        </ng-container>
     </div>
 
 </div>
