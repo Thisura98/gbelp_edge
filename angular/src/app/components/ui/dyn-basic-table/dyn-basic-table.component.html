@@ -11,9 +11,25 @@
     </thead>
     <tbody>
         <tr *ngFor="let row of data">
-            <td *ngFor="let col of row">
-                {{col}}
+            <td 
+                *ngFor="let col of columns" 
+                class="dyn-table-cell"
+                [style.height.px]="cellHeight">
+                <ng-container *ngIf="col.type == 'static'">
+                    {{row[col.property] | anytostr}}
+                </ng-container>
+                <ng-container *ngIf="col.type == 'input:number'">
+                    <input type="number" [value]="row[col.property]" />
+                </ng-container>
+                <ng-container *ngIf="col.type == 'input:text'">
+                    <textarea rows="2">{{row[col.property]}}</textarea>
+                </ng-container>
             </td>
+            <ng-container *ngIf="config.showDelete">
+                <td class="delete-ico" (click)="delete.emit(row)">
+                    <img src="/assets/dashboard/ico_delete.png">
+                </td>
+            </ng-container>
         </tr>
     </tbody>
 </table>

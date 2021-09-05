@@ -1,8 +1,16 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 export interface DynBasicTableCol{
+  /**
+   * Human readlable name for this column
+   */
   name: string
-  type: 'input:text' | 'input:number'
+  /**
+   * The corresponding object property for this column
+   */
+  property: string
+  type: 'static' | 'input:text' | 'input:number'
 }
 
 export class DynBasicTableConfig{
@@ -24,10 +32,17 @@ export class DynBasicTableComponent implements OnInit {
   @Input()
   config: DynBasicTableConfig = new DynBasicTableConfig(true, []);
 
+  @Input()
+  cellHeight: string = '30';
+
+  @Output()
+  delete = new EventEmitter<any>();
+
   /**
    * data[rowIndex] = columnWiseData;
    */
-  data: string[][];
+  @Input()
+  data: any[];
 
   get columns(): DynBasicTableCol[]{
     return this.config.columns;
@@ -43,16 +58,8 @@ export class DynBasicTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // setConfig(config: DynBasicTableConfig){
-  //   this.config = config;
-  //   console.log("columns", this.config.columns);
-  //   // this.changeDetector.markForCheck();
-  // }
-
-  addRow(row: string[]){
-    // console.log("Row count increased!");
-    this.data.push(row);
-    this.rowCount += 1;
+  getObjectKeys(obj: any): string[]{
+    return Object.keys(obj);
   }
 
 }

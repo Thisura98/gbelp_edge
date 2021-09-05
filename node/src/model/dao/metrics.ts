@@ -38,7 +38,7 @@ function createUpdateQuery(
     }
     const st_set = sets.join(',');
 
-    return `UPDATE ${table} SET ${st_set} ${where}`;
+    return `UPDATE ${table} SET ${st_set} WHERE ${where}`;
 }
 
 /**
@@ -48,7 +48,7 @@ function createDeleteQuery(
     table: string,
     where: string
 ){
-    return `DELETE FROM ${table} ${where}`;
+    return `DELETE FROM ${table} WHERE ${where}`;
 }
 
 /******* * END PRIVATE METHODS * ********/
@@ -63,7 +63,7 @@ function createDeleteQuery(
             callback(false, error.message, null);
         }
         else{
-            callback(true, 'Successfully obtained objectives', null);
+            callback(true, 'Successfully obtained objectives', result);
         }
     });
 }
@@ -72,13 +72,13 @@ function createDeleteQuery(
  * @param id Game Entry ID
  */
 export function getGuidanceTrackers(id: string | number, callback: DAOCallback){
-    const query = `SELECT * FROM ${sql.tables.gameObjective} WHERE ${sql.columns.gameGuidanceTracker.gameEntryId} = ${id}`;
+    const query = `SELECT * FROM ${sql.tables.gameGuidanceTracker} WHERE ${sql.columns.gameGuidanceTracker.gameEntryId} = ${id}`;
     sql.getPool()?.query(query, (error, result) => {
         if (error){
             callback(false, error.message, null);
         }
         else{
-            callback(true, 'Successfully obtained trackers', null);
+            callback(true, 'Successfully obtained trackers', result);
         }
     });
 }
@@ -100,6 +100,7 @@ export function updateObjectives(
             l.logc(msg, 'updateObjectives error');
         else if (msg as MysqlError)
             l.logc(msg!.message, 'updateObjectives error');
+        
         callback(false);
     };
 
@@ -141,7 +142,7 @@ export function updateObjectives(
             callback(true);
         }, (error) => {
             l.logc('Updating Game Objectives Failed', 'updateObjectivesAndTrackers')
-            callback(false);
+            abort(error);
         });
     })
 }
@@ -161,13 +162,13 @@ function createObjectivesQueryPromises(operations: DAOMergeOperation<IGameObject
             switch(op.operation){
                 case 'insert':
                     const i_columns = [c.objectiveId, c.gameEntryId, c.name, c.description, c.maxValue];
-                    const i_values = ['null', `${obj.game_id}`, obj.name, obj.description ?? 'null', `${obj.max_value}`];
+                    const i_values = ['null', `${obj.game_entry_id}`, obj.name, obj.description ?? 'null', `${obj.max_value}`];
                     query = createInsertQuery(table, i_columns, i_values);
                     break;
 
                 case 'update':
                     const u_columns = [c.gameEntryId, c.name, c.description, c.maxValue];
-                    const u_values = [`${obj.game_id}`, obj.name, obj.description ?? 'null', `${obj.max_value}`];
+                    const u_values = [`${obj.game_entry_id}`, obj.name, obj.description ?? 'null', `${obj.max_value}`];
                     const u_where = `${c.objectiveId} = '${obj.objective_id}'`;
                     query = createUpdateQuery(table, u_columns, u_values, u_where);
                     break;
@@ -198,7 +199,6 @@ export function updateTrackers(
 ){
     let trackersOps: DAOMergeOperation<IGameGuidanceTracker>[] = [];
 
-    const qGetObjectives = `SELECT * FROM ${sql.tables.gameObjective}`;
     const qGetTrackers = `SELECT * FROM ${sql.tables.gameGuidanceTracker}`;
     const abort = (msg: MysqlError | string | undefined) => {
         if (typeof msg === 'string')
@@ -209,7 +209,7 @@ export function updateTrackers(
     };
 
     // Get Existing data
-    sql.getPool()!.query(qGetObjectives, (error, result) => {
+    sql.getPool()!.query(qGetTrackers, (error, result) => {
         if (error){
             abort(error);
             return;
@@ -222,14 +222,17 @@ export function updateTrackers(
         // Check data
         let toInsertTrackers: IGameGuidanceTracker[] = [];
         for (let newTracker of trackers){
+            let markedForUpdate = false;
             for (let trackerOp of trackersOps){
                 if (trackerOp.data.tracker_id == newTracker.tracker_id){
+                    markedForUpdate = true;
                     trackerOp.operation = 'update';
                     break;
                 }
             }
 
-            toInsertTrackers.push(newTracker);
+            if (!markedForUpdate)
+                toInsertTrackers.push(newTracker);
         }
         trackersOps.push(
             ...toInsertTrackers.map(o => new DAOMergeOperation<IGameGuidanceTracker>(o, 'insert'))
@@ -242,7 +245,7 @@ export function updateTrackers(
             callback(true);
         }, (error) => {
             l.logc('Updating Game Trackers Failed', 'updateTrackers')
-            callback(false);
+            abort(error);
         });
     })
 }
@@ -263,13 +266,13 @@ function createTrackerQueryPromises(operations: DAOMergeOperation<IGameGuidanceT
             switch(op.operation){
                 case 'insert':
                     const i_columns = [c.trackerId, c.gameEntryId, c.name, c.message, c.maxThreshold]
-                    const i_values = ['null', `${obj.game_id}`, obj.name, obj.message ?? 'null', `${obj.max_threshold}`];
+                    const i_values = ['null', `${obj.game_entry_id}`, obj.name, obj.message ?? 'null', `${obj.max_threshold}`];
                     query = createInsertQuery(table, i_columns, i_values);
                     break;
 
                 case 'update':
                     const u_columns = [c.gameEntryId, c.name, c.message, c.maxThreshold]
-                    const u_values = [`${obj.game_id}`, obj.name, obj.message ?? 'null', `${obj.max_threshold}`];
+                    const u_values = [`${obj.game_entry_id}`, obj.name, obj.message ?? 'null', `${obj.max_threshold}`];
                     const u_where = `${c.trackerId} = '${obj.tracker_id}'`;
                     query = createUpdateQuery(table, u_columns, u_values, u_where);
                     break;

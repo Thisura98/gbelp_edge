@@ -1,3 +1,4 @@
+import { DynBasicTableConfig } from "../components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "../components/ui/dynamicsidebar/dynamicsidebar.component";
 
 /**
@@ -43,4 +44,18 @@ export function getGameSidebarItems(selected: string | undefined = undefined): D
     })
 
     return items;
+}
+
+export const GameEditConstants = {
+    objectiveTableConfig: new DynBasicTableConfig(true, [
+        {name: "Objective Name", property: 'name', type:"input:text"},
+        {name: "Description", property: 'description', type:"input:text"},
+        {name: "Maximum Progress", property: 'max_value', type:"input:number"},
+    ]),
+    guidanceTrackerTableConfig: new DynBasicTableConfig(true, [
+        {name: "Trigger Name", property: 'name', type:"input:text"},
+        {name: "Feedback", property: 'message', type:"input:text"},
+        {name: "Feedback Threshold", property: 'max_threshold', type:"input:number"},
+    ]),
+    
 }

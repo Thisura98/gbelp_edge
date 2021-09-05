@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 import { GameEntry, SaveGameRequestData } from '../../../../../../../commons/src/models/game/game';
 import { GameObjective } from '../../../../../../../commons/src/models/game/objectives';
 import { GameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
+import { GameEditConstants } from 'src/app/constants/constants';
 
 @Component({
   selector: 'app-game-create',
@@ -90,8 +91,8 @@ export class GameCreateComponent implements OnInit {
       rep_opt_student_usg: true,
       rep_opt_level_score: this.repOptScore,
       rep_opt_level_time: this.repOptTiming,
-      objectives: [],
-      trackers: []
+      objectives: this.gameObjectives,
+      trackers: this.gameGuidanceTrackers
     }
 
     /// MARK: Call Create game or Edit Game accordingly
@@ -101,8 +102,11 @@ export class GameCreateComponent implements OnInit {
       // Save Edited Game
       data.id = this.editingGameId!.toString();
       this.apiService.saveGame(data).subscribe(response => {
-        if (response.success)
-          this.dialogService.showDismissable('Saved Successfully', '');
+        if (response.success){
+          // this.dialogService.showDismissable('Saved Successfully', '');
+          this.getObjectivesAndTrackers();
+          this.dialogService.showSnackbar('Saved Successfully!');
+        }
         else
           this.notifyGameCreationError(response.description);
       });
@@ -159,27 +163,34 @@ export class GameCreateComponent implements OnInit {
 
   addNewObjectiveClicked(event: Event){
     event.preventDefault();
-    // const newObject = ['', '', '0'];
+    this.gameObjectives.push(
+      new GameObjective(undefined, this.editingGameId!, '', '', 0)
+    );
+  }
+
+  deleteObjectiveClicked(object: any){
+    const cast = object as GameObjective;
+    console.log('deleteObjectiveClicked', cast);
   }
 
   get objectiveTableConfig(): DynBasicTableConfig{
-    return new DynBasicTableConfig(true, [
-      {name: "Objective Name", type:"input:text"},
-      {name: "Description", type:"input:text"},
-      {name: "Maximum Progress", type:"input:number"},
-    ])
+    return GameEditConstants.objectiveTableConfig;
   }
 
   addNewTrackerClicked(event: Event){
+    event.preventDefault();
+    this.gameGuidanceTrackers.push(
+      new GameGuidanceTracker(undefined, this.editingGameId!, '', '', 0)
+    );
+  }
 
+  deleteTrackerClicked(object: any){
+    const cast = object as GameGuidanceTracker;
+    console.log('deleteTrackerClicked', cast);
   }
 
   get guidanceTrackerTableConfig(): DynBasicTableConfig{
-    return new DynBasicTableConfig(true, [
-      {name: "Trigger Name", type:"input:text"},
-      {name: "Feedback", type:"input:text"},
-      {name: "Feedback Threshold", type:"input:number"},
-    ])
+    return GameEditConstants.guidanceTrackerTableConfig;
   }
 
   // MARK: Private Methods
@@ -205,26 +216,41 @@ export class GameCreateComponent implements OnInit {
     if (!this.isEditMode)
       return;
 
-    const loadFailed = (reason: string) => {
-      this.dialogService.showDismissable('Game Load Failed', reason);
-    }
-
     this.isLoading = true;
     this.apiService.getGame(this.editingGameId!).subscribe((response) => {
       this.isLoading = false;
       if (response.success)
         this.setEditData(response.data.entry);
       else
-        loadFailed(response.description);
+        this.loadFailed(response.description);
     });
 
+    this.getObjectivesAndTrackers();
+  }
+
+  /**
+   * Requests objectives and trackers for this game.
+   */
+  private getObjectivesAndTrackers(){
     this.apiService.getObjectives(this.editingGameId!).subscribe(response => {
-      this.setObjectives(response.data);
+      console.log('getObjectives', response.data);
+      if (response.success)
+        this.setObjectives(response.data);
+      else
+        this.loadFailed(response.description);
     });
 
     this.apiService.getGuidanceTrackers(this.editingGameId!).subscribe(response => {
-      this.setGuidanceTrackers(response.data);
+      console.log('getTrackers', response.data);
+      if (response.success)
+        this.setGuidanceTrackers(response.data);
+      else
+        this.loadFailed(response.description);
     });
+  }
+
+  private loadFailed(reason: string){
+    this.dialogService.showDismissable('Data Loading Failed', reason);
   }
 
   private setEditData(data: GameEntry){
@@ -267,11 +293,12 @@ export class GameCreateComponent implements OnInit {
   }
 
   private setObjectives(data: GameObjective[]){
-    
+    this.gameObjectives = data;
+    console.log("Setting game objectives...", data);
   }
 
   private setGuidanceTrackers(data: GameGuidanceTracker[]){
-    
+    this.gameGuidanceTrackers = data;
   }
 
 }

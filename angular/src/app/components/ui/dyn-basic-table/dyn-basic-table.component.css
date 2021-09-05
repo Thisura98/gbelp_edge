@@ -16,5 +16,31 @@
 .dyn-basic-table td,
 .dyn-basic-table th{
     border: 1px solid #E1E1E1;
-    padding: 8px 10px;
+    padding: 8px 0 8px 0;
+}
+
+.dyn-table-cell > input,
+.dyn-table-cell > textarea{
+    width: calc(100% - 20px);
+    height: 100%;
+    margin: 0 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #CBCBCB;
+    border-radius: 3px;
+    display: block;
+}
+
+.dyn-table-cell > textarea{
+    resize: none;
+    font-family: Roboto;
+}
+
+.delete-ico{
+    cursor: pointer;
+    text-align: center;
+}
+
+.delete-ico > img{
+    width: 20px;
 }

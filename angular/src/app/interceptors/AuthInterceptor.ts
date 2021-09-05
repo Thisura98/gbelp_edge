@@ -6,6 +6,8 @@ import { UserService } from "../services/user.service";
 import { DialogService } from "../services/dialog.service";
 import { Router } from "@angular/router";
 
+let notAuthenticatedShown: boolean = false
+
 export const AuthInterceptorStatusCodes = {
     missingAuth: 400,
     authIdNoMatch: 406,
@@ -60,9 +62,17 @@ export class AuthInterceptor implements HttpInterceptor{
                 response.status == code.missingAuth || 
                 response.status == code.tokenExpired
             ){
+                if (notAuthenticatedShown)
+                    return;
+
+                notAuthenticatedShown = true;
                 this.userService.clearCredentials();
-                this.dialogService.showDismissable('User not Authenticated', 'Please login a try again', () => {
-                    this.router.navigate([''], {replaceUrl: true});
+                this.dialogService.showDismissable(
+                    'User not Authenticated', 
+                    'Please login a try again', 
+                    () => {
+                        notAuthenticatedShown = false;
+                        this.router.navigate([''], {replaceUrl: true});
                 })
             }
         }

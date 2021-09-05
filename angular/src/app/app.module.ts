@@ -61,10 +61,12 @@ import { SceneEditorComponent } from './components/views/game/edit/editor/scene/
 import { AnimationEditorComponent } from './components/views/game/edit/editor/animation/animation.component';
 import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
 import { SceneMapComponent } from './components/views/game/edit/editor/scene/scenemap/scenemap.component';
+import { AnyToStringPipe } from './pipes/any-to-string.pipe';
 
 @NgModule({
   declarations: [
     ResourceUrlTransformPipe,
+    AnyToStringPipe,
     AppComponent,
     RegisterComponent,
     SimpleDialogComponent,
@@ -120,7 +122,7 @@ import { SceneMapComponent } from './components/views/game/edit/editor/scene/sce
     MatTooltipModule,
     MonacoEditorModule
   ],
-  providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, ResourceUrlTransformPipe, TitleCasePipe, httpInterceptorProviders],
+  providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

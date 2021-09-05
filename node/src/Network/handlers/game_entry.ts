@@ -40,14 +40,14 @@ export function handlerGameEntry(app: Express){
     });
 
     app.get(aurl('game-objectives'), (req, res) => {
-        const gameId = req.query.id as string;
+        const gameId = req.query.gameId as string;
         metricsDAO.getObjectives(gameId, (status, msg, objects) => {
             res.json(new ResponseModel(status, 200, msg, objects));
         })
     });
 
     app.get(aurl('game-guidance-trackers'), (req, res) => {
-        const gameId = req.query.id as string;
+        const gameId = req.query.gameId as string;
         metricsDAO.getGuidanceTrackers(gameId, (status, msg, objects) => {
             res.json(new ResponseModel(status, 200, msg, objects));
         })
