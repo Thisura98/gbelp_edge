@@ -193,7 +193,7 @@ function createObjectivesQueryPromises(operations: DAOMergeOperation<IGameObject
                     break;
             }
 
-            console.log('createObjectivesQueryParams query', query);
+            // console.log('createObjectivesQueryParams query', query);
 
             sql.getPool()!.query(query, (error, result) => {
                 if (error)
