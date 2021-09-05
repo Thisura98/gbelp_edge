@@ -3,7 +3,7 @@ import { EventEmitter } from "@angular/core";
 
 @Component({
   templateUrl: './index.html',
-  styleUrls: ['../../../articles.docs.component.css']
+  styleUrls: ['../../../articles.docs.component.css'],
 })
 export class ScriptReferenceArticleComponent implements OnInit{
 

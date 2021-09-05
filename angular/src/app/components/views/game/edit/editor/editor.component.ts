@@ -145,6 +145,11 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     });
   }
 
+  openHelpPressed(){
+    const url = '/docs';
+    window.open(url, '_blank');
+  }
+
   /* private methods */
 
   private loadData(){
