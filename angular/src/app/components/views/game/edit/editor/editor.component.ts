@@ -158,10 +158,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       this.navigateToDashboard();
       return;
     }
-    this.apiService.getGame(this.editingGameId).subscribe({
-      next: (value) => this.handleLoadData(value),
-      error: (e) => this.handleError(e)
-    })
+    this.apiService.getGame(this.editingGameId).subscribe((value) => {
+      this.handleLoadData(value)
+    });
   }
 
   private handleLoadData(response: ServerResponseGameListing){
@@ -186,14 +185,8 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     });
   }
 
-  private handleError(error: any){
-    let displayMsg = "";
-    if (typeof error == 'string')
-      displayMsg = error;
-    else
-      displayMsg = JSON.stringify(error);
-
-    this.dialogService.showDismissable('Error', displayMsg);
+  private handleError(error: string){
+    this.dialogService.showDismissable('Error', error);
   }
 
   private navigateToDefaultChildIfNeeded(){

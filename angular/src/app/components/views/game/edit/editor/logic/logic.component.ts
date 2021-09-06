@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { GameListing } from 'src/app/models/game/game';
+import { ApiService } from 'src/app/services/api.service';
 import { EditorChildDataPack, EditorDataService } from 'src/app/services/editor.data.service';
 import { LevelScript } from '../../../../../../../../../commons/src/models/game/levels/logic';
 
 type EditorOptions = monaco.editor.IStandaloneEditorConstructionOptions;
+type Editor = monaco.editor.IStandaloneCodeEditor;
 
 @Component({
   selector: 'app-logic',
@@ -27,17 +31,18 @@ export class LogicEditorComponent implements OnInit {
   };
 
   // MARK: Game Properties
-  gameListing: GameListing | undefined;
-  levelScripts: string[] = [];
   readonly scriptTypes: string[] = ['On Level Setup', 'Each Frame', 'On Level Destroy'];
+  levelScripts: string[] = [];
+  gameListing: GameListing | undefined;
   selectedLevelIndex: number | undefined;
   selectedScriptIndex: number | undefined;
-  // MARK: End Game Properties
 
-  private editor: monaco.editor.IStandaloneCodeEditor | undefined;
+  private gameLibLoaded: boolean = false;
+  private editorReference = new BehaviorSubject<Editor | undefined>(undefined);
 
   constructor(
-    private editorDataService: EditorDataService
+    private editorDataService: EditorDataService,
+    private apiService: ApiService
   ) { }
 
   ngOnInit(): void {
@@ -59,7 +64,7 @@ export class LogicEditorComponent implements OnInit {
   }
 
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
-    this.editor = editor;
+    this.editorReference.next(editor);
     editor.onKeyDown(() => {
       this.copyCurrentCodeToScriptObject();
     });
@@ -100,15 +105,37 @@ export class LogicEditorComponent implements OnInit {
     this.selectedScriptIndex = 0;
     this.selectedLevelIndex = data.selectedLevelIndex;
 
+    this.loadExtraLib();
+
     if (this.selectedLevelIndex == undefined)
       return;
+
     this.code = this.levelScripts[this.selectedScriptIndex!];
+  }
+
+  private loadExtraLib(){
+    if (this.gameLibLoaded)
+      return;
+
+    const type = this.gameListing!.entry.type.toString();
+    this.apiService.getGameLibraryJSFile(type).subscribe((lib) => {
+      console.log("Received Game LIB:", lib);
+
+      this.editorReference.pipe(filter(v => v != undefined)).subscribe(value => {
+        console.log("Editor:", value);
+        console.log(monaco.languages.typescript.javascriptDefaults.getExtraLibs());
+        monaco.languages.typescript.javascriptDefaults.addExtraLib(lib);
+      })
+      
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   private b64enc(data: string): string{
     return btoa(unescape(encodeURIComponent(data)));
   }
-
+ 
   private b64dec(data: string): string{
     return decodeURIComponent(escape(atob(data)));
   }

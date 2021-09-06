@@ -6,7 +6,7 @@ import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseG
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { GameLevel } from '../../../../commons/src/models/game/levels';
 
 /**
@@ -230,6 +230,17 @@ export class ApiService{
             'levels': levels
         }
         return this.http.put<ServerResponsePlain>(url, body, {headers: this.getHeaders()});
+    }
+
+    getGameLibraryJSFile(type: string): Observable<string>{
+        const url = this.aurl(`game-lib`);
+        return this.http.get(url, {
+            params: {
+                type: type
+            },
+            responseType: 'text',
+            headers: this.getHeaders()
+        });
     }
 
     // MARK END: Game Editing
