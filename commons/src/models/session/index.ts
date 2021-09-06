@@ -1,3 +1,18 @@
+export enum GameSessionType{
+  single = 1,
+  multi = 2,
+  test = 3
+}
+
+export enum GameSessionState{
+  scheduled = 0,
+  multiplayerStaging = 1,
+  multiplayerReady = 2,
+  live = 3,
+  complete = 4,
+  canceled = 5
+}
+
 /**
  * Game Session Entity
  */

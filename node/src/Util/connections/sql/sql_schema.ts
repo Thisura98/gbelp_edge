@@ -5,6 +5,8 @@ export const tables = {
     userAuth: 'user_auth',
     userType: 'user_type',
     userCapability: 'user_capability',
+    userGroup: 'user_group',
+    userGroupMembership: 'user_group_membership',
     userTypeCapability: 'user_type_capability',
     userRelationship: 'user_relationship',
     userRelationshipType: 'user_relationship_type',
@@ -46,6 +48,19 @@ export const columns = {
         capName: 'cap_name',
         capDesc: 'cap_desc'
     },
+    userGroup: {
+        groupId: 'group_id',
+        name: 'name',
+        description: 'description',
+        bannedUserIds: 'banned_user_ids',
+        inviteLink: 'invite_link',
+        userLimit: 'user_limit'
+    },
+    userGroupMembership: {
+        groupId: 'group_id',
+        userId: 'user_id',
+        lastUpdated: 'last_updated'
+    },
     userTypeCapability: {
         userTypeId: 'user_type_id',
         capId: 'cap_id'
@@ -69,6 +84,7 @@ export const columns = {
     gameSessions: {
         sessionId: 'session_id',
         typeId: 'type_id',
+        state: 'state',
         startTime: 'start_time',
         endTime: 'end_time'
     },
