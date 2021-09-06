@@ -6,6 +6,8 @@ import * as path from 'path';
 import * as gamesDAO from '../../model/dao/games';
 import * as levelsDAO from '../../model/dao/levels';
 import { ObjectId } from 'mongodb';
+import { getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
+import * as l from '../../util/logger';
 import multer from 'multer';
 
 const config = pc.parseConfig('config.json');
@@ -60,4 +62,22 @@ export function handlerGameEditing(app: Express){
             res.json(new ResponseModel(status, 200, msg, result))
         });
     })
+
+    app.get(aurl('game-lib'), (req, res) => {
+        const userId = req.header('uid')! as string;
+        const scriptType = req.query.type as string;
+        let gameLibPath: string = '';
+
+        if (scriptType == '1')
+            gameLibPath = getSinglePlayerLibPath();
+        else if (scriptType == '2')
+            gameLibPath = getMultiPlayerLibPath();
+
+        res.type('text/javascript').sendFile(gameLibPath, (err) => {
+            if (err){
+                l.logc(`Could not locate game lib file at "${gameLibPath}"`, 'game-lib')
+                l.logc(err.message, 'game-lib');
+            }
+        });
+    });
 }
