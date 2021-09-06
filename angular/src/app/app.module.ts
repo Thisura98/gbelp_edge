@@ -65,6 +65,7 @@ import { AnyToStringPipe } from './pipes/any-to-string.pipe';
 import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
 import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
+import { SplayComponent } from './components/views/players/splay/splay.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { ScriptReferenceArticleComponent } from './components/views/docs/article
     SceneMapComponent,
     DocsComponent,
     DocsArticlesComponent,
-    ScriptReferenceArticleComponent
+    ScriptReferenceArticleComponent,
+    SplayComponent
   ],
   imports: [
     CommonModule,

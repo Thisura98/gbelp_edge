@@ -24,6 +24,7 @@ import { LogicEditorComponent } from './components/views/game/edit/editor/logic/
 import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
 import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
+import { SplayComponent } from './components/views/players/splay/splay.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,7 @@ const routes: Routes = [
       {path: "script/reference", component: ScriptReferenceArticleComponent}
     ]
   },
+  {path: "splay", component: SplayComponent},
   {path: "**", component: NotFoundComponent}
 ];
 
