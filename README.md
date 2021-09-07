@@ -23,6 +23,8 @@ Scripts in `/node` folder
 
 - `start.sh` - Start Nodemon on server
 
+Postman Collection is available from [this link](https://www.getpostman.com/collections/8eeac3e774c23078aab1).
+
 ### 3. Angular
 Scripts & commands in `/angular` folder
 
