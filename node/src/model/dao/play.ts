@@ -4,6 +4,8 @@ import { DateTime } from 'luxon';
 import { GameSessionType, GameSessionState, GameSession } from '../../../../commons/src/models/session/index';
 import { useIfTrueOrResolve } from './commons';
 import * as sessionDAO from './session';
+import * as groupsDAO from './group';
+import * as l from '../../util/logger';
 
 export interface TestSessionResult{
     sessionId: string | number,
@@ -14,52 +16,67 @@ export interface TestSessionResult{
  * Creates a session and group with the user & game.
  * If a session and group exists, they are returned instead.
  * 
- * @returns {}
+ * @returns 
  */
 export function createTestSession(
     userId: string, 
     gameId: string,
-    callback: DAOTypedCallback<TestSessionResult>
-){
-    const cSessions = sql.columns.gameSessions;
-    const cSessionsMems = sql.columns.gameSessionMembers;
-    const cGroup = sql.columns.userGroup;
-    const cGroupMems = sql.columns.userGroupMembership;
+): Promise<TestSessionResult>{
+    const timeNow = DateTime.now().toISO({includeOffset: false});
+    let finalSessionId: string = '';
+    let finalGroupId: string = '';
 
-    const qExistingSession = `SELECT G.${cSessions.sessionId} 
-    FROM \`${sql.tables.gameSessions}\` G 
-    INNER JOIN \`${sql.tables.gameSessionMembers}\` M 
-    ON G.${cSessions.sessionId} = M.${cSessionsMems.sessionId}
-    WHERE M.${cSessionsMems.userId} = ${userId}
-    AND G.${cSessions.typeId} = ${GameSessionType.test} 
-    AND G.${cSessions.state} = ${GameSessionState.live}
-    LIMIT 1;
-    `;
-
-    const qExistingGroup = `SELECT G.${cGroup.groupId} 
-    FROM \`${sql.tables.userGroup}\` G 
-    INNER JOIN \`${sql.tables.userGroupMembership}\` M ON G.${cGroup.groupId} = M.${cGroupMems.groupId}
-    WHERE M.${cGroupMems.userId} = ${userId}
-    ORDER BY M.${cGroupMems.lastUpdated} DESC
-    LIMIT 1
-    `;
-
-    const now = DateTime.now().toISO({includeOffset:false});
-
-    sql.getPool()!.query(qExistingSession, (error, result) => {
-        let promises: Promise<any>[] = [];
-
-        useIfTrueOrResolve<string>(
-            result.length > 0, 
-            result[0][cSessions.sessionId], 
-            sessionDAO.createSession(GameSessionType.test, GameSessionState.live, now, undefined)
-        ).then((sessionId) => {
-
-
-
-        })
-
+    // Check re-usable session exists?
+    const result = sessionDAO.getSessionIdMatchingCriteria(
+        userId,
+        gameId,
+        GameSessionType.test.toString(),
+        GameSessionState.live.toString()
+    ).then(existingSessionId => {
+        // Create session if needed
+        if (existingSessionId == undefined){
+            return sessionDAO.createSession(
+                GameSessionType.test, 
+                GameSessionState.live, 
+                Number.parseInt(gameId),
+                timeNow, 
+                undefined,
+                [userId]
+            );
+        }
+        else{
+            // Equivalent of Promise.resolve(existingSessionId)
+            return existingSessionId!
+        }
+    }).then(sessionId => {
+        // Final session ID
+        // Check re-usable session exists?
+        finalSessionId = sessionId;
+        return groupsDAO.getGroupIdMatchingCriteria(userId, 1);
+    }).then(existingGroupId => {
+        // Create group if needed
+        if (existingGroupId == undefined){
+            return groupsDAO.createGroup(
+                'Test Session', 
+                `Never ending session for testing game ID \\'${gameId}\\'`, 
+                '', 
+                undefined, 
+                "1", 
+                [userId]
+            );
+        }
+        else{
+            return existingGroupId!.toString();
+        }
+    }).then(groupId => {
+        finalGroupId = groupId;
+        return Promise.resolve({groupId: finalGroupId, sessionId: finalSessionId} as TestSessionResult);
+    }).catch(error => {
+        l.logc(error, 'createTestSession');
+        return Promise.reject(error);
     });
+
+    return result;
 }
 
 

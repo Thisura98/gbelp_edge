@@ -85,6 +85,7 @@ export const columns = {
         sessionId: 'session_id',
         typeId: 'type_id',
         state: 'state',
+        gameEntryId: 'game_entry_id',
         startTime: 'start_time',
         endTime: 'end_time'
     },

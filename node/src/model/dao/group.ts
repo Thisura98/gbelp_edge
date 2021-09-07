@@ -1,3 +1,4 @@
+import { UserGroup } from '../../../../commons/src/models/groups';
 import * as sql from '../../util/connections/sql/sql_connection';
 
 /**
@@ -75,7 +76,7 @@ export function insertUsersToGroup(
     (${sql.columns.userGroupMembership.userId}, ${sql.columns.userGroupMembership.groupId})
     VALUES ${valueTuples.join(',')}`;
 
-    console.log(query);
+    // console.log(query);
 
     return new Promise<boolean>((resolve, reject) => {
         sql.getPool()!.query(query, (error, result) => {
@@ -107,6 +108,43 @@ export function getGroup(
             }
             else{
                 resolve(result);
+            }
+        });
+    });
+}
+
+export function getGroupIdMatchingCriteria(
+    userId: string,
+    exactGroupCountWithUser: number,
+): Promise<number | undefined>{
+    const cGroup = sql.columns.userGroup;
+    const cGroupMems = sql.columns.userGroupMembership;
+
+    const qExistingGroup = `SELECT M.user_id 
+    FROM user_group_membership M
+    INNER JOIN (
+        SELECT user_id, COUNT(group_id) as group_count FROM \`user_group_membership\` GROUP BY user_id
+    ) J1
+    ON M.user_id = J1.user_id
+    INNER JOIN \`${sql.tables.userGroup}\` G
+    ON M.${cGroupMems.groupId} = G.${cGroup.groupId}
+    WHERE J1.group_count = ${exactGroupCountWithUser} 
+    AND M.${cGroupMems.userId} = ${userId}`;
+
+    // console.log(qExistingGroup);
+
+    return new Promise<number | undefined>((resolve, reject) => {
+        sql.getPool()!.query(qExistingGroup, (error, result) => {
+            if (error){
+                reject(error.message);
+            }
+            else{
+                if (result.length > 0){
+                    resolve(result[0]['user_id']);
+                }
+                else{
+                    resolve(undefined);
+                }
             }
         });
     });
