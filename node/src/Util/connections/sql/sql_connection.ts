@@ -39,6 +39,18 @@ export function getPool(){
 export const escape = mysql.escape;
 
 /**
+ * Unlike `escape()`, this variant handles
+ * null and undefined values safely.
+ * @param value Value to escape
+ */
+export const smartEscape = (value: any | null | undefined) => {
+    if (value == null || undefined)
+        return 'null';
+    else
+        return mysql.escape(value);
+}
+
+/**
  * Initialize SQL connections
  */
 export function initialize(){

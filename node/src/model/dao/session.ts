@@ -11,8 +11,8 @@ export function createSession(
 ): Promise<string>{
     const c = sql.columns.gameSessions;
     const columns = [c.typeId, c.state, c.startTime, c.endTime];
-    const endTimeSafe: string | null = endTime == undefined ? 'null' : `'${endTime}''`;
-    const values = [`'${typeId}''`, `'${state}''`, `'${startTime}'`, endTimeSafe];
+    const endTimeSafe = sql.smartEscape(endTime);
+    const values = [`'${typeId}'`, `'${state}'`, `'${startTime}'`, endTimeSafe];
 
     const strColumns = columns.join(',')
     const strValues = values.join(',');
@@ -20,6 +20,8 @@ export function createSession(
     const query = `INSERT INTO ${sql.tables.gameSessions}
     (${strColumns})
     VALUES (${strValues})`;
+
+    // console.log(query);
 
     return new Promise<string>((resolve, reject) => {
         sql.getPool()!.query(query, (error, result) => {
@@ -34,19 +36,23 @@ export function createSession(
 }
 
 /**
- * Creates a new group with the details. Optionally 
- * adds the provided users to the group. Returns a promise
- * with the group id.
- * 
- * @param name Name of the Group
+ * @param sessionId Session ID
+ * @returns {any} DB row for the session
  */
-export function createGroup(
-    name: string,
-    description: string,
-    bannedUsersCSV: string,
-    inviteLink: string | undefined,
-    userLimit: string | undefined,
-    userId: [string],
-): Promise<string>{
-    
+export function getSession(sessionId: string): Promise<any>{
+    const qGetSession = `SELECT * 
+    FROM ${sql.tables.gameSessions} 
+    WHERE ${sql.columns.gameSessions.sessionId} = '${sessionId}'
+    `;
+
+    return new Promise<any>((resolve, reject) => {
+        sql.getPool()!.query(qGetSession, (error, result) => {
+            if (error){
+                reject(error.message);
+            }
+            else{
+                resolve(result[0]);
+            }
+        });
+    });
 }

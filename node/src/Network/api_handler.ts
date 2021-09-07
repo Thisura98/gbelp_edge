@@ -7,6 +7,8 @@ import { ResponseModel, ResponsePlainModel } from '../model/models/common';
 import { handlerAuth } from './handlers/auth';
 import { handlerGameEntry } from './handlers/game_entry';
 import { handlerGameEditing } from './handlers/game_editing';
+import { handlerSession } from './handlers/session';
+import { handlerGroups } from './handlers/groups';
 
 const apiPrefix = 'api'
 
@@ -26,6 +28,8 @@ export function handle(app: express.Express){
     handlerAuth(app);
     handlerGameEntry(app);
     handlerGameEditing(app);
+    handlerSession(app);
+    handlerGroups(app);
 
     // Fallbacks
 
