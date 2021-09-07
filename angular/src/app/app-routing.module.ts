@@ -64,7 +64,7 @@ const routes: Routes = [
       {path: "script/reference", component: ScriptReferenceArticleComponent}
     ]
   },
-  {path: "splay", component: SplayComponent},
+  {path: "splay/:sessionid", component: SplayComponent},
   {path: "**", component: NotFoundComponent}
 ];
 

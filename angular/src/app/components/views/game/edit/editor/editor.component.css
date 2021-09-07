@@ -40,6 +40,24 @@
     justify-content: center;
 }
 
+.btn-play-image{
+    width: 20px;
+}
+
+.btn-content{
+    margin-left: 10px;
+}
+
+.btn-content-sub{
+    font-size: 10px;
+    line-height: 10px;
+}
+
+:host /deep/.saving-progress.mat-progress-spinner circle, 
+:host /deep/.saving-progress.mat-spinner circle {
+stroke: #ffffff;
+}
+
 /* Editor Tabs */
 
 .editor-tabs{

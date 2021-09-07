@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { getGameSidebarItems } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
-import { GameListing, ServerResponseGameListing } from 'src/app/models/game/game';
+import { GameListing, GameTestSession, ServerResponseGameListing } from 'src/app/models/game/game';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,6 +11,7 @@ import { EditorDataService } from 'src/app/services/editor.data.service';
 import { SceneEditorComponent } from './scene/scene.component';
 import { AnimationEditorComponent } from './animation/animation.component';
 import { LogicEditorComponent } from './logic/logic.component';
+import { GameType } from '../../../../../../../../commons/src/models/game/game';
 
 @Component({
   selector: 'app-editor',
@@ -150,6 +151,19 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     window.open(url, '_blank');
   }
 
+  playGamePressed(){
+    this.saveGame(() => {
+      this.apiService.getGameTestSession(this.editingGameId!.toString()).subscribe((r) => {
+        if (!r.success){
+          this.dialogService.showDismissable('Cannot Play Game', r.description);
+          return;
+        }
+
+        this.navigateToPlaySession(r.data);
+      });
+    });
+  }
+
   /* private methods */
 
   private loadData(){
@@ -222,6 +236,15 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   private navigateToDashboard(){
     this.router.navigate(['/dashboard'], {replaceUrl: true});
+  }
+
+  private navigateToPlaySession(data: GameTestSession){
+    if (this.gameListing!.entry.type == GameType.Singleplayer){
+      this.router.navigate([`splay/${data.sessionId}`]);
+    }
+    else{
+      this.router.navigate([`mplay/${data.sessionId}`]);
+    }
   }
 
 }

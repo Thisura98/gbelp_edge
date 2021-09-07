@@ -2,7 +2,7 @@ import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
-import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from '../models/game/game';
+import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGameTestSession, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from '../models/game/game';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -241,6 +241,16 @@ export class ApiService{
             responseType: 'text',
             headers: this.getHeaders()
         });
+    }
+
+    getGameTestSession(gameId: string): Observable<ServerResponseGameTestSession>{
+        const url = this.aurl('create-test-session')
+        const body = {
+            gameId: gameId
+        }
+        return this.http.post<ServerResponseGameTestSession>(url, body, {
+            headers: this.getHeaders()
+        })
     }
 
     // MARK END: Game Editing

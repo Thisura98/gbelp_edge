@@ -55,13 +55,20 @@
                         class="dyn-btn clickable btn-save"
                         [class.dyn-btn-disabled]="isSaving"
                         (click)="saveGame()">
-                        {{isSaving ? "Saving..." : "Save Game"}}
+                        {{isSaving ? "" : "Save Game"}}
+                        <mat-progress-spinner class="saving-progress"
+                            *ngIf="isSaving" [diameter]="20" mode="indeterminate">
+                        </mat-progress-spinner>
                     </div>
-                    <mat-progress-spinner 
-                        *ngIf="isSaving" [diameter]="20" mode="indeterminate">
-                    </mat-progress-spinner>
                     <div class="buttons-separator"></div>
                     <div class="dyn-btn clickable btn-add-level">Add Level</div>
+                    <div class="dyn-btn clickable btn-play-game" (click)="playGamePressed()">
+                        <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
+                        <div class="btn-content">
+                            <div class="btn-content-main">Play Game</div>
+                            <div class="btn-content-sub">Win + N</div>
+                        </div>
+                    </div>
                     <div class="dyn-btn clickable" (click)="openHelpPressed()">Help</div>
                 </div>
             </ng-container>

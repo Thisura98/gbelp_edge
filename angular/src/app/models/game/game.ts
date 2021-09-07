@@ -13,6 +13,11 @@ export interface GameListing{
     project: GameProject
 }
 
+export interface GameTestSession{
+    groupId: string,
+    sessionId: string
+}
+
 export interface ServerResponseGameCreate extends ServerResponse<CreateGame>{};
 
 export interface ServerResponseGameListing extends ServerResponse<GameListing>{};
@@ -26,3 +31,5 @@ export interface ServerResponseGetObjectId extends ServerResponse<string>{};
 export interface ServerResponseGetObjectives extends ServerResponse<GameObjective[]>{};
 
 export interface ServerResponseGetGuidanceTrackers extends ServerResponse<GameGuidanceTracker[]>{};
+
+export interface ServerResponseGameTestSession extends ServerResponse<GameTestSession>{};
