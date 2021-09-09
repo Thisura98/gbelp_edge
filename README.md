@@ -9,7 +9,7 @@ node - Node Backend (with Express and Socket I/O) NPM Project
 node/dist - Angular Frontend built using ng build
 scripts - Project Scaffolding projects
 resources - Misc. Project Resources (images, text files, etc.)
-db - Database Backups, Seed Scripts, Schemas
+db - Database Backups, Seed Scripts, Schemas, Docker Compose Files
 ```
 
 ## Scripts & Commands
