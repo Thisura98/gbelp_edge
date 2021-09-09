@@ -26,6 +26,7 @@
     "fabric": "^4.6.0",
     "monaco-editor": "^0.27.0",
     "ng-apexcharts": "^1.5.10",
+    "phaser": "^3.55.2",
     "rxjs": "~6.6.0",
     "ts-md5": "^1.2.8",
     "tslib": "^2.1.0",
