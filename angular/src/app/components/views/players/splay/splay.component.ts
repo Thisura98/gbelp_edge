@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import * as phaser from 'phaser';
 
 /**
@@ -17,6 +18,8 @@ export class SplayComponent implements OnInit, AfterViewInit {
   constructor(
     private elementRef: ElementRef,
     private zone: NgZone,
+    private location: Location,
+    private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -26,9 +29,6 @@ export class SplayComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(){
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
-
-
-
     this.runOutside(() => {
       const phaserConfig: phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
@@ -47,6 +47,14 @@ export class SplayComponent implements OnInit, AfterViewInit {
     }); 
   }
 
+  goBack(){
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
+    if (this.router.navigated)
+      this.location.back()
+    else
+      this.router.navigate(['dashboard']);
+  }
+
   /* **** Private Methods **** */
 
   private loadData(){
@@ -57,6 +65,9 @@ export class SplayComponent implements OnInit, AfterViewInit {
   }
 
   private runOutside(fn: CallableFunction){
+    // Do not pass fn() to runOutsideAngular directly.
+    // zonejs requires a reference to the current calling zone,
+    // so wrap it inside another function.
     this.zone.runOutsideAngular(() => {
       fn();
     });
