@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -7,7 +7,9 @@ import { UtilsService } from 'src/app/services/utils.service';
 @Component({
   selector: 'app-userstatus',
   template: `
-    <div class="dashboard-userstatus noselect" (click)="toggleExpanded()" #dashboardUserStatus>
+    <div class="dashboard-userstatus noselect" 
+      [class.dark-mode]="darkMode"
+      (click)="toggleExpanded()" #dashboardUserStatus>
       <div>
         <div class="dashboard-us-name">{{userName}}</div>
         <div class="dashboard-us-role">{{userRole | titlecase}}</div>
@@ -28,6 +30,9 @@ import { UtilsService } from 'src/app/services/utils.service';
 export class UserstatusComponent implements OnInit {
 
   expanded = false
+
+  @Input()
+  darkMode: boolean = false;
 
   get userName(): string | null{
     return this.getUser().user.userName ?? "not set";

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as phaser from 'phaser';
 
 /**
  * Singleplayer Game Player
@@ -9,16 +10,21 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './splay.component.html',
   styleUrls: ['../player.common.css']
 })
-export class SplayComponent implements OnInit {
+export class SplayComponent implements OnInit, AfterViewInit {
   
   sessionId: string | undefined;
 
   constructor(
+    private elementRef: ElementRef,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  ngAfterViewInit(){
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
   }
 
   /* **** Private Methods **** */

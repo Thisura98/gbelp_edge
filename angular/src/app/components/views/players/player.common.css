@@ -1,0 +1,31 @@
+h4{
+    margin: 0px;
+}
+
+.nav{
+    display: flex;
+    justify-content: space-between;
+}
+
+.back-btn{
+    margin-left: 20px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+app-userstatus{
+    margin-right: 20px
+}
+
+.back-btn > .chevron-left-icon{
+    width: 10px;
+}
+
+.back-btn > .dashboard-icon{
+    width: 40px
+}
+
+.back-btn > .back-text{
+    color: #AFAFAF
+}
