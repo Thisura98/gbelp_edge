@@ -29,3 +29,23 @@ app-userstatus{
 .back-btn > .back-text{
     color: #AFAFAF
 }
+
+.primary-container > .buttons-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+@media only screen and (min-width: 600px){
+    .primary-container > .buttons-container{
+        gap: 50px;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .primary-container > .buttons-container{
+        gap: 10px;
+    }
+}
