@@ -2,20 +2,26 @@ h4{
     margin: 0px;
 }
 
+.container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .nav{
     display: flex;
     justify-content: space-between;
 }
 
 .back-btn{
-    margin-left: 20px;
+    margin-left: 12px;
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
 app-userstatus{
-    margin-right: 20px
+    margin-right: 12px
 }
 
 .back-btn > .chevron-left-icon{
@@ -30,12 +36,43 @@ app-userstatus{
     color: #AFAFAF
 }
 
+.panels-container{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.primary-container{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 .primary-container > .buttons-container{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 100px;
+}
+
+.primary-container > .titles{
+    color: #D6D7D8;
+    margin-left: 12px;
+}
+
+.primary-container > .titles > .game-title{
+    font-weight: 500;
+    font-size: 20px;
+}
+.primary-container > .titles > .game-level{
+    font-weight: 300;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.canvas-container{
+    flex-grow: 1;
 }
 
 @media only screen and (min-width: 600px){

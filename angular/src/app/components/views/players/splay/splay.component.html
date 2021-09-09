@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container dyn-anim-fadein-delayed">
     <div class="nav">
         <div class="back-btn">
             <img class="chevron-left-icon" src="assets/splay/graydropdown.png"/>
@@ -7,26 +7,28 @@
         </div>
         <app-userstatus [darkMode]="true" ></app-userstatus>
     </div>
-    <div class="primary-container">
-        <div class="titles">
-            <span class="game-title">Flurttle Bubble Game</span>
-            <span class="game-level">Example Level 1</span>
+    <div class="panels-container">
+        
+        <div class="primary-container">
+            <div class="titles">
+                <span class="game-title">Flurttle Bubble Game</span>
+                <span class="game-level">Example Level 1</span>
+            </div>
+            <div class="canvas-container">
+            </div>
+            <div class="buttons-container">
+                <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat">
+                </app-player-controlbtn>
+                <app-player-controlbtn imageName="splay/btn.objectives.icon.png" title="Objectives">
+                </app-player-controlbtn>
+                <app-player-controlbtn imageName="splay/btn.guidance.icon.png" title="Guidance">
+                </app-player-controlbtn>
+                <app-player-controlbtn imageName="splay/btn.leave.icon.png" title="Leave" [dangerous]="true">
+                </app-player-controlbtn>
+            </div>
         </div>
-        <div class="canvas-container">
-            
-        </div>
-        <div class="buttons-container">
-            <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat">
-            </app-player-controlbtn>
-            <app-player-controlbtn imageName="splay/btn.objectives.icon.png" title="Objectives">
-            </app-player-controlbtn>
-            <app-player-controlbtn imageName="splay/btn.guidance.icon.png" title="Guidance">
-            </app-player-controlbtn>
-            <app-player-controlbtn imageName="splay/btn.leave.icon.png" title="Leave" [dangerous]="true">
-            </app-player-controlbtn>
-        </div>
-    </div>
-    <div class="secondary-container">
+        <div class="secondary-container">
 
+        </div>
     </div>
 </div>
