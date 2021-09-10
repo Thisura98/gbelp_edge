@@ -48,12 +48,15 @@ class Edge{
     }
 }
 
+// removed import
+
 class LevelScene_Title_Screen extends Phaser.Scene{
     constructor(){
         super({key: "LevelScene_Title_Screen", active: false });
     }
 
     preload(){
+        Phaser
         console.log("Title_Screen, preload called!");
     }
     create(){
@@ -67,12 +70,15 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
 }
 
+// removed import
+
 class LevelScene_Example_Level_Screen extends Phaser.Scene{
     constructor(){
         super({key: "LevelScene_Example_Level_Screen", active: false });
     }
 
     preload(){
+        Phaser
         console.log("Example_Level_Screen, preload called!");
     }
     create(){
@@ -86,12 +92,15 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
     }
 }
 
+// removed import
+
 class LevelScene_Game_Over_Screen extends Phaser.Scene{
     constructor(){
         super({key: "LevelScene_Game_Over_Screen", active: false });
     }
 
     preload(){
+        Phaser
         console.log("Game_Over_Screen, preload called!");
     }
     create(){

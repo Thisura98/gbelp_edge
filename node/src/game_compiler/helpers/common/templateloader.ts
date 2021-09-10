@@ -15,8 +15,10 @@ export class Template{
                     l.logc(msg, '');
                     reject(msg);
                 }
-                else
-                    resolve(data)
+                else{
+                    const stripped = this.stripUnwantedImports(data);
+                    resolve(stripped)
+                }
             });
         })
     }
@@ -44,5 +46,11 @@ export class Template{
 
         return Promise.resolve(source.replace(search, replaceWith));
 
+    }
+
+    private static stripUnwantedImports(source: string): string{
+        const search = new RegExp('^require.+', 'g');
+        const replace = '// removed import';
+        return source.replace(search, replace);
     }
 }

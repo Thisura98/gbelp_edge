@@ -1,9 +1,12 @@
+require('../../phaser/phaser');
+
 class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
     constructor(){
         super({key: "LevelScene_EDGTOKEN_1", active: false });
     }
 
     preload(){
+        Phaser
         EDGTOKEN_PRELOAD
     }
     create(){

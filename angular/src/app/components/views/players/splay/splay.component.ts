@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as phaser from 'phaser';
@@ -50,12 +50,16 @@ export class SplayComponent implements OnInit, AfterViewInit {
   }
 
   goBack(){
-    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
     this.manualDestroyGameSession();
     if (this.router.navigated)
       this.location.back()
     else
       this.router.navigate(['dashboard']);
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: Event){
+    this.manualDestroyGameSession();
   }
 
   /* **** Private Methods **** */
@@ -90,6 +94,7 @@ export class SplayComponent implements OnInit, AfterViewInit {
   }
 
   private manualDestroyGameSession(){
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
     (window as any).EdgeProxy.unloadGame();
   }
 

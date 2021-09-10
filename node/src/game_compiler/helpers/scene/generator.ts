@@ -44,4 +44,15 @@ export class GenerateScene{
             return Promise.reject('GenerateScene Error:' + err);
         })
     }
+
+    private static generatePreloadCode(
+        lavel: GameLevel,
+        resources: GameProjectResource[]
+    ): string{
+        let code = '';
+
+        const setBaseURL = `this.`;
+
+        return code;
+    }
 }
