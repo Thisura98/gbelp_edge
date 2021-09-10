@@ -44,3 +44,23 @@ export function checkUserCanModifyGame(
         }
     })
 }
+
+/**
+ * Base 64 decode a string.
+ * 
+ * Why the binary?
+ * https://stackoverflow.com/a/47890385/3178477
+ */
+export function base64Decode(input: string): string{
+    return Buffer.from(input, 'base64').toString('binary');
+}
+
+/**
+ * Properly decode game scripts encoded
+ * by Angular Editor frontend.
+ */
+export function decodeGameScript(input: string): string{
+    const base64Decoded = base64Decode(input);
+    const decoded = decodeURIComponent(escape(base64Decoded));
+    return decoded;
+}

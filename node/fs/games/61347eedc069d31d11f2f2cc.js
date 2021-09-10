@@ -82,12 +82,14 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
     preload(){
         this.load.setBaseURL('http://localhost/');
-        this.load.image('kirby_png', 'fs/res_upload/image/1630855586492.png');
-this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
+        
+
+		this.load.image('kirby_png', 'fs/res_upload/image/1630855586492.png');
+		this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
     }
     create(){
         let scaleX = 0, scaleY = 0;
-// --- scene object kirby_png ---
+		// --- scene object kirby_png ---
 		const sprite_1 = this.add.sprite(73, 22, 'kirby_png');
 		sprite_1.name = "kirby_png";
 		scaleX = 38 / sprite_1.displayWidth;
@@ -96,7 +98,7 @@ this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
 		this.spriteReferences.push(sprite_1);
 
 
-// --- scene object cloud__png ---
+		// --- scene object cloud__png ---
 		const sprite_2 = this.add.sprite(20, 19, 'cloud__png');
 		sprite_2.name = "cloud__png";
 		scaleX = 36 / sprite_2.displayWidth;
@@ -110,6 +112,8 @@ this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
          * EdgeProxy is defined in singleplayer.lib.js
          */
         window.EdgeProxy.currentScene = this;
+
+        console.log("%c Title Screen Started!", 'background: #222; color: #bada55')
     }
     update(){
         console.log("Title_Screen, update called!");
@@ -134,16 +138,18 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
 
     preload(){
         this.load.setBaseURL('http://localhost/');
-        this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
-this.load.image('kirby_png', 'fs/res_upload/image/1630855586492.png');
-this.load.image('cloud__png_2', 'fs/res_upload/image/1630855081729.png');
-this.load.image('cloud__png_3', 'fs/res_upload/image/1630855081729.png');
-this.load.image('brick_png', 'fs/res_upload/image/1630855904902.png');
-this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
+        
+
+		this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
+		this.load.image('kirby_png', 'fs/res_upload/image/1630855586492.png');
+		this.load.image('cloud__png_2', 'fs/res_upload/image/1630855081729.png');
+		this.load.image('cloud__png_3', 'fs/res_upload/image/1630855081729.png');
+		this.load.image('brick_png', 'fs/res_upload/image/1630855904902.png');
+		this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
     }
     create(){
         let scaleX = 0, scaleY = 0;
-// --- scene object cloud__png ---
+		// --- scene object cloud__png ---
 		const sprite_1 = this.add.sprite(71.5, 72.5, 'cloud__png');
 		sprite_1.name = "cloud__png";
 		scaleX = 35 / sprite_1.displayWidth;
@@ -152,7 +158,7 @@ this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
 		this.spriteReferences.push(sprite_1);
 
 
-// --- scene object kirby_png ---
+		// --- scene object kirby_png ---
 		const sprite_2 = this.add.sprite(20.268681467442807, 222.76868146744275, 'kirby_png');
 		sprite_2.name = "kirby_png";
 		scaleX = 34.537362934885614 / sprite_2.displayWidth;
@@ -161,7 +167,7 @@ this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
 		this.spriteReferences.push(sprite_2);
 
 
-// --- scene object cloud__png_2 ---
+		// --- scene object cloud__png_2 ---
 		const sprite_3 = this.add.sprite(130.25, 135.25, 'cloud__png_2');
 		sprite_3.name = "cloud__png_2";
 		scaleX = 34.50000000000001 / sprite_3.displayWidth;
@@ -170,7 +176,7 @@ this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
 		this.spriteReferences.push(sprite_3);
 
 
-// --- scene object cloud__png_3 ---
+		// --- scene object cloud__png_3 ---
 		const sprite_4 = this.add.sprite(273.25, 104.75, 'cloud__png_3');
 		sprite_4.name = "cloud__png_3";
 		scaleX = 34.5 / sprite_4.displayWidth;
@@ -179,7 +185,7 @@ this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
 		this.spriteReferences.push(sprite_4);
 
 
-// --- scene object brick_png ---
+		// --- scene object brick_png ---
 		const sprite_5 = this.add.sprite(465.5, 260.5, 'brick_png');
 		sprite_5.name = "brick_png";
 		scaleX = 925 / sprite_5.displayWidth;
@@ -188,7 +194,7 @@ this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
 		this.spriteReferences.push(sprite_5);
 
 
-// --- scene object brick_png_2 ---
+		// --- scene object brick_png_2 ---
 		const sprite_6 = this.add.sprite(1210.5, 322, 'brick_png_2');
 		sprite_6.name = "brick_png_2";
 		scaleX = 902.9999999999999 / sprite_6.displayWidth;
@@ -202,6 +208,8 @@ this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
          * EdgeProxy is defined in singleplayer.lib.js
          */
         window.EdgeProxy.currentScene = this;
+
+        
     }
     update(){
         console.log("Example_Level_Screen, update called!");
@@ -227,6 +235,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     preload(){
         this.load.setBaseURL('http://localhost/');
         
+
     }
     create(){
         let scaleX = 0, scaleY = 0;
@@ -235,6 +244,8 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
          * EdgeProxy is defined in singleplayer.lib.js
          */
         window.EdgeProxy.currentScene = this;
+
+        
     }
     update(){
         console.log("Game_Over_Screen, update called!");
@@ -245,7 +256,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 }
 
 const scenes = [LevelScene_Title_Screen, LevelScene_Example_Level_Screen, LevelScene_Game_Over_Screen];
-const gameZoom = 2;
+const gameZoom = 1.5;
 
 /**
  * @type Phaser.Core.Config
@@ -253,8 +264,8 @@ const gameZoom = 2;
 const config = {
     type: Phaser.AUTO,
     parent: 'canvas-container',
-    width: 400*1.5,
-    height: 300*1.5,
+    width: 400,
+    height: 300,
     // scene: scenes,
     title: 'Shock and Awesome',
     backgroundColor: "#000022",
@@ -263,7 +274,7 @@ const config = {
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.FIT,
-    // zoom: gameZoom
+    zoom: gameZoom
 };
 
 

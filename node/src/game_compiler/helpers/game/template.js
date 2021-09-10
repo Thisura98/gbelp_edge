@@ -1,7 +1,7 @@
 EDGTOKEN_SCENECODE
 
 const scenes = [EDGTOKEN_SCENES];
-const gameZoom = 2;
+const gameZoom = 1.5;
 
 /**
  * @type Phaser.Core.Config
@@ -9,8 +9,8 @@ const gameZoom = 2;
 const config = {
     type: Phaser.AUTO,
     parent: 'canvas-container',
-    width: 400*1.5,
-    height: 300*1.5,
+    width: 400,
+    height: 300,
     // scene: scenes,
     title: 'Shock and Awesome',
     backgroundColor: "#000022",
@@ -19,7 +19,7 @@ const config = {
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.FIT,
-    // zoom: gameZoom
+    zoom: gameZoom
 };
 
 

@@ -3,6 +3,7 @@ import { GameProjectResource } from "../../../../../../commons/src/models/game/r
 import { Template } from "../../common/templateloader";
 import * as pc from '../../../../util/parseconfig';
 import * as l from '../../../../util/logger';
+import * as util from '../../../../util/utils';
 import { SceneObjectType } from "../../../../../../commons/src/models/game/levels/scene";
 
 export function generateCreateCode(
@@ -34,13 +35,18 @@ export function generateCreateCode(
 
         i++;
     }
-    
+
     return Promise.resolve(
         code
     )
     .then(t => {
         const createLines = commands.join('\n');
         return Template.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, createLines);
+    })
+    .then(t => {
+        const base64Code = level.logic.script.setup;
+        const decoded = util.decodeGameScript(base64Code);
+        return Template.replacePlaceholder(t, 'EDGTOKEN_GAMESCRIPT_LEVEL_SETUP', false, decoded);
     })
     .catch(err => {
         l.logc(err, 'generateCreateCode');
