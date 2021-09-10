@@ -2,7 +2,8 @@
 import { GameProjectResource } from "../resources";
 
 export enum SceneObjectType{
-    sprite = 'sprite'
+    sprite = 'sprite',
+    sound = 'sound'
 }
 
 export class SceneObjectFrame{

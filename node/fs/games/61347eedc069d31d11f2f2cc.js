@@ -56,8 +56,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
 
     preload(){
-        Phaser
-        console.log("Title_Screen, preload called!");
+        this.load.setBaseURL('http://localhost/');
+        this.load.image('kirby_png', 'fs/res_upload/image/1630855586492.png');
     }
     create(){
         console.log("Title_Screen, create called!");
@@ -78,8 +78,13 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
     }
 
     preload(){
-        Phaser
-        console.log("Example_Level_Screen, preload called!");
+        this.load.setBaseURL('http://localhost/');
+        this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
+this.load.image('kirby_png', 'fs/res_upload/image/1630855586492.png');
+this.load.image('cloud__png_2', 'fs/res_upload/image/1630855081729.png');
+this.load.image('cloud__png_3', 'fs/res_upload/image/1630855081729.png');
+this.load.image('brick_png', 'fs/res_upload/image/1630855904902.png');
+this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
     }
     create(){
         console.log("Example_Level_Screen, create called!");
@@ -100,8 +105,8 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     }
 
     preload(){
-        Phaser
-        console.log("Game_Over_Screen, preload called!");
+        this.load.setBaseURL('http://localhost/');
+        
     }
     create(){
         console.log("Game_Over_Screen, create called!");

@@ -9,6 +9,9 @@
 }
 
 export class GameProjectResource{
+    /**
+     * @param _id Warning! Might be instance of ObjectId sometimes!
+     */
     constructor(
         public _id: string,
         public filename: string,

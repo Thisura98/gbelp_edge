@@ -6,7 +6,7 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
     }
 
     preload(){
-        Phaser
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         EDGTOKEN_PRELOAD
     }
     create(){
