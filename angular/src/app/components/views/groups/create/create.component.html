@@ -1,1 +1,25 @@
-<p>create-group works!</p>
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems" (onBack)="handleBack()">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <h4 class="small-heading">
+                Create Group
+            </h4>
+            <app-userstatus></app-userstatus>
+        </div>
+        <div class="buttons">
+            <div class="dyn-btn clickable">Create</div>
+            <div class="dyn-btn clickable btn-cancel">Cancel</div>
+        </div>
+        <div class="details-form dyn-form">
+            <!-- Section Basic Details -->
+            <div class="dyn-form-col details-column">
+                <h2 class="heading">Details</h2>
+            </div>
+
+        </div>
+    </div>
+
+</div>

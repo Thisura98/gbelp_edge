@@ -46,6 +46,59 @@ export function getGameSidebarItems(selected: string | undefined = undefined): D
     return items;
 }
 
+
+/**
+ * @param selected Item currently selected. Leave blank if none is selected.
+ * @returns 
+ */
+ export function getGroupSidebarItems(selected: string | undefined = undefined): DynamicSidebarItem[]{
+    const prefix = "assets/groups/";
+    let items = [
+        {
+            name: "Overview",
+            sel: false, 
+            n: prefix+"moverview.png",
+            s: prefix+"moverview_sel.png",
+            path: '/groups/overview'
+        },
+        {
+            name: "Users", 
+            sel: false, 
+            n: prefix+"musers.png", 
+            s: prefix+"musers_sel.png", 
+            path: '/groups/users'
+        },
+        {
+            name: "Chats",    
+            sel: false, 
+            n: prefix+"mcomms.png",    
+            s: prefix+"mcomms_sel.png",    
+            path: '/groups/chats'
+        },
+        {   
+            name: "Sessions",    
+            sel: false, 
+            n: prefix+"msession.png",    
+            s: prefix+"msession_sel.png",    
+            path: '/groups/sessions'
+        },
+        {   
+            name: "Reports",    
+            sel: false, 
+            n: prefix+"mreport.png",    
+            s: prefix+"mreport_sel.png",    
+            path: '/groups/reports'
+        },
+    ]
+
+    items.forEach((v,_,__) => {
+        if (v.name == selected)
+            v.sel = true
+    })
+
+    return items;
+}
+
 export const GameEditConstants = {
     objectiveTableConfig: new DynBasicTableConfig(true, [
         {name: "Objective Name", property: 'name', type:"input:text"},

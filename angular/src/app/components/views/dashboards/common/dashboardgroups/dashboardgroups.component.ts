@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -30,7 +31,8 @@ export class DashboardgroupsComponent implements OnInit {
   constructor(
     private userService: UserService,
     private apiService: ApiService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class DashboardgroupsComponent implements OnInit {
   createInviteLinkForRow(data: IGroupDetailsRow): string{
     if (data.invite_link != undefined)
       return data.invite_link!;
-      
+
     return `/groups/join/${data.group_id}`;
   }
 
@@ -50,6 +52,10 @@ export class DashboardgroupsComponent implements OnInit {
     const term = element.value;
     this.searchTerm = term;
     this.filterDisplayData();
+  }
+
+  createGroup(){
+    this.router.navigate(['groups/create']);
   }
 
   /* Private Methods */
