@@ -32,25 +32,26 @@ export class SplayComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(){
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
     this.runOutside(() => {
-      const phaserConfig: phaser.Types.Core.GameConfig = {
-        type: Phaser.AUTO,
-        backgroundColor: "#5DACD8",
-        width: 400,
-        height: 300,
-        parent: "canvas-container",
-        scene: [ ],
-        fps: {
-          target: 25,
-          forceSetTimeOut: true
-        },
-      };
+      // const phaserConfig: phaser.Types.Core.GameConfig = {
+      //   type: Phaser.AUTO,
+      //   backgroundColor: "#5DACD8",
+      //   width: 400,
+      //   height: 300,
+      //   parent: "canvas-container",
+      //   scene: [ ],
+      //   fps: {
+      //     target: 25,
+      //     forceSetTimeOut: true
+      //   },
+      // };
 
-      const game = new Phaser.Game(phaserConfig);
+      // const game = new Phaser.Game(phaserConfig);
     }); 
   }
 
   goBack(){
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
+    this.manualDestroyGameSession();
     if (this.router.navigated)
       this.location.back()
     else
@@ -73,7 +74,9 @@ export class SplayComponent implements OnInit, AfterViewInit {
       console.log("Received game JS!");
       console.log(gameJS);
 
-      eval(gameJS);
+      this.runOutside(() => {
+        eval(gameJS);
+      });
     });
   }
 
@@ -84,6 +87,10 @@ export class SplayComponent implements OnInit, AfterViewInit {
     this.zone.runOutsideAngular(() => {
       fn();
     });
+  }
+
+  private manualDestroyGameSession(){
+    (window as any).EdgeProxy.unloadGame();
   }
 
 }

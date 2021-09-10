@@ -3,8 +3,9 @@ import { GameProject } from '../../../commons/src/models/game/project';
 import * as fs from 'fs';
 import * as gamesDAO from './../model/dao/games';
 import * as l from '../util/logger';
-
 import * as pc from '../util/parseconfig';
+import { GenerateGame } from './helpers/game/generator';
+
 const config = pc.parseConfig('config.json')
 
 /**
@@ -68,11 +69,20 @@ export function getCompiledGameURL(
     return new Promise<string>((resolve, reject) => {
         getSingleplayerGameLibContent().then(gameLib => {
             gameJS += gameLib;
-            gameJS += "\n\n";
-            gameJS += 'console.log("Hello World");';
-        }).catch((err) => {
+            return Promise.resolve(gameJS)
+        })
+        .catch((err) => {
             reject('Game Lib Error: ' + err);
-        }).then(() => {
+            return Promise.resolve(gameJS)
+        })
+        .then(() => {
+            return GenerateGame.generate(gameProject)
+        })
+        .then(sceneCode => {
+            gameJS += `\n\n${sceneCode}`;
+            return Promise.resolve(gameJS);
+        })
+        .then(() => {
             fs.writeFile(filePath, gameJS, {}, (error) => {
                 if (error){
                     reject(error.message);
@@ -81,7 +91,8 @@ export function getCompiledGameURL(
                     resolve(filePath);
                 }
             });
-        }).catch(err => {
+        })
+        .catch(err => {
             reject(err);
         });
     });

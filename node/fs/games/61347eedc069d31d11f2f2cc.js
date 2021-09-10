@@ -48,4 +48,93 @@ class Edge{
     }
 }
 
-console.log("Hello World");
+class LevelScene_Title_Screen extends Phaser.Scene{
+    constructor(){
+        super({key: "LevelScene_Title_Screen", active: false });
+    }
+
+    preload(){
+        console.log("Title_Screen, preload called!");
+    }
+    create(){
+        console.log("Title_Screen, create called!");
+    }
+    update(){
+        console.log("Title_Screen, update called!");
+    }
+    destroy(){
+        console.log("Title_Screen, destroy called!");
+    }
+}
+
+class LevelScene_Example_Level_Screen extends Phaser.Scene{
+    constructor(){
+        super({key: "LevelScene_Example_Level_Screen", active: false });
+    }
+
+    preload(){
+        console.log("Example_Level_Screen, preload called!");
+    }
+    create(){
+        console.log("Example_Level_Screen, create called!");
+    }
+    update(){
+        console.log("Example_Level_Screen, update called!");
+    }
+    destroy(){
+        console.log("Example_Level_Screen, destroy called!");
+    }
+}
+
+class LevelScene_Game_Over_Screen extends Phaser.Scene{
+    constructor(){
+        super({key: "LevelScene_Game_Over_Screen", active: false });
+    }
+
+    preload(){
+        console.log("Game_Over_Screen, preload called!");
+    }
+    create(){
+        console.log("Game_Over_Screen, create called!");
+    }
+    update(){
+        console.log("Game_Over_Screen, update called!");
+    }
+    destroy(){
+        console.log("Game_Over_Screen, destroy called!");
+    }
+}
+
+const scenes = [LevelScene_Title_Screen, LevelScene_Example_Level_Screen, LevelScene_Game_Over_Screen];
+
+/**
+ * @type Phaser.Core.Config
+ */
+const config = {
+    type: Phaser.AUTO,
+    parent: 'canvas-container',
+    width: 400,
+    height: 300,
+    // scene: scenes,
+    title: 'Shock and Awesome'
+};
+
+const edgeGame = new Phaser.Game(config);
+
+/**
+ * @type Phaser.Scene
+ */
+const startingScene = LevelScene_Title_Screen;
+
+edgeGame.scene.add('scene', startingScene, true, null);
+
+/**
+ * Proxying methods
+ */
+
+window.EdgeProxy = {
+    unloadGame: function(){
+        console.log("EdgeProxy manual destroy invoked");
+        edgeGame.destroy();
+    }
+}
