@@ -15,6 +15,9 @@ export class DashboardgamesComponent implements OnInit {
 
   isLoading = true
   data: GameEntry[] = []
+  displayedData: GameEntry[] = []
+  searchTerm: string = '';
+  isSearching: boolean = false;
 
   constructor(
     private router: Router,
@@ -57,6 +60,13 @@ export class DashboardgamesComponent implements OnInit {
     )
   }
 
+  searchInputChanged(event: Event){
+    const element = event.target as HTMLInputElement;
+    const term = element.value;
+    this.searchTerm = term;
+    this.filterDisplayData();
+  }
+
   private loadData(){
     this.isLoading = true;
     this.apiService.getAllGames().subscribe((data) => {
@@ -72,6 +82,23 @@ export class DashboardgamesComponent implements OnInit {
   private notifydataLoaded(response: ServerResponseAllGameEntries){
     this.isLoading = false
     this.data = response.data;
+    this.filterDisplayData();
+  }
+
+  private filterDisplayData(){
+    if (this.searchTerm.trim().length == 0){
+      this.isSearching = false;
+      this.displayedData = this.data;
+      return;
+    }
+
+    const search = new RegExp(this.searchTerm);
+    const filtered = this.data.filter(v => {
+      return v.name.search(search) != -1;
+    });
+
+    this.isSearching = true;
+    this.displayedData = filtered;
   }
 
 }
