@@ -254,6 +254,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 }
 
 const scenes = [LevelScene_Title_Screen, LevelScene_Example_Level_Screen, LevelScene_Game_Over_Screen];
+const gameZoom = 2;
 
 /**
  * @type Phaser.Core.Config
@@ -261,23 +262,25 @@ const scenes = [LevelScene_Title_Screen, LevelScene_Example_Level_Screen, LevelS
 const config = {
     type: Phaser.AUTO,
     parent: 'canvas-container',
-    width: 400,
-    height: 300,
+    width: 400*1.5,
+    height: 300*1.5,
     // scene: scenes,
     title: 'Shock and Awesome',
+    backgroundColor: "#00ff00",
     fps: {
         target: 25,
         forceSetTimeOut: true
     },
+    scaleMode: Phaser.Scale.FIT,
+    // zoom: gameZoom
 };
 
-const edgeGame = new Phaser.Game(config);
 
 /**
  * @type Phaser.Scene
  */
 const startingScene = LevelScene_Title_Screen;
-
+const edgeGame = new Phaser.Game(config);
 edgeGame.scene.add('scene', startingScene, true, null);
 
 /**
@@ -289,3 +292,8 @@ window.EdgeProxy.unloadGame = function(){
     console.log("EdgeProxy manual destroy invoked");
     edgeGame.destroy();
 }
+
+window.addEventListener('resize', () => {
+    // const parent
+    // edgeGame.scale.setZoom
+});
