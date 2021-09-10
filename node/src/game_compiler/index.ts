@@ -5,6 +5,7 @@ import * as gamesDAO from './../model/dao/games';
 import * as l from '../util/logger';
 import * as pc from '../util/parseconfig';
 import { GenerateGame } from './helpers/game/generator';
+import { Template } from './helpers/common/templateloader';
 
 const config = pc.parseConfig('config.json')
 
@@ -15,7 +16,7 @@ const config = pc.parseConfig('config.json')
 function getSingleplayerGameLibContent(): Promise<string>{
     const filePath = `src/gamelib/singleplayer.lib.js`;
     return new Promise<string>((resolve, reject) => {
-        fs.readFile(filePath, '', (error, data) => {
+        fs.readFile(filePath, 'utf-8', (error, data) => {
             if (error){
                 reject(error)
             }
@@ -68,8 +69,11 @@ export function getCompiledGameURL(
 
     return new Promise<string>((resolve, reject) => {
         getSingleplayerGameLibContent().then(gameLib => {
+            return Template.stripUnwantedImports(gameLib);
+        })
+        .then(gameLib => {
             gameJS += gameLib;
-            return Promise.resolve(gameJS)
+            return Promise.resolve(gameJS);
         })
         .catch((err) => {
             reject('Game Lib Error: ' + err);

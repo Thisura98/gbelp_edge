@@ -5,6 +5,8 @@ import * as pc from '../../../util/parseconfig';
 import * as l from '../../../util/logger';
 import { SceneObjectType } from "../../../../../commons/src/models/game/levels/scene";
 
+import { generateCreateCode } from './helpers/helper_create';
+
 export interface GenerateSceneResult{
     code: string
     sceneName: string
@@ -28,9 +30,12 @@ export class GenerateScene{
         .then(t => {
             return this.generatePreloadCode(t, level, resources);
         })
+        // .then(t => {
+        //     const code = `console.log("${levelName}, create called!");`
+        //     return Template.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, code);
+        // })
         .then(t => {
-            const code = `console.log("${levelName}, create called!");`
-            return Template.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, code);
+            return generateCreateCode(t, level);
         })
         .then(t => {
             const code = `console.log("${levelName}, update called!");`
@@ -79,7 +84,6 @@ export class GenerateScene{
                 continue;
 
             const resource = resources[resIndex];
-            l.logc(`Adding ${resource._id} to resourceMap`);
             resourceMap.set(resource._id.toString(), resource);
         }
 
@@ -88,11 +92,9 @@ export class GenerateScene{
             const res = resourceMap.get(so.spriteResourceId);
             let cmd = '';
 
-            l.logc(`Getting resource with id, ${so.spriteResourceId}`, 'generatePreloadCode');
-            l.logc(JSON.stringify(res), 'generatePreloadCode');
-
             if (so.type == SceneObjectType.sprite){
                 // this.load.image('kirby-1', 'fs/res_upload/image/123.png')
+                // image's key is the scene object's name
                 cmd = `this.load.image('${so.name}', '${res?.filename ?? "sprite-res-unavail"}');`
             }
             else if (so.type == SceneObjectType.sound){

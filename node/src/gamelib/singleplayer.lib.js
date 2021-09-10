@@ -1,3 +1,5 @@
+require('../game_compiler/phaser/phaser');
+
 /*
  * Single player game library. 
  * This file is used by the frontend to,
@@ -5,6 +7,11 @@
  *      ii. Provide game scripting functionality
  */
 
+/**
+ * An empty object to transfer data between game template
+ * and the game scripts.
+ */
+window.EdgeProxy = {};
 
 /**
  * Represents an object that can be manipulated within the game.
@@ -30,7 +37,11 @@ class EdgeObject{
     moveBy(dx, dy){
         console.log("EdgeObject.moveBy", dx, dy);
         console.log("EdgeProxy Debug", EdgeProxy, window.EdgeProxy);
-        EdgeProxy.sprites[this.name].moveBy(dx, dy);
+        /**
+         * @type Phaser.GameObjects.Sprite
+         */
+        const object = Edge.getCurrenctScene().children.getByName(this.name);
+        object.setX(object.x + dx, object.y + dy);
     }
 }
 
@@ -45,5 +56,13 @@ class Edge{
      */
     static gameObject(name){
         return new EdgeObject(name);
+    }
+    
+    /**
+     * Private method, not be used by game code.
+     * @return {Phaser.Scene}
+     */
+    static getCurrenctScene(){
+        return window.EdgeProxy.getCurrentScene();
     }
 }

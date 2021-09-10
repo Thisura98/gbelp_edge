@@ -11,7 +11,11 @@ const config = {
     width: 400,
     height: 300,
     // scene: scenes,
-    title: 'Shock and Awesome'
+    title: 'Shock and Awesome',
+    fps: {
+        target: 25,
+        forceSetTimeOut: true
+    },
 };
 
 const edgeGame = new Phaser.Game(config);
@@ -25,11 +29,10 @@ edgeGame.scene.add('scene', startingScene, true, null);
 
 /**
  * Proxying methods
+ * 
+ * EdgeProxy is defined in singleplayer.lib.js
  */
-
-window.EdgeProxy = {
-    unloadGame: function(){
-        console.log("EdgeProxy manual destroy invoked");
-        edgeGame.destroy();
-    }
+window.EdgeProxy.unloadGame = function(){
+    console.log("EdgeProxy manual destroy invoked");
+    edgeGame.destroy();
 }

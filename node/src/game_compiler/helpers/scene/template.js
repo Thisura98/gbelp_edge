@@ -1,8 +1,14 @@
 require('../../phaser/phaser');
 
 class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
+
     constructor(){
         super({key: "LevelScene_EDGTOKEN_1", active: false });
+
+        /**
+         * Add all references to create sprites to this array.
+         */
+        this.spriteReferences = [];
     }
 
     preload(){
@@ -11,6 +17,14 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
     }
     create(){
         EDGTOKEN_CREATE
+        
+        /**
+         * EdgeProxy is defined in singleplayer.lib.js
+         */
+        window.EdgeProxy.getCurrentScene = function(){
+            console.log("LevelScene.getCurrentScene() invoked");
+            return this;
+        }
     }
     update(){
         EDGTOKEN_UPDATE

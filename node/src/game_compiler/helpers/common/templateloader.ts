@@ -48,7 +48,7 @@ export class Template{
 
     }
 
-    private static stripUnwantedImports(source: string): string{
+    static stripUnwantedImports(source: string): string{
         const search = new RegExp('^require.+', 'g');
         const replace = '// removed import';
         return source.replace(search, replace);

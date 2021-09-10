@@ -1,0 +1,2 @@
+require('../../../phaser/phaser')
+
