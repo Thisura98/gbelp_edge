@@ -118,7 +118,8 @@ export class LogicEditorComponent implements OnInit {
       return;
 
     const type = this.gameListing!.entry.type.toString();
-    this.apiService.getGameLibraryJSFile(type).subscribe((lib) => {
+    this.apiService.getGameLibraryJSFile(type).subscribe((_lib) => {
+      const lib = this.stripUnwantedImports(_lib);
       console.log("Received Game LIB:", lib);
 
       this.editorReference.pipe(filter(v => v != undefined)).subscribe(value => {
@@ -130,6 +131,12 @@ export class LogicEditorComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  private stripUnwantedImports(lib: string): string{
+    const search = new RegExp('^require.+', 'g');
+    const replace = '// removed import';
+    return lib.replace(search, replace);
   }
 
   private b64enc(data: string): string{

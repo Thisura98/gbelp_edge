@@ -40,7 +40,7 @@ class EdgeObject{
         /**
          * @type Phaser.GameObjects.Sprite
          */
-        const object = Edge.getCurrenctScene().children.getByName(this.name);
+        const object = Edge._gcs().children.getByName(this.name);
         object.setX(object.x + dx, object.y + dy);
     }
 }
@@ -62,7 +62,7 @@ class Edge{
      * Private method, not be used by game code.
      * @return {Phaser.Scene}
      */
-    static getCurrenctScene(){
+    static _gcs(){
         return window.EdgeProxy.currentScene;
     }
 }
@@ -114,9 +114,20 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         window.EdgeProxy.currentScene = this;
 
         console.log("%c Title Screen Started!", 'background: #222; color: #bada55')
+
+this.direction = 1;
+
+setInterval(() => {
+    if (this.direction == 1)
+        this.direction = -1;
+    else
+        this.direction = 1;
+}, 1000);
     }
     update(){
-        console.log("Title_Screen, update called!");
+        const kirby = Edge.gameObject('kirby_png');
+kirby.moveBy(1 * this.direction, 0.1);
+
     }
     destroy(){
         console.log("Title_Screen, destroy called!");
@@ -212,7 +223,9 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
         
     }
     update(){
-        console.log("Example_Level_Screen, update called!");
+        const kirby = Edge.gameObject('kirby_png');
+kirby.moveBy(0.01, 0.01);
+
     }
     destroy(){
         console.log("Example_Level_Screen, destroy called!");
@@ -248,7 +261,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         
     }
     update(){
-        console.log("Game_Over_Screen, update called!");
+        
     }
     destroy(){
         console.log("Game_Over_Screen, destroy called!");

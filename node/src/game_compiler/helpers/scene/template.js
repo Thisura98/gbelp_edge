@@ -26,7 +26,7 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
         EDGTOKEN_GAMESCRIPT_LEVEL_SETUP
     }
     update(){
-        EDGTOKEN_UPDATE
+        EDGTOKEN_GAMESCRIPT_EACH_FRAME
     }
     destroy(){
         EDGTOKEN_DESTROY

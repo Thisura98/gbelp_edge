@@ -6,6 +6,7 @@ import * as l from '../../../util/logger';
 import { SceneObjectType } from "../../../../../commons/src/models/game/levels/scene";
 
 import { generateCreateCode } from './helpers/helper_create';
+import { generateUpdateCode } from './helpers/helper_update';
 
 export interface GenerateSceneResult{
     code: string
@@ -37,9 +38,12 @@ export class GenerateScene{
         .then(t => {
             return generateCreateCode(t, level);
         })
+        // .then(t => {
+        //     const code = `console.log("${levelName}, update called!");`
+        //     return Template.replacePlaceholder(t, 'EDGTOKEN_UPDATE', false, code);
+        // })
         .then(t => {
-            const code = `console.log("${levelName}, update called!");`
-            return Template.replacePlaceholder(t, 'EDGTOKEN_UPDATE', false, code);
+            return generateUpdateCode(t, level);
         })
         .then(t => {
             const code = `console.log("${levelName}, destroy called!");`

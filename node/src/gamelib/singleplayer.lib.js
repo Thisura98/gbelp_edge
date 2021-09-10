@@ -40,7 +40,7 @@ class EdgeObject{
         /**
          * @type Phaser.GameObjects.Sprite
          */
-        const object = Edge.getCurrenctScene().children.getByName(this.name);
+        const object = Edge._gcs().children.getByName(this.name);
         object.setX(object.x + dx, object.y + dy);
     }
 }
@@ -62,7 +62,7 @@ class Edge{
      * Private method, not be used by game code.
      * @return {Phaser.Scene}
      */
-    static getCurrenctScene(){
+    static _gcs(){
         return window.EdgeProxy.currentScene;
     }
 }
