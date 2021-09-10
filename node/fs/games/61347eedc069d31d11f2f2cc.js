@@ -86,16 +86,23 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 this.load.image('cloud__png', 'fs/res_upload/image/1630855081729.png');
     }
     create(){
-        // --- scene object kirby_png ---
-const sprite_1 = this.add.sprite(36, 21, 'kirby_png');
+        let scaleX = 0, scaleY = 0;
+// --- scene object kirby_png ---
+const sprite_1 = this.add.sprite(73, 22, 'kirby_png');
 sprite_1.name = "kirby_png";
+scaleX = 38 / sprite_1.displayWidth;
+scaleY = 38 / sprite_1.displayHeight;
+sprite_1.setScale(scaleX, scaleY);
 this.spriteReferences.push(sprite_1);
 
 
 // --- scene object cloud__png ---
-const sprite_6 = this.add.sprite(2, 1, 'cloud__png');
-sprite_6.name = "cloud__png";
-this.spriteReferences.push(sprite_6);
+const sprite_2 = this.add.sprite(20, 19, 'cloud__png');
+sprite_2.name = "cloud__png";
+scaleX = 36 / sprite_2.displayWidth;
+scaleY = 36 / sprite_2.displayHeight;
+sprite_2.setScale(scaleX, scaleY);
+this.spriteReferences.push(sprite_2);
 
 
         
@@ -138,40 +145,59 @@ this.load.image('brick_png', 'fs/res_upload/image/1630855904902.png');
 this.load.image('brick_png_2', 'fs/res_upload/image/1630855904902.png');
     }
     create(){
-        // --- scene object cloud__png ---
-const sprite_1 = this.add.sprite(54, 55, 'cloud__png');
+        let scaleX = 0, scaleY = 0;
+// --- scene object cloud__png ---
+const sprite_1 = this.add.sprite(71.5, 72.5, 'cloud__png');
 sprite_1.name = "cloud__png";
+scaleX = 35 / sprite_1.displayWidth;
+scaleY = 34.99999999999999 / sprite_1.displayHeight;
+sprite_1.setScale(scaleX, scaleY);
 this.spriteReferences.push(sprite_1);
 
 
 // --- scene object kirby_png ---
-const sprite_6 = this.add.sprite(3, 205.53736293488555, 'kirby_png');
-sprite_6.name = "kirby_png";
-this.spriteReferences.push(sprite_6);
+const sprite_2 = this.add.sprite(20.268681467442807, 222.76868146744275, 'kirby_png');
+sprite_2.name = "kirby_png";
+scaleX = 34.537362934885614 / sprite_2.displayWidth;
+scaleY = 34.4626370651144 / sprite_2.displayHeight;
+sprite_2.setScale(scaleX, scaleY);
+this.spriteReferences.push(sprite_2);
 
 
 // --- scene object cloud__png_2 ---
-const sprite_11 = this.add.sprite(113, 118, 'cloud__png_2');
-sprite_11.name = "cloud__png_2";
-this.spriteReferences.push(sprite_11);
+const sprite_3 = this.add.sprite(130.25, 135.25, 'cloud__png_2');
+sprite_3.name = "cloud__png_2";
+scaleX = 34.50000000000001 / sprite_3.displayWidth;
+scaleY = 34.50000000000001 / sprite_3.displayHeight;
+sprite_3.setScale(scaleX, scaleY);
+this.spriteReferences.push(sprite_3);
 
 
 // --- scene object cloud__png_3 ---
-const sprite_16 = this.add.sprite(256, 87.5, 'cloud__png_3');
-sprite_16.name = "cloud__png_3";
-this.spriteReferences.push(sprite_16);
+const sprite_4 = this.add.sprite(273.25, 104.75, 'cloud__png_3');
+sprite_4.name = "cloud__png_3";
+scaleX = 34.5 / sprite_4.displayWidth;
+scaleY = 34.5 / sprite_4.displayHeight;
+sprite_4.setScale(scaleX, scaleY);
+this.spriteReferences.push(sprite_4);
 
 
 // --- scene object brick_png ---
-const sprite_21 = this.add.sprite(3, 252, 'brick_png');
-sprite_21.name = "brick_png";
-this.spriteReferences.push(sprite_21);
+const sprite_5 = this.add.sprite(465.5, 260.5, 'brick_png');
+sprite_5.name = "brick_png";
+scaleX = 925 / sprite_5.displayWidth;
+scaleY = 17.000000000000004 / sprite_5.displayHeight;
+sprite_5.setScale(scaleX, scaleY);
+this.spriteReferences.push(sprite_5);
 
 
 // --- scene object brick_png_2 ---
-const sprite_26 = this.add.sprite(759, 313, 'brick_png_2');
-sprite_26.name = "brick_png_2";
-this.spriteReferences.push(sprite_26);
+const sprite_6 = this.add.sprite(1210.5, 322, 'brick_png_2');
+sprite_6.name = "brick_png_2";
+scaleX = 902.9999999999999 / sprite_6.displayWidth;
+scaleY = 17.999999999999996 / sprite_6.displayHeight;
+sprite_6.setScale(scaleX, scaleY);
+this.spriteReferences.push(sprite_6);
 
 
         
@@ -209,7 +235,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         
     }
     create(){
-        
+        let scaleX = 0, scaleY = 0;
         
         /**
          * EdgeProxy is defined in singleplayer.lib.js
