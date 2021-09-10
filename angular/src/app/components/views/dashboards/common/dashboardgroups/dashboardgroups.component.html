@@ -7,36 +7,48 @@
     <div class="dyn-groups-contianer">
         <div class="dyn-search1">
             <img src="assets/common/bluesearch.png">
-            <input class="search-field groups-search" placeholder="Search..." #dashboardGroupsSearch>
+            <input class="search-field groups-search" 
+                placeholder="Search..."
+                (input)="searchInputChanged($event)">
         </div>
     </div>
 </div>
 
 <div class="dyn-flex-fullwidth db-groups-heading">
     <h2>All Groups</h2>
+    <div class="search-result" *ngIf="isSearching">
+        Showing {{displayedData.length}} of {{data.length}} search results for "{{searchTerm}}"
+    </div>
 </div>
 
 <div class="dyn-section-container">
-    <table class="db-groups-table">
-        <thead>
-            <tr>
-                <th>Group</th>
-                <th>Members</th>
-                <th>Join Link</th>
-                <th>View</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="isLoading" class="loading-row">
-                <td colspan="4">
-                    <div class="loading-row-content">
-                        <mat-progress-spinner class="load-container" mode="indeterminate" [diameter]="30">
-                        </mat-progress-spinner>
-                        Loading...
-                    </div>
-                </td>
-            </tr>
-            
-        </tbody>
-    </table>
+
+    <div class="db-groups-table">
+        <div class="table-heading-row">
+            <div class="heading-row-data">Group</div>
+            <div class="heading-row-data header-member-count">Members</div>
+            <div class="heading-row-icon">Join Link</div>
+            <div class="heading-row-icon">View</div>
+        </div>
+
+        <div *ngIf="isLoading" >
+            <div class="loading-row">
+                <div class="loading-row-content">
+                    <mat-progress-spinner class="load-container" mode="indeterminate" [diameter]="30">
+                    </mat-progress-spinner>
+                    Loading...
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngFor="let entry of displayedData">
+            <div class="entry-row dyn-anim-fadein">
+                <div class="entry-row-data">{{entry.name}}</div>
+                <div class="entry-row-data data-member-count">{{entry.member_count}} Users</div>
+                <div class="entry-row-icon"><img src="assets/dashboard/ico_clone.png"></div>
+                <div class="entry-row-icon"><img src="assets/dashboard/ico_play.png"></div>
+            </div>
+            <div class="entry-row-separator dyn-anim-fadein"></div>
+        </ng-container>
+    </div>
 </div>
