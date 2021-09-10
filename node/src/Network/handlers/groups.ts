@@ -22,4 +22,15 @@ export function handlerGroups(app: Express){
         });
     });
 
+    app.get(aurl('get-groups'), (req, res) => {
+        const userId = req.header('uid')!;
+        groupsDAO.getGroupsOfUser(
+            userId
+        ).then(group => {
+            res.send(new ResponseModel(true, 200, 'Successfully received groups', group));
+        }).catch(error => {
+            res.send(new ResponseModel(false, 200, error));
+        });
+    });
+
 }

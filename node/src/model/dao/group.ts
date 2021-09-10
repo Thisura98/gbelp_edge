@@ -113,6 +113,36 @@ export function getGroup(
     });
 }
 
+export function getGroupsOfUser(
+    userId: string
+): Promise<any>{
+    const tblUserGroup = sql.tables.userGroup;
+    const tblMembership = sql.tables.userGroupMembership;
+    const colUG = sql.columns.userGroup.groupId;
+    const colGM = sql.columns.userGroupMembership.groupId;
+    const colGMuserId = sql.columns.userGroupMembership.userId;
+
+    const query = `
+    SELECT G.*, C.cnt as member_count
+    FROM ${tblUserGroup} G
+    INNER JOIN ${tblMembership} M
+    ON G.${colUG} = M.${colGM}
+    INNER JOIN (SELECT COUNT(user_id) AS cnt, group_id FROM user_group_membership GROUP BY group_id) C
+    ON G.${colUG} = C.group_id
+    WHERE M.${colGMuserId} = ${userId}`;
+
+    return new Promise<any>((resolve, reject) => {
+        sql.getPool()!.query(query, (error, result) => {
+            if (error){
+                reject("getGroupsOfUser" + error.message);
+            }
+            else{
+                resolve(result);
+            }
+        });
+    });
+}
+
 export function getGroupIdMatchingCriteria(
     userId: string,
     exactGroupCountWithUser: number,
