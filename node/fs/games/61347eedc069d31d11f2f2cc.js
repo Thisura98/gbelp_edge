@@ -43,6 +43,8 @@ class EdgeObject{
         const object = Edge._gcs().children.getByName(this.name);
         object.setX(object.x + dx, object.y + dy);
     }
+
+    
 }
 
 /**
@@ -90,16 +92,16 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object kirby_png ---
-		const sprite_1 = this.add.sprite(73, 22, 'kirby_png');
+		const sprite_1 = this.add.sprite(73, 19, 'kirby_png');
 		sprite_1.name = "kirby_png";
-		scaleX = 38 / sprite_1.displayWidth;
-		scaleY = 38 / sprite_1.displayHeight;
+		scaleX = 24 / sprite_1.displayWidth;
+		scaleY = 24 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences.push(sprite_1);
 
 
 		// --- scene object cloud__png ---
-		const sprite_2 = this.add.sprite(20, 19, 'cloud__png');
+		const sprite_2 = this.add.sprite(24, 24, 'cloud__png');
 		sprite_2.name = "cloud__png";
 		scaleX = 36 / sprite_2.displayWidth;
 		scaleY = 36 / sprite_2.displayHeight;

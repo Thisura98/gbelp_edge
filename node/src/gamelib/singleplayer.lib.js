@@ -43,6 +43,8 @@ class EdgeObject{
         const object = Edge._gcs().children.getByName(this.name);
         object.setX(object.x + dx, object.y + dy);
     }
+
+    
 }
 
 /**
