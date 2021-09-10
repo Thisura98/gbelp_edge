@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as phaser from 'phaser';
@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/services/api.service';
   templateUrl: './splay.component.html',
   styleUrls: ['../player.common.css']
 })
-export class SplayComponent implements OnInit, AfterViewInit {
+export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   
   sessionId: string | undefined;
 
@@ -47,6 +47,10 @@ export class SplayComponent implements OnInit, AfterViewInit {
 
       // const game = new Phaser.Game(phaserConfig);
     }); 
+  }
+
+  ngOnDestroy(){
+    this.manualDestroyGameSession();
   }
 
   goBack(){
