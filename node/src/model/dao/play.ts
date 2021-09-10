@@ -5,11 +5,14 @@ import { GameSessionType, GameSessionState, GameSession } from '../../../../comm
 import { useIfTrueOrResolve } from './commons';
 import * as sessionDAO from './session';
 import * as groupsDAO from './group';
+import * as gamesDAO from './games';
 import * as l from '../../util/logger';
+import { getCompiledGameURL } from '../../game_compiler/index';
 
 export interface TestSessionResult{
     sessionId: string | number,
-    groupId: string | number
+    groupId: string | number,
+    gameJS: string | string
 }
 
 /**
@@ -67,10 +70,29 @@ export function createTestSession(
         }
         else{
             return existingGroupId!.toString();
-        }
+        } // getCompiledGameURL
     }).then(groupId => {
         finalGroupId = groupId;
-        return Promise.resolve({groupId: finalGroupId, sessionId: finalSessionId} as TestSessionResult);
+        return new Promise<any>((resolve, reject) => {
+            gamesDAO.getGame(gameId, (status, msg, result) => {
+                if (status)
+                    resolve(result);
+                else
+                    reject('Could not get game entry and project matching game ID: ' + gameId);
+            });
+        });
+    }).then(gameEntryAndProject => {
+        return getCompiledGameURL(
+            gameEntryAndProject.entry,
+            gameEntryAndProject.project,
+        );
+    }).then(gameJS => {
+        const result: TestSessionResult = {
+            groupId: finalGroupId,
+            sessionId: finalSessionId,
+            gameJS: gameJS
+        };
+        return Promise.resolve(result);
     }).catch(error => {
         l.logc(error, 'createTestSession');
         return Promise.reject(error);

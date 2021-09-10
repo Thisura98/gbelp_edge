@@ -6,5 +6,6 @@
     "allow_cors_on": "http://localhost:4200",
     "fs_res_path": "fs/res_upload",
     "fs_res_path_sound": "fs/res_upload/sound",
-    "fs_res_path_image": "fs/res_upload/image"
+    "fs_res_path_image": "fs/res_upload/image",
+    "fs_compiled_games": "fs/games"
 }
