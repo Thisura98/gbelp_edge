@@ -143,3 +143,26 @@ export function getSessionIdMatchingCriteria(
         });
     });
 }
+
+export function checkUserBelongsToSession(
+    userId: string,
+    sessionId: string
+): Promise<boolean>{
+    const tbl = sql.tables.gameSessionMembers;
+    const cSessionId = sql.columns.gameSessionMembers.sessionId;
+    const cUserId = sql.columns.gameSessionMembers.userId;
+    const query = `
+    SELECT COUNT(*) AS cnt 
+    FROM \`${tbl}\` 
+    WHERE ${cSessionId} = '${sessionId}' AND ${cUserId} = '${userId}';
+    `;
+
+    return new Promise<boolean>((resolve, reject) => {
+        sql.getPool()!.query(query, (error, result) => {
+            if (error)
+                reject(error.message);
+            else
+                resolve(result[0].cnt > 0);
+        });
+    });
+}

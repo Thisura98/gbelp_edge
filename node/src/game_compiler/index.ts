@@ -1,10 +1,59 @@
 import { GameEntry } from '../../../commons/src/models/game/game';
 import { GameProject } from '../../../commons/src/models/game/project';
 import * as fs from 'fs';
+import * as gamesDAO from './../model/dao/games';
+import * as l from '../util/logger';
 
 import * as pc from '../util/parseconfig';
 const config = pc.parseConfig('config.json')
 
+/**
+ * Extract the contents of the singeplayer game library
+ * @returns {string}
+ */
+function getSingleplayerGameLibContent(): Promise<string>{
+    const filePath = `src/gamelib/singleplayer.lib.js`;
+    return new Promise<string>((resolve, reject) => {
+        fs.readFile(filePath, '', (error, data) => {
+            if (error){
+                reject(error)
+            }
+            else{
+                resolve(data);
+            }
+        })
+    });
+}
+
+/**
+ * Generate a URL for the Game JS file on demand using the Game ID
+ */
+export function getCompileGameURLForGameId(
+    gameId: string
+): Promise<string>{
+    const result = new Promise<any>((resolve, reject) => {
+        gamesDAO.getGame(gameId, (status, msg, result) => {
+            if (status)
+                resolve(result);
+            else
+                reject(msg);
+        });
+    }).then(result => {
+        return getCompiledGameURL(
+            result.entry,
+            result.project
+        );
+    }).catch((err) => {
+        l.logc(err, 'getCompileGameURLForGameId');
+        return 'not found';
+    });
+
+    return result;
+}
+
+/**
+ * Generate URL for the Game JS file on demand using the game entry and project
+ */
 export function getCompiledGameURL(
     gameEntry: GameEntry,
     gameProject: GameProject
@@ -35,19 +84,5 @@ export function getCompiledGameURL(
         }).catch(err => {
             reject(err);
         });
-    });
-}
-
-function getSingleplayerGameLibContent(): Promise<string>{
-    const filePath = `src/gamelib/singleplayer.lib.js`;
-    return new Promise<string>((resolve, reject) => {
-        fs.readFile(filePath, '', (error, data) => {
-            if (error){
-                reject(error)
-            }
-            else{
-                resolve(data);
-            }
-        })
     });
 }

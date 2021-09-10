@@ -255,6 +255,21 @@ export class ApiService{
 
     // MARK END: Game Editing
 
+    // MARK: Play 
+
+    getCompiledGameJS(sessionId: string): Observable<string>{
+        const url = this.aurl('play/get-game');
+        return this.http.get(url, {
+            params: {
+                sessionId: sessionId
+            },
+            responseType: 'text',
+            headers: this.getHeaders()
+        })
+    }
+
+    // MARK END: Play
+
     // MARK: Session API calls
 
     // @DEMO

@@ -9,6 +9,7 @@ import { handlerGameEntry } from './handlers/game_entry';
 import { handlerGameEditing } from './handlers/game_editing';
 import { handlerSession } from './handlers/session';
 import { handlerGroups } from './handlers/groups';
+import { handlerPlay } from './handlers/play';
 
 const apiPrefix = 'api'
 
@@ -30,6 +31,7 @@ export function handle(app: express.Express){
     handlerGameEditing(app);
     handlerSession(app);
     handlerGroups(app);
+    handlerPlay(app);
 
     // Fallbacks
 

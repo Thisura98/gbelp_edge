@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnInit } from '@angular/c
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as phaser from 'phaser';
+import { ApiService } from 'src/app/services/api.service';
 
 /**
  * Singleplayer Game Player
@@ -20,7 +21,8 @@ export class SplayComponent implements OnInit, AfterViewInit {
     private zone: NgZone,
     private location: Location,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private apiService: ApiService,
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +63,17 @@ export class SplayComponent implements OnInit, AfterViewInit {
     this.activatedRoute.params.subscribe(data => {
       this.sessionId = data.sessionid as string;
       console.log("Loaded Single Play Session Component with session id:", this.sessionId);
+
+      this.loadGame()
+    });
+  }
+
+  private loadGame(){
+    this.apiService.getCompiledGameJS(this.sessionId!).subscribe(gameJS => {
+      console.log("Received game JS!");
+      console.log(gameJS);
+
+      eval(gameJS);
     });
   }
 
