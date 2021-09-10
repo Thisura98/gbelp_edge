@@ -67,6 +67,7 @@ import { DocsArticlesComponent } from './components/views/docs/articles/articles
 import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
 import { SplayComponent } from './components/views/players/splay/splay.component';
 import { PlayerControlButtonComponent } from './components/views/players/controlbtn/controlbtn.component';
+import { GroupCreateComponent } from './components/views/groups/create/create.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { PlayerControlButtonComponent } from './components/views/players/control
     DocsArticlesComponent,
     ScriptReferenceArticleComponent,
     SplayComponent,
-    PlayerControlButtonComponent
+    PlayerControlButtonComponent,
+    GroupCreateComponent
   ],
   imports: [
     CommonModule,

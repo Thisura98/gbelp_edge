@@ -25,6 +25,7 @@ import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
 import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
 import { SplayComponent } from './components/views/players/splay/splay.component';
+import { GroupCreateComponent } from './components/views/groups/create/create.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
       {path: "groups", component: DashboardgroupsComponent},
     ]
   },
+  {path: "groups/create", component: GroupCreateComponent},
   {path: "dashboard/parent", component: ParentDashboardComponent},
   {path: "game/create", component: GameCreateComponent, data: {editMode: false}},
   {path: "game/edit", component: GameCreateComponent, data: {editMode: true}},
