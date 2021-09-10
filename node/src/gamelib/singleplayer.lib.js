@@ -63,6 +63,6 @@ class Edge{
      * @return {Phaser.Scene}
      */
     static getCurrenctScene(){
-        return window.EdgeProxy.getCurrentScene();
+        return window.EdgeProxy.currentScene;
     }
 }

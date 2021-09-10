@@ -21,10 +21,7 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
         /**
          * EdgeProxy is defined in singleplayer.lib.js
          */
-        window.EdgeProxy.getCurrentScene = function(){
-            console.log("LevelScene.getCurrentScene() invoked");
-            return this;
-        }
+        window.EdgeProxy.currentScene = this;
     }
     update(){
         EDGTOKEN_UPDATE

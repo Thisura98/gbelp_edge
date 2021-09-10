@@ -68,7 +68,7 @@ export class GenerateScene{
     ): Promise<string>{
 
         let resourceMap: Map<string, GameProjectResource> = new Map([]);
-        let resourceLoadCommands: string[] = [];
+        let resourceLoadCommands: string[] = ['\n'];
         const serverBaseURL = pc.parseConfig('config.json').server_base_url;
         const sceneObjects = level.scene.objects.filter(o => {
             return o.type == SceneObjectType.sprite || o.type == SceneObjectType.sound;
@@ -101,7 +101,7 @@ export class GenerateScene{
                 // not implemented yet
                 cmd = '// loading sounds are not yet supported in scene generator';
             }
-            resourceLoadCommands.push(cmd);
+            resourceLoadCommands.push(`\t\t${cmd}`);
         }
 
         return Template.replacePlaceholder(

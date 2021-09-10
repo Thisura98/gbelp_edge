@@ -13,7 +13,7 @@ const config = {
     height: 300*1.5,
     // scene: scenes,
     title: 'Shock and Awesome',
-    backgroundColor: "#00ff00",
+    backgroundColor: "#000022",
     fps: {
         target: 25,
         forceSetTimeOut: true
