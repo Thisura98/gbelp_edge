@@ -19,7 +19,7 @@
 }
 
 .dashboard-userstatus.dark-mode .dashboard-us-uimg{
-    border-color: black;
+    border-color: transparent;
 }
 
 .dashboard-us-role{
@@ -27,6 +27,10 @@
     font-size: 13px;
     font-weight: 300;
     line-height: 13px;
+}
+
+.dashboard-userstatus.dark-mode .dashboard-us-role{
+    color: white;
 }
 
 .dashboard-us-name, .dashboard-us-role{
