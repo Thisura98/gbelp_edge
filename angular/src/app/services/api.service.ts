@@ -165,7 +165,7 @@ export class ApiService{
     // MARK: Groups
 
     getGroupsForUser(): Observable<ServerResponse<any[]>>{
-        const url = this.aurl('get-groups');
+        const url = this.aurl('get-groups-for-user');
         return this.http.get<ServerResponse<any[]>>(url, {
             headers: this.getHeaders()
         })

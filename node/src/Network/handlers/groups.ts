@@ -23,7 +23,7 @@ export function handlerGroups(app: Express){
         });
     });
 
-    app.get(aurl('get-groups'), (req, res) => {
+    app.get(aurl('get-groups-for-user'), (req, res) => {
         const userId = req.header('uid')!;
         groupsDAO.getGroupsOfUser(
             userId
