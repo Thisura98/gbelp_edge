@@ -33,4 +33,21 @@ export function handlerGroups(app: Express){
         });
     });
 
+    app.get(aurl('get-group'), (req, res) => {
+        const userId = req.header('uid') ?? "";
+        const groupId = req.query.groupId as string;
+        groupsDAO.checkUserMembership(
+            groupId, userId
+        ).then(isMember => {
+            if (!isMember){
+                return Promise.reject('User is not member of requested group ' + groupId);
+            }
+            return groupsDAO.getGroup(groupId);
+        }).then(group => {
+            res.send(new ResponseModel(true, 200, `Successfully retrieved group id ${groupId}`, group));
+        }).catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
+
 }

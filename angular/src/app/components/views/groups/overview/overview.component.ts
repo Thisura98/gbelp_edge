@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { getGroupSidebarItems } from "src/app/constants/constants";
+import { ApiService } from "src/app/services/api.service";
 import { UserService } from "src/app/services/user.service";
 
 @Component({
@@ -24,6 +25,7 @@ export class GroupOverviewComponent implements OnInit{
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
+    private apiService: ApiService
   ){
 
   }
@@ -46,5 +48,9 @@ export class GroupOverviewComponent implements OnInit{
     // todo
     // check if user belongs to group.
     console.log("Group ID for Group Overview!", this.groupId);
+
+    this.apiService.getGroup(this.groupId!).subscribe(response => {
+      console.log("Group:", JSON.stringify(response));
+    });
   }
 }

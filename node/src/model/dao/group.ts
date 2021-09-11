@@ -109,7 +109,42 @@ export function getGroup(
                 reject(error);
             }
             else{
-                resolve(result);
+                resolve(result[0]);
+            }
+        });
+    });
+}
+
+/**
+ * Checks if a user is a member of the provided group.
+ * Promise's result will be true if the membership exists. False otherwise.
+ */
+export function checkUserMembership(
+    groupId: string,
+    userId: string,
+): Promise<boolean>{
+    const tbl = sql.tables.userGroupMembership;
+    const cUserId = sql.columns.userGroupMembership.userId;
+    const cGroupId = sql.columns.userGroupMembership.groupId;
+    const se = sql.smartEscape;
+
+    const query = `SELECT COUNT(*) AS cnt
+    FROM \`${tbl}\`
+    WHERE ${cUserId} = ${se(userId)} AND ${cGroupId} = ${se(groupId)}`;
+
+    return new Promise<boolean>((resolve, reject) => {
+        sql.getPool()!.query(query, (error, result) => {
+            if (error){
+                reject(error.message);
+            }
+            else{
+                if (result.length > 0){
+                    const count = Number.parseInt(result[0]['cnt']);
+                    resolve(count > 0);
+                }
+                else{
+                    resolve(false);
+                }
             }
         });
     });

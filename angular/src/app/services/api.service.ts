@@ -194,6 +194,15 @@ export class ApiService{
         )
     }
 
+    getGroup(groupId: string): Observable<ServerResponse<UserGroup>>{
+        const url = this.aurl('get-group');
+        const query = {groupId: groupId};
+        return this.http.get<ServerResponse<UserGroup>>(url, {
+            params: query,
+            headers: this.getHeaders()
+        })
+    }
+
     // MARK END: Groups
 
     // MARK: Game Editing
