@@ -35,7 +35,7 @@ export function handle(app: express.Express){
     app.post(aurl('test'), (req, res) => {
         res.json(new ResponseModel(true, 200, "", null))
     });
-    
+
     app.post(aurl('crypto/encrypt'), (req, res) => {
         const result = encrypt(req.body.plaintext);
         res.send({
@@ -70,9 +70,14 @@ export function handle(app: express.Express){
 export function apiAuthorizationMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const routeURL = req.originalUrl;
     const safeURLs = [
-        'create-user', 'user-types', 'login', 'get-objectid', 'crypto/encrypt', 'crypto/decrypt'
-    ].map((v, i, m) => aurl(v));
-    if (safeURLs.find((url, _, __) => url == routeURL)){
+        'create-user', 'user-types', 'login', 'get-objectid', 'crypto/encrypt', 'crypto/decrypt',
+        'get-group/anonymous'
+    ].map((v, i, m) => {
+        const prefixed = aurl(v);
+        const regexp = new RegExp(`^${prefixed}`, '');
+        return regexp;
+    });
+    if (safeURLs.find((regex, _, __) => routeURL.search(regex) > -1)){
         next();
     }
     else{
