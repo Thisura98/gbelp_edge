@@ -17,6 +17,7 @@ export class GroupJoinComponent implements OnInit{
 
   private encryptedGroupId: string | undefined;
   group: UserGroup | undefined;
+  isLoggedIn: boolean = false;
 
   get sidebarItems(): DynamicSidebarItem[]{
     // return getGroupSidebarItems('Overview');
@@ -33,6 +34,7 @@ export class GroupJoinComponent implements OnInit{
   }
 
   ngOnInit(){
+    this.isLoggedIn = this.userService.getIsLoggedIn();
     this.activateRoute.params.subscribe(data => {
       this.encryptedGroupId = data.groupId;
       this.loadData()

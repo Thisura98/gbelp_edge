@@ -1,3 +1,7 @@
+.nav{
+    height: 50px;
+}
+
 .heading{
     margin-top: 20px;
 }
@@ -8,4 +12,24 @@
 
 .group-desc-row{
     align-items: stretch;
+}
+
+.row-btns{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-accept, .btn-cancel{
+    box-sizing: border-box;
+    width: 100px;
+    justify-content: center;
+    height: 44px;
+}
+.row-btns .btn-cancel{
+    border: 2px solid #0588D8;
+    background-color: white;
+    color: #0588D8;
+    font-weight: 500;    
+    width: 100px;
+    justify-content: center;
 }

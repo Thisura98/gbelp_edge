@@ -5,9 +5,10 @@
     <div class="container2">
         <div class="nav">
             <h4 class="small-heading">
-                Create Group
+                Join Groups
             </h4>
-            <app-userstatus></app-userstatus>
+            <app-userstatus *ngIf="isLoggedIn">
+            </app-userstatus>
         </div>
         <div class="details-form dyn-form">
             <!-- Section Basic Details -->
@@ -18,12 +19,16 @@
                     <!-- <input class="dyn-textbox" placeholder="Type name here..." [(ngModel)]="groupName"/> -->
                     You were invited to a Group by someone.
                 </div>
-                <br>
                 <div class="dyn-form-row">
                     <!-- <div class="dyn-form-label">Group Name</div> -->
                     <!-- <input class="dyn-textbox" placeholder="Type name here..." [(ngModel)]="groupName"/> -->
                     Joining will allow you to participate in  Game sessions scheduled in this group.
 You can always leave and re-join anytime you like.
+                </div>
+                <br>
+                <div class="dyn-form-row row-btns">
+                    <div class="dyn-btn clickable btn-accept">Accept</div>
+                    <div class="dyn-btn clickable btn-cancel">Cancel</div>
                 </div>
             </div>
         </div>
