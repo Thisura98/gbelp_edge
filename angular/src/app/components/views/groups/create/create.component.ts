@@ -86,7 +86,8 @@ export class GroupCreateComponent implements OnInit {
       this.router.navigate([route], {
         queryParams: {
           groupId: response.data.group_id!
-        }
+        },
+        replaceUrl: true
       });
       
     });

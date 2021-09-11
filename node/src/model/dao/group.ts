@@ -2,6 +2,7 @@ import { UserGroup, UserGroupComposition } from '../../../../commons/src/models/
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as userDAO from './users';
 import * as crypto from '../../util/crypto';
+import * as l from '../../util/logger';
 
 /**
  * Creates a new group with the details. Optionally 
@@ -57,7 +58,27 @@ import * as crypto from '../../util/crypto';
                 }
             }
         })
-    });
+    })
+    .then(groupId => {
+        // Set the invite key
+        // [Continue even if it fails]
+        return new Promise<string>((resolve, reject) => {
+            const key = crypto.encrypt(groupId.toString());
+            const query = `UPDATE ${sql.tables.userGroup}
+            SET ${c.inviteLink} = '${key}'
+            WHERE ${c.groupId} = '${groupId}'
+            `;
+
+            // console.log('set-invite-key query', query);
+
+            sql.getPool()!.query(query, (error, result) => {
+                if (error)
+                    l.logc('Could not set Invite Key ' + error, 'set-invite-key');
+
+                resolve(groupId);
+            })
+        })
+    })
 
 }
 
@@ -322,13 +343,21 @@ function preProcessGroupInviteLinks<T extends InviteLikeProcessable>(
     input: T[]
 ): Promise<T[]>{
 
+    const pathPrefix = '/groups/join/';
+
     try{
         for (let i of input){
+            // Don't re-calculate path if its already set.
+            if (i.invite_link != null && i.invite_link != undefined){
+                i.invite_link = `${pathPrefix}${i.invite_link}`
+                continue;
+            }
+
             // Ensure no numbers are provided
             const str = i.group_id.toString();
-            
+
             const encryptedGroupId = crypto.encrypt(str);
-            const path = `/groups/join/${encryptedGroupId}`;
+            const path = `${pathPrefix}${encryptedGroupId}`;
             i.invite_link = path;
         }
         return Promise.resolve(input);
