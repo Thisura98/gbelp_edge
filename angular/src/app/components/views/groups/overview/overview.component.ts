@@ -6,6 +6,7 @@ import { getGroupSidebarItems } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
+import { UserGroup, UserGroupComposition } from "../../../../../../../commons/src/models/groups";
 
 @Component({
   templateUrl: './overview.component.html',
@@ -20,7 +21,10 @@ export class GroupOverviewComponent implements OnInit{
     return getGroupSidebarItems('Overview');
   }
 
+  userName: string | undefined;
   groupId: string | undefined;
+  group: UserGroup | undefined;
+  composition: UserGroupComposition[] = [];
 
   constructor(
     private location: Location,
@@ -48,25 +52,34 @@ export class GroupOverviewComponent implements OnInit{
   /* Private Methods */
   
   private loadData(){
-    // todo
-    // check if user belongs to group.
-    console.log("Group ID for Group Overview!", this.groupId);
+    this.userName = this.userService.getUserAndToken().user.userName ?? undefined;
 
+    // Get the group object,
+    // then the group's composition stats
     this.apiService.getGroup(this.groupId!).subscribe(response => {
       if (!response.success){
         const msg = response.description;
         this.dialogService.showDismissable("Data Load Error", msg);
 
         // Membership error in API.
-        if (response.code == 201){
+        if (response.code == 201)
           this.router.navigate(['/dashboard']);
-        }
         return;
       }
       
-      // todo
-      // get metadata api.  
-      // this.setData(response)
+      this.apiService.getGroupComposition(this.groupId!).subscribe(composition => {
+
+        // Membership error in API.
+        if (response.code == 201)
+          this.router.navigate(['/dashboard']);
+
+        this.setData(response.data, composition.data);
+      });
     });
+  }
+
+  private setData(group: UserGroup, composition: UserGroupComposition[]){
+    this.group = group;
+    this.composition = composition;
   }
 }

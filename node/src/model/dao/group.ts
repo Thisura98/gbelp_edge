@@ -1,4 +1,4 @@
-import { UserGroup } from '../../../../commons/src/models/groups';
+import { UserGroup, UserGroupComposition } from '../../../../commons/src/models/groups';
 import * as sql from '../../util/connections/sql/sql_connection';
 
 /**
@@ -177,6 +177,32 @@ export function getGroupsOfUser(
                 resolve(result);
             }
         });
+    });
+}
+
+export function getGroupComposition(
+    groupId: string
+): Promise<UserGroupComposition[]>{
+    // We dont have time to use vars for table columns
+    // using dirty approach by hardcoding queries
+    // 11 Sept 2021 18:08
+    const se = sql.smartEscape;
+    const query = `SELECT U.user_type_id as type_id, T.name as type_name, COUNT(U.user_type_id) as count
+    FROM \`user_group_membership\` M
+    INNER JOIN \`users\` U ON U.user_id = M.user_id
+    INNER JOIN \`user_type\` T ON U.user_type_id = T.user_type_id
+    WHERE M.group_id = ${se(groupId)} 
+    GROUP BY U.user_type_id`;
+
+    return new Promise<UserGroupComposition[]>((resolve, reject) => {
+        sql.getPool()!.query(query, (error, result) => {
+            if (error){
+                reject(error.message)
+            }
+            else{
+                resolve(result);
+            }
+        })
     });
 }
 

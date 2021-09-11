@@ -8,7 +8,7 @@ import { ServerResponse, ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
 import { tap, map } from 'rxjs/operators';
 import { GameLevel } from '../../../../commons/src/models/game/levels';
-import { UserGroup } from '../../../../commons/src/models/groups';
+import { UserGroup, UserGroupComposition, UserGroupMembership } from '../../../../commons/src/models/groups';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -201,6 +201,15 @@ export class ApiService{
             params: query,
             headers: this.getHeaders()
         })
+    }
+
+    getGroupComposition(groupId: string): Observable<ServerResponse<UserGroupComposition[]>>{
+        const url = this.aurl('get-group-composition');
+        const query = {groupId: groupId};
+        return this.http.get<ServerResponse<UserGroupComposition[]>>(url, {
+            params: query,
+            headers: this.getHeaders()
+        });
     }
 
     // MARK END: Groups

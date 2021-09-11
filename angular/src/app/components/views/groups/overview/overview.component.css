@@ -32,7 +32,20 @@ div.nav > *{
     left: 0;
 }
 
+/********** OVERVIEW SECTION **********/
+
 .section-overview{
     background-color: white;
     height: 250px;
+    padding: 20px;
+}
+
+.section-overview > .title{
+    font-size: 25px;
+    line-height: 25px;;
+    font-weight: 100;
+}
+
+.section-overview > .title > span{
+    font-weight: 400;
 }

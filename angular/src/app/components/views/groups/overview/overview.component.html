@@ -11,7 +11,11 @@
             <img class="section-bg-img" src="assets/groups/bg.jpg"/>
         </div>
         <div class="section-overview">
-            hello world!
+            <ng-container *ngIf="group != undefined && composition != undefined">
+                <div class="title dyn-anim-fadein-delayed">
+                    Welcome <span>{{userName}}</span> to, <span>{{group?.name}}</span>
+                </div>
+            </ng-container>
         </div>
     </div>
 

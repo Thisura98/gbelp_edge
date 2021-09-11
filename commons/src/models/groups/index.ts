@@ -1,4 +1,20 @@
 /**
+ * A row in the usergroup composition query.
+ * e.g.
+ * ```
+ * | type_name | count |
+ * | --------- | ----- |
+ * | teacher   | 2     |
+ * | student   | 3     |
+ * ```
+ */
+export interface UserGroupComposition{
+    type_id: string
+    type_name: string
+    count: number
+}
+
+/**
  * The "group of users" entity
  */
 export class UserGroup{
