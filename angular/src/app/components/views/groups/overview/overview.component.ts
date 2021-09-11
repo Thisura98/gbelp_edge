@@ -21,6 +21,13 @@ export class GroupOverviewComponent implements OnInit{
     return getGroupSidebarItems('Overview');
   }
 
+  get totalUserCount(): number{
+    const c = this.composition.map(v => v.count).reduce((v1, v2) => {
+      return v1 + v2
+    });
+    return c;
+  }
+
   userName: string | undefined;
   groupId: string | undefined;
   group: UserGroup | undefined;
