@@ -374,6 +374,7 @@ function preProcessGroupInviteLinks<T extends InviteLikeProcessable>(
         return Promise.resolve(input);
     }
     catch(exception){
-        return Promise.reject('invitelinks - ' + exception);
+        l.logc('invitelinks - ' + exception, 'preProcessGroupInviteLinks')
+        return Promise.reject('Error while processing Invite Link');
     }
 }

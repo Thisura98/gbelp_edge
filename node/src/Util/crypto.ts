@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import * as l from './logger';
 
 // ref - https://codeforgeek.com/encrypt-and-decrypt-data-in-node-js/
 
@@ -23,10 +24,16 @@ function createDecipher(){
  * @param plaintext utf8 string to encrypt
  */
 export function encrypt(plaintext: string): string{
-    let cipher = createEncipher();
-    let encrypted = cipher.update(plaintext);
-    encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return encrypted.toString('hex');
+    try{
+        let cipher = createEncipher();
+        let encrypted = cipher.update(plaintext);
+        encrypted = Buffer.concat([encrypted, cipher.final()]);
+        return encrypted.toString('hex');
+    }
+    catch(error){
+        l.logc(JSON.stringify(error), 'crypto.ts-encrypt');
+        return '';
+    }
 }
 
 /**
@@ -34,9 +41,15 @@ export function encrypt(plaintext: string): string{
  * @param ciphertext utf8 string to decrypt
  */
 export function decrypt(ciphertext: string): string{
-    let cipher = createDecipher();
-    let encrypted = Buffer.from(ciphertext, 'hex');
-    let decrypted = cipher.update(encrypted);
-    decrypted = Buffer.concat([decrypted, cipher.final()]);
-    return decrypted.toString();
+    try{
+        let cipher = createDecipher();
+        let encrypted = Buffer.from(ciphertext, 'hex');
+        let decrypted = cipher.update(encrypted);
+        decrypted = Buffer.concat([decrypted, cipher.final()]);
+        return decrypted.toString();
+    }
+    catch(error){
+        l.logc(JSON.stringify(error), 'crypto.ts-decrypt');
+        return '';
+    }
 }
