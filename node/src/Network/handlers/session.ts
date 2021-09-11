@@ -12,7 +12,7 @@ export function handlerSession(app: Express){
         const gameId = req.body.gameEntryId;
         const startTime = req.body.startTime;
         const endTime = req.body.endTime;
-        const users: [string] = req.body.insertUsers ?? [];
+        const users: string[] = req.body.insertUsers ?? [];
         sessionDAO.createSession(typeId, state, gameId, startTime, endTime, users).then((sessionId) => {
             return sessionDAO.getSession(sessionId);
         }).then((session) => {

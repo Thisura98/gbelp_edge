@@ -60,8 +60,8 @@ export function createTestSession(
         // Create group if needed
         if (existingGroupId == undefined){
             return groupsDAO.createGroup(
-                'Test Session', 
-                `Never ending session for testing game ID \\'${gameId}\\'`, 
+                'Test Group', 
+                `Group for for testing game ID \\'${gameId}\\'`, 
                 '', 
                 undefined, 
                 "1", 

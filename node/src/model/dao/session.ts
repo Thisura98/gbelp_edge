@@ -10,7 +10,7 @@ export function createSession(
     gameEntryId: number,
     startTime: string,
     endTime: string | undefined,
-    insertUserIds: [string] | undefined,
+    insertUserIds: string[] | undefined,
 ): Promise<string>{
     const c = sql.columns.gameSessions;
     const se = sql.smartEscape;
@@ -57,7 +57,7 @@ export function createSession(
  */
  export function insertUsersToSession(
     sessionId: string,
-    userIds: [string]
+    userIds: string[]
 ): Promise<boolean>{
     const e = sql.escape;
     const valueTuples = userIds.map((uid) => {

@@ -7,6 +7,8 @@ import * as sql from '../../util/connections/sql/sql_connection';
  * with the group id.
  * 
  * @param name Name of the Group
+ * @param bannedUsersCSV Comma separated string of User IDs
+ * @param insertUserIds Array of user IDs to take membership of the created group
  */
  export function createGroup(
     name: string,
@@ -14,7 +16,7 @@ import * as sql from '../../util/connections/sql/sql_connection';
     bannedUsersCSV: string,
     inviteLink: string | undefined,
     userLimit: string | undefined,
-    insertUserIds: [string] | undefined,
+    insertUserIds: string[] | undefined,
 ): Promise<string>{
     // todo
     // good night for now.
@@ -64,7 +66,7 @@ import * as sql from '../../util/connections/sql/sql_connection';
  */
 export function insertUsersToGroup(
     groupId: string,
-    userIds: [string]
+    userIds: string[]
 ): Promise<boolean>{
     const e = sql.escape;
     const valueTuples = userIds.map((uid) => {
