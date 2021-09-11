@@ -1,9 +1,10 @@
 import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { getGroupSidebarItems } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
+import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 
 @Component({
@@ -24,8 +25,10 @@ export class GroupOverviewComponent implements OnInit{
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private userService: UserService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private dialogService: DialogService
   ){
 
   }
@@ -50,7 +53,20 @@ export class GroupOverviewComponent implements OnInit{
     console.log("Group ID for Group Overview!", this.groupId);
 
     this.apiService.getGroup(this.groupId!).subscribe(response => {
-      console.log("Group:", JSON.stringify(response));
+      if (!response.success){
+        const msg = response.description;
+        this.dialogService.showDismissable("Data Load Error", msg);
+
+        // Membership error in API.
+        if (response.code == 201){
+          this.router.navigate(['/dashboard']);
+        }
+        return;
+      }
+      
+      // todo
+      // get metadata api.  
+      // this.setData(response)
     });
   }
 }
