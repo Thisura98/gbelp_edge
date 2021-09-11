@@ -3,13 +3,16 @@
     </app-dynamicsidebar>
 
     <div class="container2">
-        <div class="nav">
-            <h4 class="small-heading">
-                Create Group
-            </h4>
-            <app-userstatus></app-userstatus>
+        <div class="section-header">
+            <div class="nav">
+                <app-groups-menuselector title="Testing title" [darkMode]="true"></app-groups-menuselector>
+                <app-userstatus [darkMode]="true"></app-userstatus>
+            </div>
+            <img class="section-bg-img" src="assets/groups/bg.jpg"/>
         </div>
-        
+        <div class="section-overview">
+            hello world!
+        </div>
     </div>
 
 </div>

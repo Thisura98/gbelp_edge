@@ -1,0 +1,38 @@
+div.container div.container2{
+    padding: 0px;
+    height: 100vh;
+}
+
+div.nav{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+div.nav > *{
+    z-index: 2;;
+}
+
+
+.section-header{
+    position: relative;
+    overflow:hidden;
+    flex-grow: 1;
+}
+
+.section-bg{
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.section-bg-img{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.section-overview{
+    background-color: white;
+    height: 250px;
+}
