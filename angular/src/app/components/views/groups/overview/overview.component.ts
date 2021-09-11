@@ -6,6 +6,7 @@ import { getGroupSidebarItems } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
+import { UtilsService } from "src/app/services/utils.service";
 import { UserGroup, UserGroupComposition } from "../../../../../../../commons/src/models/groups";
 
 @Component({
@@ -39,7 +40,8 @@ export class GroupOverviewComponent implements OnInit{
     private router: Router,
     private userService: UserService,
     private apiService: ApiService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private utilsService: UtilsService
   ){
 
   }
@@ -66,6 +68,12 @@ export class GroupOverviewComponent implements OnInit{
         this.leaveGroupConfirmed();
       }
     );
+  }
+
+  copyInvitationPressed(){
+    const url = this.utilsService.urlFromPath(this.group!.invite_link!);
+    this.utilsService.copyToClipboard(url);
+    this.dialogService.showSnackbar("Invite Link Copied");
   }
 
   /* Private Methods */

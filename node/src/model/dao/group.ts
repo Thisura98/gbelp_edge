@@ -135,7 +135,11 @@ export function getGroup(
                 resolve(result[0]);
             }
         });
-    });
+    }).then(group => {
+        return preProcessGroupInviteLinks([group]);
+    }).then(groups => {
+        return Promise.resolve(groups[0]);
+    })
 }
 
 /**

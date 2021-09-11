@@ -28,7 +28,9 @@
                     <div class="title">
                         Welcome <span>{{userName}}</span> to, <span>{{group?.name}}</span>
                     </div>
-                    <a class="clickable-link">Copy Invitation</a>
+                    <a class="clickable-link" (click)="copyInvitationPressed()">
+                        Copy Invitation
+                    </a>
                     <br>
                     <a class="clickable-link">Invite via Email</a>
                     <a class="clickable-link">Delete Group</a>
