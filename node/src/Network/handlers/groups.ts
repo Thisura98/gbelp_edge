@@ -83,4 +83,26 @@ export function handlerGroups(app: Express){
         })
     });
 
+    app.delete(aurl('delete-group'), (req, res) => {
+        // todo
+        const uid = req.header('uid') as string;
+        const groupId = req.query.groupId as string;
+        const userId = req.query.userId as string;
+
+        groupsDAO.removeUserFromGroup(
+            uid, userId, groupId
+        )
+        .then(status => {
+            if (!status)
+                Promise.reject(`Could not remove user ${userId} from the group`);
+
+            res.send(new ResponseModel(true, 200, 'Removing Successful'));
+        })
+        .catch(err => {
+            l.logc(err, 'delete-group');
+
+            res.send(new ResponseModel(false, 200, err));
+        });
+    })
+
 }

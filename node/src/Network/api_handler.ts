@@ -23,10 +23,6 @@ export function handle(app: express.Express){
     // Authorization Middleware (faux) for API calls
     app.use(`/${apiPrefix}`, apiAuthorizationMiddleware);
 
-    app.post(aurl('test'), (req, res) => {
-        res.json(new ResponseModel(true, 200, "", null))
-    });
-
     handlerAuth(app);
     handlerGameEntry(app);
     handlerGameEditing(app);
@@ -36,6 +32,10 @@ export function handle(app: express.Express){
 
     // Tests
 
+    app.post(aurl('test'), (req, res) => {
+        res.json(new ResponseModel(true, 200, "", null))
+    });
+    
     app.post(aurl('crypto/encrypt'), (req, res) => {
         const result = encrypt(req.body.plaintext);
         res.send({

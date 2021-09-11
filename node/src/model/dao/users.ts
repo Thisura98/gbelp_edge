@@ -271,3 +271,37 @@ export function isTokenValidForUser(userId: string, token: string, callback: (st
         }
     });
 }
+
+/**
+ * Checks if the user is one of specified typeIds.
+ */
+export function checkUserType(
+    userId: string,
+    typeIds: string[],
+): Promise<boolean>{
+    const tbl = db.tables.users;
+    const c = db.columns.users;
+    const se = db.smartEscape;
+
+    const typeChecks = typeIds.map(id => {
+        return `(${c.userType} = ${se(id)})`
+    });
+    const mergedTypeChecks = '(' + typeChecks.join(' OR ') + ')';
+
+    const query = `SELECT COUNT(*) as user_count
+    FROM \`${tbl}\`
+    WHERE ${c.userId} = ${se(userId)}
+    AND ${mergedTypeChecks}`;
+
+    return new Promise((resolve, reject) => {
+        db.getPool()!.query(query, (error, result) => {
+            if (error){
+                reject('checkUserType ' + error.message);
+            }
+            else{
+                const count = Number.parseInt(result[0].user_count);
+                resolve(count > 0);
+            }
+        });
+    });
+}

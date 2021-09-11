@@ -1,5 +1,6 @@
 import { UserGroup, UserGroupComposition } from '../../../../commons/src/models/groups';
 import * as sql from '../../util/connections/sql/sql_connection';
+import * as userDAO from './users';
 
 /**
  * Creates a new group with the details. Optionally 
@@ -241,4 +242,63 @@ export function getGroupIdMatchingCriteria(
             }
         });
     });
+}
+
+/**
+ * @param callingUser The user logged into the frontend 
+ * @param userId The user that must be removed (can be same as callingUser for self un-enrolment)
+ * @param groupId Which group to remove userId from.
+ * @returns 
+ */
+export function removeUserFromGroup(
+    callingUser: string,
+    userId: string,
+    groupId: string
+): Promise<boolean>{
+    const tbl = sql.tables.userGroupMembership;
+    const cUID = sql.columns.userGroupMembership.userId;
+    const cGID = sql.columns.userGroupMembership.groupId;
+    const se = sql.smartEscape;
+
+    const query = `DELETE FROM \`${tbl}\` 
+    WHERE ${cUID} = ${se(userId)} 
+    AND ${cGID} = ${se(groupId)}`;
+
+    // TEACHERs and ADMINs
+    let privilegedUserTypes = ['1', '2'];
+
+    // IF the user is self-leaving a group,
+    // we must allow the action regardless of their type.
+    if (callingUser == userId){
+        privilegedUserTypes = ['1', '2', '3', '4'];
+    }
+
+    return userDAO.checkUserType(
+        userId, privilegedUserTypes
+    )
+    .then(isPrivileged => {
+        if (!isPrivileged)
+            return Promise.reject('User is not allowed to be removed from group')
+
+        return checkUserMembership(groupId, userId)
+    })
+    .then(isMember => {
+        if (!isMember)
+            return Promise.reject('User is not part of the group ' + groupId);
+        
+        return Promise.resolve();
+    })
+    .then(() => {
+        return new Promise<boolean>((resolve, reject) => {
+            sql.getPool()!.query(query, (error, result) => {
+                if (error){
+                    reject('removeUserFromGroup' + error.message);
+                }
+                else{
+                    resolve(result.affectedRows > 0);
+                }
+            })
+        });
+    });
+    
 }

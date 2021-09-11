@@ -56,6 +56,18 @@ export class GroupOverviewComponent implements OnInit{
     this.location.back();
   }
 
+  leaveGroupPressed(event: Event){
+    event.preventDefault();
+
+    this.dialogService.showYesNo(
+      "Confirm Leave", 
+      "Are you sure you want to leave this group?",
+      () => {
+        this.leaveGroupConfirmed();
+      }
+    );
+  }
+
   /* Private Methods */
   
   private loadData(){
@@ -88,5 +100,27 @@ export class GroupOverviewComponent implements OnInit{
   private setData(group: UserGroup, composition: UserGroupComposition[]){
     this.group = group;
     this.composition = composition;
+  }
+
+  private leaveGroupConfirmed(){
+    const userId = this.userService.getUserAndToken().user.userId;
+    if (userId == null)
+      this.dialogService.showDismissable("Error", "User ID is empty, cannot leave from group");
+
+    this.apiService.removeFromGroup(this.groupId!, userId!).subscribe(response => {
+      if (!response.success){
+        const msg = response.description ?? "Unknown error occured while leaving.";
+        this.dialogService.showDismissable("Processing Error", msg);
+        return;
+      }
+
+      // Acknowledge action then,
+      // navigate to dashboard and remove this group's link
+      // from history.
+      this.dialogService.showSnackbar("You have succesfully left this group!");
+      this.router.navigate(['/dashboard'], {
+        replaceUrl: true
+      });
+    });
   }
 }

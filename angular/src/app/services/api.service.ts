@@ -212,6 +212,18 @@ export class ApiService{
         });
     }
 
+    removeFromGroup(groupId: string, userId: string): Observable<ServerResponsePlain>{
+        const url = this.aurl('delete-group');
+        const query = {
+            groupId: groupId,
+            userId: userId
+        };
+        return this.http.delete<ServerResponsePlain>(url, {
+            params: query,
+            headers: this.getHeaders()
+        });
+    }
+
     // MARK END: Groups
 
     // MARK: Game Editing
