@@ -10,15 +10,30 @@
             <app-userstatus></app-userstatus>
         </div>
         <div class="buttons">
-            <div class="dyn-btn clickable">Create</div>
-            <div class="dyn-btn clickable btn-cancel">Cancel</div>
+            <app-stateful-btn 
+                class="btn-create" text="Create" [isLoading]="isSaving"
+                (click)="createBtnClicked()">
+            </app-stateful-btn>
+            <div class="dyn-btn clickable btn-cancel" (click)="handleBack()">
+                Cancel
+            </div>
         </div>
         <div class="details-form dyn-form">
             <!-- Section Basic Details -->
             <div class="dyn-form-col details-column">
                 <h2 class="heading">Details</h2>
+                <div class="dyn-form-row">
+                    <div class="dyn-form-label">Group Name</div>
+                    <input class="dyn-textbox" placeholder="Type name here..." [(ngModel)]="groupName"/>
+                </div>
+                <div class="dyn-form-row group-desc-row">
+                    <div class="dyn-form-label">Group Description</div>
+                    <textarea class="dyn-textarea group-desc-box" 
+                        placeholder="Type description here..." 
+                        [(ngModel)]="groupDescription">
+                    </textarea>
+                </div>
             </div>
-
         </div>
     </div>
 

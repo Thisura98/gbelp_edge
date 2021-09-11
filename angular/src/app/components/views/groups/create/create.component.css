@@ -1,0 +1,33 @@
+.heading{
+    margin-top: 20px;
+}
+
+.dyn-form-row{
+    width: 600px;
+}
+
+.group-desc-row{
+    align-items: stretch;
+}
+
+.group-desc-box{
+    height: 100px
+}
+
+.dyn-textbox, .dyn-textarea{
+    width: 75%;
+}
+
+.dyn-textarea{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.dyn-textarea::placeholder{
+    color: #959595;
+    font-style: italic;
+}
+
+.btn-create{
+    width: 80px;
+}

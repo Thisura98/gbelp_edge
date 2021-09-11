@@ -221,6 +221,20 @@ body .dyn-btn-disabled{
     min-width: 147px;
 }
 
+.dyn-textarea{
+    height: 27px;
+    border-radius: 11px;
+    border-width: 1px;
+    padding: 0 10px;
+    border-color: #CBCBCB;
+    outline-width: 0px;
+    outline-style: none;
+    border-style: solid;
+    min-width: 147px;
+    resize: none;
+    font-family: Roboto;
+}
+
 .dyn-select{
     min-width: 167px;
     height: 27px;

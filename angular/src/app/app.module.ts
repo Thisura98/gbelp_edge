@@ -68,6 +68,8 @@ import { ScriptReferenceArticleComponent } from './components/views/docs/article
 import { SplayComponent } from './components/views/players/splay/splay.component';
 import { PlayerControlButtonComponent } from './components/views/players/controlbtn/controlbtn.component';
 import { GroupCreateComponent } from './components/views/groups/create/create.component';
+import { StatefulButton } from './components/ui/buttons/stateful-button/statefulbtn.component';
+
 
 @NgModule({
   declarations: [
@@ -110,7 +112,8 @@ import { GroupCreateComponent } from './components/views/groups/create/create.co
     ScriptReferenceArticleComponent,
     SplayComponent,
     PlayerControlButtonComponent,
-    GroupCreateComponent
+    GroupCreateComponent,
+    StatefulButton
   ],
   imports: [
     CommonModule,

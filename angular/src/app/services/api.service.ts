@@ -171,6 +171,29 @@ export class ApiService{
         })
     }
 
+    createGroup(
+        name: string,
+        description: string,
+        bannedUserCSV: string,
+        userLimit: number | null,
+        userIds: string[]
+    ): Observable<ServerResponse<UserGroup>>{
+        const url = this.aurl('create-group');
+        const data = {
+            name: name,
+            description: description,
+            bannedUserCSV: bannedUserCSV,
+            link: '',
+            limit: userLimit,
+            insertUserIds: userIds
+        };
+        return this.http.post<ServerResponse<UserGroup>>(
+            url, data, {
+                headers: this.getHeaders()
+            }
+        )
+    }
+
     // MARK END: Groups
 
     // MARK: Game Editing
