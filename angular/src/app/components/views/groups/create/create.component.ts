@@ -80,6 +80,15 @@ export class GroupCreateComponent implements OnInit {
         return;
       }
 
+      const route = '/groups/overview';
+      this.dialogService.showSnackbar("Group Created Successfully!");
+
+      this.router.navigate([route], {
+        queryParams: {
+          groupId: response.data.group_id!
+        }
+      });
+      
     });
   }
 

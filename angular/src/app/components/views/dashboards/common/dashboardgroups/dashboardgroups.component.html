@@ -44,11 +44,18 @@
         <ng-container *ngFor="let entry of displayedData">
             <div class="entry-row dyn-anim-fadein">
                 <div class="entry-row-data">{{entry.name}}</div>
-                <div class="entry-row-data data-member-count">{{entry.member_count}} Users</div>
+                <div class="entry-row-data data-member-count">
+                    {{entry.member_count}} User{{entry.member_count > 1 ? 's' : ''}}
+                </div>
                 <div class="entry-row-icon" (click)="copyInviteLink(entry)">
                     <img src="assets/dashboard/ico_meeting_link.png">
                 </div>
-                <div class="entry-row-icon"><img src="assets/dashboard/ico_eye.png"></div>
+                <div class="entry-row-icon" 
+                    [routerLink]="['/groups/overview']"
+                    [queryParams]="{groupId: entry.group_id}"
+                >
+                    <img src="assets/dashboard/ico_eye.png">
+                </div>
             </div>
             <div class="entry-row-separator dyn-anim-fadein"></div>
         </ng-container>

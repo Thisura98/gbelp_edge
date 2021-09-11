@@ -69,6 +69,7 @@ import { SplayComponent } from './components/views/players/splay/splay.component
 import { PlayerControlButtonComponent } from './components/views/players/controlbtn/controlbtn.component';
 import { GroupCreateComponent } from './components/views/groups/create/create.component';
 import { StatefulButton } from './components/ui/buttons/stateful-button/statefulbtn.component';
+import { GroupOverviewComponent } from './components/views/groups/overview/overview.component';
 
 
 @NgModule({
@@ -113,6 +114,7 @@ import { StatefulButton } from './components/ui/buttons/stateful-button/stateful
     SplayComponent,
     PlayerControlButtonComponent,
     GroupCreateComponent,
+    GroupOverviewComponent,
     StatefulButton
   ],
   imports: [
