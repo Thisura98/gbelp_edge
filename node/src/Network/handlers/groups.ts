@@ -97,8 +97,34 @@ export function handlerGroups(app: Express){
         })
     })
 
+    app.post(aurl('groups/join/e'), (req, res) => {
+        const uid = req.header('uid') as string;
+        const encryptedGroupId = req.body.egi as string;
+        let destinationGroupId = '';
+
+        return groupsDAO.getGroupWithEncryptedGroupId(
+            encryptedGroupId
+        )
+        .then(group => {
+            const groupId = group.group_id as string;
+            destinationGroupId = groupId;
+            return groupsDAO.insertUsersToGroup(groupId, [uid]);
+        }) 
+        .then(status => {
+            if (!status)
+                return Promise.reject('Inserting User to Group failed');
+
+            const response = {
+                groupId: destinationGroupId
+            }
+            res.send(new ResponseModel(true, 200, 'Successfully joined group', response));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        });
+    });
+
     app.delete(aurl('delete-group'), (req, res) => {
-        // todo
         const uid = req.header('uid') as string;
         const groupId = req.query.groupId as string;
         const userId = req.query.userId as string;

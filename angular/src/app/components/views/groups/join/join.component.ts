@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -25,6 +25,7 @@ export class GroupJoinComponent implements OnInit{
   }
 
   constructor(
+    private router: Router,
     private activateRoute: ActivatedRoute,
     private apiService: ApiService,
     private dialogService: DialogService,
@@ -45,6 +46,19 @@ export class GroupJoinComponent implements OnInit{
     // todo
   }
 
+  cancelTapped(){
+    this.router.navigate(['/']);
+  }
+
+  acceptTapped(){
+    if (this.userService.getIsLoggedIn()){
+      this.addUserToGroupAndNavigate();
+    }
+    else{
+      // todo
+    }
+  }
+
   private loadData(){
     this.apiService.getGroupAnonymously(this.encryptedGroupId!).subscribe(response => {
       if (!response.success){
@@ -54,6 +68,26 @@ export class GroupJoinComponent implements OnInit{
       }
 
       this.group = response.data;
+    });
+  }
+
+  private addUserToGroupAndNavigate(){
+    this.apiService.joinGroupWith(this.encryptedGroupId!).subscribe(result => {
+      if (!result.success){
+        const msg = result.description ?? "Unknown Error";
+        this.dialogService.showDismissable("Join Error", msg);
+        return;
+      }
+
+      const groupId = result.data.groupId;
+      const path = `/groups/overview`;
+
+      this.dialogService.showSnackbar("Welcome to the new group!");
+      this.router.navigate([path], {
+        queryParams: {
+          groupId: groupId
+        }
+      });
     });
   }
 }

@@ -27,8 +27,12 @@ You can always leave and re-join anytime you like.
                 </div>
                 <br>
                 <div class="dyn-form-row row-btns">
-                    <div class="dyn-btn clickable btn-accept">Accept</div>
-                    <div class="dyn-btn clickable btn-cancel">Cancel</div>
+                    <div class="dyn-btn clickable btn-accept" (click)="acceptTapped()">
+                        Accept
+                    </div>
+                    <div class="dyn-btn clickable btn-cancel" (click)="cancelTapped()">
+                        Cancel
+                    </div>
                 </div>
             </div>
         </div>

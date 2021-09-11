@@ -9,6 +9,7 @@ import { UserService } from './user.service';
 import { tap, map } from 'rxjs/operators';
 import { GameLevel } from '../../../../commons/src/models/game/levels';
 import { UserGroup, UserGroupComposition, UserGroupMembership } from '../../../../commons/src/models/groups';
+import { IGroupJoinEncryptedResult } from '../models/group/group';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -216,6 +217,16 @@ export class ApiService{
         const query = {groupId: groupId};
         return this.http.get<ServerResponse<UserGroupComposition[]>>(url, {
             params: query,
+            headers: this.getHeaders()
+        });
+    }
+
+    joinGroupWith(encryptedGroupId: string): Observable<ServerResponse<IGroupJoinEncryptedResult>>{
+        const url = this.aurl('groups/join/e');
+        const body = {
+            egi: encryptedGroupId
+        };
+        return this.http.post<ServerResponse<IGroupJoinEncryptedResult>>(url, body, {
             headers: this.getHeaders()
         });
     }
