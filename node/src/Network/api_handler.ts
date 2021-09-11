@@ -3,6 +3,7 @@ import * as statusCodes from './status_codes';
 import * as usersDAO from '../model/dao/users';
 import * as l from '../util/logger';
 import * as utils from '../util/utils';
+import { encrypt, decrypt } from '../util/crypto';
 import { ResponseModel, ResponsePlainModel } from '../model/models/common';
 import { handlerAuth } from './handlers/auth';
 import { handlerGameEntry } from './handlers/game_entry';
@@ -33,6 +34,22 @@ export function handle(app: express.Express){
     handlerGroups(app);
     handlerPlay(app);
 
+    // Tests
+
+    app.post(aurl('crypto/encrypt'), (req, res) => {
+        const result = encrypt(req.body.plaintext);
+        res.send({
+            result: result
+        })
+    })
+
+    app.post(aurl('crypto/decrypt'), (req, res) => {
+        const result = decrypt(req.body.ciphertext);
+        res.send({
+            result: result
+        })
+    })
+
     // Fallbacks
 
     app.post(`/${apiPrefix}/*`, (req, res) => {
@@ -53,7 +70,7 @@ export function handle(app: express.Express){
 export function apiAuthorizationMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const routeURL = req.originalUrl;
     const safeURLs = [
-        'create-user', 'user-types', 'login', 'get-objectid'
+        'create-user', 'user-types', 'login', 'get-objectid', 'crypto/encrypt', 'crypto/decrypt'
     ].map((v, i, m) => aurl(v));
     if (safeURLs.find((url, _, __) => url == routeURL)){
         next();
