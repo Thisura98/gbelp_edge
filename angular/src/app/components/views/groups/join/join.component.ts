@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
-import { NextSignInAction } from "src/app/constants/constants";
+import { NextSignInAction, QueryKey } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
@@ -126,20 +126,20 @@ export class GroupJoinComponent implements OnInit{
   }
 
   private goToLogin(){
+    let q: any = {};
+    q[QueryKey.nextAction] = NextSignInAction.joinGroupK;
+    q[QueryKey.nextActionKey] = this.encryptedGroupId!;
     this.router.navigate(['/login'], {
-      queryParams: {
-        next: NextSignInAction.joinGroupK,
-        key: this.encryptedGroupId!
-      }
+      queryParams: q
     });
   }
 
   private goToRegister(){
+    let q: any = {};
+    q[QueryKey.nextAction] = NextSignInAction.joinGroupK;
+    q[QueryKey.nextActionKey] = this.encryptedGroupId!;
     this.router.navigate(['/register'], {
-      queryParams: {
-        next: NextSignInAction.joinGroupK,
-        key: this.encryptedGroupId!
-      }
+      queryParams: q
     });
   }
 }

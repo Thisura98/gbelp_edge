@@ -9,7 +9,7 @@ import { AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypes } fro
 import { Md5 } from 'ts-md5/dist/md5';
 import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
-import { NextSignInAction } from 'src/app/constants/constants';
+import { NextSignInAction, QueryKey } from 'src/app/constants/constants';
 import { NextActionService } from 'src/app/services/next-action.service';
 
 @Component({
@@ -44,9 +44,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(){
     this.activatedRoute.queryParamMap.subscribe(map => {
-      if (map.has('next')){
-        this.nextAction = map.get('next')!;
-        this.nextActionKey = map.get('key')!;
+      if (map.has(QueryKey.nextAction)){
+        this.nextAction = map.get(QueryKey.nextAction)!;
+        this.nextActionKey = map.get(QueryKey.nextActionKey)!;
       }
       this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
     });

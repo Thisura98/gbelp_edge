@@ -3,12 +3,14 @@ import { FormGroup, FormControl, ValidationErrors, AbstractControl } from '@angu
 import { Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { AuthUserResponse, ServerResponseUserTypes } from 'src/app/models/user';
+import { AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypes } from 'src/app/models/user';
 import { Md5 } from 'ts-md5/dist/md5';
 import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { NextActionService } from 'src/app/services/next-action.service';
+import { NextSignInAction, QueryKey } from 'src/app/constants/constants';
 
 @Component({
   selector: 'app-register',
@@ -35,16 +37,27 @@ export class RegisterComponent implements OnInit {
     userPasswordConfirmation: new FormControl('', null, )
   }, { validators: this.formValidator });
 
+  private nextAction: string | undefined;
+  private nextActionKey: string | undefined;
+
   constructor(
     private location: Location,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
     private userService: UserService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private nextActionService: NextActionService
   ){}
 
   ngOnInit(){
-    this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
+    this.activatedRoute.queryParamMap.subscribe(map => {
+      if (map.has(QueryKey.nextAction)){
+        this.nextAction = map.get(QueryKey.nextAction)!;
+        this.nextActionKey = map.get(QueryKey.nextActionKey)!;
+      }
+      this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
+    });
   }
 
   // MARK: Data
@@ -127,10 +140,7 @@ export class RegisterComponent implements OnInit {
         pwHash
       ).subscribe(status => {
         if (status.success){
-          this.userService.setLoggedIn(status.data);
-          this.dialogService.showDismissable('Successfully Registered', 'Welcome to Edge!', () => {
-            this.router.navigate(['/dashboard']);
-          });
+          this.handleRegisterSuccess(status);
         }
         else{
           // todo: Show dialog service (error message)
@@ -145,6 +155,26 @@ export class RegisterComponent implements OnInit {
 
   cancelClicked(){
     this.location.back();
+  }
+
+  private handleRegisterSuccess(status: ServerResponseUserAuth){
+    this.userService.setLoggedIn(status.data);
+
+    if (this.nextAction != undefined && this.nextAction != null){
+      this.handleNextAction();
+    }
+    else{
+      this.dialogService.showDismissable('Successfully Registered', 'Welcome to Edge!', () => {
+        this.router.navigate(['/dashboard']);
+      });
+    }
+  }
+
+  private handleNextAction(){
+    this.nextActionService.handleNextAction(
+      this.nextAction! as NextSignInAction,
+      this.nextActionKey!
+    )
   }
 
 }

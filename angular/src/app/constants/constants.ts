@@ -3,6 +3,11 @@ import { DynamicSidebarItem } from "../components/ui/dynamicsidebar/dynamicsideb
 
 export enum NextSignInAction{
     joinGroupK = 'joingroupk'
+};
+
+export enum QueryKey{
+    nextAction = 'next',
+    nextActionKey = 'key'
 }
 
 /**
