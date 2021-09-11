@@ -142,6 +142,13 @@ export function getGroup(
     })
 }
 
+export function getGroupWithEncryptedGroupId(
+    encryptedGroupId: string
+): Promise<any>{
+    const groupId = crypto.decrypt(encryptedGroupId.toString());
+    return getGroup(groupId);
+}
+
 /**
  * Checks if a user is a member of the provided group.
  * Promise's result will be true if the membership exists. False otherwise.

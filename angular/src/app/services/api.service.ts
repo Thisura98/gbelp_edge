@@ -203,6 +203,14 @@ export class ApiService{
         })
     }
 
+    getGroupAnonymously(encryptedGroupId: string): Observable<ServerResponse<UserGroup>>{
+        const url = this.aurl('get-group/anonymous');
+        const query = {egi: encryptedGroupId};
+        return this.http.get<ServerResponse<UserGroup>>(url, {
+            params: query
+        });
+    }
+
     getGroupComposition(groupId: string): Observable<ServerResponse<UserGroupComposition[]>>{
         const url = this.aurl('get-group-composition');
         const query = {groupId: groupId};

@@ -1,0 +1,32 @@
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems" (onBack)="handleBack()">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <h4 class="small-heading">
+                Create Group
+            </h4>
+            <app-userstatus></app-userstatus>
+        </div>
+        <div class="details-form dyn-form">
+            <!-- Section Basic Details -->
+            <div class="dyn-form-col details-column">
+                <h2 class="heading">Would you like to join "{{group?.name}}"?</h2>
+                <div class="dyn-form-row">
+                    <!-- <div class="dyn-form-label">Group Name</div> -->
+                    <!-- <input class="dyn-textbox" placeholder="Type name here..." [(ngModel)]="groupName"/> -->
+                    You were invited to a Group by someone.
+                </div>
+                <br>
+                <div class="dyn-form-row">
+                    <!-- <div class="dyn-form-label">Group Name</div> -->
+                    <!-- <input class="dyn-textbox" placeholder="Type name here..." [(ngModel)]="groupName"/> -->
+                    Joining will allow you to participate in  Game sessions scheduled in this group.
+You can always leave and re-join anytime you like.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

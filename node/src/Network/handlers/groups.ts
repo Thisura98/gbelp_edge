@@ -83,6 +83,20 @@ export function handlerGroups(app: Express){
         })
     });
 
+    app.get(aurl('get-group/anonymous'), (req, res) => {
+        const encryptedGroupId = req.query.egi as string;
+        return groupsDAO.getGroupWithEncryptedGroupId(
+            encryptedGroupId
+        )
+        .then(group => {
+            res.send(new ResponseModel(true, 200, 'Succesfully retrieved group', group));
+        })
+        .catch(err => {
+            l.logc(err, 'get-group/anonymous');
+            res.send(new ResponseModel(false, 200, err));
+        })
+    })
+
     app.delete(aurl('delete-group'), (req, res) => {
         // todo
         const uid = req.header('uid') as string;

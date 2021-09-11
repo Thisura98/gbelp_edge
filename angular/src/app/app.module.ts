@@ -71,6 +71,7 @@ import { GroupCreateComponent } from './components/views/groups/create/create.co
 import { StatefulButton } from './components/ui/buttons/stateful-button/statefulbtn.component';
 import { GroupOverviewComponent } from './components/views/groups/overview/overview.component';
 import { GroupsMenuselectorComponent } from './components/views/groups/common/menuselector/menuselector.component';
+import { GroupJoinComponent } from './components/views/groups/join/join.component';
 
 
 @NgModule({
@@ -117,6 +118,7 @@ import { GroupsMenuselectorComponent } from './components/views/groups/common/me
     GroupsMenuselectorComponent,
     GroupCreateComponent,
     GroupOverviewComponent,
+    GroupJoinComponent,
     StatefulButton
   ],
   imports: [
