@@ -1,6 +1,7 @@
 import { UserGroup, UserGroupComposition } from '../../../../commons/src/models/groups';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as userDAO from './users';
+import * as crypto from '../../util/crypto';
 
 /**
  * Creates a new group with the details. Optionally 
@@ -172,13 +173,16 @@ export function getGroupsOfUser(
     return new Promise<any>((resolve, reject) => {
         sql.getPool()!.query(query, (error, result) => {
             if (error){
-                reject("getGroupsOfUser" + error.message);
+                reject(`getGroupsOfUser " + ${error.message}`);
             }
             else{
                 resolve(result);
             }
         });
-    });
+    })
+    .then(groups => {
+        return preProcessGroupInviteLinks(groups);
+    })
 }
 
 export function getGroupComposition(
@@ -301,4 +305,35 @@ export function removeUserFromGroup(
         });
     });
     
+}
+
+interface InviteLikeProcessable{
+    group_id: string
+    invite_link: string
+}
+
+/**
+ * Calculates and sets the cryptographic Invite Link
+ * in the passed dataset.
+ * 
+ * @param input An array of group-like objects
+ */
+function preProcessGroupInviteLinks<T extends InviteLikeProcessable>(
+    input: T[]
+): Promise<T[]>{
+
+    try{
+        for (let i of input){
+            // Ensure no numbers are provided
+            const str = i.group_id.toString();
+            
+            const encryptedGroupId = crypto.encrypt(str);
+            const path = `/groups/join/${encryptedGroupId}`;
+            i.invite_link = path;
+        }
+        return Promise.resolve(input);
+    }
+    catch(exception){
+        return Promise.reject('invitelinks - ' + exception);
+    }
 }

@@ -43,10 +43,12 @@ export class DashboardgroupsComponent implements OnInit {
   }
 
   createInviteLinkForRow(data: IGroupDetailsRow): string{
+    let path = '';
     if (data.invite_link != undefined)
-      return data.invite_link!;
+      path = data.invite_link!;
+    else
+      path = `/groups/join/${data.group_id}`;
 
-    const path = `/groups/join/${data.group_id}`;
     return this.utils.urlFromPath(path);
   }
 
