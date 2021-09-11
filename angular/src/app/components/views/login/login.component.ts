@@ -3,12 +3,14 @@ import { FormGroup, FormControl, ValidationErrors, AbstractControl } from '@angu
 import { Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { AuthUserResponse, ServerResponseUserTypes } from 'src/app/models/user';
+import { AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypes } from 'src/app/models/user';
 import { Md5 } from 'ts-md5/dist/md5';
 import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { NextSignInAction } from 'src/app/constants/constants';
+import { NextActionService } from 'src/app/services/next-action.service';
 
 @Component({
   selector: 'app-login',
@@ -27,16 +29,27 @@ export class LoginComponent implements OnInit {
     ])
   });
 
+  private nextAction: string | undefined;
+  private nextActionKey: string | undefined;
+
   constructor(
     private location: Location,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
     private userService: UserService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private nextActionService: NextActionService
   ){}
 
   ngOnInit(){
-    this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
+    this.activatedRoute.queryParamMap.subscribe(map => {
+      if (map.has('next')){
+        this.nextAction = map.get('next')!;
+        this.nextActionKey = map.get('key')!;
+      }
+      this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
+    });
   }
 
   // MARK: Data
@@ -56,8 +69,7 @@ export class LoginComponent implements OnInit {
         pwHash
       ).subscribe(status => {
         if (status.success){
-          this.userService.setLoggedIn(status.data);
-          this.router.navigate(['/dashboard']);
+          this.handleLoginSuccess(status);
         }
         else{
           // todo: Show dialog service (error message)
@@ -72,6 +84,24 @@ export class LoginComponent implements OnInit {
 
   cancelClicked(){
     this.location.back();
+  }
+
+  private handleLoginSuccess(status: ServerResponseUserAuth){
+    this.userService.setLoggedIn(status.data);
+
+    if (this.nextAction != undefined && this.nextAction != null){
+      this.handleNextAction();
+    }
+    else{
+      this.router.navigate(['/dashboard']);
+    }
+  }
+
+  private handleNextAction(){
+    this.nextActionService.handleNextAction(
+      this.nextAction! as NextSignInAction,
+      this.nextActionKey!
+    )
   }
 
 }

@@ -2,7 +2,7 @@
     <app-dynamicsidebar [items]="sidebarItems" (onBack)="handleBack()">
     </app-dynamicsidebar>
 
-    <div class="container2">
+    <div class="container2" *ngIf="isLoading || !isInAutoAddMode">
         <div class="nav">
             <h4 class="small-heading">
                 Join Groups
@@ -35,6 +35,13 @@ You can always leave and re-join anytime you like.
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="container2 items-centered" *ngIf="isInAutoAddMode">
+        <div class="progress-container">
+            <mat-progress-spinner [diameter]="20" mode="indeterminate">
+            </mat-progress-spinner>
+            <div>Please wait...</div>
         </div>
     </div>
 

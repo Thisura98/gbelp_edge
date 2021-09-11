@@ -1,6 +1,10 @@
 import { DynBasicTableConfig } from "../components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "../components/ui/dynamicsidebar/dynamicsidebar.component";
 
+export enum NextSignInAction{
+    joinGroupK = 'joingroupk'
+}
+
 /**
  * @param selected Item currently selected. Leave blank if none is selected.
  * @returns 

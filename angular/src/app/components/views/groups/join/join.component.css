@@ -33,3 +33,16 @@
     width: 100px;
     justify-content: center;
 }
+
+.items-centered{
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}

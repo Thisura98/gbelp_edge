@@ -27,6 +27,7 @@ import { ApiService } from './services/api.service';
 import { UserService } from './services/user.service';
 import { DialogService } from './services/dialog.service';
 import { GroupsService } from './services/groups.service';
+import { NextActionService } from './services/next-action.service';
 
 import { SimpleDialogComponent } from './components/ui/dialogs/simple.component';
 import { LoginComponent } from './components/views/login/login.component';
@@ -143,7 +144,11 @@ import { GroupJoinComponent } from './components/views/groups/join/join.componen
     MatTooltipModule,
     MonacoEditorModule
   ],
-  providers: [ApiService, UserService, DialogService, GroupsService, UtilsService, ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, httpInterceptorProviders],
+  providers: [
+    ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService,
+    ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, 
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
+import { NextSignInAction } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
@@ -18,6 +19,10 @@ export class GroupJoinComponent implements OnInit{
   private encryptedGroupId: string | undefined;
   group: UserGroup | undefined;
   isLoggedIn: boolean = false;
+  isLoading: boolean = true;
+
+  /// Will be true if 'autoAdd=true' is present in the query string.
+  isInAutoAddMode: boolean = false;
 
   get sidebarItems(): DynamicSidebarItem[]{
     // return getGroupSidebarItems('Overview');
@@ -38,7 +43,14 @@ export class GroupJoinComponent implements OnInit{
     this.isLoggedIn = this.userService.getIsLoggedIn();
     this.activateRoute.params.subscribe(data => {
       this.encryptedGroupId = data.groupId;
-      this.loadData()
+
+      // Check is in Auto Add mode?
+      this.activateRoute.queryParamMap.subscribe(map => {
+        if (map.has('autoAdd'))
+          this.isInAutoAddMode = map.get('autoAdd')?.toLowerCase() == 'true';
+
+        this.loadData()
+      })
     })
   }
   
@@ -56,10 +68,23 @@ export class GroupJoinComponent implements OnInit{
     }
     else{
       // todo
+      this.dialogService.showYesNo(
+        "Confirmation",
+        "It looks like you have not logged in yet. Do you have an existing with EDGE?",
+        () => {
+          // YES -> Login
+          this.goToLogin();
+        },
+        () => {
+          // NO -> Register
+          this.goToRegister();
+        }
+      )
     }
   }
 
   private loadData(){
+    this.isLoading = true;
     this.apiService.getGroupAnonymously(this.encryptedGroupId!).subscribe(response => {
       if (!response.success){
         const msg = response.description ?? "Could not fetch details";
@@ -68,7 +93,16 @@ export class GroupJoinComponent implements OnInit{
       }
 
       this.group = response.data;
+      this.isLoading = false;
+      this.handleAutoAddIfNeeded();
     });
+  }
+
+  private handleAutoAddIfNeeded(){
+    if (!this.isInAutoAddMode)
+      return;
+
+    this.addUserToGroupAndNavigate();
   }
 
   private addUserToGroupAndNavigate(){
@@ -88,6 +122,24 @@ export class GroupJoinComponent implements OnInit{
           groupId: groupId
         }
       });
+    });
+  }
+
+  private goToLogin(){
+    this.router.navigate(['/login'], {
+      queryParams: {
+        next: NextSignInAction.joinGroupK,
+        key: this.encryptedGroupId!
+      }
+    });
+  }
+
+  private goToRegister(){
+    this.router.navigate(['/register'], {
+      queryParams: {
+        next: NextSignInAction.joinGroupK,
+        key: this.encryptedGroupId!
+      }
     });
   }
 }
