@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
+import { UtilsService } from 'src/app/services/utils.service';
 import { UserGroup } from '../../../../../../../../commons/src/models/groups';
 
 interface IGroupDetailsRow{
@@ -32,7 +33,8 @@ export class DashboardgroupsComponent implements OnInit {
     private userService: UserService,
     private apiService: ApiService,
     private dialogService: DialogService,
-    private router: Router
+    private router: Router,
+    private utils: UtilsService
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +46,14 @@ export class DashboardgroupsComponent implements OnInit {
     if (data.invite_link != undefined)
       return data.invite_link!;
 
-    return `/groups/join/${data.group_id}`;
+    const path = `/groups/join/${data.group_id}`;
+    return this.utils.urlFromPath(path);
+  }
+
+  copyInviteLink(data: IGroupDetailsRow){
+    const link = this.createInviteLinkForRow(data);
+    this.utils.copyToClipboard(link);
+    this.dialogService.showSnackbar("Invite Link Copied");
   }
 
   searchInputChanged(event: Event){
