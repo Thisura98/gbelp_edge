@@ -9,6 +9,10 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { GameSession } from '../../../../../../../commons/src/models/session';
 import { GameListing } from 'src/app/models/game/game';
 import { ServerResponse } from 'src/app/models/common-models';
+import { ChatGroupType } from '../../../../../../../commons/src/models/chat';
+import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+
+type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
 
 /**
  * Singleplayer Game Player
@@ -192,12 +196,18 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initSocketConnection(): Promise<any>{
-    return new Promise<any>((resolve, reject) => {
-      const ioUsageAddress = ApiService.getSocketURL() + '/usage';
-      const ioChatsAddress = ApiService.getSocketURL() + '/chats';
+    return this.getGameUsageSocket().then(() => {
+      return this.getChatsSocket();
+    })
+  }
+
+  /**
+   * Initialize the Game Usage Tracking Socket
+   */
+  private getGameUsageSocket(): Promise<EdgeSocket>{
+    return new Promise<EdgeSocket>((resolve, reject) => {
       const authData = this.userService.getUserAndToken();
-      
-      // Usage Tracker socket
+      const ioUsageAddress = ApiService.getSocketURL() + '/usage';
       const usageSocket = io(ioUsageAddress, {
         autoConnect: true,
         auth: {
@@ -206,22 +216,48 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           sessionId: this.sessionId!
         }
       });
+
+      this.destroyableSockets.push(usageSocket);
+
       usageSocket.on('play-nonce', ({nonce}) => {
         this.playNonce = nonce;
-        console.log("Received playnonce:", nonce as string);
-        resolve(nonce);
+        resolve(usageSocket);
       });
       usageSocket.on('connect_error', (error) => {
         reject(error);
       });
 
-      // Chats socket
-      // todo
-      // const 
-  
-      
-      this.destroyableSockets.push(usageSocket);
     });
+  }
+
+  /**
+   * Initilize the Chats Socket
+   */
+  private getChatsSocket(): Promise<EdgeSocket>{
+    return new Promise<EdgeSocket>((resolve, reject) => {
+      const ioChatsAddress = ApiService.getSocketURL() + '/chats';
+      const authData = this.userService.getUserAndToken();
+
+      const chatsSocket = io(ioChatsAddress, {
+        autoConnect: true,
+        auth: {
+          uid: authData.user.userId!,
+          auth: authData.token!,
+          type: ChatGroupType.chatAtSessionLevel,
+          key: this.sessionId!
+        }
+      });
+
+      this.destroyableSockets.push(chatsSocket);
+
+      chatsSocket.on('chat-init', (currentMessages) => {
+        console.log("SOCKETIO", "chat-init", currentMessages);
+        resolve(chatsSocket);
+      })
+      chatsSocket.on('connect_error', (error) => {
+        reject(error);
+      })
+    })
   }
 
 }

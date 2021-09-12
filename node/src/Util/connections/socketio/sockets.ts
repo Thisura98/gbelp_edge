@@ -4,6 +4,7 @@ import http from 'http';
 import * as l from '../../logger';
 
 import { setupUsageNamespace } from './usage.namespace';
+import { setupChatsNamespace } from './chats.namespace';
 
 /**
  * Log items for the SocketHandler module.
@@ -41,6 +42,9 @@ export class SocketHandler{
     private setup(){
         const usageNamespace = this.io!.of('/usage');
         setupUsageNamespace(usageNamespace);
+
+        const chatsNamespace = this.io!.of('/chats');
+        setupChatsNamespace(chatsNamespace);
     }
     
 }
