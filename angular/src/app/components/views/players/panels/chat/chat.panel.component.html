@@ -11,9 +11,9 @@
 </div>
 <div class="chat-box-separator"></div>
 <div class="chat-box-container">
-    <textarea class="chat-box" placeholder="Type anything here..."></textarea>
+    <textarea class="chat-box" placeholder="Type anything here..." [(ngModel)]="typedMessage"></textarea>
 </div>
-<div class="chat-send-btn">
+<div class="chat-send-btn" (click)="sendMessage()">
     Send Message
     <img src="assets/splay/icon.sendmsg.png"/>
 </div>

@@ -39,7 +39,8 @@
                 <img class="hide-icon" src="assets/splay/white.chevron.right.png" />
             </div>
         </div>
-        <app-player-panel-chat *ngIf="panelTitle == 'Chats'">
+        <app-player-panel-chat *ngIf="panelTitle == 'Chats'" 
+            [messages]="chats" (sendMsg)="sendChatMessage($event)">
         </app-player-panel-chat>
     </div>
 </div>

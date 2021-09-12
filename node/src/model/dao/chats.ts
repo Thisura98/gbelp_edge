@@ -26,9 +26,17 @@ export function createGetChatsForSession(
                     [],  // Special Admins
                     []   // Initial Messages
                 )
+                .catch(err => {
+                    l.logc(err, 'createGetChatsForSession-i2');
+                    return undefined;
+                })
             });
         })
         .then(group => {
+            if (group === undefined){
+                reject('Group could not be retrieved or created');
+                return;
+            }
             resolve(group);
         })
         .catch(err => {
@@ -57,7 +65,7 @@ export function createGroupChat(
     };
 
     return mongo.Collections.getGroupChats().insertOne(group).then(res => {
-        return mongo.Collections.getGameProjects().findOne({_id: res.insertedId});
+        return mongo.Collections.getGroupChats().findOne({_id: res.insertedId});
     })
     .then(doc => {
         return doc as ChatGroup;
@@ -76,6 +84,9 @@ export function getGroupChat(
         ]
     })
     .then(doc => {
+        if (doc === undefined){
+            return Promise.reject();
+        }
         return doc as ChatGroup;
     })
     .catch(err => {
@@ -89,22 +100,28 @@ export function insertIntoChat(
     key: string,
     message: ChatMessage
 ): Promise<boolean>{
-    return mongo.Collections.getGroupChats().findOneAndUpdate({
+    const query = {
         $and: [
             {type: type},
             {key: key}
         ]
-    }, {
-        $set: {
-            messages: {
-                $concatArrays: [message]
-            }
+    };
+    const update = {
+        $push: {
+            messages: message
         }
-    }, {
-        returnDocument: 'after'
-    })
+    };
+
+    return mongo.Collections.getGroupChats().updateOne(query, update)
     .then(result => {
-        return Promise.resolve(true);
+        if (result.modifiedCount == 0){
+            l.logc(JSON.stringify(result), 'insertIntoChat');
+            return Promise.reject(false);
+        }
+        else{
+            l.logc(JSON.stringify(result), 'insertIntoChat-b1');
+            return Promise.resolve(true);
+        }
     })
     .catch(err => {
         l.logc(err, 'insertIntoChat');
