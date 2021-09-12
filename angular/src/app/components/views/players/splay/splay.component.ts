@@ -115,7 +115,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       s.disconnect();
     })
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
-    (window as any).EdgeProxy.unloadGame();
+    (window as any).EdgeProxy?.unloadGame();
   }
 
   private logoutOfPlayWithReason(reason: string){
