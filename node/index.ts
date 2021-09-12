@@ -11,6 +11,8 @@ import * as utils from './src/util/utils';
 
 import express from 'express';
 import * as fs from 'fs';
+import socket, { Socket } from 'socket.io';
+import http from 'http';
 
 // import bp from 'body-parser';
 const app = express();
@@ -18,6 +20,8 @@ const app = express();
 const config = pc.parseConfig('config.json');
 const constPortExpress = config.port_express;
 const constAngularDirectory = config.angular_directory;
+const constPortSocketIO = config.port_socketio;
+const constAllowCorsOn = config.allow_cors_on;
 
 const indexFile = `${__dirname}/${constAngularDirectory}/index.html`;
 
@@ -70,6 +74,25 @@ app.get('*', (req, res) => {
 });
 
 // END MARK
+
+// MARK: Initialize Socket IO
+
+const socketServer = http.createServer();
+const io = new socket.Server(socketServer, {
+    cors: {
+        origin: constAllowCorsOn,
+        methods: ['GET', 'POST']
+    }
+});
+io.on('connection', (socket) => {
+    l.logc('New socket IO connection! ' + socket.id, 'socket-io');
+    socket.on('disconnect', () => {
+        l.logc('Socket disconnected ' + socket.id, 'socket-io');
+    })
+});
+socketServer.listen(constPortSocketIO);
+
+// END MARK: Socket IO
 
 app.listen(constPortExpress, () => {
     l.logc(`Express app started listening on port '${constPortExpress}'!`);

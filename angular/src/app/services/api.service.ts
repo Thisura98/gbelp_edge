@@ -21,11 +21,22 @@ import { IGroupJoinEncryptedResult } from '../models/group/group';
 })
 export class ApiService{
 
-    private get serverBaseUrl(): string{
+    static getBaseURL(): string{
         if (isDevMode())
             return "http://localhost:80";
         else
             return "https://edgeelp.lk";
+    }
+
+    static getSocketURL(): string{
+        if (isDevMode())
+            return "http://localhost:100";
+        else
+            return "https://edgeelp.lk:100";
+    }
+
+    private get serverBaseUrl(): string{
+        return ApiService.getBaseURL();
     }
 
     private get apiBaseUrl(): string{

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as phaser from 'phaser';
 import { ApiService } from 'src/app/services/api.service';
+import { io } from 'socket.io-client';
 
 /**
  * Singleplayer Game Player
@@ -73,7 +74,8 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sessionId = data.sessionid as string;
       console.log("Loaded Single Play Session Component with session id:", this.sessionId);
 
-      this.loadGame()
+      this.initSocketConnection();
+      this.loadGame();
     });
   }
 
@@ -100,6 +102,14 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   private manualDestroyGameSession(){
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
     (window as any).EdgeProxy.unloadGame();
+  }
+
+  private initSocketConnection(){
+    const ioAddress = ApiService.getSocketURL();
+    const socket = io(ioAddress, {autoConnect: true});
+    socket.onAny(() => {
+      // do nothing
+    });
   }
 
 }
