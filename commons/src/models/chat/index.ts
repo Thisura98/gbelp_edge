@@ -1,3 +1,8 @@
+export enum ChatGroupType{
+  chatAtSessionLevel = 1,
+  chatAtGroupLevel = 2
+}
+
 /**
  * Holds information about a single chat message
  * in a `ChatGroup`.
@@ -12,11 +17,20 @@ export class ChatMessage{
   ){}
 }
 
+export interface IChatGroup{
+  _id: string | undefined;
+  type: number;
+  key: string;
+  members: string[];
+  special_admins: string[];
+  messages: ChatMessage[];
+}
+
 /**
  * Holds information about a chat group
  * for the EDGE system
  */
-export class ChatGroup{
+export class ChatGroup implements IChatGroup{
   /**
    * @param _id MongoDB Document ID
    * @param type 1 = Session Chat, 2 = Group Chat
@@ -26,11 +40,11 @@ export class ChatGroup{
    * @param mesages list of messages
    */
   constructor(
-    public _id: number | undefined,
+    public _id: string | undefined,
     public type: number,
     public key: string,
     public members: string[],
     public special_admins: string[],
-    public mesages: ChatMessage[]
+    public messages: ChatMessage[]
   ){}
 }

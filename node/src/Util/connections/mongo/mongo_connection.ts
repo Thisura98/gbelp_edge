@@ -19,6 +19,10 @@ export class Collections{
     static getGameProjects(): Collection<Document>{
         return db!.collection('gameprojects');
     }
+
+    static getGroupChats(): Collection<Document>{
+        return db!.collection('chats_multi');
+    }
 }
 
 export async function initialize(){

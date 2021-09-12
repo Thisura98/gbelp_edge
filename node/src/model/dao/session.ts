@@ -1,5 +1,6 @@
 import { GameSession, GameSessionState, GameSessionType } from '../../../../commons/src/models/session';
 import * as sql from '../../util/connections/sql/sql_connection';
+import * as l from '../../util/logger';
 
 /**
  * INSERT a session row. Returns a promise with INSERT ID on success.
@@ -165,4 +166,24 @@ export function checkUserBelongsToSession(
                 resolve(result[0].cnt > 0);
         });
     });
+}
+
+export function getMembersInSession(
+    sessionId: string
+): Promise<string[]>{
+    const eSID = sql.smartEscape(sessionId);
+    const query = `SELECT user_id FROM gsession_members WHERE session_id = ${eSID};`;
+    return new Promise<string[]>((resolve, reject) => {
+        sql.getPool()!.query(query, (error, result) => {
+            if (error){
+                l.logc(error.message, 'getMembersInSession');
+                reject(error.message)
+            }
+            else{
+                const arr = (result as Array<any>);
+                const mapped = arr.map(v => v['user_id'] as string);
+                resolve(mapped);
+            }
+        })
+    })
 }
