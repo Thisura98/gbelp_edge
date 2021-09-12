@@ -1,4 +1,4 @@
-<div class="chat-container">
+<div class="chat-container" #chatContainer>
     <div class="chat-bubble"
         *ngFor="let msg of messages" 
         [class.sender-me]="msg.user_id == userId">

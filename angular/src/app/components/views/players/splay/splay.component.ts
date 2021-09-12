@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as phaser from 'phaser';
@@ -11,6 +11,7 @@ import { GameListing } from 'src/app/models/game/game';
 import { ServerResponse } from 'src/app/models/common-models';
 import { ChatGroupType, ChatMessage } from '../../../../../../../commons/src/models/chat';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { PlayerChatPanelComponent } from '../panels/chat/chat.panel.component';
 
 type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
 
@@ -30,6 +31,9 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   game: GameListing | undefined;
 
   chats: ChatMessage[] = [];
+
+  @ViewChild(PlayerChatPanelComponent)
+  chatPanel: PlayerChatPanelComponent | undefined;
   
   private session: GameSession | undefined;
   private destroyableSockets: Socket[] = [];
@@ -203,6 +207,10 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.panelExpanded = true;
     this.panelTitle = item;
+
+    if (this.panelTitle == 'Chats'){
+      this.chatPanel?.scrollToBottom();
+    }
   }
 
   private initSocketConnection(): Promise<any>{
@@ -269,14 +277,15 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatSocket = chatsSocket;
 
       chatsSocket.on('chat-did-add', (message) => {
-        console.log('chat-did-add invoked! with', message);
         this.zone.run(() => {
           this.chats.push(message);
+          this.chatPanel?.scrollToBottom();
         });
       })
       chatsSocket.on('chat-init', (currentMessages) => {
-        console.log("SOCKETIO", "chat-init", currentMessages);
-        this.chats = currentMessages;
+        this.zone.run(() => {
+          this.chats = currentMessages;
+        })
         resolve(chatsSocket);
       })
       chatsSocket.on('connect_error', (error) => {
