@@ -3,6 +3,7 @@ import * as sql from '../../util/connections/sql/sql_connection';
 import * as userDAO from './users';
 import * as crypto from '../../util/crypto';
 import * as l from '../../util/logger';
+import { UserType } from '../../../../commons/src/models/user';
 
 /**
  * Creates a new group with the details. Optionally 
@@ -337,6 +338,55 @@ export function removeUserFromGroup(
         });
     });
     
+}
+
+export function deleteGroup(
+    callingUser: string,
+    groupId: string
+): Promise<boolean>{
+    // todo check if calling user is a teacher
+    // check if calling user is a member of the group
+    return new Promise<boolean>((resolve, reject) => {
+        userDAO.getUserType(callingUser, (success, desc, result) => {
+            if (!success){
+                reject('getUserType: ' + desc);
+                return;
+            }
+
+            const dbType = (result! as any).user_type_id as string;
+            const isTeacher = dbType == UserType.admin || dbType == UserType.teacher
+
+            resolve(isTeacher);
+        })
+    })
+    .then(isTeacher => {
+        if (!isTeacher)
+            return Promise.reject("User must be a teacher to delete groups");
+
+        return checkUserMembership(groupId, callingUser);
+    })
+    .then(isMember => {
+        if (!isMember)
+            return Promise.reject("User must be a member of the group to delete it");
+        
+        return Promise.resolve();
+    })
+    .then(() => {
+        return new Promise<boolean>((resolve, reject) => {
+            const query = `DELETE FROM user_group
+            WHERE group_id = ${sql.smartEscape(groupId)};`;
+
+            sql.getPool()!.query(query, (error, result) => {
+                if (error){
+                    l.logc(error.message, 'deleteGroup-final');
+                    reject(error.message)
+                    return;
+                }
+
+                resolve(result.affectedRows > 0);
+            });
+        });
+    });
 }
 
 interface InviteLikeProcessable{

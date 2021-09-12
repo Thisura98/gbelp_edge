@@ -124,7 +124,7 @@ export function handlerGroups(app: Express){
         });
     });
 
-    app.delete(aurl('delete-group'), (req, res) => {
+    app.delete(aurl('leave-group'), (req, res) => {
         const uid = req.header('uid') as string;
         const groupId = req.query.groupId as string;
         const userId = req.query.userId as string;
@@ -141,6 +141,21 @@ export function handlerGroups(app: Express){
         .catch(err => {
             l.logc(err, 'delete-group');
 
+            res.send(new ResponseModel(false, 200, err));
+        });
+    })
+
+    app.delete(aurl('delete-group'), (req, res) => {
+        const userId = req.header('uid') as string;
+        const groupId = req.query.groupId as string;
+
+        groupsDAO.deleteGroup(userId, groupId).then(deleted => {
+            if (deleted)
+                res.send(new ResponseModel(true, 200, 'Successfully deleted group ' + groupId));
+            else
+                res.send(new ResponseModel(false, 200, 'Could not delete group ' + groupId));
+        })
+        .catch(err => {
             res.send(new ResponseModel(false, 200, err));
         });
     })

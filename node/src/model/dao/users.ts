@@ -50,7 +50,7 @@ export function getUser(userId: string, callback: (status: boolean, result: Obje
  */
 export function getUserType(userId: string, callback: (status: boolean, desc: string, result: Object | null) => void){
     db.getPool()!.query(
-        `SELECT T.${db.columns.userType.userTypeId}, T.${db.columns.userType.name}
+        `SELECT T.${db.columns.userType.userTypeId} as user_type_id, T.${db.columns.userType.name} as name
          FROM ${db.tables.users} U INNER JOIN ${db.tables.userType} T 
          ON U.${db.columns.users.userType} = T.${db.columns.userType.userTypeId} 
          WHERE U.${db.columns.users.userId} = '${userId}'`,
