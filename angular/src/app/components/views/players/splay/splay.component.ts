@@ -18,6 +18,10 @@ import { DialogService } from 'src/app/services/dialog.service';
 export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   
   sessionId: string | undefined;
+  panelExpanded: boolean = false;
+  panelTitle: string = '';
+
+
   private destroyableSockets: Socket[] = [];
   private playNonce: string | undefined;
 
@@ -42,22 +46,6 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(){
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
-    this.runOutside(() => {
-      // const phaserConfig: phaser.Types.Core.GameConfig = {
-      //   type: Phaser.AUTO,
-      //   backgroundColor: "#5DACD8",
-      //   width: 400,
-      //   height: 300,
-      //   parent: "canvas-container",
-      //   scene: [ ],
-      //   fps: {
-      //     target: 25,
-      //     forceSetTimeOut: true
-      //   },
-      // };
-
-      // const game = new Phaser.Game(phaserConfig);
-    }); 
   }
 
   ngOnDestroy(){
@@ -70,6 +58,11 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       this.location.back()
     else
       this.router.navigate(['dashboard']);
+  }
+
+  chatButtonPressed(){
+    this.panelExpanded = !this.panelExpanded;
+    this.panelTitle = "Chats";
   }
 
   @HostListener('window:popstate', ['$event'])

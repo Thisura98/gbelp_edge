@@ -10,6 +10,8 @@ h4{
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
 }
 
 .nav{
@@ -91,5 +93,45 @@ app-userstatus{
 @media only screen and (max-width: 600px){
     .primary-container > .buttons-container{
         gap: 10px;
+    }
+}
+
+/* Secondary Container */
+
+.secondary-container{
+    background-color: #1616169e;
+    padding: 10px;
+    position: absolute;
+    z-index: 2;
+    top: 50px;
+    height: calc(100vh - 70px);
+    width: 250px;
+    right: -260px; /* Width + left margin */
+    margin: 10px;
+    transition: 0.4s right;
+    box-sizing: border-box;
+}
+
+.secondary-container.expanded{
+    right: 0;
+    /*  */
+    /* padding: 10px; */
+}
+
+.secondary-container .panel-title{
+    color: white;
+    font-weight: 500;
+    margin: 0;
+}
+
+/*
+Magic number from src/game_compiler/helpers/game/template.js
+in game window initialization code.
+
+gameZoom = 1.5
+400 x gameZoom = 600 
+*/
+@media only screen and (max-width: 600px){
+    .secondary-container{
     }
 }

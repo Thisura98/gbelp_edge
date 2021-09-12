@@ -17,7 +17,8 @@
             <div class="canvas-container" id="canvas-container">
             </div>
             <div class="buttons-container">
-                <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat">
+                <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat"
+                    (click)="chatButtonPressed()">
                 </app-player-controlbtn>
                 <app-player-controlbtn imageName="splay/btn.objectives.icon.png" title="Objectives">
                 </app-player-controlbtn>
@@ -27,8 +28,8 @@
                 </app-player-controlbtn>
             </div>
         </div>
-        <div class="secondary-container">
-
-        </div>
+    </div>
+    <div class="secondary-container" [class.expanded]="panelExpanded">
+        <h3 class="panel-title">{{panelTitle}}</h3>
     </div>
 </div>
