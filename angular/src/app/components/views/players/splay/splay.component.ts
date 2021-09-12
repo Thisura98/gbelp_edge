@@ -148,6 +148,8 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
    * loads it in the current browser window.
    */
   private loadCompiledGame(){
+    this.dialogService.showSnackbar("Game load temporarily disabled");
+    return;
     this.apiService.getCompiledGameJS(this.sessionId!).subscribe(gameJS => {
       console.log("Received game JS!");
       console.log(gameJS);
@@ -198,6 +200,14 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   private initSocketConnection(): Promise<any>{
     return this.getGameUsageSocket().then(() => {
       return this.getChatsSocket();
+    }).catch(err => {
+      this.dialogService.showDismissable(
+        "Socket Error", 
+        "Could not setup socket connections", 
+        () => {
+        this.userService.clearCredentials();
+        this.userService.routeOutIfLoggedOut();
+      })
     })
   }
 
@@ -211,9 +221,9 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       const usageSocket = io(ioUsageAddress, {
         autoConnect: true,
         auth: {
-          uid: authData.user.userId!,
-          auth: authData.token!,
-          sessionId: this.sessionId!
+          uid: authData.user.userId ?? '',
+          auth: authData.token ?? '',
+          sessionId: this.sessionId ?? ''
         }
       });
 
@@ -237,14 +247,13 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     return new Promise<EdgeSocket>((resolve, reject) => {
       const ioChatsAddress = ApiService.getSocketURL() + '/chats';
       const authData = this.userService.getUserAndToken();
-
       const chatsSocket = io(ioChatsAddress, {
         autoConnect: true,
         auth: {
-          uid: authData.user.userId!,
-          auth: authData.token!,
+          uid: authData.user.userId ?? '',
+          auth: authData.token ?? '',
           type: ChatGroupType.chatAtSessionLevel,
-          key: this.sessionId!
+          key: this.sessionId ?? ''
         }
       });
 

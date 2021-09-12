@@ -73,6 +73,7 @@ import { StatefulButton } from './components/ui/buttons/stateful-button/stateful
 import { GroupOverviewComponent } from './components/views/groups/overview/overview.component';
 import { GroupsMenuselectorComponent } from './components/views/groups/common/menuselector/menuselector.component';
 import { GroupJoinComponent } from './components/views/groups/join/join.component';
+import { PlayerChatPanelComponent } from './components/views/players/panels/chat/chat.panel.component';
 
 
 @NgModule({
@@ -120,7 +121,8 @@ import { GroupJoinComponent } from './components/views/groups/join/join.componen
     GroupCreateComponent,
     GroupOverviewComponent,
     GroupJoinComponent,
-    StatefulButton
+    StatefulButton,
+    PlayerChatPanelComponent,
   ],
   imports: [
     CommonModule,

@@ -99,6 +99,9 @@ app-userstatus{
 /* Secondary Container */
 
 .secondary-container{
+    display: flex;
+    flex-direction: column;
+
     background-color: #1616169e;
     padding: 15px;
     position: absolute;

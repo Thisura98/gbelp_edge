@@ -1,0 +1,19 @@
+<div class="chat-container">
+    <div class="chat-bubble"
+        *ngFor="let msg of messages" 
+        [class.sender-me]="msg.user_id == userId">
+        <div class="sender">{{msg.sender}}</div>
+        <div class="bottom">
+            <div class="content">{{msg.content}}</div>
+            <div class="time">{{msg.timestamp | date: 'HH:mm'}}</div>
+        </div>
+    </div>
+</div>
+<div class="chat-box-separator"></div>
+<div class="chat-box-container">
+    <textarea class="chat-box" placeholder="Type anything here..."></textarea>
+</div>
+<div class="chat-send-btn">
+    Send Message
+    <img src="assets/splay/icon.sendmsg.png"/>
+</div>
