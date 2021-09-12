@@ -269,6 +269,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
       chatsSocket.on('chat-init', (currentMessages) => {
         console.log("SOCKETIO", "chat-init", currentMessages);
+        this.chats = currentMessages;
         resolve(chatsSocket);
       })
       chatsSocket.on('connect_error', (error) => {

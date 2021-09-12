@@ -6,7 +6,7 @@ import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { DateTime } from 'luxon';
 import * as crypto from '../../crypto';
 import * as l from '../../logger';
-import { ChatGroupType } from '../../../../../commons/src/models/chat';
+import { ChatGroupType, ChatMessage } from '../../../../../commons/src/models/chat';
 
 
 /**
@@ -46,48 +46,55 @@ import { ChatGroupType } from '../../../../../commons/src/models/chat';
         const chatType = socket.handshake.auth['type'] as number;
         const chatKey = socket.handshake.auth['key'] as string;
         let roomCode = '';
-        let currentMessages: any[] = [];
 
-        if (chatType == ChatGroupType.chatAtSessionLevel){
-            const sessionId = chatKey;
-            roomCode = `session_${sessionId}`;
+        const currentMessages: Promise<ChatMessage[]> = new Promise((resolve, reject) => {
+            if (chatType == ChatGroupType.chatAtSessionLevel){
+                const sessionId = chatKey;
+                roomCode = `session_${sessionId}`;
+    
+                chatDAO.createGetChatsForSession(sessionId).then(chatGroup => {
+                    resolve(chatGroup.messages);
+                })
+                .catch(err => {
+                    l.logc(err, 'chatsNamespace')
+                    reject(err);
+                })
+            }
+            else{
+                // tbd
+                resolve([])
+            }
+        })
 
-            chatDAO.createGetChatsForSession(sessionId).then(chatGroup => {
-                currentMessages = chatGroup.messages;
-            })
-            .catch(err => {
-                l.logc(err, 'chatsNamespace')
-                return;
-            })
-        }
-        else{
-            // tbd
-        }
+        currentMessages.then(messages => {
+            socket.join(roomCode);
 
-        socket.join(roomCode);
+            l.logc(`${userId} joined chat room ${roomCode} T:${chatType} K:${chatKey}`, 'chatsNamespace');
 
-        l.logc(`${userId} joined chat room ${roomCode} T:${chatType} K:${chatKey}`, 'chatsNamespace');
+            // emit current messages
+            socket.emit('chat-init', messages);
 
-        // emit current messages
-        socket.emit('chat-init', currentMessages);
+            // on message add to chat document & broadcast to others in room
+            socket.on('chat-add', (message) => {
+                l.logc(`${userId} sent message to ${roomCode} = ${JSON.stringify(message)}`, 'chatsNamespace');
+                
+                // message should be of type ChatMessage
+                chatDAO.insertIntoChat(
+                    chatType, 
+                    chatKey, 
+                    message
+                ).then(result => {
+                    if (!result){
+                        l.logc('Insert into chat failed');
+                        return;
+                    }
 
-        // on message add to chat document & broadcast to others in room
-        socket.on('chat-add', (message) => {
-            l.logc(`${userId} sent message to ${roomCode} = ${JSON.stringify(message)}`, 'chatsNamespace');
-            
-            // message should be of type ChatMessage
-            chatDAO.insertIntoChat(
-                chatType, 
-                chatKey, 
-                message
-            ).then(result => {
-                if (!result){
-                    l.logc('Insert into chat failed');
-                    return;
-                }
-
-                socket.broadcast.to(roomCode).emit('chat-did-add', message);
-            })
+                    socket.broadcast.to(roomCode).emit('chat-did-add', message);
+                })
+            });
+        })
+        .catch(err => {
+            l.logc('Chat namespace registration failed.');
         });
     });
 }
