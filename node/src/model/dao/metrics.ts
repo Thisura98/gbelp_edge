@@ -311,3 +311,35 @@ function createTrackerQueryPromises(operations: DAOMergeOperation<IGameGuidanceT
         })
     });
 }
+
+/**
+ * Records a Usage Metric.
+ * @param sessionId Session ID
+ * @param userId Logged in user ID
+ * @param isStart 1 if starting a session, 0 if ending.
+ * @param playNonce Any unique value identifying this play session.
+ * @returns 
+ */
+export function recordUsage(
+    sessionId: string,
+    userId: string,
+    isStart: string,
+    playNonce: string,
+): Promise<boolean>{
+    const se = sql.smartEscape;
+    const query = `INSERT INTO \`gsession_user_usage\`
+    (session_id, user_id, is_start, play_nonce)
+    VALUES (${se(sessionId)}, ${se(userId)}, ${se(isStart)}, ${se(playNonce)});
+    `;
+    return new Promise<boolean>((resolve, reject) => {
+        sql.getPool()!.query(query, (error, result) => {
+            if (error){
+                l.logc(error.message, 'recordUsageStarted');
+                reject(error.message);
+            }
+            else{
+                resolve(result.affectedRows > 0);
+            }
+        });
+    });
+}

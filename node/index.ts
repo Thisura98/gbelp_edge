@@ -9,10 +9,10 @@ import * as sql from './src/util/connections/sql/sql_connection';
 import * as mongo from './src/util/connections/mongo/mongo_connection';
 import * as utils from './src/util/utils';
 
+import { SocketHandler } from './src/util/connections/socketio/sockets';
+
 import express from 'express';
 import * as fs from 'fs';
-import socket, { Socket } from 'socket.io';
-import http from 'http';
 
 // import bp from 'body-parser';
 const app = express();
@@ -77,20 +77,22 @@ app.get('*', (req, res) => {
 
 // MARK: Initialize Socket IO
 
-const socketServer = http.createServer();
-const io = new socket.Server(socketServer, {
-    cors: {
-        origin: constAllowCorsOn,
-        methods: ['GET', 'POST']
-    }
-});
-io.on('connection', (socket) => {
-    l.logc('New socket IO connection! ' + socket.id, 'socket-io');
-    socket.on('disconnect', () => {
-        l.logc('Socket disconnected ' + socket.id, 'socket-io');
-    })
-});
-socketServer.listen(constPortSocketIO);
+// const socketServer = http.createServer();
+// const io = new socket.Server(socketServer, {
+//     cors: {
+//         origin: constAllowCorsOn,
+//         methods: ['GET', 'POST']
+//     }
+// });
+// io.on('connection', (socket) => {
+//     l.logc('New socket IO connection! ' + socket.id, 'socket-io');
+//     socket.on('disconnect', () => {
+//         l.logc('Socket disconnected ' + socket.id, 'socket-io');
+//     })
+// });
+// socketServer.listen(constPortSocketIO);
+
+const socketHandler = new SocketHandler(constPortSocketIO, constAllowCorsOn);
 
 // END MARK: Socket IO
 

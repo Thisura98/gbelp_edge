@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as phaser from 'phaser';
 import { ApiService } from 'src/app/services/api.service';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
+import { UserService } from 'src/app/services/user.service';
 
 /**
  * Singleplayer Game Player
@@ -16,6 +17,8 @@ import { io } from 'socket.io-client';
 export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   
   sessionId: string | undefined;
+  private destroyableSockets: Socket[] = [];
+  private playNonce: string | undefined;
 
   constructor(
     private elementRef: ElementRef,
@@ -24,6 +27,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -100,15 +104,43 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private manualDestroyGameSession(){
+    this.destroyableSockets.forEach(s => {
+      s.disconnect();
+    })
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
     (window as any).EdgeProxy.unloadGame();
   }
 
-  private initSocketConnection(){
-    const ioAddress = ApiService.getSocketURL();
-    const socket = io(ioAddress, {autoConnect: true});
-    socket.onAny(() => {
-      // do nothing
+  private initSocketConnection(): Promise<any>{
+    return new Promise<any>((resolve, reject) => {
+      const ioUsageAddress = ApiService.getSocketURL() + '/usage';
+      const ioChatsAddress = ApiService.getSocketURL() + '/chats';
+      const authData = this.userService.getUserAndToken();
+      
+      // Usage Tracker socket
+      const usageSocket = io(ioUsageAddress, {
+        autoConnect: true,
+        auth: {
+          uid: authData.user.userId!,
+          auth: authData.token!,
+          sessionId: this.sessionId!
+        }
+      });
+      usageSocket.on('play-nonce', ({nonce}) => {
+        this.playNonce = nonce;
+        console.log("Received playnonce:", nonce as string);
+        resolve(nonce);
+      });
+      usageSocket.on('connect_error', (error) => {
+        reject(error);
+      });
+
+      // Chats socket
+      // todo
+      // const 
+  
+      
+      this.destroyableSockets.push(usageSocket);
     });
   }
 

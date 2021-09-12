@@ -15,6 +15,8 @@ export const tables = {
     gameSessions: 'gsessions',
     gameSessionMembers: 'gsession_members',
     gameSessionUserObjective: 'gsession_user_objective',
+    gameSessionGuidanceTracker: 'gsession_user_guidance_tracker',
+    gameSessionUsage: 'gsession_user_usage',
     gameObjective: 'game_objective',
     gameGuidanceTracker: 'game_guidance_tracker',
     gameEntry: 'game_entry'
@@ -94,11 +96,29 @@ export const columns = {
         userId: 'user_id'
     },
     gameSessionUserObjective: {
+        id: 'id',
         sessionId: 'session_id',
         objectiveId: 'objective_id',
         userId: 'user_id',
         progress: 'progress',
         lastUpdated: 'last_updated'
+    },
+    gameSessionGuidanceTracker: {
+        id: 'id',
+        sessionId: 'gsession_id',
+        trackerId: 'tracker_id',
+        userId: 'user_id',
+        progress: 'progress',
+        playNonce: 'play_nonce',
+        lastUpdated: 'last_updated'
+    },
+    gameSessionUsage: {
+        id: 'id',
+        sessionId: 'session_id',
+        userId: 'user_id',
+        isStart: 'is_start',
+        playNonce: 'play_nonce',
+        timestamp: 'timestamp'
     },
     gameObjective: {
         objectiveId: 'objective_id',
