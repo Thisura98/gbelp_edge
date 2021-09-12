@@ -5,6 +5,7 @@ import * as phaser from 'phaser';
 import { ApiService } from 'src/app/services/api.service';
 import { io, Socket } from 'socket.io-client';
 import { UserService } from 'src/app/services/user.service';
+import { DialogService } from 'src/app/services/dialog.service';
 
 /**
  * Singleplayer Game Player
@@ -28,9 +29,14 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
     private userService: UserService,
+    private dialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
+    if (!this.userService.getIsLoggedIn()){
+      this.logoutOfPlayWithReason("You must login or register before parcitipating in play sessions.");
+      return;
+    }
     this.loadData();
   }
 
@@ -78,8 +84,9 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sessionId = data.sessionid as string;
       console.log("Loaded Single Play Session Component with session id:", this.sessionId);
 
-      this.initSocketConnection();
-      this.loadGame();
+      this.initSocketConnection().then(_ => {
+        this.loadGame();
+      });
     });
   }
 
@@ -109,6 +116,16 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
     (window as any).EdgeProxy.unloadGame();
+  }
+
+  private logoutOfPlayWithReason(reason: string){
+    this.dialogService.showDismissable(
+      'Cannot Continue',
+      reason,
+      () => {
+        this.userService.routeOutIfLoggedOut();
+      }
+    )
   }
 
   private initSocketConnection(): Promise<any>{

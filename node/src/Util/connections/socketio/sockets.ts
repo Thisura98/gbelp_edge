@@ -74,7 +74,7 @@ export class SocketHandler{
             })
         });
 
-        // HAndle connections for /usage namespace
+        // Handle connections for /usage namespace
         usageNamespace.on('connection', (socket) => {
             const playNonce = this.createPlayNonce();
             const userId = socket.handshake.auth['uid'] as string;
