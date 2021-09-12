@@ -12,7 +12,7 @@ import * as utils from '../../util/utils';
 // getCompileGameURLForGameId
 
 export function handlerPlay(app: Express){
-    app.get(aurl('play/get-game'), (req, res) => {
+    app.get(aurl('play/get-game-js'), (req, res) => {
         const sessionId = req.query.sessionId as string;
         const userId: string | undefined = req.header('uid');
 
@@ -43,7 +43,7 @@ export function handlerPlay(app: Express){
                 return Promise.resolve(gameEntryID)
             }
             else{
-                return Promise.reject('Could not find game ID and play/get-game');
+                return Promise.reject('Could not find game ID and play/get-game-js');
             }
         })
         .then(gameId => {
@@ -53,12 +53,12 @@ export function handlerPlay(app: Express){
             const absolutePath = path.join(utils.getRootPath(), gameJS);
             res.type('text/javascript').sendFile(absolutePath, (err) => {
                 if (err){
-                    l.logc(`Could not locate game lib file at "${gameJS}"`, 'play/get-game - fs err')
-                    l.logc(err.message, 'play/get-game - fs err');
+                    l.logc(`Could not locate game lib file at "${gameJS}"`, 'play/get-game-js - fs err')
+                    l.logc(err.message, 'play/get-game-js - fs err');
                 }
             });
         }).catch(error => {
-            l.logc(error, 'play/get-game - catch');
+            l.logc(error, 'play/get-game-js - catch');
             res.sendStatus(404);
         });
     });

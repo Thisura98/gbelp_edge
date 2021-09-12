@@ -3,6 +3,7 @@ import { aurl } from '../api_handler';
 import * as sessionDAO from '../../model/dao/session';
 import * as playDAO from '../../model/dao/play';
 import { ResponseModel } from '../../model/models/common';
+import * as l from '../../util/logger';
 
 export function handlerSession(app: Express){
 
@@ -29,6 +30,25 @@ export function handlerSession(app: Express){
             res.send(new ResponseModel(true, 200, 'Group ID and Session ID retrieved for test session', result))
         }).catch(error => {
             res.send(new ResponseModel(false, 200, error, null));
+        })
+    })
+
+    app.get(aurl('get-session'), (req, res) => {
+        const userId = req.header('uid')!;
+        const sessionId = req.query.sessionId as string;
+
+        return sessionDAO.checkUserBelongsToSession(userId, sessionId).then(belongs => {
+            if (!belongs){
+                return Promise.reject("User does not belong to session")
+            }
+            return sessionDAO.getSession(sessionId);
+        })
+        .then(session => {
+            res.send(new ResponseModel(true, 200, "Successfully retrieved session", session))
+        })
+        .catch(err => {
+            l.logc(err, 'get-session');
+            res.send(new ResponseModel(false, 200, err));
         })
     })
 

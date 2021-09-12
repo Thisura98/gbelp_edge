@@ -152,8 +152,7 @@ export function checkUserBelongsToSession(
     const tbl = sql.tables.gameSessionMembers;
     const cSessionId = sql.columns.gameSessionMembers.sessionId;
     const cUserId = sql.columns.gameSessionMembers.userId;
-    const query = `
-    SELECT COUNT(*) AS cnt 
+    const query = `SELECT COUNT(*) AS cnt 
     FROM \`${tbl}\` 
     WHERE ${cSessionId} = '${sessionId}' AND ${cUserId} = '${userId}';
     `;

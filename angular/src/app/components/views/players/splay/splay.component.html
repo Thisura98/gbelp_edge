@@ -11,8 +11,8 @@
         
         <div class="primary-container">
             <div class="titles">
-                <span class="game-title">Flurttle Bubble Game</span>
-                <span class="game-level">Example Level 1</span>
+                <span class="game-title">{{game?.entry?.name ?? ""}}</span>
+                <span class="game-level">{{currentLevelName}}</span>
             </div>
             <div class="canvas-container" id="canvas-container">
             </div>
@@ -20,9 +20,11 @@
                 <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat"
                     (click)="chatButtonPressed()">
                 </app-player-controlbtn>
-                <app-player-controlbtn imageName="splay/btn.objectives.icon.png" title="Objectives">
+                <app-player-controlbtn imageName="splay/btn.objectives.icon.png" title="Objectives"
+                    (click)="objectivesButtonPressed()">
                 </app-player-controlbtn>
-                <app-player-controlbtn imageName="splay/btn.guidance.icon.png" title="Guidance">
+                <app-player-controlbtn imageName="splay/btn.guidance.icon.png" title="Guidance"
+                    (click)="guidanceButtonPressed()">
                 </app-player-controlbtn>
                 <app-player-controlbtn imageName="splay/btn.leave.icon.png" title="Leave" [dangerous]="true">
                 </app-player-controlbtn>

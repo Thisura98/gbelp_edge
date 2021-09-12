@@ -10,6 +10,7 @@ import { tap, map } from 'rxjs/operators';
 import { GameLevel } from '../../../../commons/src/models/game/levels';
 import { UserGroup, UserGroupComposition, UserGroupMembership } from '../../../../commons/src/models/groups';
 import { IGroupJoinEncryptedResult } from '../models/group/group';
+import { GameSession } from '../../../../commons/src/models/session';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -364,7 +365,7 @@ export class ApiService{
     // MARK: Play 
 
     getCompiledGameJS(sessionId: string): Observable<string>{
-        const url = this.aurl('play/get-game');
+        const url = this.aurl('play/get-game-js');
         return this.http.get(url, {
             params: {
                 sessionId: sessionId
@@ -375,6 +376,20 @@ export class ApiService{
     }
 
     // MARK END: Play
+
+    // MARK: Session
+
+    getSession(sessionId: string): Observable<ServerResponse<GameSession>>{
+        const url = this.aurl('get-session');
+        return this.http.get<ServerResponse<GameSession>>(url, {
+            params: {
+                sessionId: sessionId
+            },
+            headers: this.getHeaders()
+        });
+    }
+
+    // MARK END: Session
 
     // MARK: Session API calls
 

@@ -6,6 +6,9 @@ import { ApiService } from 'src/app/services/api.service';
 import { io, Socket } from 'socket.io-client';
 import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { GameSession } from '../../../../../../../commons/src/models/session';
+import { GameListing } from 'src/app/models/game/game';
+import { ServerResponse } from 'src/app/models/common-models';
 
 /**
  * Singleplayer Game Player
@@ -20,10 +23,12 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   sessionId: string | undefined;
   panelExpanded: boolean = false;
   panelTitle: string = '';
-
-
+  game: GameListing | undefined;
+  
+  private session: GameSession | undefined;
   private destroyableSockets: Socket[] = [];
   private playNonce: string | undefined;
+  private levelIndex: number = 0;
 
   constructor(
     private elementRef: ElementRef,
@@ -35,6 +40,13 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     private userService: UserService,
     private dialogService: DialogService,
   ) { }
+
+  get currentLevelName(): string{
+    if (this.game == undefined)
+      return '';
+
+    return this.game.project.levels[this.levelIndex].name;
+  }
 
   ngOnInit(): void {
     if (!this.userService.getIsLoggedIn()){
@@ -61,8 +73,16 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   chatButtonPressed(){
-    this.panelExpanded = !this.panelExpanded;
-    this.panelTitle = "Chats";
+    this.expandPanel("Chats");
+  }
+
+  objectivesButtonPressed(){
+    this.expandPanel("Objectives");
+  }
+  
+  guidanceButtonPressed(){
+    this.expandPanel("Guidance");
+
   }
 
   @HostListener('window:popstate', ['$event'])
@@ -84,6 +104,46 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private loadGame(){
+    // Get the session then,
+    // get the game then,
+    // get the game js.
+    this.apiService.getSession(this.sessionId!).subscribe(sessionResponse => {
+      if (!sessionResponse.success){
+        this.handleLoadError(sessionResponse, 'Sessions');
+        return;
+      }
+
+      this.session = sessionResponse.data;
+      this.apiService.getGame(this.session!.game_entry_id).subscribe(gameResponse => {
+        if (!gameResponse.success){
+          this.handleLoadError(gameResponse, 'Games');
+          return;
+        }
+
+        this.game = gameResponse.data;
+        this.loadCompiledGame();
+      })
+    })
+  }
+
+  private handleLoadError<T>(response: ServerResponse<T>, entityName: string){
+    const defaultMessage = `Could not get ${entityName}`;
+    const msg = response.description ?? defaultMessage;
+
+    this.dialogService.showDismissable(
+      "Data Loading Error",
+      msg,
+      () => {
+        this.router.navigate(['/dashboard']);
+      }
+    )
+  }
+
+  /**
+   * Retrieves a fresh build of the game and 
+   * loads it in the current browser window.
+   */
+  private loadCompiledGame(){
     this.apiService.getCompiledGameJS(this.sessionId!).subscribe(gameJS => {
       console.log("Received game JS!");
       console.log(gameJS);
@@ -119,6 +179,16 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userService.routeOutIfLoggedOut();
       }
     )
+  }
+
+  private expandPanel(item: string){
+    if (this.panelExpanded && this.panelTitle == item){
+      this.panelExpanded = false;
+      return;
+    }
+
+    this.panelExpanded = true;
+    this.panelTitle = item;
   }
 
   private initSocketConnection(): Promise<any>{
