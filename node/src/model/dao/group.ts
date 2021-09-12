@@ -244,23 +244,39 @@ export function getGroupComposition(
     });
 }
 
-export function getGroupIdMatchingCriteria(
+/**
+ * Get a group where the only user is the passed in user.
+ * @param userId User ID
+ * @returns 
+ */
+export function getGroupConsitingOfOneUser(
     userId: string,
-    exactGroupCountWithUser: number,
 ): Promise<number | undefined>{
     const cGroup = sql.columns.userGroup;
     const cGroupMems = sql.columns.userGroupMembership;
 
-    const qExistingGroup = `SELECT M.user_id 
+    const qExistingGroup = `SELECT M.group_id 
     FROM user_group_membership M
     INNER JOIN (
-        SELECT user_id, COUNT(group_id) as group_count FROM \`user_group_membership\` GROUP BY user_id
+        SELECT group_id, COUNT(user_id) as user_count FROM \`user_group_membership\` GROUP BY group_id
     ) J1
-    ON M.user_id = J1.user_id
+    ON M.group_id = J1.group_id
+    WHERE J1.user_count = 1 
+    AND M.${cGroupMems.userId} = ${userId}
+    ORDER BY M.group_id DESC`;
+
+    /*
+    const qExistingGroup = `SELECT M.group_id 
+    FROM user_group_membership M
+    INNER JOIN (
+        SELECT group_id, COUNT(user_id) as user_count FROM \`user_group_membership\` GROUP BY group_id
+    ) J1
+    ON M.group_id = J1.group_id
     INNER JOIN \`${sql.tables.userGroup}\` G
     ON M.${cGroupMems.groupId} = G.${cGroup.groupId}
-    WHERE J1.group_count = ${exactGroupCountWithUser} 
-    AND M.${cGroupMems.userId} = ${userId}`;
+    WHERE J1.user_count = 1 
+    AND M.${cGroupMems.userId} = ${userId}
+    ORDER BY M.group_id DESC`;*/
 
     // console.log(qExistingGroup);
 
@@ -271,7 +287,7 @@ export function getGroupIdMatchingCriteria(
             }
             else{
                 if (result.length > 0){
-                    resolve(result[0]['user_id']);
+                    resolve(result[0]['group_id']);
                 }
                 else{
                     resolve(undefined);

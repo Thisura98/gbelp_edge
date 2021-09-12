@@ -55,7 +55,7 @@ export function createTestSession(
         // Final session ID
         // Check re-usable session exists?
         finalSessionId = sessionId;
-        return groupsDAO.getGroupIdMatchingCriteria(userId, 1);
+        return groupsDAO.getGroupConsitingOfOneUser(userId);
     }).then(existingGroupId => {
         // Create group if needed
         if (existingGroupId == undefined){
