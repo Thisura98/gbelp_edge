@@ -233,7 +233,7 @@ export class ApiService{
     }
 
     joinGroupWith(encryptedGroupId: string): Observable<ServerResponse<IGroupJoinEncryptedResult>>{
-        const url = this.aurl('groups/join/e');
+        const url = this.aurl('groups-join-e');
         const body = {
             egi: encryptedGroupId
         };
@@ -242,8 +242,19 @@ export class ApiService{
         });
     }
 
-    removeFromGroup(groupId: string, userId: string): Observable<ServerResponsePlain>{
+    deleteGroup(groupId: string): Observable<ServerResponsePlain>{
         const url = this.aurl('delete-group');
+        const query = {
+            groupId: groupId
+        };
+        return this.http.delete<ServerResponsePlain>(url, {
+            params: query,
+            headers: this.getHeaders()
+        });
+    }
+
+    removeFromGroup(groupId: string, userId: string): Observable<ServerResponsePlain>{
+        const url = this.aurl('leave-group');
         const query = {
             groupId: groupId,
             userId: userId

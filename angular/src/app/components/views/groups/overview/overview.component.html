@@ -33,7 +33,9 @@
                     </a>
                     <br>
                     <a class="clickable-link">Invite via Email</a>
-                    <a class="clickable-link">Delete Group</a>
+                    <a class="clickable-link" (click)="deleteGroupPressed($event)">
+                        Delete Group
+                    </a>
                     <a class="clickable-link" (click)="leaveGroupPressed($event)">Leave Group</a>
                 </div>
                 <div class="stats dyn-anim-fadein-delayed">

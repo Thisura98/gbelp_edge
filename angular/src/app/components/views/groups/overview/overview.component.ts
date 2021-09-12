@@ -70,6 +70,18 @@ export class GroupOverviewComponent implements OnInit{
     );
   }
 
+  deleteGroupPressed(event: Event){
+    event.preventDefault();
+
+    this.dialogService.showYesNo(
+      "Confirm Deletion", 
+      "Are you sure you want to delete this group?",
+      () => {
+        this.deleteGroupConfirmed();
+      }
+    );
+  }
+
   copyInvitationPressed(){
     const url = this.utilsService.urlFromPath(this.group!.invite_link!);
     this.utilsService.copyToClipboard(url);
@@ -126,6 +138,24 @@ export class GroupOverviewComponent implements OnInit{
       // navigate to dashboard and remove this group's link
       // from history.
       this.dialogService.showSnackbar("You have succesfully left this group!");
+      this.router.navigate(['/dashboard'], {
+        replaceUrl: true
+      });
+    });
+  }
+
+  private deleteGroupConfirmed(){
+    this.apiService.deleteGroup(this.groupId!).subscribe(response => {
+      if (!response.success){
+        const msg = response.description ?? "Unknown error occured while deleting group";
+        this.dialogService.showDismissable("Processing Error", msg);
+        return;
+      }
+
+      // Acknowledge action then,
+      // navigate to dashboard and remove this group's link
+      // from history.
+      this.dialogService.showSnackbar("You have succesfully deleted the group!");
       this.router.navigate(['/dashboard'], {
         replaceUrl: true
       });

@@ -97,7 +97,7 @@ export function handlerGroups(app: Express){
         })
     })
 
-    app.post(aurl('groups/join/e'), (req, res) => {
+    app.post(aurl('groups-join-e'), (req, res) => {
         const uid = req.header('uid') as string;
         const encryptedGroupId = req.body.egi as string;
         let destinationGroupId = '';
