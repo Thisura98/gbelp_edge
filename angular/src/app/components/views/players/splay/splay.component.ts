@@ -93,6 +93,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendChatMessage(message: ChatMessage){
+    this.chats.push(message);
     this.chatSocket!.emit('chat-add', message);
   }
 
@@ -267,6 +268,12 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       this.destroyableSockets.push(chatsSocket);
       this.chatSocket = chatsSocket;
 
+      chatsSocket.on('chat-did-add', (message) => {
+        console.log('chat-did-add invoked! with', message);
+        this.zone.run(() => {
+          this.chats.push(message);
+        });
+      })
       chatsSocket.on('chat-init', (currentMessages) => {
         console.log("SOCKETIO", "chat-init", currentMessages);
         this.chats = currentMessages;

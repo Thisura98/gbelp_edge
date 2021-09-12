@@ -41,7 +41,7 @@
 /**
  Fixes bug with flex-end not allowing scroll.
  */
-.chat-container .chat-bubble:first{
+.chat-container .chat-bubble:first-child{
     margin-top: auto;
 }
 

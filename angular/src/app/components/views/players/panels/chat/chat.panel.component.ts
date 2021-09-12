@@ -69,5 +69,6 @@ export class PlayerChatPanelComponent implements OnInit{
     );
 
     this.sendMsg.emit(msg);
+    this.typedMessage = undefined;
   }
 }

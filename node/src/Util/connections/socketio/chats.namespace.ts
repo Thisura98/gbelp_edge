@@ -89,6 +89,7 @@ import { ChatGroupType, ChatMessage } from '../../../../../commons/src/models/ch
                         return;
                     }
 
+                    l.logc(`broadcasting message to ${roomCode}...`);
                     socket.broadcast.to(roomCode).emit('chat-did-add', message);
                 })
             });
