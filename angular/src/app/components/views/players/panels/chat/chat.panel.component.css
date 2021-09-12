@@ -107,6 +107,7 @@
     gap: 10px;
     display: flex;
     background-color: #383838;
+    transition: 0.28s background-color;
     height: 35px;
     min-height: 35px;
     justify-content: center;
@@ -115,6 +116,15 @@
     font-size: 13px;
     font-weight: 400;
     border-radius: 8px;
+    cursor: pointer;
+}
+
+.chat-send-btn:hover{
+    background-color: #474747;
+}
+
+.chat-send-btn:active{
+    background-color: #1f1f1f;
 }
 
 .chat-send-btn > img{
