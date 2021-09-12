@@ -30,6 +30,13 @@
         </div>
     </div>
     <div class="secondary-container" [class.expanded]="panelExpanded">
-        <h3 class="panel-title">{{panelTitle}}</h3>
+        <div class="title-row">
+            <h3 class="panel-title">{{panelTitle}}</h3>
+            <div class="hide-btn noselect" (click)="panelExpanded = false">
+                <span>Hide</span>
+                <img class="hide-icon" src="assets/splay/white.chevron.right.png" />
+            </div>
+        </div>
+
     </div>
 </div>
