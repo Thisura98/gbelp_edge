@@ -1,1 +1,20 @@
-<p>Group Reports Work!</p>
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <app-groups-menuselector 
+                    *ngIf="group != undefined"
+                    class="dyn-anim-fadein-delayed"
+                    [title]="group?.name ?? ''" >
+            </app-groups-menuselector>
+            <div 
+                *ngIf="group == undefined"
+                class="spacer">
+            </div>
+            <app-userstatus class="nav-stretch"></app-userstatus>
+        </div>
+    </div>
+
+</div>
