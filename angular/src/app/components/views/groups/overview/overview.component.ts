@@ -55,7 +55,7 @@ export class GroupOverviewComponent implements OnInit{
   }
 
   handleBack(){
-    this.location.back();
+    this.router.navigate(['/dashboard/groups']);
   }
 
   leaveGroupPressed(event: Event){
