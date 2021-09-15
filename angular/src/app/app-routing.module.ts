@@ -45,6 +45,8 @@ const routes: Routes = [
       {path: "groups", component: DashboardgroupsComponent},
     ]
   },
+  {path: "dashboard/parent", component: ParentDashboardComponent},
+  {path: "dashboard/f/:page", component: DashboardComponent, data: { mode: 'forward'} },
   {path: "groups/create", component: GroupCreateComponent},
   {path: "groups/overview", component: GroupOverviewComponent},
   {path: "groups/reports", component: GroupReportsComponent},

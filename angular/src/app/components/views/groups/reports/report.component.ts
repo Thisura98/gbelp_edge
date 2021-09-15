@@ -48,7 +48,7 @@ export class GroupReportsComponent implements OnInit{
 
         // Membership error in API.
         if (response.code == 201)
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/dashboard/f/groups']);
         return;
       }
       

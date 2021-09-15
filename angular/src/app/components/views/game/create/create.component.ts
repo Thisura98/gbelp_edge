@@ -157,7 +157,7 @@ export class GameCreateComponent implements OnInit {
   handleBack(){
     const type = this.userService.getNavSafeUserType();
     this.router.navigate([
-      `/dashboard/${type}/games`
+      `/dashboard/f/games`
     ]);
   }
 

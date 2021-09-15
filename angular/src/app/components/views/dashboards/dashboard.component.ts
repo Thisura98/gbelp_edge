@@ -1,9 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { ApiService } from 'src/app/services/api.service';
+import { combineLatest, forkJoin } from 'rxjs';
 
+/**
+ * you can use,
+ * ```
+ * /dashboard 
+ * /dashboard/f/games
+ * /dashboard/f/groups
+ * ```
+ * 
+ * the 'f' allows you to redirect to the correct user type's dashboard.
+ * 
+ * for example, if the user is a teacher then:
+ * /dashboard/f/games ---> /dashboard/teacher/games
+ */
 @Component({
   selector: 'app-dashboard',
   template: `
@@ -17,31 +31,52 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class DashboardComponent implements OnInit {
 
+  private isForwardMode: boolean = false;
+  private forwardingPage: string | undefined;
+
+
   constructor(
     private userService: UserService,
-    private apiService: ApiService,
-    private router: Router
+    private dialogService: DialogService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
 
     // fixme use navigation events for this
     this.userService.routeOutIfLoggedOut();
+    combineLatest([
+      this.activatedRoute.params,
+      this.activatedRoute.data
+    ])
+    .subscribe(result => {
+      this.forwardingPage = result[0].page;
+      this.isForwardMode = result[1].mode == 'forward';
 
-    // stay for now
-    setTimeout(() => {
-      const userId = this.userService.getUserAndToken().user.userId!;
-      const userType = this.userService.getNavSafeUserType();
+      this.handle();
+    }, (err) => {
+      console.log("Error at dashboard:", err);
+    })
 
+  }
+
+  private handle(){
+    const userId = this.userService.getUserAndToken().user.userId;
+    const userType = this.userService.getNavSafeUserType();
+
+    if (userId == null || userType == null){
+      this.dialogService.showSnackbar("User is not logged in");
+      this.userService.routeOutIfLoggedOut();
+      return;
+    }
+
+    if (this.isForwardMode){
+      this.router.navigate([`/dashboard/${userType}/${this.forwardingPage!}`], {replaceUrl: true});
+    }
+    else{
       this.router.navigate([`/dashboard/${userType}/overview`], {replaceUrl: true});
-      /*
-      this.apiService.getUserType(userId).subscribe(r => {
-        console.log("DashboardComponent", r);
-        const name = r.data.name == 'admin' ? 'teacher' : r.data.name;
-        this.router.navigate([`/dashboard/${name}/overview`], {replaceUrl: true});
-      })*/
-    }, 1000);
-
+    }
   }
 
 }
