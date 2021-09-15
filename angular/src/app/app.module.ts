@@ -74,6 +74,7 @@ import { GroupOverviewComponent } from './components/views/groups/overview/overv
 import { GroupsMenuselectorComponent } from './components/views/groups/common/menuselector/menuselector.component';
 import { GroupJoinComponent } from './components/views/groups/join/join.component';
 import { PlayerChatPanelComponent } from './components/views/players/panels/chat/chat.panel.component';
+import { GroupReportsComponent } from './components/views/groups/reports/report.component';
 
 
 @NgModule({
@@ -121,6 +122,7 @@ import { PlayerChatPanelComponent } from './components/views/players/panels/chat
     GroupCreateComponent,
     GroupOverviewComponent,
     GroupJoinComponent,
+    GroupReportsComponent,
     StatefulButton,
     PlayerChatPanelComponent,
   ],
