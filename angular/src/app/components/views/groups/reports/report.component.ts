@@ -17,7 +17,7 @@ import { GameSession } from "../../../../../../../commons/src/models/session";
   ]
 })
 export class GroupReportsComponent implements OnInit{
-
+  
   get sidebarItems(): DynamicSidebarItem[]{
     return getGroupSidebarItems('Reports');
   }

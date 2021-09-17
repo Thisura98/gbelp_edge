@@ -27,6 +27,24 @@ export class GameSession{
     public end_time: string | undefined
   ){}
 }
+/**
+ * Game Session Entity with extra fields
+ */
+export class GameSessionWithExtensions extends GameSession{
+  constructor(
+    public session_id: number | undefined,
+    public type_id: number,
+    public state: number,
+    public game_entry_id: number,
+    public game_entry_name: string,
+    public game_type: number,
+    public group_id: number,
+    public start_time: string,
+    public end_time: string | undefined
+  ){
+    super(session_id, type_id, state, game_entry_id, group_id, start_time, end_time)
+  }
+}
 
 /**
  * Which users are allowed in which sessions

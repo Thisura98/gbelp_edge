@@ -75,6 +75,7 @@ import { GroupsMenuselectorComponent } from './components/views/groups/common/me
 import { GroupJoinComponent } from './components/views/groups/join/join.component';
 import { PlayerChatPanelComponent } from './components/views/players/panels/chat/chat.panel.component';
 import { GroupReportsComponent } from './components/views/groups/reports/report.component';
+import { GroupsSessionTable } from './components/ui/groups/session-data-table/groups.sessiontable';
 
 
 @NgModule({
@@ -118,6 +119,7 @@ import { GroupReportsComponent } from './components/views/groups/reports/report.
     ScriptReferenceArticleComponent,
     SplayComponent,
     PlayerControlButtonComponent,
+    GroupsSessionTable,
     GroupsMenuselectorComponent,
     GroupCreateComponent,
     GroupOverviewComponent,
