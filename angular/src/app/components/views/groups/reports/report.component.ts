@@ -7,12 +7,13 @@ import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
 import { UserGroup } from "../../../../../../../commons/src/models/groups";
+import { GameSession } from "../../../../../../../commons/src/models/session";
 
 @Component({
   templateUrl: './report.component.html',
   styleUrls: [
     './report.component.css',
-    '../common/group.commonstyles.css'
+    './common/report.common.css'
   ]
 })
 export class GroupReportsComponent implements OnInit{
@@ -20,8 +21,17 @@ export class GroupReportsComponent implements OnInit{
   get sidebarItems(): DynamicSidebarItem[]{
     return getGroupSidebarItems('Reports');
   }
+
+  get selectedSession(): GameSession | undefined{
+    if (this.selectedSessionIndex == undefined)
+      return undefined;
+    return this.sessions[this.selectedSessionIndex!];
+  }
+
   groupId: string | undefined;
   group: UserGroup | undefined;
+  sessions: GameSession[] = [];
+  selectedSessionIndex: number | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
