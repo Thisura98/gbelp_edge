@@ -22,6 +22,7 @@ export class GameSession{
     public type_id: number,
     public state: number,
     public game_entry_id: number,
+    public group_id: number,
     public start_time: string,
     public end_time: string | undefined
   ){}

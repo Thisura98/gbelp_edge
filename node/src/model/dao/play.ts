@@ -30,33 +30,10 @@ export function createTestSession(
     let finalGroupId: string = '';
 
     // Check re-usable session exists?
-    const result = sessionDAO.getSessionIdMatchingCriteria(
-        userId,
-        gameId,
-        GameSessionType.test.toString(),
-        GameSessionState.live.toString()
-    ).then(existingSessionId => {
-        // Create session if needed
-        if (existingSessionId == undefined){
-            return sessionDAO.createSession(
-                GameSessionType.test, 
-                GameSessionState.live, 
-                Number.parseInt(gameId),
-                timeNow, 
-                undefined,
-                [userId]
-            );
-        }
-        else{
-            // Equivalent of Promise.resolve(existingSessionId)
-            return existingSessionId!
-        }
-    }).then(sessionId => {
-        // Final session ID
-        // Check re-usable session exists?
-        finalSessionId = sessionId;
-        return groupsDAO.getGroupConsitingOfOneUser(userId);
-    }).then(existingGroupId => {
+    const result2 = groupsDAO.getGroupConsitingOfOneUser(
+        userId
+    )
+    .then(existingGroupId => {
         // Create group if needed
         if (existingGroupId == undefined){
             return groupsDAO.createGroup(
@@ -71,8 +48,41 @@ export function createTestSession(
         else{
             return existingGroupId!.toString();
         } // getCompiledGameURL
-    }).then(groupId => {
+    })
+    .then(groupId => {
         finalGroupId = groupId;
+        return Promise.resolve(groupId);
+    })
+    .then(() => {
+        return sessionDAO.getSessionIdMatchingCriteria(
+            userId,
+            gameId,
+            GameSessionType.test.toString(),
+            GameSessionState.live.toString()
+        );
+    })
+    .then(existingSessionId => {
+        // Create session if needed
+        if (existingSessionId == undefined){
+            return sessionDAO.createSession(
+                GameSessionType.test, 
+                GameSessionState.live, 
+                Number.parseInt(gameId),
+                Number.parseInt(finalGroupId),
+                timeNow, 
+                undefined,
+                [userId]
+            );
+        }
+        else{
+            // Equivalent of Promise.resolve(existingSessionId)
+            return existingSessionId!
+        }
+    })
+    .then(sessionId => {
+        // Final session ID
+        // Check re-usable session exists?
+        finalSessionId = sessionId;
         return new Promise<any>((resolve, reject) => {
             gamesDAO.getGame(gameId, (status, msg, result) => {
                 if (status)
@@ -81,7 +91,8 @@ export function createTestSession(
                     reject('Could not get game entry and project matching game ID: ' + gameId);
             });
         });
-    }).then(gameEntryAndProject => {
+    })
+    .then(gameEntryAndProject => {
         return getCompiledGameURL(
             gameEntryAndProject.entry,
             gameEntryAndProject.project,
@@ -98,7 +109,7 @@ export function createTestSession(
         return Promise.reject(error);
     });
 
-    return result;
+    return result2;
 }
 
 

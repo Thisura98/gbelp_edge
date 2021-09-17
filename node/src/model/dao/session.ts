@@ -9,14 +9,15 @@ export function createSession(
     typeId: number,
     state: number,
     gameEntryId: number,
+    groupId: number,
     startTime: string,
     endTime: string | undefined,
     insertUserIds: string[] | undefined,
 ): Promise<string>{
     const c = sql.columns.gameSessions;
     const se = sql.smartEscape;
-    const columns = [c.typeId, c.state, c.gameEntryId, c.startTime, c.endTime];
-    const values = [se(typeId), se(state), se(gameEntryId), se(startTime), se(endTime)];
+    const columns = [c.typeId, c.state, c.gameEntryId, c.groupId, c.startTime, c.endTime];
+    const values = [se(typeId), se(state), se(gameEntryId), se(groupId), se(startTime), se(endTime)];
 
     const strColumns = columns.join(',')
     const strValues = values.join(',');

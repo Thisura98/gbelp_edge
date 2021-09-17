@@ -11,10 +11,11 @@ export function handlerSession(app: Express){
         const typeId = req.body.typeId;
         const state = req.body.state;
         const gameId = req.body.gameEntryId;
+        const groupId = req.body.groupId;
         const startTime = req.body.startTime;
         const endTime = req.body.endTime;
         const users: string[] = req.body.insertUsers ?? [];
-        sessionDAO.createSession(typeId, state, gameId, startTime, endTime, users).then((sessionId) => {
+        sessionDAO.createSession(typeId, state, gameId, groupId, startTime, endTime, users).then((sessionId) => {
             return sessionDAO.getSession(sessionId);
         }).then((session) => {
             res.send(new ResponseModel(true, 200, 'Created and retrieved session', session));
