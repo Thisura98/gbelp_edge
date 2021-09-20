@@ -52,14 +52,15 @@ export class GroupsSessionDataAdapter{
 
     for (let item of sorted){
       const timeString = this.getFormattedStartDate(item.start_time);
-      if (lastTimeString == '' || timeString == lastTimeString){
-        lastSection.title = timeString;
-        lastSection.rows.push(item);
-      }
-      else{
+      
+      if (lastTimeString != timeString && lastTimeString != ''){
         sections.push(lastSection);
         lastSection = { title: '', rows: [] };
       }
+
+      lastSection.title = timeString;
+      lastSection.rows.push(item);
+      lastTimeString = timeString;
     }
 
     if (lastSection.title != ''){

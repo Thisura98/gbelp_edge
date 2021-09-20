@@ -1,4 +1,4 @@
-<div *ngFor="let section of data">
+<div *ngFor="let section of data" class="section dyn-anim-fadein-delayed">
     <h2>{{section.title}}</h2>
 
     <div class="header">
@@ -11,7 +11,7 @@
     </div>
 
     <div class="row" *ngFor="let row of section.rows">
-        <div class="row-item col-start-time">{{row.start_time | date:'yyyy/MM/dd hh:mma' }}</div>
+        <div class="row-item col-start-time">{{row.start_time | date:'short' }}</div>
         <div class="row-item col-end-time">{{row.end_time}}</div>
         <div class="row-item col-state">
             <div class="status-pill" [class]="getStateClass(row.state)">
