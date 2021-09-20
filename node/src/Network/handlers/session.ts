@@ -53,4 +53,25 @@ export function handlerSession(app: Express){
         })
     })
 
+    app.get(aurl('session/sessions-by-group'), (req, res) => {
+        const groupId = req.query.groupId as string;
+        let filterStates = req.query.states as string[];
+        
+        // type safety
+        if (filterStates === undefined)
+            filterStates = [];
+        else if (typeof filterStates == 'string')
+            filterStates = [filterStates];
+
+        return sessionDAO.getSessionsInGroup(
+            groupId, filterStates
+        )
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'Successfully received groups', data));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err))
+        })
+    })
+
 }

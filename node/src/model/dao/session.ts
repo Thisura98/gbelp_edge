@@ -1,4 +1,4 @@
-import { GameSession, GameSessionState, GameSessionType } from '../../../../commons/src/models/session';
+import { GameSession, GameSessionState, GameSessionType, GameSessionWithExtensions } from '../../../../commons/src/models/session';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as l from '../../util/logger';
 
@@ -186,4 +186,42 @@ export function getMembersInSession(
             }
         })
     })
+}
+
+/**
+ * @param states An ARRAY of session states to filter with. If empty, returns sessions with all states.
+ * @returns 
+ */
+export function getSessionsInGroup(
+    groupId: string,
+    states: string[],
+): Promise<GameSessionWithExtensions[]>{
+    const t = sql.tables.gameSessions;
+    const t2 = sql.tables.gameEntry;
+    const c = sql.columns.gameSessions;
+    const c2 = sql.columns.gameEntry;
+    const se = sql.smartEscape;
+    let query = `SELECT S.*, E.type as game_type, E.name as game_entry_name
+    FROM \`${t}\` S
+    INNER JOIN \`${t2}\` E
+    ON S.${c.gameEntryId} = E.${c2.id}
+    WHERE S.${c.groupId} = ${se(groupId)}
+    `;
+
+    if (states.length > 0){
+        const joint = '(' + states.join(',') + ')';
+        query += ` AND S.${c.state} IN ${joint}`;
+    }
+
+    return new Promise<GameSessionWithExtensions[]>((resolve, reject) => {
+        sql.getPool()!.query(query, (error, result) => {
+            if (error){
+                l.logc(error.message, "getSessionsInGroup");
+                reject(error.message);
+            }
+            else{
+                resolve(result);
+            }
+        });
+    });
 }
