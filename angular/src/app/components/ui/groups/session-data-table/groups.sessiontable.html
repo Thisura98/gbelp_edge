@@ -1,23 +1,23 @@
 <div *ngFor="let section of data">
-    <h3>{{section.title}}</h3>
+    <h2>{{section.title}}</h2>
 
     <div class="header">
-        <div class="header-item">Start Time</div>
-        <div class="header-item">End Time</div>
-        <div class="header-item">State</div>
-        <div class="header-item">Game</div>
-        <div class="header-item">Type</div>
-        <div class="header-item" *ngIf="!hideActions">Actions</div>
+        <div class="header-item col-start-time">Start Time</div>
+        <div class="header-item col-end-time">End Time</div>
+        <div class="header-item col-state">State</div>
+        <div class="header-item col-game">Game</div>
+        <div class="header-item col-type">Type</div>
+        <div class="header-item col-actions" *ngIf="!hideActions">Actions</div>
     </div>
 
     <div class="row" *ngFor="let row of section.rows">
-        <div class="row-item">{{row.start_time}}</div>
-        <div class="row-item">{{row.end_time}}</div>
-        <div class="row-item">{{row.state}}</div>
-        <div class="row-item">{{row.game_name}}</div>
-        <div class="row-item">{{row.type}}</div>
+        <div class="row-item col-start-time">{{row.start_time | date}}</div>
+        <div class="row-item col-end-time">{{row.end_time}}</div>
+        <div class="row-item col-state">{{row.state}}</div>
+        <div class="row-item col-game">{{row.game_name}}</div>
+        <div class="row-item col-type">{{row.type}}</div>
 
-        <div class="row-item-actions" *ngIf="!hideActions">
+        <div class="row-item-actions col-actions" *ngIf="!hideActions">
             <div class="action-item" *ngFor="let action of row.actions">
                 <img class="action-item-img" [src]="getImageForAction(action)">
             </div>

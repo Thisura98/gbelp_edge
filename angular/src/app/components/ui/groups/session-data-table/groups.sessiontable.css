@@ -1,0 +1,45 @@
+:host{
+    width: 100%
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #C5C5C5;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.row-item-actions{
+    display: flex;
+    flex-direction: row;
+    gap: 10px
+}
+
+.action-item{
+    display: flex;
+    align-items: center;
+}
+
+.action-item-img{
+    width: 20px;
+}
+
+/* Column Widths */
+
+.col-start-time, .col-end-time{
+    width: 10%;
+}
+
+.col-state, .col-game, .col-type{
+    width: 20%;
+}
+
+.col-actions{
+    width: 10%;
+}

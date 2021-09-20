@@ -114,7 +114,7 @@ export class GroupsSessionDataAdapter{
     const today = new Date();
     // todo
     // return Today, Tomorrow, Yesterday
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
 
   private getDateFromTime(timeStr: string): Date{

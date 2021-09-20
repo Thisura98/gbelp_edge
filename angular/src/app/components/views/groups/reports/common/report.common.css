@@ -48,3 +48,7 @@
 .section-pane .dyn-select{
     width: 100%;
 }
+
+.section-reports{
+    flex-grow: 1;
+}
