@@ -23,7 +23,9 @@
                     Please select a session from below. Available reports for that session will be displayed afterwards.
                 </div>
                 
-                <app-groups-sessiontable class="session-table"></app-groups-sessiontable>
+                <app-groups-sessiontable class="session-table" [allowSelection]="true" (select)="sessionSelected($event)">
+
+                </app-groups-sessiontable>
 
                 <div class="empty-space"></div>
             </div>

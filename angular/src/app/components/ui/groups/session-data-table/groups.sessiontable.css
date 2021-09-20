@@ -22,7 +22,7 @@
     border-bottom: 1px solid #BDD5E3;
 }
 
-.row:hover{
+.row.selectable:hover{
     background-color: #0F88D822;
 }
 

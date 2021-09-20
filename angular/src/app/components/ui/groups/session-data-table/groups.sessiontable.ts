@@ -81,6 +81,13 @@ export class GroupsSessionTable{
     }
   }
 
+  rowClicked(row: GroupsSessionTableRow){
+    if (!this.allowSelection)
+      return;
+
+    this.select.emit(row);
+  }
+
   private processData(
     rawData: GameSessionWithExtensions[], hideActions: boolean
   ): Observable<GroupsSessionTableSection[]>{

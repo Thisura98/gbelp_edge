@@ -10,7 +10,9 @@
         <div class="header-item col-actions" *ngIf="!hideActions">Actions</div>
     </div>
 
-    <div class="row" *ngFor="let row of section.rows">
+    <div class="row" *ngFor="let row of section.rows" 
+        [class.selectable]="allowSelection"
+        (click)="rowClicked(row)">
         <div class="row-item col-start-time">{{row.start_time | date:'short' }}</div>
         <div class="row-item col-end-time">{{row.end_time}}</div>
         <div class="row-item col-state">

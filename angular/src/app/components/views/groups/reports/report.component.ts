@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
-import { GroupsSessionTable } from "src/app/components/ui/groups/session-data-table/groups.sessiontable";
+import { GroupsSessionTable, GroupsSessionTableRow } from "src/app/components/ui/groups/session-data-table/groups.sessiontable";
 import { getGroupSidebarItems } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -52,6 +52,10 @@ export class GroupReportsComponent implements OnInit{
       this.groupId = map.get('groupId') ?? undefined;
       this.loadData();
     });
+  }
+
+  sessionSelected(row: GroupsSessionTableRow){
+    this.dialogService.showDismissable("Session Selected", row.game_name);
   }
 
   private loadData(){
