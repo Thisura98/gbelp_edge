@@ -20,10 +20,12 @@
             <div class="section-reports">
                 <h2>Available Reports</h2>
                 <div class="no-session-notice" *ngIf="selectedSessionIndex == undefined">
-                    Please select a session from the right panel. Available reports for that session will appear here.
+                    Please select a session from below. Available reports for that session will be displayed afterwards.
                 </div>
                 
                 <app-groups-sessiontable class="session-table"></app-groups-sessiontable>
+
+                <div class="empty-space"></div>
             </div>
         </div>
     </div>

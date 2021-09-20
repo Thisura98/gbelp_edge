@@ -21,6 +21,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
     color: #AFAFAF;
 }
 
+.empty-space{
+    height: 200px;
+}
+
 /* Container Style */
 
 @media only screen and (max-width: 798px) {

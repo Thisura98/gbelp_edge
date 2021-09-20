@@ -12,6 +12,7 @@ export class GroupsSessionDataAdapter{
 
     const actionsForStates = this.getActionsForStates();
 
+    // Step 1: Convert Input Data model to Target Data model
     const mapped = data.map(s => {
 
       let actions: Actions[] = [];
@@ -37,14 +38,14 @@ export class GroupsSessionDataAdapter{
       return obj;
     });
 
-    /**
-     * Sorted in descending order
-     */
+    // Step 2: Sort models in descending startTime order
     const sorted = mapped.sort((a, b) => {
       const d1 = this.getDateFromTime(a.start_time);
       const d2 = this.getDateFromTime(b.start_time);
       return d2.getTime() - d1.getTime();
     })
+
+    // Step 3: Group models according to yyyy-MM-dd
 
     let sections: GroupsSessionTableSection[] = [];
     let lastTimeString: string = '';
@@ -63,6 +64,7 @@ export class GroupsSessionDataAdapter{
       lastTimeString = timeString;
     }
 
+    // : Append any missed items
     if (lastSection.title != ''){
       sections.push(lastSection);
     }
@@ -113,8 +115,17 @@ export class GroupsSessionDataAdapter{
   private getFormattedStartDate(timeStr: string): string{
     const date = new Date(timeStr);
     const today = new Date();
+    
+    if (date.getFullYear() == today.getFullYear()){
+      if (date.getMonth() == today.getMonth()){
+        if (date.getDate() == today.getDate()){
+          return 'Today';
+        }
+      }
+    }
+
     // todo
-    // return Today, Tomorrow, Yesterday
+    // return Tomorrow, Yesterday
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
 
