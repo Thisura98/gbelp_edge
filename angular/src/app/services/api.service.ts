@@ -3,6 +3,7 @@ import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequ
 import { Observable } from 'rxjs';
 import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
 import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGameTestSession, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from '../models/game/game';
+import { ServerResponseSessionsByGroup } from '../models/session';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ServerResponse, ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
@@ -10,7 +11,7 @@ import { tap, map } from 'rxjs/operators';
 import { GameLevel } from '../../../../commons/src/models/game/levels';
 import { UserGroup, UserGroupComposition, UserGroupMembership } from '../../../../commons/src/models/groups';
 import { IGroupJoinEncryptedResult } from '../models/group/group';
-import { GameSession } from '../../../../commons/src/models/session';
+import { GameSession, GameSessionState } from '../../../../commons/src/models/session';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -387,6 +388,17 @@ export class ApiService{
             },
             headers: this.getHeaders()
         });
+    }
+
+    getSessionsByGroup(groupId: string, stateFilters: GameSessionState[]): Observable<ServerResponseSessionsByGroup>{
+        const url = this.aurl('session/sessions-by-group');
+        return this.http.get<ServerResponseSessionsByGroup>(url, {
+            params: {
+                groupId: groupId,
+                states: stateFilters.map(v => v.toString())
+            },
+            headers: this.getHeaders()
+        })
     }
 
     // MARK END: Session

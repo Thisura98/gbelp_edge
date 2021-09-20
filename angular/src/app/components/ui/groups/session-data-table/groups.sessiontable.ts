@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Observable } from "rxjs";
+import { GameSessionWithExtensions } from "../../../../../../../commons/src/models/session";
+import { GroupsSessionDataAdapter } from "./groups.sessiontable.adapter";
 
 export enum Actions{
   duplicate = 'duplicate',
@@ -10,13 +13,18 @@ export enum Actions{
   reports = 'reports'
 }
 
-export interface GroupsSessionRow{
+export interface GroupsSessionTableRow{
   start_time: string
   end_time: string | undefined
   state: number
   game_name: string
   type: string
   actions: Actions[]
+}
+
+export interface GroupsSessionTableSection{
+  title: string
+  rows: GroupsSessionTableRow[]
 }
 
 @Component({
@@ -28,16 +36,35 @@ export interface GroupsSessionRow{
 })
 export class GroupsSessionTable{
 
-  @Input()
-  data: GroupsSessionRow[] = [];
-
-  @Input()
-  title: string | undefined;
+  data: GroupsSessionTableSection[] = [];
+  hideActions: boolean = false;
 
   @Input()
   allowSelection: boolean = false;
 
   @Output()
-  select = new EventEmitter<GroupsSessionRow>();
+  select = new EventEmitter<GroupsSessionTableRow>();
+
+  setRawData(rawData: GameSessionWithExtensions[], hideActions: boolean){
+    this.processData(rawData, hideActions).subscribe(data => {
+      this.data = data;
+      this.hideActions = hideActions;
+    })
+  }
+
+  getImageForAction(action: Actions): string{
+    const prefix = 'assets/groups/sessiontable/';
+    return prefix + action + '.png';
+  }
+
+  private processData(
+    rawData: GameSessionWithExtensions[], hideActions: boolean
+  ): Observable<GroupsSessionTableSection[]>{
+    return new Observable<GroupsSessionTableSection[]>((subscriber) => {
+      const adapter = new GroupsSessionDataAdapter();
+      const processed = adapter.adapt(rawData, hideActions);
+      subscriber.next(processed);
+    });
+  }
 
 }

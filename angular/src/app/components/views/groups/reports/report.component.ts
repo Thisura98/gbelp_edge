@@ -1,13 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
+import { GroupsSessionTable } from "src/app/components/ui/groups/session-data-table/groups.sessiontable";
 import { getGroupSidebarItems } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
 import { UserGroup } from "../../../../../../../commons/src/models/groups";
-import { GameSession } from "../../../../../../../commons/src/models/session";
+import { GameSessionWithExtensions } from "../../../../../../../commons/src/models/session";
 
 @Component({
   templateUrl: './report.component.html',
@@ -22,7 +23,7 @@ export class GroupReportsComponent implements OnInit{
     return getGroupSidebarItems('Reports');
   }
 
-  get selectedSession(): GameSession | undefined{
+  get selectedSession(): GameSessionWithExtensions | undefined{
     if (this.selectedSessionIndex == undefined)
       return undefined;
     return this.sessions[this.selectedSessionIndex!];
@@ -30,8 +31,11 @@ export class GroupReportsComponent implements OnInit{
 
   groupId: string | undefined;
   group: UserGroup | undefined;
-  sessions: GameSession[] = [];
+  sessions: GameSessionWithExtensions[] = [];
   selectedSessionIndex: number | undefined;
+
+  @ViewChild(GroupsSessionTable)
+  sessionTable: GroupsSessionTable | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,7 +67,21 @@ export class GroupReportsComponent implements OnInit{
       }
       
       this.group = response.data;
+
+      this.loadSessions();
     });
+  }
+
+  private loadSessions(){
+    this.apiService.getSessionsByGroup(this.groupId!, []).subscribe(response => {
+      if (!response.success){
+        this.dialogService.showDismissable("Session Data Error", response.description ?? "Unknown error");
+        return
+      }
+
+      this.sessions = response.data;
+      this.sessionTable!.setRawData(this.sessions, false);
+    })
   }
   
 }
