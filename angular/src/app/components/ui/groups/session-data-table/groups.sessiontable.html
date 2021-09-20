@@ -11,9 +11,13 @@
     </div>
 
     <div class="row" *ngFor="let row of section.rows">
-        <div class="row-item col-start-time">{{row.start_time | date}}</div>
+        <div class="row-item col-start-time">{{row.start_time | date:'yyyy/MM/dd hh:mma' }}</div>
         <div class="row-item col-end-time">{{row.end_time}}</div>
-        <div class="row-item col-state">{{row.state}}</div>
+        <div class="row-item col-state">
+            <div class="status-pill" [class]="getStateClass(row.state)">
+                {{getStateName(row.state)}}
+            </div>
+        </div>
         <div class="row-item col-game">{{row.game_name}}</div>
         <div class="row-item col-type">{{row.type}}</div>
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Observable } from "rxjs";
-import { GameSessionWithExtensions } from "../../../../../../../commons/src/models/session";
+import { GameSessionState, GameSessionWithExtensions } from "../../../../../../../commons/src/models/session";
 import { GroupsSessionDataAdapter } from "./groups.sessiontable.adapter";
 
 export enum Actions{
@@ -55,6 +55,30 @@ export class GroupsSessionTable{
   getImageForAction(action: Actions): string{
     const prefix = 'assets/groups/sessiontable/';
     return prefix + action + '.png';
+  }
+
+  getStateClass(state: number): string{
+    switch(state){
+      case GameSessionState.canceled: return 'sts-black';
+      case GameSessionState.complete: return 'sts-blue';
+      case GameSessionState.multiplayerReady: return 'sts-green';
+      case GameSessionState.multiplayerStaging: return 'sts-yellow';
+      case GameSessionState.live: return 'sts-red';
+      case GameSessionState.scheduled: return 'sts-gray';
+      default: return 'sts-gray';
+    }
+  }
+
+  getStateName(state: number): string{
+    switch(state){
+      case GameSessionState.canceled: return 'CANCELED';
+      case GameSessionState.complete: return 'COMPLETE';
+      case GameSessionState.multiplayerReady: return 'READY';
+      case GameSessionState.multiplayerStaging: return 'STAGING';
+      case GameSessionState.live: return 'LIVE';
+      case GameSessionState.scheduled: return 'SCHEDULED';
+      default: return 'UNKNOWN';
+    }
   }
 
   private processData(

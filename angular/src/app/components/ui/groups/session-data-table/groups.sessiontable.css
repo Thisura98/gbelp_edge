@@ -43,3 +43,19 @@
 .col-actions{
     width: 10%;
 }
+
+/* Status Pill */
+
+.status-pill{
+    border-radius: 8px;
+    color: white;
+    display: inline-block;
+    padding: 2px 9px;
+}
+
+.sts-black  { background-color: #470000; }
+.sts-blue   { background-color: #16A7FF; }
+.sts-green  { background-color: #50D300; }
+.sts-yellow { background-color: #FFA800; }
+.sts-red    { background-color: #E81414; }
+.sts-gray   { background-color: #CECECE; }

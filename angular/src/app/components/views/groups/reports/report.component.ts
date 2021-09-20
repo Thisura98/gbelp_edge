@@ -80,7 +80,7 @@ export class GroupReportsComponent implements OnInit{
       }
 
       this.sessions = response.data;
-      this.sessionTable!.setRawData(this.sessions, false);
+      this.sessionTable!.setRawData(this.sessions, true);
     })
   }
   
