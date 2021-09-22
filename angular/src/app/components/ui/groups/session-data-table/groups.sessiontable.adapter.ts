@@ -51,8 +51,27 @@ export class GroupsSessionDataAdapter{
     let lastTimeString: string = '';
     let lastSection: GroupsSessionTableSection = { title: '', rows: [] };
 
+    const today = new Date();
+    let tomorrow = new Date();
+    let yesterday = new Date();
+
+    tomorrow.setDate(today.getDate() + 1);
+    yesterday.setDate(today.getDate() - 1);
+
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+
+    yesterday.setHours(0);
+    yesterday.setMinutes(0);
+    yesterday.setSeconds(0);
+
+    tomorrow.setHours(23);
+    tomorrow.setMinutes(59);
+    tomorrow.setSeconds(59);
+
     for (let item of sorted){
-      const timeString = this.getFormattedStartDate(item.start_time);
+      const timeString = this.getFormattedStartDate(item.start_time, today, yesterday, tomorrow);
       
       if (lastTimeString != timeString && lastTimeString != ''){
         sections.push(lastSection);
@@ -112,9 +131,8 @@ export class GroupsSessionDataAdapter{
     return actionsForStates;
   }
 
-  private getFormattedStartDate(timeStr: string): string{
+  private getFormattedStartDate(timeStr: string, today: Date, yesterday: Date, tomorrow: Date): string{
     const date = new Date(timeStr);
-    const today = new Date();
     
     if (date.getFullYear() == today.getFullYear()){
       if (date.getMonth() == today.getMonth()){
@@ -123,6 +141,12 @@ export class GroupsSessionDataAdapter{
         }
       }
     }
+
+    if (yesterday.getTime() < date.getTime() && date.getTime() < today.getTime())
+      return 'Yesterday';
+      
+    else if (tomorrow.getTime() > date.getTime() && date.getTime() > today.getTime())
+      return 'Tomorrow';
 
     // todo
     // return Tomorrow, Yesterday

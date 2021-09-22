@@ -13,7 +13,7 @@
     <div class="row" *ngFor="let row of section.rows" 
         [class.selectable]="allowSelection"
         (click)="rowClicked(row)">
-        <div class="row-item col-start-time">{{row.start_time | date:'short' }}</div>
+        <div class="row-item col-start-time">{{row.start_time | date:'yy/MM/dd hh:mma' }}</div>
         <div class="row-item col-end-time">{{row.end_time}}</div>
         <div class="row-item col-state">
             <div class="status-pill" [class]="getStateClass(row.state)">
