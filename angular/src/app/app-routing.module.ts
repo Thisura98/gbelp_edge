@@ -29,6 +29,7 @@ import { GroupCreateComponent } from './components/views/groups/create/create.co
 import { GroupOverviewComponent } from './components/views/groups/overview/overview.component';
 import { GroupJoinComponent } from './components/views/groups/join/join.component';
 import { GroupReportsComponent } from './components/views/groups/reports/report.component';
+import { GroupSessionComponent } from './components/views/groups/session/session.component';
 
 
 const routes: Routes = [
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path: "dashboard/f/:page", component: DashboardComponent, data: { mode: 'forward'} },
   {path: "groups/create", component: GroupCreateComponent},
   {path: "groups/overview", component: GroupOverviewComponent},
+  {path: "groups/sessions", component: GroupSessionComponent},
   {path: "groups/reports", component: GroupReportsComponent},
   {path: "groups/join/:groupId", component: GroupJoinComponent},
   {path: "dashboard/parent", component: ParentDashboardComponent},

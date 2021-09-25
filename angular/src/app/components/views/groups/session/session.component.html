@@ -1,0 +1,38 @@
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <app-groups-menuselector 
+                    *ngIf="group != undefined"
+                    class="dyn-anim-fadein-delayed"
+                    [title]="group?.name ?? ''" >
+            </app-groups-menuselector>
+            <div 
+                *ngIf="group == undefined"
+                class="spacer">
+            </div>
+            <app-userstatus class="nav-stretch"></app-userstatus>
+        </div>
+
+        <div class="container3">
+            <div class="section-sessions">
+                <app-groups-sessiontable class="session-table" [allowSelection]="false">
+
+                </app-groups-sessiontable>
+
+                <div class="empty-space"></div>
+            </div>
+            <div class="section-pane">
+                <h2>Details</h2>
+                <div class="panel-today">
+                    <div class="panel-section-title">Today</div>
+                    <div class="panel-section-content">{{today}}</div>
+                </div>
+                <div class="panel-separator"></div>
+            </div>
+        </div>
+    </div>
+
+</div>

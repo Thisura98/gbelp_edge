@@ -35,3 +35,16 @@
 .buttons > :not(:first-child){
     margin-left: 10px;
 }
+
+/* Panel Styles */
+
+.panel-section-title{
+    font-weight: 100;
+}
+
+.panel-separator{
+    width: 100%;
+    margin: 20px 0;
+    height: 1px;
+    background-color: #E3E3E3;
+}
