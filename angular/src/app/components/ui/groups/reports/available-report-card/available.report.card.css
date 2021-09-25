@@ -1,0 +1,54 @@
+.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 140px;
+    height: 90px;
+    border: 2px solid #073A58;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.gradient{
+    background: radial-gradient(142.31% 142.31% at 50% -12.82%, rgba(138, 211, 255, 0.64) 0%, rgba(141, 212, 255, 0) 62.5%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 74.64%;
+}
+
+.icon-img{
+    width: 50px;
+}
+
+.content > .title{
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 19px;
+    margin-bottom: 8px;
+}
+
+.content > .description{
+    color: #5C5C5C;
+}
+
+:host{
+    display: flex;
+    gap: 15px;
+    flex-direction: row;
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 10px 0;
+}
+
+:host:hover{
+    background-color: #0F88D822;
+    border-radius: 8px;
+}
+
+:host:active{
+    background-color: #0f88d84b;
+}

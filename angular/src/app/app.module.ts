@@ -78,6 +78,7 @@ import { GroupReportsComponent } from './components/views/groups/reports/report.
 import { GroupsSessionTable } from './components/ui/groups/session-data-table/groups.sessiontable';
 import { GroupSessionComponent } from './components/views/groups/session/session.component';
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
+import { ReportAvailableCard } from './components/ui/groups/reports/available-report-card/available.report.card';
 
 
 @NgModule({
@@ -128,6 +129,7 @@ import { GroupReportsAvailableComponent } from './components/views/groups/report
     GroupJoinComponent,
     GroupSessionComponent,
     GroupReportsComponent,
+    ReportAvailableCard,
     GroupReportsAvailableComponent,
     StatefulButton,
     PlayerChatPanelComponent,
