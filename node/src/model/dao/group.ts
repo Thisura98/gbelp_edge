@@ -195,12 +195,14 @@ export function getGroupsOfUser(
     const colGMuserId = sql.columns.userGroupMembership.userId;
 
     const query = `
-    SELECT G.*, C.cnt as member_count
+    SELECT G.*, C.cnt AS member_count, COALESCE(S.sess_cnt, 0) AS session_count
     FROM ${tblUserGroup} G
     INNER JOIN ${tblMembership} M
     ON G.${colUG} = M.${colGM}
     INNER JOIN (SELECT COUNT(user_id) AS cnt, group_id FROM user_group_membership GROUP BY group_id) C
     ON G.${colUG} = C.group_id
+    LEFT JOIN (SELECT group_id, COUNT(session_id) AS sess_cnt FROM gsessions GROUP BY group_id) S
+    ON G.${colUG} = S.group_id
     WHERE M.${colGMuserId} = ${userId}`;
 
     return new Promise<any>((resolve, reject) => {
