@@ -48,6 +48,16 @@ export class GroupReportsAvailableComponent implements OnInit{
     });
   }
 
+  reportClicked(reportType: string){
+    const path = `groups/reports/${reportType}`;
+    this.router.navigate([path], {
+      queryParams: {
+        groupId: this.groupId!,
+        sessionId: this.sessionId!
+      }
+    })
+  }
+
   private loadData(){
     forkJoin([
       this.apiService.getSession(this.sessionId!),
