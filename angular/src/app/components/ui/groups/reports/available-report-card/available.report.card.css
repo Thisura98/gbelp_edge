@@ -3,12 +3,14 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 140px;
-    height: 90px;
+    width: 128px;
+    min-width: 128px;
+    height: 84px;
     border: 2px solid #073A58;
     border-radius: 8px;
     overflow: hidden;
     background-color: white;
+    pointer-events: none;
 }
 
 .gradient{
@@ -21,13 +23,13 @@
 }
 
 .icon-img{
-    width: 50px;
+    width: 40px;
 }
 
 .content > .title{
     font-weight: 500;
-    font-size: 19px;
-    line-height: 19px;
+    font-size: 17px;
+    line-height: 17px;
     margin-bottom: 8px;
 }
 
@@ -40,15 +42,25 @@
     gap: 15px;
     flex-direction: row;
     cursor: pointer;
-    transition: background 0.2s;
-    padding: 10px 0;
+    width: 450px;
+    position: relative;
 }
 
-:host:hover{
+.highlight{
+    transition: background 0.2s;
+    background-color: transparent;
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+}
+
+.highlight:hover{
     background-color: #0F88D822;
     border-radius: 8px;
 }
 
-:host:active{
+.highlight:active{
     background-color: #0f88d84b;
 }
