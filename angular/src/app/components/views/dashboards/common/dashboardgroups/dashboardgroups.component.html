@@ -27,6 +27,7 @@
         <div class="table-heading-row">
             <div class="heading-row-data">Group</div>
             <div class="heading-row-data header-member-count">Members</div>
+            <div class="heading-row-data header-member-count">Sessions</div>
             <div class="heading-row-icon">Join Link</div>
             <div class="heading-row-icon">View</div>
         </div>
@@ -45,7 +46,10 @@
             <div class="entry-row dyn-anim-fadein">
                 <div class="entry-row-data">{{entry.name}}</div>
                 <div class="entry-row-data data-member-count">
-                    {{entry.member_count}} User{{entry.member_count > 1 ? 's' : ''}}
+                    {{entry.member_count}} User{{entry.member_count == 1 ? '' : 's'}}
+                </div>
+                <div class="entry-row-data data-member-count">
+                    {{entry.session_count}} Session{{entry.session_count == 1 ? '' : 's'}}
                 </div>
                 <div class="entry-row-icon" (click)="copyInviteLink(entry)">
                     <img src="assets/dashboard/ico_meeting_link.png">

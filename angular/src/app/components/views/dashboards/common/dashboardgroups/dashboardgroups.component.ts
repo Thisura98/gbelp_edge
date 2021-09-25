@@ -14,6 +14,7 @@ interface IGroupDetailsRow{
   invite_link: string | undefined,
   user_limit: number,
   member_count: number,
+  session_count: number,
 }
 
 @Component({
