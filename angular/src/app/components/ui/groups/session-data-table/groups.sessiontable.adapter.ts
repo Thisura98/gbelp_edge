@@ -28,6 +28,7 @@ export class GroupsSessionDataAdapter{
       }
 
       const obj: GroupsSessionTableRow = {
+        obj: s,
         start_time: s.start_time,
         end_time: s.end_time,
         state: s.state,

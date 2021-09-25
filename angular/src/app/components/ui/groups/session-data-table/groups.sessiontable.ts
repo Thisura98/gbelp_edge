@@ -14,6 +14,7 @@ export enum Actions{
 }
 
 export interface GroupsSessionTableRow{
+  obj: GameSessionWithExtensions
   start_time: string
   end_time: string | undefined
   state: number
@@ -35,7 +36,7 @@ export interface GroupsSessionTableSection{
   ]
 })
 export class GroupsSessionTable{
-
+  
   data: GroupsSessionTableSection[] = [];
   hideActions: boolean = false;
 
@@ -43,7 +44,7 @@ export class GroupsSessionTable{
   allowSelection: boolean = false;
 
   @Output()
-  select = new EventEmitter<GroupsSessionTableRow>();
+  select = new EventEmitter<GameSessionWithExtensions>();
 
   setRawData(rawData: GameSessionWithExtensions[], hideActions: boolean){
     this.processData(rawData, hideActions).subscribe(data => {
@@ -85,7 +86,7 @@ export class GroupsSessionTable{
     if (!this.allowSelection)
       return;
 
-    this.select.emit(row);
+    this.select.emit(row.obj);
   }
 
   private processData(

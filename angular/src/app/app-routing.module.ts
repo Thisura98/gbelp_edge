@@ -30,6 +30,7 @@ import { GroupOverviewComponent } from './components/views/groups/overview/overv
 import { GroupJoinComponent } from './components/views/groups/join/join.component';
 import { GroupReportsComponent } from './components/views/groups/reports/report.component';
 import { GroupSessionComponent } from './components/views/groups/session/session.component';
+import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 
 
 const routes: Routes = [
@@ -53,6 +54,7 @@ const routes: Routes = [
   {path: "groups/sessions", component: GroupSessionComponent},
   {path: "groups/reports", component: GroupReportsComponent},
   {path: "groups/join/:groupId", component: GroupJoinComponent},
+  {path: "groups/reports/available", component: GroupReportsAvailableComponent},
   {path: "dashboard/parent", component: ParentDashboardComponent},
   {path: "game/create", component: GameCreateComponent, data: {editMode: false}},
   {path: "game/edit", component: GameCreateComponent, data: {editMode: true}},

@@ -23,16 +23,9 @@ export class GroupReportsComponent implements OnInit{
     return getGroupSidebarItems('Reports');
   }
 
-  get selectedSession(): GameSessionWithExtensions | undefined{
-    if (this.selectedSessionIndex == undefined)
-      return undefined;
-    return this.sessions[this.selectedSessionIndex!];
-  }
-
   groupId: string | undefined;
   group: UserGroup | undefined;
   sessions: GameSessionWithExtensions[] = [];
-  selectedSessionIndex: number | undefined;
 
   @ViewChild(GroupsSessionTable)
   sessionTable: GroupsSessionTable | undefined;
@@ -54,8 +47,17 @@ export class GroupReportsComponent implements OnInit{
     });
   }
 
-  sessionSelected(row: GroupsSessionTableRow){
-    this.dialogService.showDismissable("Session Selected", row.game_name);
+  sessionSelected(row: GameSessionWithExtensions){
+    // this.dialogService.showDismissable("Session Selected", row.game_name);
+
+    this.router.navigate([
+      'groups/reports/available'
+    ], {
+      queryParams: {
+        groupId: row.group_id!,
+        sessionId: row.session_id!
+      }
+    })
   }
 
   private loadData(){
