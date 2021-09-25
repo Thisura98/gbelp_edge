@@ -9,7 +9,6 @@
                     [title]="group?.name ?? ''" >
             </app-groups-menuselector>
             <div 
-                *ngIf="group == undefined"
                 class="spacer">
             </div>
             <app-userstatus class="nav-stretch"></app-userstatus>
@@ -20,7 +19,37 @@
                 <h2>Available Reports</h2>
                 
 
+
                 <div class="empty-space"></div>
+            </div>
+            <div class="section-pane">
+                <h2>Details</h2>
+                <div class="panel">
+                    Showing  All available reports for this session.
+                </div>
+                <div class="panel-separator"></div>
+                <div class="panel panel-game">
+                    <div class="panel-section-title">Game</div>
+                    <div class="panel-section-content">{{game?.name}}</div>
+                </div>
+                <div class="panel-separator"></div>
+                <div class="panel panel-session">
+                    <div class="panel-section-title">Session Duration</div>
+                    <div class="panel-section-content">
+                        <div class="session-time">
+                            From:
+                            <span class="session-time-from">{{session?.start_time | date}}</span>
+                        </div>
+                        <div class="session-time">
+                            To:
+                            <span class="session-time-from">
+                                {{
+                                    session?.end_time | date
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

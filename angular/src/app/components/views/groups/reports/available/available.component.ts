@@ -1,11 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { forkJoin } from "rxjs";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
+import { GameEntry } from "../../../../../../../../commons/src/models/game/game";
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
+import { GameSession } from "../../../../../../../../commons/src/models/session";
 
 @Component({
   templateUrl: './available.component.html',
@@ -22,7 +25,10 @@ export class GroupReportsAvailableComponent implements OnInit{
   }
 
   private groupId: string | undefined;
+  private sessionId: string | undefined;
   group: UserGroup | undefined;
+  session: GameSession | undefined;
+  game: GameEntry | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,23 +43,52 @@ export class GroupReportsAvailableComponent implements OnInit{
     this.userService.routeOutIfLoggedOut();
     this.activatedRoute.queryParamMap.subscribe(map => {
       this.groupId = map.get('groupId') ?? undefined;
+      this.sessionId = map.get('sessionId') ?? undefined;
       this.loadData();
     });
   }
 
   private loadData(){
-    this.apiService.getGroup(this.groupId!).subscribe(response => {
-      if (!response.success){
-        const msg = response.description;
-        this.dialogService.showDismissable("Data Load Error", msg);
+    forkJoin([
+      this.apiService.getSession(this.sessionId!),
+      this.apiService.getGroup(this.groupId!)
+    ]).subscribe(values => {
+      
+      const sessionResponse = values[0];
+      const groupResponse = values[1];
 
-        // Membership error in API.
-        if (response.code == 201)
+      // Check Membership errors.
+      if (!groupResponse.success){
+        const msg = groupResponse.description;
+        this.dialogService.showDismissable("Data Load Error", msg);
+        if (groupResponse.code == 201)
           this.router.navigate(['/dashboard/f/groups']);
         return;
       }
-      
-      this.group = response.data;
+
+      // Check session errors.
+      if (!sessionResponse.success){
+        const msg = sessionResponse.description;
+        this.dialogService.showDismissable("Session Load Error", msg);
+        return;
+      }
+
+      this.group = groupResponse.data;
+      this.session = sessionResponse.data;
+      this.loadGameEntry();
+    })
+  }
+
+  private loadGameEntry(){
+    const gameId = this.session!.game_entry_id;
+    this.apiService.getGame(gameId).subscribe(response => {
+      if (!response.success){
+        const msg = response.description;
+        this.dialogService.showDismissable("Game Load Error", msg);
+        return;
+      }
+
+      this.game = response.data.entry;
     });
   }
 
