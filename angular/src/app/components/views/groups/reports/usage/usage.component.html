@@ -1,0 +1,27 @@
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems">
+    </app-dynamicsidebar>
+
+    <div class="container2 dyn-anim-fadein-delayed">
+        <div class="nav">
+            <app-groups-menuselector 
+                    *ngIf="group != undefined"
+                    [title]="group?.name ?? ''" >
+            </app-groups-menuselector>
+            <div class="report-title">
+                <div class="vert-separator"></div>
+                <div class="report-title-content">Student Usage Report</div>
+            </div>
+            <div 
+                class="spacer">
+            </div>
+            <app-userstatus class="nav-stretch"></app-userstatus>
+        </div>
+
+        <div class="container3">
+            <div class="section-reports">
+                
+            </div>
+        </div>
+    </div>
+</div>

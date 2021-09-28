@@ -31,6 +31,7 @@ import { GroupJoinComponent } from './components/views/groups/join/join.componen
 import { GroupReportsComponent } from './components/views/groups/reports/report.component';
 import { GroupSessionComponent } from './components/views/groups/session/session.component';
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
+import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
 
 
 const routes: Routes = [
@@ -55,6 +56,7 @@ const routes: Routes = [
   {path: "groups/reports", component: GroupReportsComponent},
   {path: "groups/join/:groupId", component: GroupJoinComponent},
   {path: "groups/reports/available", component: GroupReportsAvailableComponent},
+  {path: "groups/reports/usage", component: GroupReportsUsageComponent},
   {path: "dashboard/parent", component: ParentDashboardComponent},
   {path: "game/create", component: GameCreateComponent, data: {editMode: false}},
   {path: "game/edit", component: GameCreateComponent, data: {editMode: true}},
