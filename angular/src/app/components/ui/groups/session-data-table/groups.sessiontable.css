@@ -25,6 +25,7 @@
 
 .row.selectable:hover{
     background-color: #0F88D822;
+    cursor: pointer;
 }
 
 .row-item-actions{

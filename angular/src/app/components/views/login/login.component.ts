@@ -43,6 +43,11 @@ export class LoginComponent implements OnInit {
   ){}
 
   ngOnInit(){
+    if (this.userService.getIsLoggedIn()){
+      this.router.navigate(['/dashboard']);
+      return;
+    }
+    
     this.activatedRoute.queryParamMap.subscribe(map => {
       if (map.has(QueryKey.nextAction)){
         this.nextAction = map.get(QueryKey.nextAction)!;

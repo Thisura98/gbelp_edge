@@ -13,7 +13,7 @@ import { combineLatest, forkJoin } from 'rxjs';
  * /dashboard/f/groups
  * ```
  * 
- * the 'f' allows you to redirect to the correct user type's dashboard.
+ * the 'f' (forward) option will redirect to the correct user type's dashboard.
  * 
  * for example, if the user is a teacher then:
  * /dashboard/f/games ---> /dashboard/teacher/games

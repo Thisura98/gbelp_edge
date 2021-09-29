@@ -27,27 +27,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 
 /* Container Style */
 
-@media only screen and (max-width: 798px) {
-    .container-element{
-        display: flex;
-    }
-    /* Resize the immediate child of the container */
-    .container-element > :first-child{
-        width: 100%;
-    }
+.container-element{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-@media only screen and (min-width: 798px) {
-    .container-element{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Resize the immediate child of the container */
-    .container-element > :first-child{
-        width: min(70vw, 1000px);
-    }
+/* Resize the immediate child of the container */
+.container-element > :first-child{
+    width: min(70vw, 1000px);
 }
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";

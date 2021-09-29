@@ -103,8 +103,17 @@ stroke: #ffffff;
     background-color: #E9F7FF;
 }
 
+.library-item-img-container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .library-item-img{
-    height: 40px;
+    max-width: 100%;
+    max-height: 50px;
+    /* height: auto; */
     margin-top: 8px;
     margin-bottom: 4px;
 }
