@@ -5,9 +5,12 @@ import subprocess
 import re
 from datetime import datetime
 import pandas as pd
+import matplotlib as mpl
 import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
+
+useDarkMode = False
 
 # -- old method by using another script
 
@@ -65,29 +68,40 @@ processHistory(commitHistory)
 
 print("Found ", len(datesAndCommits), "objects")
 
+mpl.rcParams['toolbar'] = 'None'
 fig, ax = plt.subplots(figsize=(13, 6.9))
 
-ax.grid(True, 'both', alpha=0.8, color='#270082')
-ax.bar(dates, commits, color='#FA58B6')
+if (useDarkMode):
+    ax.grid(True, 'both', alpha=0.8, color='#270082')
+    ax.bar(dates, commits, color='#FA58B6')
+else:
+    ax.grid(True, 'both', alpha=0.8)
+    ax.bar(dates, commits)
+
 ax.xaxis.set_major_locator(mdates.MonthLocator())
 ax.yaxis.set_minor_locator(ticker.IndexLocator(1, 0))
 
-ax.tick_params(axis='y', which='minor', grid_alpha=0.4)
+ax.tick_params(axis='y', which='minor', grid_alpha=0.32)
 ax.set_xlabel('Month')
 ax.set_ylabel('# of Commits')
-ax.set_title('EDGE Commit History', color='#7A0BC0', fontweight='bold')
+
+if (useDarkMode):
+    ax.set_title('EDGE Commit History', color='#7A0BC0', fontweight='bold')
+else:
+    ax.set_title('EDGE Commit History', fontweight='bold')
 
 # colors
 
-fig.patch.set_facecolor('#000')
-ax.set_facecolor('#07071a')
-ax.xaxis.label.set_color('#6608a1')
-ax.yaxis.label.set_color('#6608a1')
-ax.tick_params(axis='both', colors='#6608a1')
-ax.spines['left'].set_color('#7A0BC0')
-ax.spines['bottom'].set_color('#7A0BC0')
-ax.spines['right'].set_color('#7A0BC0')
-ax.spines['top'].set_color('#7A0BC0')
+if (useDarkMode):
+    fig.patch.set_facecolor('#000')
+    ax.set_facecolor('#07071a')
+    ax.xaxis.label.set_color('#6608a1')
+    ax.yaxis.label.set_color('#6608a1')
+    ax.tick_params(axis='both', colors='#6608a1')
+    ax.spines['left'].set_color('#7A0BC0')
+    ax.spines['bottom'].set_color('#7A0BC0')
+    ax.spines['right'].set_color('#7A0BC0')
+    ax.spines['top'].set_color('#7A0BC0')
 # ax.spines['right'].set_visible(False)
 # ax.spines['top'].set_visible(False)
 
