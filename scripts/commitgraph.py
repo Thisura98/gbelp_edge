@@ -82,7 +82,7 @@ ax.xaxis.set_major_locator(mdates.MonthLocator())
 ax.yaxis.set_minor_locator(ticker.IndexLocator(1, 0))
 
 ax.tick_params(axis='y', which='minor', grid_alpha=0.32)
-ax.set_xlabel('Month')
+ax.set_xlabel('Work day')
 ax.set_ylabel('# of Commits')
 
 if (useDarkMode):
