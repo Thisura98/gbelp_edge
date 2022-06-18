@@ -1,4 +1,5 @@
 # This is a Python3 script to visualize my commit history.
+# color scheme = https://colorhunt.co/palette/1a1a402700827a0bc0fa58b6
 
 import subprocess
 import re
@@ -8,11 +9,31 @@ import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 
-pathToCommitHistoryScript = './write_commit_history.sh'
-pathToCommitHistoryOutput = '../thinking/CommitHistory/history.log'
+# -- old method by using another script
 
-subprocess.call(['sh', pathToCommitHistoryScript])
-commitHistory = open(pathToCommitHistoryOutput, 'r').readlines()
+# pathToCommitHistoryScript = './write_commit_history.sh'
+# pathToCommitHistoryOutput = '../thinking/CommitHistory/history.log'
+
+# subprocess.call(['sh', pathToCommitHistoryScript])
+# commitHistory = open(pathToCommitHistoryOutput, 'r').readlines()
+
+# commitHistoryCommand = 'git log --format="%h %ci %s"'
+
+# -- new method by using subprocess output Pipe
+
+commitHistoryOutput = subprocess.Popen(['git', 'log', '--format="%h %ci %s"'], 
+    stdout=subprocess.PIPE)
+commitHistoryBytes,commitHistoryError = commitHistoryOutput.communicate()
+
+if (commitHistoryError):
+    print("Error occurred in history processing:", commitHistoryError)
+    exit()
+
+commitHistoryStr = commitHistoryBytes.decode('utf-8')
+commitHistory = commitHistoryStr.split('\n')
+commitHistory = list(map(lambda x: x.strip('"'), commitHistory))
+
+print("Git Log output successfully obtained")
 
 datesAndCommits = {}
 dates = []
@@ -28,12 +49,7 @@ def processHistory(historyArr):
         if (result):
             dateStr = result.groups()[0]
             key = datetime.strptime(dateStr, '%Y-%m-%d')
-
-            # key = result.groups()[0]
-
-            # key = dateObj.timestamp()
-            # print(key)
-
+            
             if (key in datesAndCommits):
                 datesAndCommits[key] += 1
             else:
@@ -43,22 +59,37 @@ dates = datesAndCommits.keys()
 commits = datesAndCommits.values()
 
 processHistory(commitHistory)
-# print(commitHistory[2])
 
+# print(commitHistory[2])
 # print(datesAndCommits)
 
 print("Found ", len(datesAndCommits), "objects")
 
 fig, ax = plt.subplots(figsize=(13, 6.9))
-ax.bar(dates, commits)
-ax.grid(True, 'both', alpha=0.5)
+
+ax.grid(True, 'both', alpha=0.8, color='#270082')
+ax.bar(dates, commits, color='#FA58B6')
 ax.xaxis.set_major_locator(mdates.MonthLocator())
 ax.yaxis.set_minor_locator(ticker.IndexLocator(1, 0))
 
-ax.tick_params(axis='y', which='minor', grid_alpha=0.1)
+ax.tick_params(axis='y', which='minor', grid_alpha=0.4)
 ax.set_xlabel('Month')
 ax.set_ylabel('# of Commits')
-ax.set_title('EDGE Commit History')
+ax.set_title('EDGE Commit History', color='#7A0BC0', fontweight='bold')
+
+# colors
+
+fig.patch.set_facecolor('#000')
+ax.set_facecolor('#07071a')
+ax.xaxis.label.set_color('#6608a1')
+ax.yaxis.label.set_color('#6608a1')
+ax.tick_params(axis='both', colors='#6608a1')
+ax.spines['left'].set_color('#7A0BC0')
+ax.spines['bottom'].set_color('#7A0BC0')
+ax.spines['right'].set_color('#7A0BC0')
+ax.spines['top'].set_color('#7A0BC0')
+# ax.spines['right'].set_visible(False)
+# ax.spines['top'].set_visible(False)
 
 for label in ax.get_xticklabels():
     label.set(rotation=30, horizontalalignment='right')
@@ -70,4 +101,6 @@ for label in ax.get_xticklabels():
 # ax.set_ylabel("Y")
 # ax.set_xticklabels(dates)
 
+hMargin = 0.06
+plt.subplots_adjust(left=hMargin, bottom=0.12, top=0.91, right=1.0 - hMargin)
 plt.show()
