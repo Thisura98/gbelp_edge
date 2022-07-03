@@ -32,6 +32,7 @@ import { GroupReportsComponent } from './components/views/groups/reports/report.
 import { GroupSessionComponent } from './components/views/groups/session/session.component';
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
+import { DashboardTemplatesComponent } from './components/views/dashboards/common/dashboardtemplates/dashboardtemplates.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
       {path: "overview", component: DashboardoverviewComponent},
       {path: "games", component: DashboardgamesComponent},
       {path: "groups", component: DashboardgroupsComponent},
+      {path: "templates", component: DashboardTemplatesComponent},
     ]
   },
   {path: "dashboard/parent", component: ParentDashboardComponent},

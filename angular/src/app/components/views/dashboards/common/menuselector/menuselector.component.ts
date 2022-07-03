@@ -2,12 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { UserTypeNames } from '../../../../../../../../commons/src/models/user';
 
 @Component({
   selector: 'app-dashboard-menuselector',
   template: `
   <div class="ds-menuselector noselect" (click)="toggleExpanded()" #dsMenuSelector>
-    <div class="ds-ms-orb"><img src="assets/dashboard/menu_overview.png"></div>
+    <div class="ds-ms-orb"><img src="{{menuIcon}}"></div>
     <div class="ds-ms-title">{{menuName | titlecase }}</div>
     <div class="ds-ms-drop"><img src="assets/common/dropdownblue.png"></div>
   </div>
@@ -15,6 +16,7 @@ import { UtilsService } from 'src/app/services/utils.service';
   <div *ngIf="expanded" class="ds-selector-menu" #dsMenuSelectorMenu>
     <div class="ds-ms-mitem" (click)="overviewClicked()">Overview</div>
     <div class="ds-ms-mitem" (click)="gamesClicked()">Games</div>
+    <div *ngIf="showTemplatesView" class="ds-ms-mitem" (click)="templatesClicked()">Templates</div>
     <div class="ds-ms-mitem" (click)="groupsClicked()">Groups</div>
   </div>
   `,
@@ -22,10 +24,12 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class MenuselectorComponent implements OnInit {
 
-  expanded = false
+  expanded = false;
 
   menuName: string = "";
-  private userType: String = ""
+  menuIcon: string = "";
+  private userType: String = "";
+  showTemplatesView = false;
 
   @ViewChild('dsMenuSelector')
   menuSelector: ElementRef | undefined;
@@ -35,11 +39,15 @@ export class MenuselectorComponent implements OnInit {
 
   constructor(
     private utilsService: UtilsService,
+    private userService: UserService,
     private router: Router
   ) {
     this.utilsService.documentClickedTarget.subscribe((target) => {
       this.handleTap(target);
     });
+
+    const userTypeName = this.userService.getUserAndToken().user.userTypeName;
+    this.showTemplatesView = userTypeName == UserTypeNames.creator || userTypeName == UserTypeNames.admin;
   }
 
   ngOnInit(): void {
@@ -65,6 +73,21 @@ export class MenuselectorComponent implements OnInit {
     const segments =  result.root.children[PRIMARY_OUTLET].segments;
     this.menuName = segments[segments.length - 1].path;
     this.userType = segments[1].path;
+
+    switch(this.menuName){
+      case "games":
+      case "templates": 
+        this.menuIcon = "assets/dashboard/menu_games.png";
+      break;
+
+      case "overview": 
+        this.menuIcon = "assets/dashboard/menu_overview.png";
+      break;
+
+      case "groups": 
+        this.menuIcon = "assets/dashboard/menu_group.png";
+      break;
+    }
   }
 
   toggleExpanded(){
@@ -93,6 +116,11 @@ export class MenuselectorComponent implements OnInit {
     });
   }
 
+  templatesClicked(){
+    this.router.navigate([this.getNavPath('templates')]).finally(() => {
+      this.findDetails();
+    });
+  }
 
 
 }
