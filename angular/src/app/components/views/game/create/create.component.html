@@ -10,7 +10,7 @@
             <app-userstatus></app-userstatus>
         </div>
         <div class="buttons">
-            <div class="dyn-btn clickable btn-save" (click)="createButtonClicked()">Save</div>
+            <div class="dyn-btn clickable btn-save" (click)="createButtonClicked()">{{ isEditMode ? 'Save' : 'Create' }}</div>
             <div class="dyn-btn clickable btn-cancel" (click)="canceledButtonClicked()">Cancel</div>
         </div>
         <div class="details-form dyn-form">
