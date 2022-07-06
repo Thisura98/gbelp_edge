@@ -13,9 +13,9 @@ import { filter } from 'rxjs/operators';
 })
 export class DashboardTemplatesComponent implements OnInit {
 
-  isLoading = true
-  data: GameEntry[] = []
-  displayedData: GameEntry[] = []
+  isLoading = true;
+  templates: GameEntry[] = [];
+  displayedData: GameEntry[] = [];
   searchTerm: string = '';
   isSearching: boolean = false;
 
@@ -34,7 +34,7 @@ export class DashboardTemplatesComponent implements OnInit {
   }
 
   refreshClicked(){
-    this.data = [];
+    this.templates = [];
     this.loadData();
   }
 
@@ -70,6 +70,9 @@ export class DashboardTemplatesComponent implements OnInit {
   private loadData(){
     this.isLoading = true;
 
+    this.apiService.game.getAllGames(true).subscribe((data) => {
+      this.notifydataLoaded(data);
+    });
     /*
     this.apiService.getAllGames().subscribe((data) => {
       this.notifydataLoaded(data);
@@ -83,19 +86,19 @@ export class DashboardTemplatesComponent implements OnInit {
 
   private notifydataLoaded(response: ServerResponseAllGameEntries){
     this.isLoading = false
-    this.data = response.data;
+    this.templates = response.data;
     this.filterDisplayData();
   }
 
   private filterDisplayData(){
     if (this.searchTerm.trim().length == 0){
       this.isSearching = false;
-      this.displayedData = this.data;
+      this.displayedData = this.templates;
       return;
     }
 
     const search = new RegExp(this.searchTerm);
-    const filtered = this.data.filter(v => {
+    const filtered = this.templates.filter(v => {
       return v.name.search(search) != -1;
     });
 

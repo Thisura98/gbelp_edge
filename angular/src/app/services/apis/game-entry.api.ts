@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponsePlain } from "src/app/models/common-models";
 import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectives } from "src/app/models/game/game";
@@ -41,10 +41,12 @@ export class GameEntryAPIs implements APIBase {
     });
   }
 
-  getAllGames(): Observable<ServerResponseAllGameEntries> {
+  getAllGames(isTemplates: boolean = false): Observable<ServerResponseAllGameEntries> {
     const url = this.aurl('all-games');
+    let params = new HttpParams().set('is_template', isTemplates ? '1' : '');
     return this.http.get<ServerResponseAllGameEntries>(url, {
-      headers: this.getHeaders()
+      headers: this.getHeaders(),
+      params: params
     });
   }
 
