@@ -90,7 +90,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       console.log("Project levels:", this.gameListing!.project!.levels);
       console.log("Local levels:", this.gameLevels)
 
-      this.apiService.saveLevel(
+      this.apiService.editor.saveLevel(
         this.editingGameId!.toString(), 
         this.gameListing!.project!._id, 
         this.gameLevels
@@ -153,7 +153,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   playGamePressed(){
     this.saveGame(() => {
-      this.apiService.getGameTestSession(this.editingGameId!.toString()).subscribe((r) => {
+      this.apiService.editor.getGameTestSession(this.editingGameId!.toString()).subscribe((r) => {
         if (!r.success){
           this.dialogService.showDismissable('Cannot Play Game', r.description);
           return;

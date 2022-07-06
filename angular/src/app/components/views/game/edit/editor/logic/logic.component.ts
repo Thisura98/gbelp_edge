@@ -118,7 +118,7 @@ export class LogicEditorComponent implements OnInit {
       return;
 
     const type = this.gameListing!.entry.type.toString();
-    this.apiService.getGameLibraryJSFile(type).subscribe((_lib) => {
+    this.apiService.editor.getGameLibraryJSFile(type).subscribe((_lib) => {
       const lib = this.stripUnwantedImports(_lib);
       console.log("Received Game LIB:", lib);
 

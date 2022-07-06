@@ -139,7 +139,7 @@ export class GameEditResourcesComponent implements OnInit {
 
         const gameId = this.editingGameId!.toString();
         const resourceId = this.selectedResource!._id;
-        this.apiService.deleteGameResource(gameId, resourceId).subscribe({
+        this.apiService.editor.deleteGameResource(gameId, resourceId).subscribe({
           next: (r) => {
             if (r && r.success){
               switch(this.selectedResource!.type){
@@ -197,7 +197,7 @@ export class GameEditResourcesComponent implements OnInit {
     this.isUploading = true;
     this.uploadProgress = 0.0;
 
-    this.apiService.uploadGameResource(this.storedUploadFormData, (progress) => {
+    this.apiService.editor.uploadGameResource(this.storedUploadFormData, (progress) => {
       this.uploadProgress = progress;
     }).subscribe({
       next: (res) => {

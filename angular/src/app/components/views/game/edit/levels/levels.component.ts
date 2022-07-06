@@ -60,7 +60,7 @@ export class GameEditLevelsComponent implements OnInit {
    * Get Object Id and insert new level before the game over level.
    */
   addLevelClicked(){
-    this.apiService.getNewObjectId().subscribe((res) => {
+    this.apiService.editor.getNewObjectId().subscribe((res) => {
       const newObjectId = res.data;
       const levelExitType = LevelExitCriteriaHelper.fromNumber(this.gameListing!.entry.level_switch);
       const levelExitTypeValue = null;
@@ -105,7 +105,7 @@ export class GameEditLevelsComponent implements OnInit {
   duplicateLevelPressed(){
     // Use spread operator to prevent 'pass by reference' issues
     const levelToClone = {...this.gameLevels[this.selectedLevelIndex!]};
-    this.apiService.getNewObjectId().subscribe((res) => {
+    this.apiService.editor.getNewObjectId().subscribe((res) => {
       levelToClone._id = res.data;
       this.gameLevels.splice(this.selectedLevelIndex! + 1, 0, levelToClone);
     });
@@ -157,7 +157,7 @@ export class GameEditLevelsComponent implements OnInit {
     this.saveBtnText = 'Saving...';
     this.saveBtnDisabled = true;
 
-    this.apiService.saveLevel(this.editingGameId!.toString(), this.gameListing!.project._id, this.gameLevels).subscribe((r) => {
+    this.apiService.editor.saveLevel(this.editingGameId!.toString(), this.gameListing!.project._id, this.gameLevels).subscribe((r) => {
       this.resetSaveBtnState();
     }, (e) => {
       this.dialogService.showDismissable("Error while Saving", JSON.stringify(e));
