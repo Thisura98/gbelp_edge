@@ -101,7 +101,7 @@ export class GameCreateComponent implements OnInit {
 
       // Save Edited Game
       data.id = this.editingGameId!.toString();
-      this.apiService.saveGame(data).subscribe(response => {
+      this.apiService.game.saveGame(data).subscribe(response => {
         if (response.success){
           // this.dialogService.showDismissable('Saved Successfully', '');
           this.getObjectivesAndTrackers();
@@ -115,7 +115,7 @@ export class GameCreateComponent implements OnInit {
 
       // Create new game, and 
       // get newly created game id
-      this.apiService.createGame(data).subscribe((response) => {
+      this.apiService.game.createGame(data).subscribe((response) => {
         if (response.data?.gameId != undefined)
           this.gameCreatedSuccessfully(response.data.gameId);
         else
@@ -222,7 +222,7 @@ export class GameCreateComponent implements OnInit {
       return;
 
     this.isLoading = true;
-    this.apiService.getGame(this.editingGameId!).subscribe((response) => {
+    this.apiService.game.getGame(this.editingGameId!).subscribe((response) => {
       this.isLoading = false;
       if (response.success)
         this.setEditData(response.data.entry);
@@ -237,14 +237,14 @@ export class GameCreateComponent implements OnInit {
    * Requests objectives and trackers for this game.
    */
   private getObjectivesAndTrackers(){
-    this.apiService.getObjectives(this.editingGameId!).subscribe(response => {
+    this.apiService.game.getObjectives(this.editingGameId!).subscribe(response => {
       if (response.success)
         this.setObjectives(response.data);
       else
         this.loadFailed(response.description);
     });
 
-    this.apiService.getGuidanceTrackers(this.editingGameId!).subscribe(response => {
+    this.apiService.game.getGuidanceTrackers(this.editingGameId!).subscribe(response => {
       if (response.success)
         this.setGuidanceTrackers(response.data);
       else

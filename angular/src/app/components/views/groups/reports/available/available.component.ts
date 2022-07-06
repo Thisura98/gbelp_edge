@@ -91,7 +91,7 @@ export class GroupReportsAvailableComponent implements OnInit{
 
   private loadGameEntry(){
     const gameId = this.session!.game_entry_id;
-    this.apiService.getGame(gameId).subscribe(response => {
+    this.apiService.game.getGame(gameId).subscribe(response => {
       if (!response.success){
         const msg = response.description;
         this.dialogService.showDismissable("Game Load Error", msg);

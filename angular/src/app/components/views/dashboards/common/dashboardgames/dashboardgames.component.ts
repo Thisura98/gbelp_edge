@@ -69,7 +69,7 @@ export class DashboardgamesComponent implements OnInit {
 
   private loadData(){
     this.isLoading = true;
-    this.apiService.getAllGames().subscribe((data) => {
+    this.apiService.game.getAllGames().subscribe((data) => {
       this.notifydataLoaded(data);
     });
   }

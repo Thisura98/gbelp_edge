@@ -41,7 +41,7 @@ export class GameDeleteComponent implements OnInit {
   }
 
   deleteButtonClicked(){
-    this.apiService.deleteGame(this.gameId!.toString()).subscribe((res) => {
+    this.apiService.game.deleteGame(this.gameId!.toString()).subscribe((res) => {
       if (res.success){
         this.dialogService.showDismissable(
           'Deleted Sucessfully!', '', () => {this.cancelButtonClicked()}
@@ -56,7 +56,7 @@ export class GameDeleteComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.gameId = params['gameId'];
 
-      this.apiService.getGame(this.gameId!).subscribe((data) => {
+      this.apiService.game.getGame(this.gameId!).subscribe((data) => {
         if (data.data != undefined){
           this.game = data.data.entry;
           this.gameName = this.game.name;

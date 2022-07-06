@@ -177,7 +177,7 @@ export class GameEditLevelsComponent implements OnInit {
   /* Private Methods */
 
   private loadData(){
-    this.apiService.getGame(this.editingGameId!).subscribe({
+    this.apiService.game.getGame(this.editingGameId!).subscribe({
       next: (data) => {
         if (data.data != undefined){
           this.gameListing = data.data;

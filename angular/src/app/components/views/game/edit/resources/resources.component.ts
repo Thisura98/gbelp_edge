@@ -167,7 +167,7 @@ export class GameEditResourcesComponent implements OnInit {
   /* Private Functions */
 
   private loadData(){
-    this.apiService.getGame(this.editingGameId!).subscribe({
+    this.apiService.game.getGame(this.editingGameId!).subscribe({
       next: (data) => {
 
         // console.log(JSON.stringify(data));

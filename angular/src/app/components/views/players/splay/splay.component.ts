@@ -130,7 +130,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.session = sessionResponse.data;
-      this.apiService.getGame(this.session!.game_entry_id).subscribe(gameResponse => {
+      this.apiService.game.getGame(this.session!.game_entry_id).subscribe(gameResponse => {
         if (!gameResponse.success){
           this.handleLoadError(gameResponse, 'Games');
           return;

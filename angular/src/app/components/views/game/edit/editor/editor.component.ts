@@ -172,7 +172,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       this.navigateToDashboard();
       return;
     }
-    this.apiService.getGame(this.editingGameId).subscribe((value) => {
+    this.apiService.game.getGame(this.editingGameId).subscribe((value) => {
       this.handleLoadData(value)
     });
   }
