@@ -1,7 +1,7 @@
 <div class="dyn-flex-fullwidth dyn-fjc-space-between">
     <div class="dyn-games-contianer">
         <div class="dyn-btn" (click)="createGameClicked()">
-            <span>Create Game</span><img class="dyn-btn-image" src="assets/common/pluswhite.png">
+            <span>Create {{mode | titlecase}}</span><img class="dyn-btn-image" src="assets/common/pluswhite.png">
         </div>
         <div class="dyn-btn refresh-btn" (click)="refreshClicked()">
             <span>Refresh</span>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="dyn-flex-fullwidth db-games-heading">
-    <h2>All Games</h2>
+    <h2>All {{mode | titlecase}}s</h2>
     <div class="search-result" *ngIf="isSearching">
         Showing {{displayedData.length}} of {{data.length}} search results for "{{searchTerm}}"
     </div>
@@ -30,7 +30,7 @@
 
     <div class="db-games-table">
         <div class="table-heading-row">
-            <div class="heading-row-data">Game</div>
+            <div class="heading-row-data">{{mode | titlecase}}</div>
             <div class="heading-row-data">Type</div>
             <div class="heading-row-data">Usage</div>
             <div class="heading-row-icon">Clone</div>

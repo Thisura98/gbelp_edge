@@ -80,7 +80,6 @@ import { GroupSessionComponent } from './components/views/groups/session/session
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 import { ReportAvailableCard } from './components/ui/groups/reports/available-report-card/available.report.card';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
-import { DashboardTemplatesComponent } from './components/views/dashboards/common/dashboardtemplates/dashboardtemplates.component';
 
 
 @NgModule({
@@ -99,7 +98,6 @@ import { DashboardTemplatesComponent } from './components/views/dashboards/commo
     DashboardoverviewComponent,
     DashboardgamesComponent,
     DashboardgroupsComponent,
-    DashboardTemplatesComponent,
     SessioninfoComponent,
     ProgresstrackerComponent,
     HomeComponent,

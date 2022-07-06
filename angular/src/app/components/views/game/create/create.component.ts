@@ -1,11 +1,11 @@
-import { Location } from '@angular/common';
+import { Location, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, AfterContentInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { DynBasicTableComponent, DynBasicTableConfig, DynBasicTableDeleteEvent } from 'src/app/components/ui/dyn-basic-table/dyn-basic-table.component';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
-import { getGameSidebarItems } from 'src/app/constants/constants';
+import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
@@ -38,6 +38,7 @@ export class GameCreateComponent implements OnInit {
   disableScoreReports: boolean = true
   disableTimingReports: boolean = false
 
+  viewMode = ViewMode.UNKNOWN;
   isEditMode: boolean = false;
   editingGameId: number | undefined;
   isLoading: boolean = false;
@@ -51,6 +52,12 @@ export class GameCreateComponent implements OnInit {
     return [];
   }
 
+  get title(): string{
+    const mode = this.titleCasePipe.transform(this.viewMode);
+    const operation = this.isEditMode ? 'Edit' : 'Create'
+    return `${operation} ${mode}`;
+  }
+
   constructor(
     private userService: UserService,
     private location: Location,
@@ -58,12 +65,17 @@ export class GameCreateComponent implements OnInit {
     private dialogService: DialogService,
     private activateRoute: ActivatedRoute,
     private router: Router,
+    private titleCasePipe: TitleCasePipe
   ) { }
 
   ngOnInit(): void {
     this.userService.routeOutIfLoggedOut();
 
     combineLatest([this.activateRoute.data, this.activateRoute.queryParamMap]).subscribe(([data, route]) => {
+
+      if (data.mode){
+        this.viewMode = data.mode;
+      }
       
       if (data.editMode){
         this.isEditMode = true;
@@ -155,10 +167,18 @@ export class GameCreateComponent implements OnInit {
   }
 
   handleBack(){
-    const type = this.userService.getNavSafeUserType();
-    this.router.navigate([
-      `/dashboard/f/games`
-    ]);
+    // 'f' for find dashboard user type.
+
+    if (this.viewMode == ViewMode.GAME){
+      this.router.navigate([
+        `/dashboard/f/games`
+      ]);
+    }
+    else{
+      this.router.navigate([
+        `/dashboard/f/templates`
+      ]);
+    }
   }
 
   // MARK: Add, Delete, Get Objective view methods

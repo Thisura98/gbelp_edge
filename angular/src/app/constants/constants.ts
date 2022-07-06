@@ -1,6 +1,12 @@
 import { DynBasicTableConfig } from "../components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "../components/ui/dynamicsidebar/dynamicsidebar.component";
 
+export class ViewMode{
+    static readonly UNKNOWN = '';
+    static readonly GAME = 'game';
+    static readonly TEMPLATE = 'template';
+}
+
 export enum NextSignInAction{
     joinGroupK = 'joingroupk'
 };

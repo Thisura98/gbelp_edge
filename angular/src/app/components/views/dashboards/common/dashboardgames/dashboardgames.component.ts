@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameEntry } from '../../../../../../../../commons/src/models/game/game';
 import { ServerResponseAllGameEntries } from 'src/app/models/game/game';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { filter } from 'rxjs/operators';
+import { ViewMode } from 'src/app/constants/constants';
 
+/**
+ * A page that Shows Games & Templates
+ */
 @Component({
   selector: 'app-dashboardgames',
   templateUrl: './dashboardgames.component.html',
@@ -18,19 +22,27 @@ export class DashboardgamesComponent implements OnInit {
   displayedData: GameEntry[] = []
   searchTerm: string = '';
   isSearching: boolean = false;
+  mode: string = '';
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
     private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.activatedRoute.data.subscribe(data => {
+      this.mode = data.mode;
+      this.loadData();
+    });
   }
 
   createGameClicked(){
-    this.router.navigate(['/game/create'], {replaceUrl: false});
+    if (this.mode == ViewMode.GAME)
+      this.router.navigate(['/game/create'], {replaceUrl: false});
+    else
+      this.router.navigate(['/template/create'], {replaceUrl: false});
   }
 
   refreshClicked(){
@@ -68,8 +80,10 @@ export class DashboardgamesComponent implements OnInit {
   }
 
   private loadData(){
+    const isTemplate = this.mode == 'template';
+
     this.isLoading = true;
-    this.apiService.game.getAllGames().subscribe((data) => {
+    this.apiService.game.getAllGames(isTemplate).subscribe((data) => {
       this.notifydataLoaded(data);
     });
   }

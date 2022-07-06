@@ -32,7 +32,8 @@ import { GroupReportsComponent } from './components/views/groups/reports/report.
 import { GroupSessionComponent } from './components/views/groups/session/session.component';
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
-import { DashboardTemplatesComponent } from './components/views/dashboards/common/dashboardtemplates/dashboardtemplates.component';
+import { ViewMode } from './constants/constants';
+
 
 
 const routes: Routes = [
@@ -45,9 +46,9 @@ const routes: Routes = [
     path: "dashboard/teacher", component: TeacherDashboardComponent,
     children: [
       {path: "overview", component: DashboardoverviewComponent},
-      {path: "games", component: DashboardgamesComponent},
+      {path: "games", component: DashboardgamesComponent, data: { mode: ViewMode.GAME } },
       {path: "groups", component: DashboardgroupsComponent},
-      {path: "templates", component: DashboardTemplatesComponent},
+      {path: "templates", component: DashboardgamesComponent, data: { mode: ViewMode.TEMPLATE } },
     ]
   },
   {path: "dashboard/parent", component: ParentDashboardComponent},
@@ -60,20 +61,22 @@ const routes: Routes = [
   {path: "groups/reports/available", component: GroupReportsAvailableComponent},
   {path: "groups/reports/usage", component: GroupReportsUsageComponent},
   {path: "dashboard/parent", component: ParentDashboardComponent},
-  {path: "game/create", component: GameCreateComponent, data: {editMode: false}},
-  {path: "game/edit", component: GameCreateComponent, data: {editMode: true}},
-  {path: "game/delete", component: GameDeleteComponent},
-  {path: "game/edit/resources", component: GameEditResourcesComponent},
-  {path: "game/edit/levels", component: GameEditLevelsComponent},
-  {path: "game/edit/levels/add", component: GameEditLevelsAddComponentComponent},
+  {path: "game/create", component: GameCreateComponent, data: {editMode: false, mode: ViewMode.GAME }},
+  {path: "game/edit", component: GameCreateComponent, data: {editMode: true, mode: ViewMode.GAME }},
+  {path: "game/delete", component: GameDeleteComponent, data: { mode: ViewMode.GAME } },
+  {path: "game/edit/resources", component: GameEditResourcesComponent, data: { mode: ViewMode.GAME } },
+  {path: "game/edit/levels", component: GameEditLevelsComponent, data: { mode: ViewMode.GAME } },
+  {path: "game/edit/levels/add", component: GameEditLevelsAddComponentComponent, data: { mode: ViewMode.GAME } },
   {
     path: "game/edit/editor", component: GameEditorComponents,
+    data: { mode: ViewMode.GAME },
     children: [
-      {path: "scene", component: SceneEditorComponent},
-      {path: "animation", component: AnimationEditorComponent},
-      {path: "logic", component: LogicEditorComponent}
+      {path: "scene", component: SceneEditorComponent, data: { mode: ViewMode.GAME }},
+      {path: "animation", component: AnimationEditorComponent, data: { mode: ViewMode.GAME }},
+      {path: "logic", component: LogicEditorComponent, data: { mode: ViewMode.GAME }}
     ]
   },
+  {path: "template/create", component: GameCreateComponent, data: {editMode: false, mode: ViewMode.TEMPLATE }},
   {path: "docs", component: DocsComponent},
   {
     path: "docs/articles", 
