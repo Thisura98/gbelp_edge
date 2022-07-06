@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { getGameSidebarItems } from 'src/app/constants/constants';
+import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
 import { GameListing, GameTestSession, ServerResponseGameListing } from 'src/app/models/game/game';
@@ -12,6 +12,7 @@ import { SceneEditorComponent } from './scene/scene.component';
 import { AnimationEditorComponent } from './animation/animation.component';
 import { LogicEditorComponent } from './logic/logic.component';
 import { GameType } from '../../../../../../../../commons/src/models/game/game';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-editor',
@@ -30,7 +31,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
    * Left sidebar
    */
   get sidebarItems(): DynamicSidebarItem[]{
-    return getGameSidebarItems('Editor');
+    return getGameSidebarItems('Editor', this.viewMode);
   }
 
   selectedLevelIndex: number | undefined;
@@ -39,6 +40,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   didLoadData: boolean = false
   isSaving: boolean = false;
   
+  viewMode = ViewMode.UNKNOWN;
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
   
@@ -56,10 +58,26 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-    this.activatedRoute.queryParams.subscribe((map) => {
+    combineLatest([this.activatedRoute.queryParams, this.activatedRoute.data]).subscribe(([map, data]) => {
+      this.viewMode = data.mode;
       this.editingGameId = map['gameId'];
       this.loadData();
     });
+  }
+
+  handleBack(){
+    // 'f' for find dashboard user type.
+
+    if (this.viewMode == ViewMode.GAME){
+      this.router.navigate([
+        `/dashboard/f/games`
+      ]);
+    }
+    else{
+      this.router.navigate([
+        `/dashboard/f/templates`
+      ]);
+    }
   }
 
   didSelectLevel(event: Event){

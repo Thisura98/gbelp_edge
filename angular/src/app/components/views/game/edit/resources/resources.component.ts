@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameResourceType } from '../../../../../../../../commons/src/models/game/resources';
 import { GameEntry } from '../../../../../../../../commons/src/models/game/game';
@@ -12,7 +12,8 @@ import { ResourceUrlTransformPipe } from 'src/app/pipes/resource-url-transform.p
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-import { getGameSidebarItems } from 'src/app/constants/constants';
+import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-game-edit-resources',
@@ -36,16 +37,18 @@ export class GameEditResourcesComponent implements OnInit {
   imageResources: GameProjectResource[] = [];
   soundResources: GameProjectResource[] = [];
 
+  viewMode = ViewMode.UNKNOWN;
   private player = new Audio();
   private storedUploadFormData: FormData = new FormData();
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
   
   get sidebarItems(): DynamicSidebarItem[]{
-    return getGameSidebarItems('Resources');
+    return getGameSidebarItems('Resources', this.viewMode);
   }
 
   constructor(
+    private router: Router,
     private apiService: ApiService,
     private dialogService: DialogService,
     private userService: UserService,
@@ -55,10 +58,26 @@ export class GameEditResourcesComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.routeOutIfLoggedOut();
-    this.activatedRoute.queryParams.subscribe(values => {
-      this.editingGameId = values['gameId'];
+    combineLatest([this.activatedRoute.queryParams, this.activatedRoute.data]).subscribe(([query, data]) => {
+      this.viewMode = data.mode;
+      this.editingGameId = query['gameId'];
       this.loadData();
     });
+  }
+
+  handleBack(){
+    // 'f' for find dashboard user type.
+
+    if (this.viewMode == ViewMode.GAME){
+      this.router.navigate([
+        `/dashboard/f/games`
+      ]);
+    }
+    else{
+      this.router.navigate([
+        `/dashboard/f/templates`
+      ]);
+    }
   }
 
   uploadResourceClicked(){

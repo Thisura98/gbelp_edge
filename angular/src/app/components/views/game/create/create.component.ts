@@ -48,7 +48,7 @@ export class GameCreateComponent implements OnInit {
 
   get sidebarItems(): DynamicSidebarItem[]{
     if (this.isEditMode)
-      return getGameSidebarItems('Overview');
+      return getGameSidebarItems('Overview', this.viewMode);
     return [];
   }
 

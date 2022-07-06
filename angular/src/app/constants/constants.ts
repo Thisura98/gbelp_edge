@@ -20,36 +20,37 @@ export enum QueryKey{
  * @param selected Item currently selected. Leave blank if none is selected.
  * @returns 
  */
-export function getGameSidebarItems(selected: string | undefined = undefined): DynamicSidebarItem[]{
+export function getGameSidebarItems(selected: string | undefined = undefined, viewMode: string): DynamicSidebarItem[]{
     const prefix = "assets/game/";
+    const modePath = viewMode == ViewMode.GAME ? '/game' : '/template'
     let items = [
         {
             name: "Overview",
             sel: false, 
             n: prefix+"mhome.png",
             s: prefix+"mhome_sel.png",
-            path: '/game/edit'
+            path: `${modePath}/edit`
         },
         {
             name: "Resources", 
             sel: false, 
             n: prefix+"mresources.png", 
             s: prefix+"mresources_sel.png", 
-            path: '/game/edit/resources'
+            path: `${modePath}/edit/resources`
         },
         {
             name: "Levels",    
             sel: false, 
             n: prefix+"mlevels.png",    
             s: prefix+"mlevels_sel.png",    
-            path: '/game/edit/levels'
+            path: `${modePath}/edit/levels`
         },
         {   
             name: "Editor",    
             sel: false, 
             n: prefix+"meditor.png",    
             s: prefix+"meditor_sel.png",    
-            path: '/game/edit/editor'
+            path: `${modePath}/edit/editor`
         },
     ]
 

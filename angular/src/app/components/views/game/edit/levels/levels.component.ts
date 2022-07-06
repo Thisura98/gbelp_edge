@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
-import { getGameSidebarItems } from 'src/app/constants/constants';
+import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
 import { GameListing } from 'src/app/models/game/game';
 import { GameProject } from '../../../../../../../../commons/src/models/game/project';
 import { LevelExitCriteria, GameLevel, GameLevelHelper, LevelTypeSingle, LevelDisplayMode, LevelExitCriteriaHelper, LevelTypeMulti } from '../../../../../../../../commons/src/models/game/levels';
@@ -12,6 +12,7 @@ import { GameEditLevelItemComponent } from './item/item.component';
 import { LevelScene } from '../../../../../../../../commons/src/models/game/levels/scene';
 import { LevelLogic, LevelScript } from '../../../../../../../../commons/src/models/game/levels/logic';
 import { LevelProperties } from '../../../../../../../../commons/src/models/game/levels/properties';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-game-edit-levels',
@@ -27,7 +28,7 @@ export class GameEditLevelsComponent implements OnInit {
    * Left sidebar
    */
   get sidebarItems(): DynamicSidebarItem[]{
-    return getGameSidebarItems('Levels');
+    return getGameSidebarItems('Levels', this.viewMode);
   }
 
   saveBtnText: string = 'Save';
@@ -37,6 +38,7 @@ export class GameEditLevelsComponent implements OnInit {
   selectedLevel: GameLevel | undefined;
   gameLevels: GameLevel[] = [];
   
+  viewMode = ViewMode.UNKNOWN;
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
 
@@ -50,10 +52,26 @@ export class GameEditLevelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.routeOutIfLoggedOut();
-    this.activatedRoute.queryParams.subscribe((params) => {
+    combineLatest([this.activatedRoute.queryParams, this.activatedRoute.data]).subscribe(([params, data]) => {
+      this.viewMode = data.mode;
       this.editingGameId = params['gameId'];
       this.loadData();
     });
+  }
+
+  handleBack(){
+    // 'f' for find dashboard user type.
+
+    if (this.viewMode == ViewMode.GAME){
+      this.router.navigate([
+        `/dashboard/f/games`
+      ]);
+    }
+    else{
+      this.router.navigate([
+        `/dashboard/f/templates`
+      ]);
+    }
   }
 
   /**
