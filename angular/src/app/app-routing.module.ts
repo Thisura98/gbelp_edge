@@ -77,6 +77,8 @@ const routes: Routes = [
     ]
   },
   {path: "template/create", component: GameCreateComponent, data: {editMode: false, mode: ViewMode.TEMPLATE }},
+  {path: "template/edit", component: GameCreateComponent, data: {editMode: true, mode: ViewMode.TEMPLATE }},
+  {path: "template/delete", component: GameDeleteComponent, data: { mode: ViewMode.TEMPLATE } },
   {path: "docs", component: DocsComponent},
   {
     path: "docs/articles", 

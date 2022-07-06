@@ -39,10 +39,8 @@ export class DashboardgamesComponent implements OnInit {
   }
 
   createGameClicked(){
-    if (this.mode == ViewMode.GAME)
-      this.router.navigate(['/game/create'], {replaceUrl: false});
-    else
-      this.router.navigate(['/template/create'], {replaceUrl: false});
+    const target = this.mode == ViewMode.GAME ? '/game/create' : '/template/create';
+    this.router.navigate([target], {replaceUrl: false});
   }
 
   refreshClicked(){
@@ -51,8 +49,9 @@ export class DashboardgamesComponent implements OnInit {
   }
 
   editGameClicked(id: number){
+    const target = this.mode == ViewMode.GAME ? '/game/edit' : '/template/edit';
     this.router.navigate(
-      ['/game/edit'],
+      [target],
       {
         queryParams: {
           gameId: id
@@ -62,8 +61,9 @@ export class DashboardgamesComponent implements OnInit {
   }
 
   deleteGameClicked(id: number){
+    const target = this.mode == ViewMode.GAME ? '/game/delete' : '/template/delete';
     this.router.navigate(
-      ['/game/delete'],
+      [target],
       {
         queryParams: {
           gameId: id

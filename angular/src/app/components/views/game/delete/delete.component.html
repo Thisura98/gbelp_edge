@@ -5,7 +5,7 @@
     <div class="container2">
         <div class="nav">
             <h4 class="small-heading">
-                Delete Game
+                Delete {{viewMode | titlecase}}
             </h4>
             <app-userstatus></app-userstatus>
         </div>
@@ -20,9 +20,9 @@
         <div class="delete-form dyn-form">
             <!-- Section Basic Details -->
             <div class="dyn-form-col">
-                <h2 class="heading">Are you sure you want to delete the game, "{{gameName}}"?</h2>
+                <h2 class="heading">Are you sure you want to delete the {{viewMode}}, "{{gameName}}"?</h2>
                 <div class="dyn-form-row">
-                    This action is not reversible. all associated data about this game will be deleted excluding reports.
+                    This action is not reversible. all associated data about this {{viewMode}} will be deleted excluding reports.
                 </div>
             </div>
 

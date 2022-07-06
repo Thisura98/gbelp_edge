@@ -5,6 +5,7 @@ import { GameEntry } from '../../../../../../../commons/src/models/game/game';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
+import { ViewMode } from 'src/app/constants/constants';
 
 @Component({
   selector: 'app-game-create',
@@ -17,6 +18,7 @@ import { UserService } from 'src/app/services/user.service';
 export class GameDeleteComponent implements OnInit {
 
   gameName: string | undefined;
+  viewMode: string = ViewMode.UNKNOWN;
 
   isDeleteDisabled: boolean = true;
 
@@ -33,7 +35,10 @@ export class GameDeleteComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.routeOutIfLoggedOut();
-    this.loadData();
+    this.activatedRoute.data.subscribe(data => {
+      this.viewMode = data.mode;
+      this.loadData();
+    });
   }
 
   cancelButtonClicked(){

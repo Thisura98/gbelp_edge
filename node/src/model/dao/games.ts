@@ -284,7 +284,7 @@ function deleteGameData(gameId: string, projectId: string, callback: DAOCallback
             return;
         }
 
-        // Find project ilfe
+        // Find project file
         mongo.Collections.getGameProjects().findOne(
             {_id: mongo.toObjectId(projectId)},
             (err, doc) => {
