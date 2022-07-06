@@ -12,6 +12,7 @@ import { GameLevel } from '../../../../commons/src/models/game/levels';
 import { UserGroup, UserGroupComposition, UserGroupMembership } from '../../../../commons/src/models/groups';
 import { IGroupJoinEncryptedResult } from '../models/group/group';
 import { GameSession, GameSessionState } from '../../../../commons/src/models/session';
+import { UserAPIs } from './apis/user.api';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -46,10 +47,14 @@ export class ApiService{
         // return 'https://d53c0891-ae64-4f74-ba67-542e3ba74c6f.mock.pstmn.io'; // postman mock server
     }
 
+    public user: UserAPIs;
+
     constructor(
-        private http: HttpClient,
-        private userService: UserService
-    ){}
+        public http: HttpClient,
+        public userService: UserService
+    ){
+        this.user = new UserAPIs(this);
+    }
 
 
     /**
@@ -57,11 +62,11 @@ export class ApiService{
      * @param suffix String
      * @returns 
      */
-    private aurl(suffix: string): string{
+    public aurl(suffix: string): string{
         return `${this.apiBaseUrl}/${suffix}`;
     }
 
-    private getHeaders(): HttpHeaders{
+    public getHeaders(): HttpHeaders{
         const headerValues = this.userService.getUserAndToken();
         // console.log("getHeaders:", headerValues);
         const h = new HttpHeaders({
@@ -77,43 +82,7 @@ export class ApiService{
 
     // MARK: User API Calls
 
-    refreshToken(): Observable<ServerResponsePlain>{
-        const url = this.aurl('refresh-token');
-        return this.http.get<ServerResponsePlain>(url, {
-            headers: this.getHeaders()
-        });
-    }
 
-    getUserTypes(): Observable<ServerResponseUserTypes>{
-        const url = this.aurl('user-types');
-        return this.http.get<ServerResponseUserTypes>(url, { responseType: 'json' });
-    }
-
-    createUser(username: string, email: string, typeId: number, pwHash: string): Observable<ServerResponseUserAuth>{
-        const url = this.aurl('create-user');
-        const data = {
-            username: username,
-            email: email, 
-            typeId: typeId,
-            ph: pwHash
-        };
-        return this.http.post<ServerResponseUserAuth>(url, data);
-    }
-
-    loginUser(email: string, pwHash: string): Observable<ServerResponseUserAuth>{
-        const url = this.aurl('login');
-        const data = { email: email, ph: pwHash }
-        return this.http.post<ServerResponseUserAuth>(url, data);
-    }
-
-    getUserType(userId: string): Observable<ServerResponseUserTypeInfo>{
-        const url = this.aurl('user-type-info');
-        const data = { userId: userId };
-        return this.http.get<ServerResponseUserTypeInfo>(url, {
-            headers: this.getHeaders(),
-            params: data
-        });
-    }
 
     // MARK END: User API calls
 

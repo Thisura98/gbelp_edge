@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
         this.nextAction = map.get(QueryKey.nextAction)!;
         this.nextActionKey = map.get(QueryKey.nextActionKey)!;
       }
-      this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
+      this.apiService.user.getUserTypes().subscribe(values => this.userTypes = values);
     });
   }
 
@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
       const f = this.registerForm;
       const md5 = new Md5();
       const pwHash = md5.appendStr(f.get('userPassword')?.value).end().toString();
-      this.apiService.createUser(
+      this.apiService.user.createUser(
         f.get('userName')?.value,
         f.get('userEmail')?.value,
         f.get('userType')?.value,

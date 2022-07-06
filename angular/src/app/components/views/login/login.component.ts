@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         this.nextAction = map.get(QueryKey.nextAction)!;
         this.nextActionKey = map.get(QueryKey.nextActionKey)!;
       }
-      this.apiService.getUserTypes().subscribe(values => this.userTypes = values);
+      this.apiService.user.getUserTypes().subscribe(values => this.userTypes = values);
     });
   }
 
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
       const f = this.loginForm;
       const md5 = new Md5();
       const pwHash = md5.appendStr(f.get('userPassword')?.value).end().toString();
-      this.apiService.loginUser(
+      this.apiService.user.loginUser(
         f.get('userEmail')?.value,
         pwHash
       ).subscribe(status => {

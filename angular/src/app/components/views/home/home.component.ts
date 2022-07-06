@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit{
   }
 
   refreshToken(){
-    this.apiService.refreshToken().subscribe((_) => {});
+    this.apiService.user.refreshToken().subscribe((_) => {});
   }
 
   registerClicked(){
