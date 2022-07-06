@@ -14,6 +14,8 @@ import { IGroupJoinEncryptedResult } from '../models/group/group';
 import { GameSession, GameSessionState } from '../../../../commons/src/models/session';
 import { UserAPIs } from './apis/user.api';
 import { GameEntryAPIs } from './apis/game-entry.api';
+import { GroupAPIs } from './apis/group.api';
+import { APIBase } from './apis/base.api';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -50,15 +52,31 @@ export class ApiService {
 
   public user: UserAPIs;
   public game: GameEntryAPIs;
+  public group: GroupAPIs;
 
   constructor(
     public http: HttpClient,
     public userService: UserService
   ) {
-    this.user = new UserAPIs(this);
-    this.game = new GameEntryAPIs(this);
+    this.user = this.prepareAPI(new UserAPIs);
+    this.game = this.prepareAPI(new GameEntryAPIs);
+    this.group = this.prepareAPI(new GroupAPIs);
   }
 
+  /**
+   * APIs are separated into files in "apis" folder.
+   * To reference the main API service methods (without DI)
+   * we use this method.
+   * 
+   * @param api An API to prepare
+   * @returns 
+   */
+  private prepareAPI<T extends APIBase>(api: T): T{
+    api.aurl = this.aurl.bind(this);
+    api.getHeaders = this.getHeaders.bind(this);
+    api.http = this.http;
+    return api;
+  }
 
   /**
    * Create API url
@@ -83,100 +101,7 @@ export class ApiService {
     return this.serverBaseUrl;
   }
 
-  // MARK: Game Entry 
-
-  // MARK END: Game Entry
-
   // MARK: Groups
-
-  getGroupsForUser(): Observable<ServerResponse<any[]>> {
-    const url = this.aurl('get-groups-for-user');
-    return this.http.get<ServerResponse<any[]>>(url, {
-      headers: this.getHeaders()
-    })
-  }
-
-  createGroup(
-    name: string,
-    description: string,
-    bannedUserCSV: string,
-    userLimit: number | null,
-    userIds: string[]
-  ): Observable<ServerResponse<UserGroup>> {
-    const url = this.aurl('create-group');
-    const data = {
-      name: name,
-      description: description,
-      bannedUserCSV: bannedUserCSV,
-      link: '',
-      limit: userLimit,
-      insertUserIds: userIds
-    };
-    return this.http.post<ServerResponse<UserGroup>>(
-      url, data, {
-      headers: this.getHeaders()
-    }
-    )
-  }
-
-  getGroup(groupId: string): Observable<ServerResponse<UserGroup>> {
-    const url = this.aurl('get-group');
-    const query = { groupId: groupId };
-    return this.http.get<ServerResponse<UserGroup>>(url, {
-      params: query,
-      headers: this.getHeaders()
-    })
-  }
-
-  getGroupAnonymously(encryptedGroupId: string): Observable<ServerResponse<UserGroup>> {
-    const url = this.aurl('get-group/anonymous');
-    const query = { egi: encryptedGroupId };
-    return this.http.get<ServerResponse<UserGroup>>(url, {
-      params: query
-    });
-  }
-
-  getGroupComposition(groupId: string): Observable<ServerResponse<UserGroupComposition[]>> {
-    const url = this.aurl('get-group-composition');
-    const query = { groupId: groupId };
-    return this.http.get<ServerResponse<UserGroupComposition[]>>(url, {
-      params: query,
-      headers: this.getHeaders()
-    });
-  }
-
-  joinGroupWith(encryptedGroupId: string): Observable<ServerResponse<IGroupJoinEncryptedResult>> {
-    const url = this.aurl('groups-join-e');
-    const body = {
-      egi: encryptedGroupId
-    };
-    return this.http.post<ServerResponse<IGroupJoinEncryptedResult>>(url, body, {
-      headers: this.getHeaders()
-    });
-  }
-
-  deleteGroup(groupId: string): Observable<ServerResponsePlain> {
-    const url = this.aurl('delete-group');
-    const query = {
-      groupId: groupId
-    };
-    return this.http.delete<ServerResponsePlain>(url, {
-      params: query,
-      headers: this.getHeaders()
-    });
-  }
-
-  removeFromGroup(groupId: string, userId: string): Observable<ServerResponsePlain> {
-    const url = this.aurl('leave-group');
-    const query = {
-      groupId: groupId,
-      userId: userId
-    };
-    return this.http.delete<ServerResponsePlain>(url, {
-      params: query,
-      headers: this.getHeaders()
-    });
-  }
 
   // MARK END: Groups
 

@@ -2,23 +2,18 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponsePlain } from "src/app/models/common-models";
 import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectives } from "src/app/models/game/game";
-import { ApiService } from "../api.service";
+import { APIBase } from "./base.api";
 
-export class GameEntryAPIs {
+export class GameEntryAPIs implements APIBase {
 
-  private http: HttpClient;
-  private aurl: (endpoint: string) => string;
-  private getHeaders: () => HttpHeaders;
+  http!: HttpClient;
+  aurl!: (endpoint: string) => string;
+  getHeaders!: () => HttpHeaders;
 
-  constructor(
-      private service: ApiService
-  ){
-      this.http = service.http;
-      this.aurl = service.aurl;
-      this.getHeaders = service.getHeaders;
-  }
+  constructor(){}
 
   createGame(data: any): Observable<ServerResponseGameCreate> {
+    console.log("Create Game reached!");
     const url = this.aurl('create-game');
     return this.http.post<ServerResponseGameCreate>(url, data, {
       headers: this.getHeaders()

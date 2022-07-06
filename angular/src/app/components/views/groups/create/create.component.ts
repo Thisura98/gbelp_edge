@@ -70,7 +70,7 @@ export class GroupCreateComponent implements OnInit {
     }
 
     const loggedUserId = [userId];
-    this.apiService.createGroup(
+    this.apiService.group.createGroup(
       this.groupName, this.groupDescription, '', null, loggedUserId
     ).subscribe(response => {
 

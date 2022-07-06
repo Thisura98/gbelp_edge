@@ -2,21 +2,15 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponsePlain } from "src/app/models/common-models";
 import { ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseUserTypes } from "src/app/models/user";
-import { ApiService } from "../api.service";
+import { APIBase } from "./base.api";
 
-export class UserAPIs {
+export class UserAPIs implements APIBase {
 
-    private http: HttpClient;
-    private aurl: (endpoint: string) => string;
-    private getHeaders: () => HttpHeaders;
+    http!: HttpClient;
+    aurl!: (endpoint: string) => string;
+    getHeaders!: () => HttpHeaders;
 
-    constructor(
-        private service: ApiService
-    ){
-        this.http = service.http;
-        this.aurl = service.aurl;
-        this.getHeaders = service.getHeaders;
-    }
+    constructor(){}
 
     refreshToken(): Observable<ServerResponsePlain>{
         const url = this.aurl('refresh-token');

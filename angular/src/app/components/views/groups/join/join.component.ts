@@ -85,7 +85,7 @@ export class GroupJoinComponent implements OnInit{
 
   private loadData(){
     this.isLoading = true;
-    this.apiService.getGroupAnonymously(this.encryptedGroupId!).subscribe(response => {
+    this.apiService.group.getGroupAnonymously(this.encryptedGroupId!).subscribe(response => {
       if (!response.success){
         const msg = response.description ?? "Could not fetch details";
         this.dialogService.showDismissable("Invitation Corrupted", msg);
@@ -106,7 +106,7 @@ export class GroupJoinComponent implements OnInit{
   }
 
   private addUserToGroupAndNavigate(){
-    this.apiService.joinGroupWith(this.encryptedGroupId!).subscribe(result => {
+    this.apiService.group.joinGroupWith(this.encryptedGroupId!).subscribe(result => {
       if (!result.success){
         const msg = result.description ?? "Unknown Error";
         this.dialogService.showDismissable("Join Error", msg);

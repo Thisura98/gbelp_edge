@@ -61,7 +61,7 @@ export class GroupReportsAvailableComponent implements OnInit{
   private loadData(){
     forkJoin([
       this.apiService.getSession(this.sessionId!),
-      this.apiService.getGroup(this.groupId!)
+      this.apiService.group.getGroup(this.groupId!)
     ]).subscribe(values => {
       
       const sessionResponse = values[0];

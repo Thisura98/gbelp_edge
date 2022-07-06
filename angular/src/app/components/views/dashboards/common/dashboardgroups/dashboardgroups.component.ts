@@ -73,7 +73,7 @@ export class DashboardgroupsComponent implements OnInit {
   /* Private Methods */
 
   private loadData(){
-    this.apiService.getGroupsForUser().subscribe(data => {
+    this.apiService.group.getGroupsForUser().subscribe(data => {
       this.isLoading = false;
       if (!data.success){
         this.dialogService.showDismissable(

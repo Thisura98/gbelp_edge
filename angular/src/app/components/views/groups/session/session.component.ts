@@ -57,7 +57,7 @@ export class GroupSessionComponent implements OnInit{
   }
 
   private loadData(){
-    this.apiService.getGroup(this.groupId!).subscribe(response => {
+    this.apiService.group.getGroup(this.groupId!).subscribe(response => {
       if (!response.success){
         const msg = response.description;
         this.dialogService.showDismissable("Data Load Error", msg);

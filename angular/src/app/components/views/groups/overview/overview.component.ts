@@ -95,7 +95,7 @@ export class GroupOverviewComponent implements OnInit{
 
     // Get the group object,
     // then the group's composition stats
-    this.apiService.getGroup(this.groupId!).subscribe(response => {
+    this.apiService.group.getGroup(this.groupId!).subscribe(response => {
       if (!response.success){
         const msg = response.description;
         this.dialogService.showDismissable("Data Load Error", msg);
@@ -106,7 +106,7 @@ export class GroupOverviewComponent implements OnInit{
         return;
       }
       
-      this.apiService.getGroupComposition(this.groupId!).subscribe(composition => {
+      this.apiService.group.getGroupComposition(this.groupId!).subscribe(composition => {
 
         // Membership error in API.
         if (response.code == 201)
@@ -127,7 +127,7 @@ export class GroupOverviewComponent implements OnInit{
     if (userId == null)
       this.dialogService.showDismissable("Error", "User ID is empty, cannot leave from group");
 
-    this.apiService.removeFromGroup(this.groupId!, userId!).subscribe(response => {
+    this.apiService.group.removeFromGroup(this.groupId!, userId!).subscribe(response => {
       if (!response.success){
         const msg = response.description ?? "Unknown error occured while leaving.";
         this.dialogService.showDismissable("Processing Error", msg);
@@ -145,7 +145,7 @@ export class GroupOverviewComponent implements OnInit{
   }
 
   private deleteGroupConfirmed(){
-    this.apiService.deleteGroup(this.groupId!).subscribe(response => {
+    this.apiService.group.deleteGroup(this.groupId!).subscribe(response => {
       if (!response.success){
         const msg = response.description ?? "Unknown error occured while deleting group";
         this.dialogService.showDismissable("Processing Error", msg);
