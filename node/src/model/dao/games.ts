@@ -24,7 +24,9 @@ export function createGame(data: any, callback: DAOCallback){
     let columns_arr = [
         c.id,
         c.authorId,
-        c.name, c.type, c.levelSwitch, 
+        c.name, c.type, 
+        c.isTemplate, c.isPublished, c.parentEntryId,
+        c.levelSwitch, 
         c.multiUserLimit, c.progressBoundType, 
         c.reportOptObjectives, 
         c.reportOptGuidanceTrg, 
@@ -35,7 +37,9 @@ export function createGame(data: any, callback: DAOCallback){
     let values = [
         0,
         data.author_id,
-        data.name, data.type, data.level_switch,
+        data.name, data.type, 
+        data.is_template, data.is_published, data.parent_entry_id,
+        data.level_switch,
         data.multi_user_limit, data.progress_bound_type,
         data.rep_opt_objectives,
         data.rep_opt_guidance_trg,

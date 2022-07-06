@@ -95,6 +95,9 @@ export class GameCreateComponent implements OnInit {
       name: this.gameName,
       author_id: userId!,
       type: this.gameType,
+      is_template: this.viewMode == ViewMode.TEMPLATE,
+      is_published: false,
+      parent_entry_id: null, // TODO
       multi_user_limit: this.userLimit,
       level_switch: this.levelSwitching,
       progress_bound_type: this.progressBoundType,
@@ -229,7 +232,8 @@ export class GameCreateComponent implements OnInit {
   }
 
   private gameCreatedSuccessfully(gameId: string){
-    this.router.navigate(['game/edit'], {
+    const target = `${this.viewMode}/edit`;
+    this.router.navigate([target], {
       queryParams: {
         gameId: gameId
       },
