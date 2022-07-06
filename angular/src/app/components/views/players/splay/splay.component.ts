@@ -162,7 +162,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   private loadCompiledGame(){
     // this.dialogService.showSnackbar("Game load temporarily disabled");
     // return;
-    this.apiService.getCompiledGameJS(this.sessionId!).subscribe(gameJS => {
+    this.apiService.play.getCompiledGameJS(this.sessionId!).subscribe(gameJS => {
       console.log("Received game JS!");
       console.log(gameJS);
 

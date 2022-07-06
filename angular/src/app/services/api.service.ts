@@ -18,6 +18,7 @@ import { GroupAPIs } from './apis/group.api';
 import { APIBase } from './apis/base.api';
 import { GameEditingAPIs } from './apis/game-editing.api';
 import { SessionAPIs } from './apis/session.api';
+import { PlayAPIs } from './apis/play.api';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -52,6 +53,8 @@ export class ApiService {
     // return 'https://d53c0891-ae64-4f74-ba67-542e3ba74c6f.mock.pstmn.io'; // postman mock server
   }
 
+  // MARK: API Namespaces
+
   public user: UserAPIs;
   public game: GameEntryAPIs;
   public group: GroupAPIs;
@@ -60,6 +63,9 @@ export class ApiService {
    */
   public editor: GameEditingAPIs;
   public session: SessionAPIs;
+  public play: PlayAPIs;
+
+  // MARK END
 
   constructor(
     public http: HttpClient,
@@ -70,6 +76,7 @@ export class ApiService {
     this.group = this.prepareAPI(new GroupAPIs);
     this.editor = this.prepareAPI(new GameEditingAPIs);
     this.session = this.prepareAPI(new SessionAPIs);
+    this.play = this.prepareAPI(new PlayAPIs);
   }
 
   /**
@@ -110,36 +117,6 @@ export class ApiService {
     return this.serverBaseUrl;
   }
 
-  // MARK: Groups
-
-  // MARK END: Groups
-
-  // MARK: Game Editing
-
-  // MARK END: Game Editing
-
-  // MARK: Play 
-
-  getCompiledGameJS(sessionId: string): Observable<string> {
-    const url = this.aurl('play/get-game-js');
-    return this.http.get(url, {
-      params: {
-        sessionId: sessionId
-      },
-      responseType: 'text',
-      headers: this.getHeaders()
-    })
-  }
-
-  // MARK END: Play
-
-  // MARK: Session
-
-
-  // MARK END: Session
-
-  // MARK: Session API calls
-
   // @DEMO
   getLatestSessionDetailsFor(userId: string): Observable<ServerResponseLatestSession> {
     const url = this.aurl('student/getLatestSession');
@@ -160,6 +137,7 @@ export class ApiService {
     });
   }
 
+  // @DEMO
   clearHistories(userId: string): Observable<ServerResponsePlain> {
     const url = this.aurl('student/clearObjectiveHistories');
     const data = { userId: userId };
