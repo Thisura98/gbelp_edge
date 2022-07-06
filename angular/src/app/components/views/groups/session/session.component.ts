@@ -75,7 +75,7 @@ export class GroupSessionComponent implements OnInit{
   }
 
   private loadSessions(){
-    this.apiService.getSessionsByGroup(this.groupId!, []).subscribe(response => {
+    this.apiService.session.getSessionsByGroup(this.groupId!, []).subscribe(response => {
       if (!response.success){
         this.dialogService.showDismissable("Session Data Error", response.description ?? "Unknown error");
         return

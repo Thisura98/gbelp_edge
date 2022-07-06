@@ -17,6 +17,7 @@ import { GameEntryAPIs } from './apis/game-entry.api';
 import { GroupAPIs } from './apis/group.api';
 import { APIBase } from './apis/base.api';
 import { GameEditingAPIs } from './apis/game-editing.api';
+import { SessionAPIs } from './apis/session.api';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -58,6 +59,7 @@ export class ApiService {
    * Game Editing APIs
    */
   public editor: GameEditingAPIs;
+  public session: SessionAPIs;
 
   constructor(
     public http: HttpClient,
@@ -67,6 +69,7 @@ export class ApiService {
     this.game = this.prepareAPI(new GameEntryAPIs);
     this.group = this.prepareAPI(new GroupAPIs);
     this.editor = this.prepareAPI(new GameEditingAPIs);
+    this.session = this.prepareAPI(new SessionAPIs);
   }
 
   /**
@@ -132,26 +135,6 @@ export class ApiService {
 
   // MARK: Session
 
-  getSession(sessionId: string): Observable<ServerResponse<GameSession>> {
-    const url = this.aurl('get-session');
-    return this.http.get<ServerResponse<GameSession>>(url, {
-      params: {
-        sessionId: sessionId
-      },
-      headers: this.getHeaders()
-    });
-  }
-
-  getSessionsByGroup(groupId: string, stateFilters: GameSessionState[]): Observable<ServerResponseSessionsByGroup> {
-    const url = this.aurl('session/sessions-by-group');
-    return this.http.get<ServerResponseSessionsByGroup>(url, {
-      params: {
-        groupId: groupId,
-        states: stateFilters.map(v => v.toString())
-      },
-      headers: this.getHeaders()
-    })
-  }
 
   // MARK END: Session
 

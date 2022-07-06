@@ -60,7 +60,7 @@ export class GroupReportsAvailableComponent implements OnInit{
 
   private loadData(){
     forkJoin([
-      this.apiService.getSession(this.sessionId!),
+      this.apiService.session.getSession(this.sessionId!),
       this.apiService.group.getGroup(this.groupId!)
     ]).subscribe(values => {
       

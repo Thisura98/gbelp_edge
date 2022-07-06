@@ -123,7 +123,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     // Get the session then,
     // get the game then,
     // get the game js.
-    this.apiService.getSession(this.sessionId!).subscribe(sessionResponse => {
+    this.apiService.session.getSession(this.sessionId!).subscribe(sessionResponse => {
       if (!sessionResponse.success){
         this.handleLoadError(sessionResponse, 'Sessions');
         return;
