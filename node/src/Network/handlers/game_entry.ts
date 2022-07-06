@@ -4,6 +4,25 @@ import * as gamesDAO from '../../model/dao/games';
 import * as metricsDAO from '../../model/dao/metrics';
 import { ResponseModel } from '../../model/models/common';
 
+/**
+ * Returns whether the current request is for a Template.
+ * 
+ * This is because Games and Templates are both handled by the same 
+ * API & UIs.
+ */
+function checkIsTemplate(params: any): boolean{
+    if (!params)
+        return false;
+
+    if (params.is_template == undefined || params.is_template == '')
+        return false;
+
+    if (params.is_template == 1 || params.is_template == '1' || params.is_template == true)
+        return true;
+
+    return false;
+}
+
 export function handlerGameEntry(app: Express){
     app.post(aurl('create-game'), (req, res) => {
         gamesDAO.createGame(req.body, (status, msg, result) => {
@@ -34,11 +53,8 @@ export function handlerGameEntry(app: Express){
     });
 
     app.get(aurl('all-games'), (req, res) => {
-        let is_template: number | null = null;
-        if (req.query.is_template != undefined && req.query.is_template != ''){
-            is_template = Number.parseInt(req.query.is_template as string);
-        }
-        gamesDAO.getAllGames(is_template, (status, msg, result) => {
+        let isTemplate = checkIsTemplate(req.query);
+        gamesDAO.getAllGames(isTemplate, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });
