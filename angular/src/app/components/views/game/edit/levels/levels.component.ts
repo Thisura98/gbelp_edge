@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 import { GameEditLevelItemComponent } from './item/item.component';
 import { LevelScene } from '../../../../../../../../commons/src/models/game/levels/scene';
 import { LevelLogic, LevelScript } from '../../../../../../../../commons/src/models/game/levels/logic';
+import { LevelProperties } from '../../../../../../../../commons/src/models/game/levels/properties';
 
 @Component({
   selector: 'app-game-edit-levels',
@@ -72,6 +73,7 @@ export class GameEditLevelsComponent implements OnInit {
         levelExitType,
         levelExitTypeValue,
         new LevelScene([]),
+        new LevelProperties("", {}),
         new LevelLogic(
           new LevelScript('', '', '')
         ),

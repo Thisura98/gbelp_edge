@@ -1,5 +1,6 @@
 import { LevelExitCriteria, LevelTypeSingle,  LevelTypeMulti, LevelDisplayMode, GameLevel, LevelExitCriteriaHelper } from ".";
 import { getNewObjectId } from "../../common";
+import { LevelProperties } from "./properties";
 
 /**
  * Returns the initial game levels for a single player game.
@@ -9,7 +10,8 @@ import { getNewObjectId } from "../../common";
     levelExitValue: number | null
 ): GameLevel[] {
 
-    let lExitCriteria: LevelExitCriteria
+    let lExitCriteria: LevelExitCriteria;
+    const emptyProperties = new LevelProperties("", {});
 
     if (typeof levelExitCriteria == 'number')
         lExitCriteria = LevelExitCriteriaHelper.fromNumber(levelExitCriteria);
@@ -28,6 +30,7 @@ import { getNewObjectId } from "../../common";
             scene: {
                 objects: []
             },
+            properties: emptyProperties,
             logic: {
                 script: {
                     setup: "",
@@ -47,6 +50,7 @@ import { getNewObjectId } from "../../common";
             scene: {
                 objects: []
             },
+            properties: emptyProperties,
             logic: {
                 script: {
                     setup: "",
@@ -66,6 +70,7 @@ import { getNewObjectId } from "../../common";
             scene: {
                 objects: []
             },
+            properties: emptyProperties,
             logic: {
                 script: {
                     setup: "",
@@ -86,6 +91,7 @@ export function getMultiPlayerLevelInitData(
 ): GameLevel[] {
 
     let lExitCriteria: LevelExitCriteria
+    const emptyProperties = new LevelProperties("", {});
 
     if (typeof levelExitCriteria == 'number')
         lExitCriteria = LevelExitCriteriaHelper.fromNumber(levelExitCriteria);
@@ -104,6 +110,7 @@ export function getMultiPlayerLevelInitData(
             scene: {
                 objects: []
             },
+            properties: emptyProperties,
             logic: {
                 script: {
                     setup: "",
@@ -123,6 +130,7 @@ export function getMultiPlayerLevelInitData(
             scene: {
                 objects: []
             },
+            properties: emptyProperties,
             logic: {
                 script: {
                     setup: "",
@@ -142,6 +150,7 @@ export function getMultiPlayerLevelInitData(
             scene: {
                 objects: []
             },
+            properties: emptyProperties,
             logic: {
                 script: {
                     setup: "",
@@ -161,6 +170,7 @@ export function getMultiPlayerLevelInitData(
             scene: {
                 objects: []
             },
+            properties: emptyProperties,
             logic: {
                 script: {
                     setup: "",

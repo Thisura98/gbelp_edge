@@ -93,7 +93,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object test_png ---
-		const sprite_1 = this.add.sprite(142, 82, 'test_png');
+		const sprite_1 = this.add.sprite(234.46626011242853, 29.66299017090057, 'test_png');
 		sprite_1.name = "test_png";
 		scaleX = 202 / sprite_1.displayWidth;
 		scaleY = 100 / sprite_1.displayHeight;
@@ -102,7 +102,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		// --- scene object test_png_2 ---
-		const sprite_2 = this.add.sprite(380.5, 238, 'test_png_2');
+		const sprite_2 = this.add.sprite(381.5, 238, 'test_png_2');
 		sprite_2.name = "test_png_2";
 		scaleX = 201 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;

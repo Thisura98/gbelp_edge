@@ -1,4 +1,5 @@
 import { LevelLogic, LevelScript } from "./logic";
+import { LevelProperties } from "./properties";
 import { LevelScene } from "./scene";
 
 /**
@@ -52,6 +53,7 @@ export class GameLevel{
         public exitCriteriaType: string,
         public exitCriteriaValue: number | null,
         public scene: LevelScene,
+        public properties: LevelProperties,
         public logic: LevelLogic
     ){}
 
