@@ -34,7 +34,12 @@ export function handlerGameEntry(app: Express){
     });
 
     app.get(aurl('all-games'), (req, res) => {
-        gamesDAO.getAllGames((status, msg, result) => {
+        let is_template: number | null = null;
+        if (req.query.is_template != undefined){
+            is_template = Number.parseInt(req.query.is_template as string);
+        }
+        
+        gamesDAO.getAllGames(is_template, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });

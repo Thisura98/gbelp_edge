@@ -215,10 +215,18 @@ export function getGame(id: string | number, callback: DAOCallback){
 
 /**
  * Ret
+ * @param {number|null} type: 1 for templates, 0 for games. null for all.
  * @param {function(boolean, string, Object} callback success, desc, object containing games
  */
-export function getAllGames(callback: DAOCallback){
-    const query = `SELECT * FROM ${sql.tables.gameEntry}`;
+export function getAllGames(type: number|null, callback: DAOCallback){
+    const c = sql.columns.gameEntry;
+    const strType = sql.escape(type);
+    let query = `SELECT * FROM ${sql.tables.gameEntry}`;
+
+    if (type != null){
+        query += ` WHERE ${c.isTemplate} = ${strType}`;
+    }
+
     sql.getPool()!.query(query, (err, res, fields) => {
 
         if (err == null && typeof res == "object"){
