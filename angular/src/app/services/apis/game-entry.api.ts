@@ -13,7 +13,6 @@ export class GameEntryAPIs implements APIBase {
   constructor(){}
 
   createGame(data: any): Observable<ServerResponseGameCreate> {
-    console.log("Create Game reached!");
     const url = this.aurl('create-game');
     return this.http.post<ServerResponseGameCreate>(url, data, {
       headers: this.getHeaders()
