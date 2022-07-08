@@ -226,17 +226,20 @@ export function getGame(id: string | number, callback: DAOCallback){
 export function getAllGames(isTemplate: boolean | null, author: string | null, callback: DAOCallback){
     const c = sql.columns.gameEntry;;
     let query = `SELECT * FROM ${sql.tables.gameEntry}`;
+    let filters: string[] = [];
 
     if (isTemplate != null){
-        query += ` WHERE ${c.isTemplate} = ${isTemplate ? '1' : '0'}`;
+        filters.push(`${c.isTemplate} = ${isTemplate ? '1' : '0'}`);
     }
 
     if (author != null && author != ''){
         const eAuthor = sql.escape(author);
-        query += ` AND WHERE ${c.authorId} = ${eAuthor}`;
+        filters.push(`${c.authorId} = ${eAuthor}`);
     }
 
-    console.log("getAllGames query =", query);
+    if (filters.length > 0){
+        query = query + " WHERE " + filters.join(' AND ');
+    }
 
     sql.getPool()!.query(query, (err, res, fields) => {
 
