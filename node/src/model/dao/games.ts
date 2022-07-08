@@ -220,15 +220,23 @@ export function getGame(id: string | number, callback: DAOCallback){
 /**
  * Returns game entries
  * @param {boolean | null} isTemplate: 1 for templates, 0 for games. null for all.
+ * @param {string | null} author user id of the entry owner
  * @param {function(boolean, string, Object} callback success, desc, object containing games
  */
-export function getAllGames(isTemplate: boolean | null, callback: DAOCallback){
+export function getAllGames(isTemplate: boolean | null, author: string | null, callback: DAOCallback){
     const c = sql.columns.gameEntry;;
     let query = `SELECT * FROM ${sql.tables.gameEntry}`;
 
     if (isTemplate != null){
         query += ` WHERE ${c.isTemplate} = ${isTemplate ? '1' : '0'}`;
     }
+
+    if (author != null && author != ''){
+        const eAuthor = sql.escape(author);
+        query += ` AND WHERE ${c.authorId} = ${eAuthor}`;
+    }
+
+    console.log("getAllGames query =", query);
 
     sql.getPool()!.query(query, (err, res, fields) => {
 

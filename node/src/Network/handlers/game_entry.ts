@@ -10,12 +10,15 @@ import { ResponseModel } from '../../model/models/common';
  * This is because Games and Templates are both handled by the same 
  * API & UIs.
  */
-function checkIsTemplate(params: any): boolean{
+function checkIsTemplate(params: any): boolean | null{
     if (!params)
-        return false;
+        return null;
 
     if (params.is_template == undefined || params.is_template == '')
-        return false;
+        return null;
+
+    if (params.is_template == 0 || params.is_template == '0' || params.is_template == false)
+        return true;
 
     if (params.is_template == 1 || params.is_template == '1' || params.is_template == true)
         return true;
@@ -54,7 +57,8 @@ export function handlerGameEntry(app: Express){
 
     app.get(aurl('all-games'), (req, res) => {
         let isTemplate = checkIsTemplate(req.query);
-        gamesDAO.getAllGames(isTemplate, (status, msg, result) => {
+        let author = req.query.author as string;
+        gamesDAO.getAllGames(isTemplate, author, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });
