@@ -24,6 +24,10 @@ interface OnSaveListener{
 let onSaveListeners: OnSaveListener[] = [];
 let onSaveIdCounter = 0;
 
+/**
+ * Sync "save" actions across all editor pages (scene, animation, logic)
+ * and sync various data across editor pages and main editor component.
+ */
 @Injectable()
 export class EditorDataService{
 

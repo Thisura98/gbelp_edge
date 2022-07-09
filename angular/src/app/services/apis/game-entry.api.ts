@@ -51,8 +51,6 @@ export class GameEntryAPIs implements APIBase {
       params = params.set('is_template', isTemplates ? '1' : '0');
     }
 
-    console.log("calling 'all-games' API...", 'params value =', params);
-
     return this.http.get<ServerResponseAllGameEntries>(url, {
       headers: this.getHeaders(),
       params: params

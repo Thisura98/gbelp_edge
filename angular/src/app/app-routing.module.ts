@@ -19,7 +19,7 @@ import { GameEditLevelsComponent } from './components/views/game/edit/levels/lev
 import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
 import { GameEditorComponents } from './components/views/game/edit/editor/editor.component';
 import { SceneEditorComponent } from './components/views/game/edit/editor/scene/scene.component';
-import { AnimationEditorComponent } from './components/views/game/edit/editor/animation/animation.component';
+import { AnimationEditorComponent } from './components/views/game/edit/editor/properties/properties.component';
 import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
 import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';

@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { SceneEditorComponent } from './scene/scene.component';
-import { AnimationEditorComponent } from './animation/animation.component';
+import { AnimationEditorComponent } from './properties/properties.component';
 import { LogicEditorComponent } from './logic/logic.component';
 import { GameType } from '../../../../../../../../commons/src/models/game/game';
 import { combineLatest } from 'rxjs';

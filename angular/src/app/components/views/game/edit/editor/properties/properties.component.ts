@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-animation',
-  templateUrl: './animation.component.html',
-  styleUrls: ['./animation.component.css']
+  selector: 'app-properties',
+  templateUrl: './properties.component.html',
+  styleUrls: ['./properties.component.css']
 })
 export class AnimationEditorComponent implements OnInit {
 
