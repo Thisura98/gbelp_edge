@@ -18,7 +18,7 @@ function checkIsTemplate(params: any): boolean | null{
         return null;
 
     if (params.is_template == 0 || params.is_template == '0' || params.is_template == false)
-        return true;
+        return false;
 
     if (params.is_template == 1 || params.is_template == '1' || params.is_template == true)
         return true;
