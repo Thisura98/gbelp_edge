@@ -71,7 +71,15 @@ stroke: #ffffff;
     cursor: pointer;
 }
 
-.editor-tab.selected{
+.editor-tab > a{
+    text-decoration: none;
+}
+
+.editor-tab > a:link, .editor-tab > a:visited{
+    color: black;
+}
+
+.editor-tab.selected > a:link, .editor-tab.selected > a:visited{
     color: #009EFF;
     font-weight: bold;
 }

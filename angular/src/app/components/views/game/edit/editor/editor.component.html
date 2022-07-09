@@ -26,7 +26,9 @@
                     <div class="editor-tab" 
                         [class.selected]="getSelectedTabIndex() == 0"
                         (click)="didSelectedEditorTab(0)">
-                        Scene
+                        <a [routerLink]="['/game/edit/editor/scene']" [queryParams]="editorQueryParams">
+                            Scene
+                        </a>
                     </div>
                     <div class="editor-tab-separator">
                         <img src="assets/game/graydot.png">
@@ -34,7 +36,9 @@
                     <div class="editor-tab" 
                         [class.selected]="getSelectedTabIndex() == 1"
                         (click)="didSelectedEditorTab(1)">
-                        Properties
+                        <a [routerLink]="['/game/edit/editor/animation']" [queryParams]="editorQueryParams">
+                            Properties
+                        </a>
                     </div>
                     <div class="editor-tab-separator">
                         <img src="assets/game/graydot.png">
@@ -42,7 +46,9 @@
                     <div class="editor-tab" 
                         [class.selected]="getSelectedTabIndex() == 2"
                         (click)="didSelectedEditorTab(2)">
-                        Logic
+                        <a [routerLink]="['/game/edit/editor/logic']" [queryParams]="editorQueryParams">
+                            Logic
+                        </a>
                     </div>
                 </div>
             </ng-container>

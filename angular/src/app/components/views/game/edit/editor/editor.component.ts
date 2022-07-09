@@ -3,7 +3,7 @@ import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
 import { GameListing, GameTestSession, ServerResponseGameListing } from 'src/app/models/game/game';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -32,6 +32,14 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
    */
   get sidebarItems(): DynamicSidebarItem[]{
     return getGameSidebarItems('Editor', this.viewMode);
+  }
+
+  get editorQueryParams(): Params{
+    const params: Params = {
+      'gameId': this.editingGameId,
+      'levelId': this.selectedLevel?._id
+    };
+    return params;
   }
 
   selectedLevelIndex: number | undefined;
