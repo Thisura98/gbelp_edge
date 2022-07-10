@@ -82,6 +82,15 @@ const routes: Routes = [
   {path: "template/edit/resources", component: GameEditResourcesComponent, data: { mode: ViewMode.TEMPLATE } },
   {path: "template/edit/levels", component: GameEditLevelsComponent, data: { mode: ViewMode.TEMPLATE } },
   {path: "template/edit/levels/add", component: GameEditLevelsAddComponentComponent, data: { mode: ViewMode.TEMPLATE } },
+  {
+    path: "template/edit/editor", component: GameEditorComponents,
+    data: { mode: ViewMode.TEMPLATE },
+    children: [
+      {path: "scene", component: SceneEditorComponent, data: { mode: ViewMode.TEMPLATE }},
+      {path: "animation", component: AnimationEditorComponent, data: { mode: ViewMode.TEMPLATE }},
+      {path: "logic", component: LogicEditorComponent, data: { mode: ViewMode.TEMPLATE }}
+    ]
+  },
   {path: "docs", component: DocsComponent},
   {
     path: "docs/articles", 
