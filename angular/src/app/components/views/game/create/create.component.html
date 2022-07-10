@@ -23,13 +23,26 @@
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Game Type</div>
-                    <select class="dyn-select" placeholder="Select player type" [(ngModel)]="gameType" (change)="gameTypeDidChange()">
+                    <select class="dyn-select" placeholder="Select player type" [(ngModel)]="gameType">
                         <option selected value="1">Single Player</option>
                         <option value="2">Multi Player</option>
                     </select>
                 </div>
+                <ng-container *ngIf="viewMode == 'game'">
+                    <div class="dyn-form-row">
+                        <div class="dyn-form-label">Template Type</div>
+                        <select class="dyn-select" placeholder="Select template" [(ngModel)]="templateId">
+                            <option value="-1">Select a template...</option>
+                            <option 
+                                *ngFor="let template of gameTemplates" 
+                                value="{{template.id}}">
+                                {{template.name}}
+                            </option>
+                        </select>
+                    </div>
+                </ng-container>
                 <div class="form-row subtitle" *ngIf="!isEditMode">
-                    More options will appear when you click “Save”
+                    More options will appear when you click, "Create"
                 </div>
             </div>
 

@@ -26,6 +26,7 @@ export class GameCreateComponent implements OnInit {
 
   gameName: string = ""
   gameType: number = 1 // single player
+  templateId: string | null = '-1';
   userLimit: number = 0
   levelSwitching: number = 1; // time based
   progressBoundType: number = 1;
@@ -38,13 +39,18 @@ export class GameCreateComponent implements OnInit {
   disableScoreReports: boolean = true
   disableTimingReports: boolean = false
 
+  /**
+   * Is Game or Template mode?
+   */
   viewMode = ViewMode.UNKNOWN;
   isEditMode: boolean = false;
   editingGameId: number | undefined;
+  editingGame: GameEntry | undefined = undefined;
   isLoading: boolean = false;
 
   gameObjectives: GameObjective[] = [];
   gameGuidanceTrackers: GameGuidanceTracker[] = [];
+  gameTemplates: GameEntry[] = [];
 
   get sidebarItems(): DynamicSidebarItem[]{
     if (this.isEditMode)
@@ -80,8 +86,9 @@ export class GameCreateComponent implements OnInit {
       if (data.editMode){
         this.isEditMode = true;
         this.editingGameId = parseInt(route.get('gameId') ?? "-1", 10);
-        this.loadData();
       }
+
+      this.loadData();
 
     });
   }
@@ -97,7 +104,7 @@ export class GameCreateComponent implements OnInit {
       type: this.gameType,
       is_template: this.viewMode == ViewMode.TEMPLATE,
       is_published: false,
-      parent_entry_id: null, // TODO
+      parent_entry_id: this.templateId,
       multi_user_limit: this.userLimit,
       level_switch: this.levelSwitching,
       progress_bound_type: this.progressBoundType,
@@ -109,6 +116,8 @@ export class GameCreateComponent implements OnInit {
       objectives: this.gameObjectives,
       trackers: this.gameGuidanceTrackers
     }
+
+    // TODO: Validate fields
 
     /// MARK: Call Create game or Edit Game accordingly
 
@@ -141,10 +150,6 @@ export class GameCreateComponent implements OnInit {
 
   canceledButtonClicked(){
     this.handleBack();
-  }
-
-  gameTypeDidChange(){
-    console.log("new game type", this.gameType);
   }
 
   levelSwitchingDidChange(){
@@ -242,10 +247,17 @@ export class GameCreateComponent implements OnInit {
   }
 
   private loadData(){
+    // Load Game Template
+    this.apiService.game.getAllGames(true, this.userService.getUserAndToken().user.userId).subscribe((entries) => {
+      this.gameTemplates = entries.data;
+    });
+
     if (!this.isEditMode)
       return;
 
     this.isLoading = true;
+
+    // Load Game Entry
     this.apiService.game.getGame(this.editingGameId!).subscribe((response) => {
       this.isLoading = false;
       if (response.success)
@@ -288,6 +300,8 @@ export class GameCreateComponent implements OnInit {
     const allowedAuthors = data.author_id.split(',');
     const inList = allowedAuthors.find(id => id == userId);
 
+    this.editingGame = data;
+
     if (inList == undefined){
       this.dialogService.showDismissable('No Permission', 'You do not have permission to edit this game', () => {
         this.location.back();
@@ -299,6 +313,7 @@ export class GameCreateComponent implements OnInit {
 
     this.gameName = data.name;
     this.gameType = data.type;
+    this.templateId = data.parent_entry_id;
     this.userLimit = data.multi_user_limit;
     this.levelSwitching = data.level_switch;
     this.progressBoundType = data.progress_bound_type;

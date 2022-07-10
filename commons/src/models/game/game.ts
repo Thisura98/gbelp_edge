@@ -17,7 +17,7 @@ export class GameEntry{
         public type: number, 
         public is_template: boolean,
         public is_published: boolean,
-        public parent_entry_id: number | null,
+        public parent_entry_id: string | null,
         public level_switch: number, 
         public multi_user_limit: number, 
         public progress_bound_type: number, 
@@ -66,7 +66,7 @@ export interface SaveGameRequestData extends SaveGameReportOptions{
     type: number
     is_template: boolean
     is_published: boolean
-    parent_entry_id: number | null
+    parent_entry_id: string | null
     level_switch: number
     multi_user_limit: number
     progress_bound_type: number
