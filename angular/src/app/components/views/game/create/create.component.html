@@ -22,7 +22,7 @@
                     <input class="dyn-textbox" placeholder="Type name here..." [(ngModel)]="gameName"/>
                 </div>
                 <div class="dyn-form-row">
-                    <div class="dyn-form-label">{{viewMode | titlecase}} Type</div>
+                    <div class="dyn-form-label">Game Type</div>
                     <select class="dyn-select" placeholder="Select player type" [(ngModel)]="gameType" (change)="gameTypeDidChange()">
                         <option selected value="1">Single Player</option>
                         <option value="2">Multi Player</option>
@@ -35,7 +35,7 @@
 
             <!-- Section Options -->
             <div class="dyn-form-col options-column">
-                <h2 class="heading">{{viewMode | titlecase}} Options</h2>
+                <h2 class="heading">Game Options</h2>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Concurrent user limit</div>
                     <input 
