@@ -80,12 +80,14 @@ import { GroupSessionComponent } from './components/views/groups/session/session
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 import { ReportAvailableCard } from './components/ui/groups/reports/available-report-card/available.report.card';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
+import { TextWrapPipe } from './pipes/test-wrap-pipe';
 
 
 @NgModule({
   declarations: [
     ResourceUrlTransformPipe,
     AnyToStringPipe,
+    TextWrapPipe,
     AppComponent,
     RegisterComponent,
     SimpleDialogComponent,
@@ -160,7 +162,7 @@ import { GroupReportsUsageComponent } from './components/views/groups/reports/us
   ],
   providers: [
     ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService,
-    ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, 
+    ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, TextWrapPipe,
     httpInterceptorProviders
   ],
   bootstrap: [AppComponent]

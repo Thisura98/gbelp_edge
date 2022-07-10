@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing, ServerResponseGameListing } from 'src/app/models/game/game';
-import { ResourceUrlTransformPipe } from 'src/app/pipes/resource-url-transform.pipe';
 import { SceneObject, SceneObjectHelper } from '../../../../../../../../../commons/src/models/game/levels/scene';
 import { GameProjectResource } from '../../../../../../../../../commons/src/models/game/resources';
+import { TextWrapPipe } from 'src/app/pipes/test-wrap-pipe';
 
 
 @Component({

@@ -34,7 +34,7 @@
                         [src]="item.filename | resurl" 
                         *ngIf="item.type == 'image'"/>
                 </div>
-                <span class="library-item-title">{{item.displayName}}</span>
+                <span class="library-item-title">{{item.displayName | textwrap: 14}}</span>
             </div>
         </div>
         <h2>Options</h2>
