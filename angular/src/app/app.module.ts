@@ -80,7 +80,7 @@ import { GroupSessionComponent } from './components/views/groups/session/session
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 import { ReportAvailableCard } from './components/ui/groups/reports/available-report-card/available.report.card';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
-import { TextWrapPipe } from './pipes/test-wrap-pipe';
+import { TextWrapPipe } from './pipes/text-wrap-pipe';
 
 
 @NgModule({
