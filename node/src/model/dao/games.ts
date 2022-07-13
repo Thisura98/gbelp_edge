@@ -20,6 +20,10 @@ import { updateObjectives, updateTrackers } from './metrics';
  */
 export function createGame(data: any, callback: DAOCallback){
 
+    // BIG TODO ///////////
+    // todo: For a game, clone & copy the data/resources of the template.
+    ///////////////
+
     const c = sql.columns.gameEntry;
     let columns_arr = [
         c.id,

@@ -48,6 +48,10 @@ export function handlerGameEntry(app: Express){
         });
     });
 
+    app.put(aurl('clone-game'), (req, res) => {
+        res.json(new ResponseModel(false, 200, 'Cloning process is not implemented yet'));
+    })
+
     app.get(aurl('game-listing'), (req, res) => {
         const gameId = req.query.id as string;
         gamesDAO.getGame(gameId, (status, msg, result) => {
