@@ -9,6 +9,8 @@ export enum GameType{
     Multiplayer = 2
 }
 
+export const kGameEntryParentEntryIdNone = '-1';
+
 export class GameEntry{
     constructor(
         public id: number, 

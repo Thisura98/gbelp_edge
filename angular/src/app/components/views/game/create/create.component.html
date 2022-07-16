@@ -32,7 +32,7 @@
                     <div class="dyn-form-row">
                         <div class="dyn-form-label">Template Type</div>
                         <select class="dyn-select" placeholder="Select template" [(ngModel)]="templateId">
-                            <option value="-1">Select a template...</option>
+                            <option value="{{kParentEntryIdNone}}">Select a template...</option>
                             <option 
                                 *ngFor="let template of gameTemplates" 
                                 value="{{template.id}}">

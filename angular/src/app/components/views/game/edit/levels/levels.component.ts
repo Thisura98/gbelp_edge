@@ -9,7 +9,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
 import { GameEditLevelItemComponent } from './item/item.component';
-import { LevelScene } from '../../../../../../../../commons/src/models/game/levels/scene';
+import { LevelScene, SceneObjectHelper } from '../../../../../../../../commons/src/models/game/levels/scene';
 import { LevelLogic, LevelScript } from '../../../../../../../../commons/src/models/game/levels/logic';
 import { LevelProperties } from '../../../../../../../../commons/src/models/game/levels/properties';
 import { combineLatest } from 'rxjs';
@@ -82,6 +82,7 @@ export class GameEditLevelsComponent implements OnInit {
       const newObjectId = res.data;
       const levelExitType = LevelExitCriteriaHelper.fromNumber(this.gameListing!.entry.level_switch);
       const levelExitTypeValue = null;
+      const defaultCamera = SceneObjectHelper.createBlankCamera();
       const newLevel: GameLevel = new GameLevel(
         newObjectId,
         'New Level',
@@ -90,7 +91,7 @@ export class GameEditLevelsComponent implements OnInit {
         false,
         levelExitType,
         levelExitTypeValue,
-        new LevelScene([]),
+        new LevelScene([defaultCamera]),
         new LevelProperties("", {}),
         new LevelLogic(
           new LevelScript('', '', '')
@@ -177,6 +178,7 @@ export class GameEditLevelsComponent implements OnInit {
 
     this.apiService.editor.saveLevel(this.editingGameId!.toString(), this.gameListing!.project._id, this.gameLevels).subscribe((r) => {
       this.resetSaveBtnState();
+      this.dialogService.showSnackbar("Saved levels successfully!");
     }, (e) => {
       this.dialogService.showDismissable("Error while Saving", JSON.stringify(e));
       this.resetSaveBtnState();

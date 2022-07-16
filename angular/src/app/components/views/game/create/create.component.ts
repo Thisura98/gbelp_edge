@@ -9,7 +9,7 @@ import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-import { GameEntry, SaveGameRequestData } from '../../../../../../../commons/src/models/game/game';
+import { GameEntry, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../../../../commons/src/models/game/game';
 import { GameObjective } from '../../../../../../../commons/src/models/game/objectives';
 import { GameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
 import { GameEditConstants } from 'src/app/constants/constants';
@@ -24,9 +24,11 @@ import { GameEditConstants } from 'src/app/constants/constants';
 })
 export class GameCreateComponent implements OnInit {
 
+  readonly kParentEntryIdNone = kGameEntryParentEntryIdNone;
+
   gameName: string = ""
   gameType: number = 1 // single player
-  templateId: string | null = '-1';
+  templateId: string | null = this.kParentEntryIdNone;
   userLimit: number = 0
   levelSwitching: number = 1; // time based
   progressBoundType: number = 1;

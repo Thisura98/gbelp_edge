@@ -122,13 +122,13 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
         this.gameLevels
       ).subscribe((r) => {
         this.isSaving = false;
-        if (!r.success){
-          this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
-        }
-        else{
+        if (r.success){
           if (callback != undefined)
             callback();
+          this.dialogService.showSnackbar("Saved successfully!");
         }
+        else
+          this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
       });
     });
   }
