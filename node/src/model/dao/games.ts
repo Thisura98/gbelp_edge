@@ -7,7 +7,7 @@ import { DateTime, ToSQLOptions } from 'luxon';
 import * as mimeParse from '../../util/mime_parse';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { GameType, SaveGameRequestData } from '../../../../commons/src/models/game/game';
+import { GameType, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../commons/src/models/game/game';
 import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
 import DAOCallback from './commons';
@@ -26,32 +26,26 @@ export function createGame(data: any, callback: DAOCallback){
     ///////////////
 
     const c = sql.columns.gameEntry;
-    let columns_arr = [
-        c.id,
-        c.authorId,
-        c.name, c.type, 
-        c.isTemplate, c.isPublished, c.parentEntryId,
-        c.levelSwitch, 
-        c.multiUserLimit, c.progressBoundType, 
-        c.reportOptObjectives, 
-        c.reportOptGuidanceTrg, 
-        c.reportOptStudentUsage, 
-        c.reportOptLevelScore,
-        c.reportOptLevelTime
-    ]
-    let values = [
-        0,
-        data.author_id,
-        data.name, data.type, 
-        data.is_template, data.is_published, data.parent_entry_id,
-        data.level_switch,
-        data.multi_user_limit, data.progress_bound_type,
-        data.rep_opt_objectives,
-        data.rep_opt_guidance_trg,
-        data.rep_opt_student_usg,
-        data.rep_opt_level_score,
-        data.rep_opt_level_time
-    ]
+
+    let m: { [key: string]: any } = {};
+    m[c.id] = 0; 
+    m[c.authorId] = data.author_id; 
+    m[c.name] = data.name; 
+    m[c.type] = data.type; 
+    m[c.isTemplate] = data.is_template; 
+    m[c.isPublished] = data.is_published; 
+    m[c.parentEntryId] = data.parent_entry_id; 
+    m[c.levelSwitch] = data.level_switch; 
+    m[c.multiUserLimit] = data.multi_user_limit; 
+    m[c.progressBoundType] = data.progress_bound_type; 
+    m[c.reportOptObjectives] = data.rep_opt_objectives; 
+    m[c.reportOptGuidanceTrg] = data.rep_opt_guidance_trg; 
+    m[c.reportOptStudentUsage] = data.rep_opt_student_usg; 
+    m[c.reportOptLevelScore] = data.rep_opt_level_score; 
+    m[c.reportOptLevelTime] = data.rep_opt_level_time; 
+
+    if (m[c.parentEntryId] == kGameEntryParentEntryIdNone)
+        m[c.parentEntryId] = null;
 
     // create game entry in sql,
     // then create games document in mongo
@@ -84,17 +78,19 @@ export function createGame(data: any, callback: DAOCallback){
          * Had to learn this the hard way. DO NOT FORGET!
          */
         const projectId = result!.insertedId.toHexString();
+        m[c.projectId] = projectId;
 
-        columns_arr.push(c.projectId);
-        values.push(projectId);
+        const dictKeys = Object.keys(m);
+        const dictValues = Object.values(m);
+        const noEntries = dictValues.length;
+        const template = `${Array(noEntries).fill('?')}`
+        const columns = dictKeys.join(', ');
 
-        const template = `${Array(columns_arr.length).fill('?')}`
-        const columns = columns_arr.join(', ');
         const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
 
         sql.getPool()!.query({
             sql: query,
-            values: values
+            values: dictValues
         }, (err, results, fields) => {
 
             if (err == null){
@@ -104,6 +100,7 @@ export function createGame(data: any, callback: DAOCallback){
                 callback(true, "Successfully inserted", response);
             }
             else{
+                console.log("Create Game Error", err);
                 callback(false, "Server Error occured", null);
             }
         });
