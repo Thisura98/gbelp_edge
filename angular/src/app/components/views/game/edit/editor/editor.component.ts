@@ -90,11 +90,12 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   didSelectLevel(event: Event){
     const levelId = (event.target as HTMLInputElement).value;
+    const path = this.viewMode == ViewMode.GAME ? '/game/edit/editor/scene' : '/template/edit/editor/scene';
 
     if (levelId == "-1")
       return;
 
-    this.router.navigate(['/game/edit/editor/scene'], {
+    this.router.navigate([path], {
       queryParams: {
         gameId: this.editingGameId!,
         levelId: levelId
@@ -156,12 +157,12 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       gameId: this.editingGameId,
       levelId: this.selectedLevel!._id
     };
-    let command = '';
+    let command = this.viewMode == ViewMode.GAME ? 'game' : 'template';
 
     switch(index){
-      case 0: command = 'game/edit/editor/scene'; break;
-      case 1: command = 'game/edit/editor/animation'; break;
-      case 2: command = 'game/edit/editor/logic'; break;
+      case 0: command += '/edit/editor/scene'; break;
+      case 1: command += '/edit/editor/animation'; break;
+      case 2: command += '/edit/editor/logic'; break;
       default: return;
     }
     
@@ -252,7 +253,8 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   private navigateToLevelSelector(){
     const gameId = this.editingGameId;
-    this.router.navigate(['/game/edit/editor'], {
+    const path = this.viewMode == ViewMode.GAME ? '/game/edit/editor' : '/template/edit/editor';
+    this.router.navigate([path], {
       queryParams: {
         gameId: gameId
       },
