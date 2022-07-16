@@ -1,6 +1,7 @@
 import { LevelExitCriteria, LevelTypeSingle,  LevelTypeMulti, LevelDisplayMode, GameLevel, LevelExitCriteriaHelper } from ".";
 import { getNewObjectId } from "../../common";
 import { LevelProperties } from "./properties";
+import { SceneObjectHelper } from "./scene";
 
 /**
  * Returns the initial game levels for a single player game.
@@ -12,6 +13,7 @@ import { LevelProperties } from "./properties";
 
     let lExitCriteria: LevelExitCriteria;
     const emptyProperties = new LevelProperties("", {});
+    const defaultCamera = SceneObjectHelper.createBlankCamera();
 
     if (typeof levelExitCriteria == 'number')
         lExitCriteria = LevelExitCriteriaHelper.fromNumber(levelExitCriteria);
@@ -28,7 +30,7 @@ import { LevelProperties } from "./properties";
             exitCriteriaType: LevelExitCriteria.manual,
             exitCriteriaValue: null,
             scene: {
-                objects: []
+                objects: [defaultCamera]
             },
             properties: emptyProperties,
             logic: {
@@ -48,7 +50,7 @@ import { LevelProperties } from "./properties";
             exitCriteriaType: lExitCriteria,
             exitCriteriaValue: levelExitValue,
             scene: {
-                objects: []
+                objects: [defaultCamera]
             },
             properties: emptyProperties,
             logic: {
@@ -68,7 +70,7 @@ import { LevelProperties } from "./properties";
             exitCriteriaType: LevelExitCriteria.manual,
             exitCriteriaValue: null,
             scene: {
-                objects: []
+                objects: [defaultCamera]
             },
             properties: emptyProperties,
             logic: {
@@ -92,6 +94,7 @@ export function getMultiPlayerLevelInitData(
 
     let lExitCriteria: LevelExitCriteria
     const emptyProperties = new LevelProperties("", {});
+    const defaultCamera = SceneObjectHelper.createBlankCamera();
 
     if (typeof levelExitCriteria == 'number')
         lExitCriteria = LevelExitCriteriaHelper.fromNumber(levelExitCriteria);
@@ -108,7 +111,7 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaType: 'manual',
             exitCriteriaValue: null,
             scene: {
-                objects: []
+                objects: [defaultCamera]
             },
             properties: emptyProperties,
             logic: {
@@ -128,7 +131,7 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaType: 'manual',
             exitCriteriaValue: null,
             scene: {
-                objects: []
+                objects: [defaultCamera]
             },
             properties: emptyProperties,
             logic: {
@@ -148,7 +151,7 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaType: lExitCriteria,
             exitCriteriaValue: levelExitValue,
             scene: {
-                objects: []
+                objects: [defaultCamera]
             },
             properties: emptyProperties,
             logic: {
@@ -168,7 +171,7 @@ export function getMultiPlayerLevelInitData(
             exitCriteriaType: LevelExitCriteria.manual,
             exitCriteriaValue: null,
             scene: {
-                objects: []
+                objects: [defaultCamera]
             },
             properties: emptyProperties,
             logic: {

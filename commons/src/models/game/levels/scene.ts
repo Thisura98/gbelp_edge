@@ -2,6 +2,7 @@
 import { GameProjectResource } from "../resources";
 
 export enum SceneObjectType{
+    camera = 'camera',
     sprite = 'sprite',
     sound = 'sound'
 }
@@ -65,6 +66,33 @@ export class LevelScene{
 }
 
 export class SceneObjectHelper{
+
+    static createBlankCamera(frame: SceneObjectFrame | undefined = undefined): SceneObject{
+        let cameraFrame: SceneObjectFrame;
+        const rotation = 0;
+        const opacity = 0;
+        const isHidden = false;
+
+        if (frame == undefined)
+            cameraFrame = new SceneObjectFrame(0, 0, 1366, 768);
+        else
+            cameraFrame = frame;
+
+        return new SceneObject(
+            null, 
+            "", 
+            SceneObjectType.camera,
+            "Camera", 
+            cameraFrame,
+            rotation,
+            SceneObjectPhysicsBehavior.none.toString(),
+            SceneObjectPhysicsCollision.none.toString(),
+            opacity,
+            SceneObjectSpawnBehavior.perLevel.toString(),
+            SceneObjectSpriteStretch.fit.toString(),
+            isHidden
+        );
+    }
 
     static createFromResource(
         resource: GameProjectResource, 
