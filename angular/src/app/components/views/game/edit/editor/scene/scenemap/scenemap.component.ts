@@ -260,6 +260,8 @@ export class SceneMapComponent implements OnInit{
         const frame = obj.frame;
         const labelHeight = 24;
         const labelFontSize = 13.0;
+        const roundedRectSvgPath = "M0 18C0 9.51472 0 5.27208 2.63604 2.63604C5.27208 0 9.51472 0 18 0H82.1408C90.6261 0 94.8687 0 97.5047 2.63604C100.141 5.27208 100.141 9.51472 100.141 18V24H0V18Z";
+        const cameraSvgPath = "M0.0678711 2.93994C0.0678711 1.71592 0.821114 0.899902 1.95098 0.899902H9.48341C10.6133 0.899902 11.3665 1.71592 11.3665 2.93994V3.95995L14.1912 0.899902V11.1001L11.3665 8.04002V9.06004C11.3665 10.2841 10.6133 11.1001 9.48341 11.1001H1.95098C0.821114 11.1001 0.0678711 10.2841 0.0678711 9.06004V2.93994Z";
 
         const cameraRect = new fabric.Rect({
             width: frame.w,
@@ -278,13 +280,13 @@ export class SceneMapComponent implements OnInit{
             fontFamily: 'Roboto'
         });
 
-        const cameraLabelBackground = new fabric.Path("M0 18C0 9.51472 0 5.27208 2.63604 2.63604C5.27208 0 9.51472 0 18 0H82.1408C90.6261 0 94.8687 0 97.5047 2.63604C100.141 5.27208 100.141 9.51472 100.141 18V24H0V18Z", {
+        const cameraLabelBackground = new fabric.Path(roundedRectSvgPath, {
             left: 0,
             top: -labelHeight,
             fill: "#B1B1B1",
         });
 
-        const cameraIcon = new fabric.Path("M0.0678711 2.93994C0.0678711 1.71592 0.821114 0.899902 1.95098 0.899902H9.48341C10.6133 0.899902 11.3665 1.71592 11.3665 2.93994V3.95995L14.1912 0.899902V11.1001L11.3665 8.04002V9.06004C11.3665 10.2841 10.6133 11.1001 9.48341 11.1001H1.95098C0.821114 11.1001 0.0678711 10.2841 0.0678711 9.06004V2.93994Z", {
+        const cameraIcon = new fabric.Path(cameraSvgPath, {
             left: 10,
             top: -labelHeight + labelFontSize / 2 + 1.0,
             fill: "#FFFFFF",
@@ -335,20 +337,23 @@ export class SceneMapComponent implements OnInit{
             const target = e.target!;
             console.log('camera', 'scaled!')
 
-            // Prevent scaling camera rect
+            // Prevent scaling group
             group.width = target.width! * target.scaleX!;
             group.height = target.height! * target.scaleY!;
             group.scaleX = 1;
             group.scaleY = 1;
 
+            // Reposition 'Camera' label
             staticElements.left = -group.width! / 2;
             staticElements.top = -group.height! / 2;
 
+            // Reposition camera box
             cameraRect.left = staticElements.left;
             cameraRect.top = staticElements.top! + staticElements.height!;
             cameraRect.width = group.width;
             cameraRect.height = group.height - staticElements.height!;
 
+            // Update SceneObject
             sObj.frame.x = target.left!;
             sObj.frame.y = target.top!;
             sObj.frame.w = group.width;
