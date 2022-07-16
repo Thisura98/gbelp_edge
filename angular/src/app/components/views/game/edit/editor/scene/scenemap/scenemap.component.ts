@@ -267,7 +267,7 @@ export class SceneMapComponent implements OnInit{
             fill: undefined,
             stroke: '#B1B1B1',
             strokeDashArray: [3], 
-            strokeWidth: 2
+            strokeWidth: 2,
         });
 
         const cameraLabel = new fabric.Text("Camera", {
@@ -290,14 +290,17 @@ export class SceneMapComponent implements OnInit{
             fill: "#FFFFFF",
         });
 
-        const group = new fabric.Group([cameraRect, cameraLabelBackground, cameraIcon, cameraLabel], {
+        const staticElements = new fabric.Group([cameraLabelBackground, cameraIcon, cameraLabel], {
+        });
+
+        const group = new fabric.Group([cameraRect, staticElements], {
             left: frame.x,
             top: frame.y,
             lockRotation: true,
         });
 
         this.canvas?.add(group);
-        this.hookFabricCameraEvents(group, cameraRect, obj);
+        this.hookFabricCameraEvents(group, cameraRect, staticElements, obj);
     }
 
     private hookFabricImageEvents(obj: fabric.Image, sObj: SceneObject){
@@ -321,7 +324,7 @@ export class SceneMapComponent implements OnInit{
         });
     }
 
-    private hookFabricCameraEvents(group: fabric.Group, cameraRect: fabric.Object, sObj: SceneObject){
+    private hookFabricCameraEvents(group: fabric.Group, cameraRect: fabric.Object, staticElements: fabric.Group, sObj: SceneObject){
         group.on('moved', (e) => {
             const target = e.target!;
             console.log('camera', 'moved!')
@@ -337,6 +340,14 @@ export class SceneMapComponent implements OnInit{
             group.height = target.height! * target.scaleY!;
             group.scaleX = 1;
             group.scaleY = 1;
+
+            staticElements.left = -group.width! / 2;
+            staticElements.top = -group.height! / 2;
+
+            cameraRect.left = staticElements.left;
+            cameraRect.top = staticElements.top! + staticElements.height!;
+            cameraRect.width = group.width;
+            cameraRect.height = group.height - staticElements.height!;
 
             sObj.frame.x = target.left!;
             sObj.frame.y = target.top!;
