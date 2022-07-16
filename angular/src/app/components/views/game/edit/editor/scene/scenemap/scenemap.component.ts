@@ -22,12 +22,11 @@ class Point{
 }
 
 /**
- * Tracks viewport transform events on Canvas
+ * Tracks variables for viewport transform events on Canvas
  */
 class CanvasMovement{
     constructor(
         public isDragging: boolean,
-        public selection: boolean,
         public lastPosX: number,
         public lastPosY: number
     ){}
@@ -50,7 +49,7 @@ export class SceneMapComponent implements OnInit{
     gameListing: GameListing | undefined;
 
     private selectedSceneObjIndex: number | undefined;
-    private canvasMovement = new CanvasMovement(false, false, 0, 0);
+    private canvasMovement = new CanvasMovement(false, 0, 0);
     private canvas: fabric.Canvas | undefined;
     // private canvasObjects: fabric.Object[] = [];
     private sceneObjects: SceneObject[] = [];
@@ -270,22 +269,25 @@ export class SceneMapComponent implements OnInit{
             sObj.frame.x = e.target!.left!;
             sObj.frame.y = e.target!.top!;
             sObj.rotation = e.target!.angle ?? 0.0;
-
+            
         });
     }
 
     /**
-     * Cmd / Ctrl + Left Click to move the canvas
+     * (Ctrl + Left Click) || (Middle Mouse Click   ) to move the canvas
      * todo: zoom
      */
     private addCanvasEvents(){
-        this.canvas!.on('mouse:down', (opt) => {
-            var evt = opt.e;
-            if (evt.metaKey === true) {
+        // mouse:down (internal fabric version) didn't capture middle mouse click
+        this.canvas!.on('mouse:down:before', (opt) => {
+            let evt = opt.e;
+            console.log("Mouse Down Event Button =", evt.button);
+            if ((evt.metaKey === true && evt.button == 0) || evt.button == 1) {
                 this.canvasMovement.isDragging = true;
-                this.canvasMovement.selection = false;
                 this.canvasMovement.lastPosX = evt.clientX;
                 this.canvasMovement.lastPosY = evt.clientY;
+                // disable object selection in canvas
+                this.canvas!.selection = false; 
             }
         });
         this.canvas!.on('mouse:move', (opt) => {
@@ -300,10 +302,12 @@ export class SceneMapComponent implements OnInit{
             this.canvasMovement.lastPosX = e.clientX;
             this.canvasMovement.lastPosY = e.clientY;
         });
-        this.canvas!.on('mouse:up', (opt) => {
+        // mouse:up (internal fabric version) didn't capture middle mouse click
+        this.canvas!.on('mouse:up:before', (opt) => {
             this.canvas!.setViewportTransform(this.canvas!.viewportTransform!);
             this.canvasMovement!.isDragging = false;
-            this.canvasMovement!.selection = true;
+            // enable object selection in canvas
+            this.canvas!.selection = true;
         });
         this.canvas!.on('selection:created', (opt) => {
             if (opt.e.type == this.kIgnoreSelectionEvent)

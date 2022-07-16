@@ -71,6 +71,10 @@ export class SceneObjectHelper{
         frame: SceneObjectFrame | undefined = undefined
     ): SceneObject{
         let objframe: SceneObjectFrame
+        const objectName = resource.displayName.replace(/[\.-_]/g, '_');
+        const rotation = 0;
+        const opacity = 0;
+        const isHidden = false;
 
         if (frame == undefined)
             objframe = new SceneObjectFrame(0, 0, 100, 100);
@@ -81,15 +85,15 @@ export class SceneObjectHelper{
             null,
             resource._id,
             SceneObjectType.sprite,
-            resource.displayName.replace(/[\.-_]/g, '_'),
+            objectName,
             objframe,
-            0,          // Rotation
+            rotation,
             SceneObjectPhysicsBehavior.solid.toString(),
             SceneObjectPhysicsCollision.rect.toString(),
-            1.0,        // opacity
+            opacity,
             SceneObjectSpawnBehavior.perLevel.toString(),
             SceneObjectSpriteStretch.fit.toString(),
-            false       // hidden?
+            isHidden
         )
     }
 
