@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { GameListing } from "src/app/models/game/game";
-import { SceneObject, SceneObjectFrame } from "../../../../../../../../../../commons/src/models/game/levels/scene";
+import { SceneObject, SceneObjectFrame, SceneObjectType } from "../../../../../../../../../../commons/src/models/game/levels/scene";
 import { GameProjectResource } from "../../../../../../../../../../commons/src/models/game/resources";
 import { fabric } from 'fabric';
 import { ResourceUrlTransformPipe } from "src/app/pipes/resource-url-transform.pipe";
@@ -209,7 +209,12 @@ export class SceneMapComponent implements OnInit{
     private updateCanvas(){
         console.log(this.sceneObjects);
         this.sceneObjects.forEach((obj) => {
-            this.addImageToCanvas(obj);
+            if (obj.type == SceneObjectType.sprite){
+                this.addImageToCanvas(obj);
+            }
+            else if (obj.type == SceneObjectType.camera){
+                this.addCameraToCanvas(obj);
+            }
         });
     }
 
@@ -247,11 +252,55 @@ export class SceneMapComponent implements OnInit{
             img.data = obj._id;
 
             this.canvas?.add(img);
-            this.hookFabricObjectEvents(img, obj);
+            this.hookFabricImageEvents(img, obj);
         });
     }
 
-    private hookFabricObjectEvents(obj: fabric.Image, sObj: SceneObject){
+    private addCameraToCanvas(obj: SceneObject){
+        const frame = obj.frame;
+        const labelHeight = 24;
+        const labelFontSize = 13.0;
+
+        const cameraRect = new fabric.Rect({
+            width: frame.w,
+            height: frame.h,
+            fill: undefined,
+            stroke: '#B1B1B1',
+            strokeDashArray: [3], 
+            strokeWidth: 2
+        });
+
+        const cameraLabel = new fabric.Text("Camera", {
+            left: 30,
+            top: -labelHeight + labelFontSize / 2,
+            fontSize: labelFontSize,
+            fill: "#FFFFFF",
+            fontFamily: 'Roboto'
+        });
+
+        const cameraLabelBackground = new fabric.Path("M0 18C0 9.51472 0 5.27208 2.63604 2.63604C5.27208 0 9.51472 0 18 0H82.1408C90.6261 0 94.8687 0 97.5047 2.63604C100.141 5.27208 100.141 9.51472 100.141 18V24H0V18Z", {
+            left: 0,
+            top: -labelHeight,
+            fill: "#B1B1B1",
+        });
+
+        const cameraIcon = new fabric.Path("M0.0678711 2.93994C0.0678711 1.71592 0.821114 0.899902 1.95098 0.899902H9.48341C10.6133 0.899902 11.3665 1.71592 11.3665 2.93994V3.95995L14.1912 0.899902V11.1001L11.3665 8.04002V9.06004C11.3665 10.2841 10.6133 11.1001 9.48341 11.1001H1.95098C0.821114 11.1001 0.0678711 10.2841 0.0678711 9.06004V2.93994Z", {
+            left: 10,
+            top: -labelHeight + labelFontSize / 2 + 1.0,
+            fill: "#FFFFFF",
+        });
+
+        const group = new fabric.Group([cameraRect, cameraLabelBackground, cameraIcon, cameraLabel], {
+            left: frame.x,
+            top: frame.y,
+            lockRotation: true,
+        });
+
+        this.canvas?.add(group);
+        this.hookFabricCameraEvents(group, cameraRect, obj);
+    }
+
+    private hookFabricImageEvents(obj: fabric.Image, sObj: SceneObject){
         obj.on('moved', (e) => {
             console.log(sObj.name, 'moved!')
             sObj.frame.x = e.target!.left!;
@@ -269,7 +318,30 @@ export class SceneMapComponent implements OnInit{
             sObj.frame.x = e.target!.left!;
             sObj.frame.y = e.target!.top!;
             sObj.rotation = e.target!.angle ?? 0.0;
-            
+        });
+    }
+
+    private hookFabricCameraEvents(group: fabric.Group, cameraRect: fabric.Object, sObj: SceneObject){
+        group.on('moved', (e) => {
+            const target = e.target!;
+            console.log('camera', 'moved!')
+            sObj.frame.x = target.left!;
+            sObj.frame.y = target.top!;
+        });
+        group.on('scaled', (e) => {
+            const target = e.target!;
+            console.log('camera', 'scaled!')
+
+            // Prevent scaling camera rect
+            group.width = target.width! * target.scaleX!;
+            group.height = target.height! * target.scaleY!;
+            group.scaleX = 1;
+            group.scaleY = 1;
+
+            sObj.frame.x = target.left!;
+            sObj.frame.y = target.top!;
+            sObj.frame.w = group.width;
+            sObj.frame.h = group.height;
         });
     }
 
