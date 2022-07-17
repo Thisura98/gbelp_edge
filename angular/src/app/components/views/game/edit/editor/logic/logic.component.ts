@@ -65,12 +65,12 @@ export class LogicEditorComponent implements OnInit {
 
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
     this.editorReference.next(editor);
-    editor.onKeyDown(() => {
+    editor.onDidChangeModelContent(() => {
       this.copyCurrentCodeToScriptObject();
     });
-    editor.onDidPaste(() => {
-      this.copyCurrentCodeToScriptObject();
-    });
+    // editor.onDidPaste(() => {
+    //   this.copyCurrentCodeToScriptObject();
+    // });
   }
 
   scriptItemClicked(index: number){
