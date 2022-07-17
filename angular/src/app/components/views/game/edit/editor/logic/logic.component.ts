@@ -31,7 +31,7 @@ export class LogicEditorComponent implements OnInit {
   };
 
   // MARK: Game Properties
-  readonly scriptTypes: string[] = ['On Level Setup', 'Each Frame', 'On Level Destroy'];
+  readonly scriptTypes: string[] = ['Main Script'];
   levelScripts: string[] = [];
   gameListing: GameListing | undefined;
   selectedLevelIndex: number | undefined;
@@ -111,6 +111,8 @@ export class LogicEditorComponent implements OnInit {
       return;
 
     this.code = this.levelScripts[this.selectedScriptIndex!];
+
+    this.loadTemplateIfNeeded(data);
   }
 
   private loadExtraLib(){
@@ -137,6 +139,25 @@ export class LogicEditorComponent implements OnInit {
     const search = new RegExp('^require.+', 'g');
     const replace = '// removed import';
     return lib.replace(search, replace);
+  }
+
+  private loadTemplateIfNeeded(data: EditorChildDataPack){
+    if (this.code.length > 5)
+      return;
+
+    if (this.code.trim().length > 0)
+      return;
+
+    const gameId = String(data.gameListing?.data.entry.id);
+    const levelId = data.selectedLevelId ?? "";
+    
+    this.apiService.editor.getScriptTemplate(gameId, levelId).subscribe(template => {
+      let cleaned = template.data.replace(/\\\\/g, '').replace(/\\n/g, '\n');
+      this.code = cleaned;
+
+      console.log("Loaded template code:");
+      console.log(cleaned);
+    });
   }
 
   private b64enc(data: string): string{

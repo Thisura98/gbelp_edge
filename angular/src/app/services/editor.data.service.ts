@@ -8,11 +8,12 @@ import { ServerResponseGameListing } from "../models/game/game";
 export class EditorChildDataPack{
     constructor(
         public gameListing: ServerResponseGameListing | undefined,
-        public selectedLevelIndex: number | undefined
+        public selectedLevelIndex: number | undefined,
+        public selectedLevelId: string | undefined
     ){}
 }
 
-let sceneData = new BehaviorSubject<EditorChildDataPack>(new EditorChildDataPack(undefined, undefined));
+let sceneData = new BehaviorSubject<EditorChildDataPack>(new EditorChildDataPack(undefined, undefined, undefined));
 let sceneMapData = new BehaviorSubject<SceneMapDataPack>(new SceneMapDataPack([], undefined));
 let addSceneObject = new Subject<SceneObject>();
 let sceneObjectSelection = new BehaviorSubject<number | undefined>(undefined);
@@ -88,8 +89,8 @@ export class EditorDataService{
 
     // Scene Data
 
-    setEditorChildData(response: ServerResponseGameListing, selectedLevel: number | undefined){
-        const data = new EditorChildDataPack(response, selectedLevel)
+    setEditorChildData(response: ServerResponseGameListing, selectedLevelIndex: number | undefined, selectedLevelId: string | undefined){
+        const data = new EditorChildDataPack(response, selectedLevelIndex, selectedLevelId);
         sceneData.next(data);
     }
 

@@ -2,7 +2,7 @@ import { HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } fro
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseAllGameEntries, ServerResponseGameCompiling, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGameTestSession, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from "src/app/models/game/game";
+import { ServerResponseAllGameEntries, ServerResponseGameCompiling, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGameTestSession, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives, ServerResponseScriptTemplate } from "src/app/models/game/game";
 import { GameLevel } from "../../../../../commons/src/models/game/levels";
 import { APIBase } from "./base.api";
 
@@ -104,10 +104,22 @@ export class GameEditingAPIs implements APIBase {
     const body = {
       gameId: gameId,
       compile: compileGame
-    }
+    };
     return this.http.post<ServerResponseGameTestSession>(url, body, {
       headers: this.getHeaders()
-    })
+    });
+  }
+
+  getScriptTemplate(gameId: string, levelId: string): Observable<ServerResponseScriptTemplate>{
+    const url = this.aurl('game-script-template');
+    const body = {
+      gameId: gameId,
+      levelId: levelId
+    }
+    return this.http.get<ServerResponseScriptTemplate>(url, {
+      params: body,
+      headers: this.getHeaders()
+    });
   }
 
   compileGame(gameId: string): Observable<ServerResponseGameCompiling> {

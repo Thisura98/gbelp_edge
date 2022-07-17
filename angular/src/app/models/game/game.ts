@@ -32,3 +32,5 @@ export interface ServerResponseGetGuidanceTrackers extends ServerResponse<GameGu
 export interface ServerResponseGameTestSession extends ServerResponse<GameTestSession>{};
 
 export interface ServerResponseGameCompiling extends ServerResponse<CompileStatus>{};
+
+export interface ServerResponseScriptTemplate extends ServerResponse<string>{};
