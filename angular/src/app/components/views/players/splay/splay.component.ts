@@ -17,6 +17,8 @@ type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
 
 /**
  * Singleplayer Game Player
+ * 
+ * Phaser version: 3.55.2
  */
 @Component({
   selector: 'app-splay',

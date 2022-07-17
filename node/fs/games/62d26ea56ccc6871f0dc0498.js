@@ -92,7 +92,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(404.99999999999994, 240.5, 'Camera');
+		const sprite_1 = this.add.sprite(503.99999999999994, 245.5, 'Camera');
 		sprite_1.name = "Camera";
 		scaleX = 591.9999999999999 / sprite_1.displayWidth;
 		scaleY = 431 / sprite_1.displayHeight;
@@ -101,7 +101,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		// --- scene object sprite_png ---
-		const sprite_2 = this.add.sprite(519.1456818914904, 253.911463307076, 'sprite_png');
+		const sprite_2 = this.add.sprite(368.4458642695158, 263.5580766424917, 'sprite_png');
 		sprite_2.name = "sprite_png";
 		scaleX = 100 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;
@@ -110,7 +110,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		// --- scene object sprite_png_2 ---
-		const sprite_3 = this.add.sprite(596, 134, 'sprite_png_2');
+		const sprite_3 = this.add.sprite(632, 263, 'sprite_png_2');
 		sprite_3.name = "sprite_png_2";
 		scaleX = 100 / sprite_3.displayWidth;
 		scaleY = 100 / sprite_3.displayHeight;
@@ -124,10 +124,19 @@ class LevelScene_Title_Screen extends Phaser.Scene{
          */
         window.EdgeProxy.currentScene = this;
 
-        
+        window.Title = "Fuck this "
     }
     update(){
-        
+        // ----- Auto Generated File. Do not edit ----
+class EdgeResourceHelper{
+    EdgeResourceHelper(){
+
+    }
+
+    getSprite(){
+
+    }
+}
     }
     destroy(){
         console.log("Title_Screen, destroy called!");
@@ -216,7 +225,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 }
 
 const scenes = [LevelScene_Title_Screen, LevelScene_Example_Level_Screen, LevelScene_Game_Over_Screen];
-const gameZoom = 1.5;
+const gameZoom = 1.0;
 
 /**
  * @type Phaser.Core.Config
@@ -224,8 +233,8 @@ const gameZoom = 1.5;
 const config = {
     type: Phaser.AUTO,
     parent: 'canvas-container',
-    width: 400,
-    height: 300,
+    width: 1366,
+    height: 500,
     // scene: scenes,
     title: 'Shock and Awesome',
     backgroundColor: "#000022",
