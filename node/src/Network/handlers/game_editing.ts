@@ -9,6 +9,9 @@ import { getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamel
 import * as l from '../../util/logger';
 import multer from 'multer';
 import { getNewObjectId } from "../../../../commons/src/models/common";
+import * as utils from '../../util/utils';
+import { getCompiledGameURL } from "../../game_compiler";
+import { CompileStatus } from '../../../../commons/src/models/game/compile';
 
 const config = pc.parseConfig('config.json');
 
@@ -78,6 +81,34 @@ export function handlerGameEditing(app: Express){
             res.json(new ResponseModel(status, 200, msg, result))
         });
     })
+
+    app.post(aurl('compile-game'), (req, res) => {
+        const userId = req.header('uid') as string;
+        const gameId = req.body.gameId as string;
+
+        utils.checkUserCanModifyGame(gameId, userId, (canModify) => {
+            if (!canModify){
+                res.send(new ResponseModel(false, 200, 'User not allowed to compile game', null));
+                return;
+            }
+
+            gamesDAO.getGame(gameId, (status, msg, listing) => {
+                if (!status || listing == null){
+                    res.send(new ResponseModel(false, 200, msg ?? "Could not find game listing", null));
+                    return;
+                }
+
+                getCompiledGameURL(listing.entry, listing.project).then(url => {
+                    const status = new CompileStatus([]);
+                    res.send(new ResponseModel(true, 200, "Compiled successfully!", status));
+                })
+                .catch(err => {
+                    const status = new CompileStatus([err]);
+                    res.send(new ResponseModel(false, 200, "Game compilation error", status));
+                })
+            });
+        });
+    });
 
     app.get(aurl('game-lib'), (req, res) => {
         const userId = req.header('uid')! as string;

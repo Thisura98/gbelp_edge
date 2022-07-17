@@ -1,5 +1,4 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
-import { GameListing } from "src/app/models/game/game";
 import { SceneObject, SceneObjectFrame, SceneObjectType } from "../../../../../../../../../../commons/src/models/game/levels/scene";
 import { GameProjectResource } from "../../../../../../../../../../commons/src/models/game/resources";
 import { fabric } from 'fabric';
@@ -7,6 +6,7 @@ import { ResourceUrlTransformPipe } from "src/app/pipes/resource-url-transform.p
 import { EditorDataService } from "src/app/services/editor.data.service";
 import { debounceTime } from "rxjs/operators";
 import { CameraBoundingBox } from "./cameragroup.scenemap";
+import { GameListing } from "../../../../../../../../../../commons/src/models/game/game";
 
 export class SceneMapDataPack{
     constructor(

@@ -1,18 +1,14 @@
 import { ServerResponse } from '../common-models';
-import { GameEntry } from '../../../../../commons/src/models/game/game';
+import { GameEntry, GameListing } from '../../../../../commons/src/models/game/game';
 import { GameProject } from '../../../../../commons/src/models/game/project';
 import { GameObjective } from '../../../../../commons/src/models/game/objectives';
 import { GameGuidanceTracker } from '../../../../../commons/src/models/game/trackers';
-import { CompileStatus } from '../../../../../commons/src/models/game/compiling';
+import { CompileStatus } from '../../../../../commons/src/models/game/compile';
 
 interface CreateGame{
     gameId: string
 }
 
-export interface GameListing{
-    entry: GameEntry,
-    project: GameProject
-}
 
 export interface GameTestSession{
     groupId: string,

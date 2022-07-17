@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
-import { GameListing, GameTestSession, ServerResponseGameListing } from 'src/app/models/game/game';
+import { GameTestSession, ServerResponseGameListing } from 'src/app/models/game/game';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,7 +11,7 @@ import { EditorDataService } from 'src/app/services/editor.data.service';
 import { SceneEditorComponent } from './scene/scene.component';
 import { AnimationEditorComponent } from './properties/properties.component';
 import { LogicEditorComponent } from './logic/logic.component';
-import { GameType } from '../../../../../../../../commons/src/models/game/game';
+import { GameListing, GameType } from '../../../../../../../../commons/src/models/game/game';
 import { combineLatest } from 'rxjs';
 
 @Component({

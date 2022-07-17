@@ -7,11 +7,11 @@ import { io, Socket } from 'socket.io-client';
 import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { GameSession } from '../../../../../../../commons/src/models/session';
-import { GameListing } from 'src/app/models/game/game';
 import { ServerResponse } from 'src/app/models/common-models';
 import { ChatGroupType, ChatMessage } from '../../../../../../../commons/src/models/chat';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { PlayerChatPanelComponent } from '../panels/chat/chat.panel.component';
+import { GameListing } from '../../../../../../../commons/src/models/game/game';
 
 type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
 

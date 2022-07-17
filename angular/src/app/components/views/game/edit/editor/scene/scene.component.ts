@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EditorDataService } from 'src/app/services/editor.data.service';
-import { GameListing, ServerResponseGameListing } from 'src/app/models/game/game';
 import { SceneObject, SceneObjectHelper, SceneObjectType } from '../../../../../../../../../commons/src/models/game/levels/scene';
 import { GameProjectResource } from '../../../../../../../../../commons/src/models/game/resources';
 import { DialogService } from 'src/app/services/dialog.service';
+import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
 
 
 @Component({

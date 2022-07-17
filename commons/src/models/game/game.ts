@@ -1,4 +1,5 @@
 import { GameObjective } from "./objectives";
+import { GameProject } from "./project";
 import { GameGuidanceTracker } from "./trackers";
 
 /**
@@ -74,4 +75,9 @@ export interface SaveGameRequestData extends SaveGameReportOptions{
     progress_bound_type: number
     objectives: GameObjective[]
     trackers: GameGuidanceTracker[]
+}
+
+export interface GameListing{
+    entry: GameEntry;
+    project: GameProject;
 }

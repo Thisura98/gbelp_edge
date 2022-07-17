@@ -7,11 +7,12 @@ import { DateTime, ToSQLOptions } from 'luxon';
 import * as mimeParse from '../../util/mime_parse';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { GameType, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../commons/src/models/game/game';
+import { GameListing, GameType, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../commons/src/models/game/game';
 import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
-import DAOCallback from './commons';
+import DAOCallback, { DAOTypedCallback } from './commons';
 import { updateObjectives, updateTrackers } from './metrics';
+import { GameProject } from '../../../../commons/src/models/game/project';
 
 /**
  * Create a game entry
@@ -182,9 +183,9 @@ export function saveGame(data: SaveGameRequestData, callback: DAOCallback){
 /**
  * Retrieve game entry from the DB
  * @param {string | number} id 
- * @param {function(boolean, string, Object | null)} callback success?, desc, result
+ * @param {function(boolean, string, GameListing | null)} callback success?, desc, result
  */
-export function getGame(id: string | number, callback: DAOCallback){
+export function getGame(id: string | number, callback: DAOTypedCallback<GameListing>){
     sql.getPool()!.query({
         sql: "SELECT * FROM ?? WHERE ?? = ? LIMIT 1",
         values: [sql.tables.gameEntry, sql.columns.gameEntry.id, id]
@@ -200,9 +201,9 @@ export function getGame(id: string | number, callback: DAOCallback){
                         callback(false, 'Error retrieving game project file', null);
                     }
                     else{
-                        const result = {
+                        const result: GameListing = {
                             entry: res[0],
-                            project: gameProject!
+                            project: gameProject! as GameProject
                         }
                         callback(true, `Successfully retrieved game id ${id}`, result)
                     }
