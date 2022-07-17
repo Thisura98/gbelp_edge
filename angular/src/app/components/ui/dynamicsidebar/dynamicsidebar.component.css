@@ -20,18 +20,19 @@
 .dyn-sidebar-item-container{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
 }
 
 .dyn-sidebar-back-item, .dyn-sidebar-item{
     font-size: 14px;
     padding: 10px 0;
-    margin: 0 6px;
+    margin: 0;
 }
 
 .dyn-sidebar-back-item{
     display: flex;
     align-items: center;
+    justify-content: center;
     color: #15689B;
     margin-top: 15px;
 }
@@ -43,7 +44,8 @@
 }
 
 .dyn-sidebar-item{
-    margin-top: 20px;
+    margin: 0px;
+    padding: 20px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
