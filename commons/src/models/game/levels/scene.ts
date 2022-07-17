@@ -67,7 +67,7 @@ export class LevelScene{
 
 export class SceneObjectHelper{
 
-    static createBlankCamera(frame: SceneObjectFrame | undefined = undefined): SceneObject{
+    static createBlankCamera(objectId: string, frame: SceneObjectFrame | undefined = undefined): SceneObject{
         let cameraFrame: SceneObjectFrame;
         const rotation = 0;
         const opacity = 0;
@@ -79,7 +79,7 @@ export class SceneObjectHelper{
             cameraFrame = frame;
 
         return new SceneObject(
-            null, 
+            objectId, 
             "", 
             SceneObjectType.camera,
             "Camera", 
