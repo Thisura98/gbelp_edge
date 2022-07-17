@@ -36,7 +36,9 @@ export class TemplateManager{
         replaceWith: string
     ): Promise<string>{
 
-        const search = new RegExp(`${placeholder}`, multiple ? 'g' : '');
+        // replace "TOKEN" and "// TOKEN"
+        const realToken = `${placeholder}|\/\/ ${placeholder}`
+        const search = new RegExp(realToken, multiple ? 'g' : '');
 
         if (source.search(search) == -1){
             return Promise.reject(

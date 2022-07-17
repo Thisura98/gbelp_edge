@@ -1,4 +1,4 @@
-EDGTOKEN_SCENECODE
+// EDGTOKEN_SCENECODE
 
 const scenes = [EDGTOKEN_SCENES];
 const gameZoom = 1.0;
