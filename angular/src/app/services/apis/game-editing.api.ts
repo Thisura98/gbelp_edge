@@ -13,9 +13,13 @@ export class GameEditingAPIs implements APIBase {
 
   constructor(){}
 
-  getNewObjectId(): Observable<ServerResponseGetObjectId> {
+  getNewObjectIds(count: number = 1): Observable<ServerResponseGetObjectId> {
     const url = this.aurl('get-objectid');
-    return this.http.get<ServerResponseGetObjectId>(url);
+    return this.http.get<ServerResponseGetObjectId>(url, {
+      params: {
+        count: count
+      }
+    });
   }
 
   uploadGameResource(data: FormData, progressCallback: (progress: number) => void): Observable<ServerResponseGameProject> {

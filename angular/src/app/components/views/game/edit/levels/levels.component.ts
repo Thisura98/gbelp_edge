@@ -78,13 +78,14 @@ export class GameEditLevelsComponent implements OnInit {
    * Get Object Id and insert new level before the game over level.
    */
   addLevelClicked(){
-    this.apiService.editor.getNewObjectId().subscribe((res) => {
-      const newObjectId = res.data;
+    this.apiService.editor.getNewObjectIds(2).subscribe((res) => {
+      const newCameraId = res.data[0];
+      const newLevelId = res.data[1];
       const levelExitType = LevelExitCriteriaHelper.fromNumber(this.gameListing!.entry.level_switch);
       const levelExitTypeValue = null;
-      const defaultCamera = SceneObjectHelper.createBlankCamera();
+      const defaultCamera = SceneObjectHelper.createBlankCamera(newCameraId);
       const newLevel: GameLevel = new GameLevel(
-        newObjectId,
+        newLevelId,
         'New Level',
         LevelTypeSingle.genericLevel,
         LevelDisplayMode.replace,
@@ -124,8 +125,8 @@ export class GameEditLevelsComponent implements OnInit {
   duplicateLevelPressed(){
     // Use spread operator to prevent 'pass by reference' issues
     const levelToClone = {...this.gameLevels[this.selectedLevelIndex!]};
-    this.apiService.editor.getNewObjectId().subscribe((res) => {
-      levelToClone._id = res.data;
+    this.apiService.editor.getNewObjectIds(1).subscribe((res) => {
+      levelToClone._id = res.data[0];
       this.gameLevels.splice(this.selectedLevelIndex! + 1, 0, levelToClone);
     });
   }
