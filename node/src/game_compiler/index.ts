@@ -5,7 +5,7 @@ import * as gamesDAO from './../model/dao/games';
 import * as l from '../util/logger';
 import * as pc from '../util/parseconfig';
 import { GenerateGame } from './helpers/game/generator';
-import { TemplateManager } from './helpers/common/templateloader';
+import { TemplateManager } from './templatemanager';
 
 const config = pc.parseConfig('config.json')
 

@@ -1,7 +1,7 @@
 import { GameLevel, LevelTypeMulti, LevelTypeSingle } from "../../../../../commons/src/models/game/levels";
 import { GameProject } from "../../../../../commons/src/models/game/project";
 import { GameProjectResource } from "../../../../../commons/src/models/game/resources";
-import { TemplateManager } from "../common/templateloader";
+import { TemplateManager } from "../../templatemanager";
 import { GenerateScene } from "../scene/generator";
 
 export class GenerateGame{
