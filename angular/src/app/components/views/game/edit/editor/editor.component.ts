@@ -191,6 +191,27 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     });
   }
 
+  compileGamePressed(){
+    this.saveGame(() => {
+      this.apiService.editor.compileGame(this.editingGameId!.toString()).subscribe((r) => {
+        if (r.success){
+          this.dialogService.showDismissable('Game Compilation Successful', r.description);
+        }
+        else{
+          this.dialogService.showDismissable('Game Compilation failed', r.description);
+          // todo show error list modal
+        }
+      }, (error) => {
+        console.timeLog("Game Compilation Error:", error);
+        this.dialogService.showDismissable('Game Compilation failed', "Unknown error occurred");
+      })
+    });
+  }
+
+  compileAndPlayGamePressed(){
+    // todo;
+  }
+
   /* private methods */
 
   private loadData(){

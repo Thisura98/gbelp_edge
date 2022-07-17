@@ -3,6 +3,7 @@ import { GameEntry } from '../../../../../commons/src/models/game/game';
 import { GameProject } from '../../../../../commons/src/models/game/project';
 import { GameObjective } from '../../../../../commons/src/models/game/objectives';
 import { GameGuidanceTracker } from '../../../../../commons/src/models/game/trackers';
+import { CompileStatus } from '../../../../../commons/src/models/game/compiling';
 
 interface CreateGame{
     gameId: string
@@ -33,3 +34,5 @@ export interface ServerResponseGetObjectives extends ServerResponse<GameObjectiv
 export interface ServerResponseGetGuidanceTrackers extends ServerResponse<GameGuidanceTracker[]>{};
 
 export interface ServerResponseGameTestSession extends ServerResponse<GameTestSession>{};
+
+export interface ServerResponseGameCompiling extends ServerResponse<CompileStatus>{};

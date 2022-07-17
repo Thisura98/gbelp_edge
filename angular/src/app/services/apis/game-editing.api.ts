@@ -1,7 +1,8 @@
 import { HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { catchError } from "rxjs/operators";
 import { ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGameTestSession, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from "src/app/models/game/game";
+import { ServerResponseAllGameEntries, ServerResponseGameCompiling, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGameTestSession, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from "src/app/models/game/game";
 import { GameLevel } from "../../../../../commons/src/models/game/levels";
 import { APIBase } from "./base.api";
 
@@ -97,6 +98,7 @@ export class GameEditingAPIs implements APIBase {
     });
   }
 
+  // To be deprecated
   getGameTestSession(gameId: string): Observable<ServerResponseGameTestSession> {
     const url = this.aurl('create-test-session')
     const body = {
@@ -105,6 +107,16 @@ export class GameEditingAPIs implements APIBase {
     return this.http.post<ServerResponseGameTestSession>(url, body, {
       headers: this.getHeaders()
     })
+  }
+
+  compileGame(gameId: string): Observable<ServerResponseGameCompiling> {
+    const url = this.aurl('compile-game');
+    const body = {
+      gameId: gameId
+    };
+    return this.http.post<ServerResponseGameCompiling>(url, body, {
+      headers: this.getHeaders()
+    });
   }
 
 }
