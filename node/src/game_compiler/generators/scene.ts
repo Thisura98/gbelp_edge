@@ -1,6 +1,7 @@
 import { GameLevel } from "../../../../commons/src/models/game/levels";
 import { GameProjectResource } from "../../../../commons/src/models/game/resources";
 import { TemplateManager } from "../templatemanager";
+import * as utils from '../../util/utils';
 
 import { generatePreloadCode } from '../helpers/scene/helpers/preload';
 import { generateCreateCode } from '../helpers/scene/helpers/create';
@@ -16,12 +17,16 @@ export class GenerateScene{
 
     static generate(level: GameLevel, resources: GameProjectResource[]): Promise<GenerateSceneResult>{
         const levelName = this.getLevelName(level.name);
+        const script = level.logic.script.setup;
+        const decodedScript = utils.decodeGameScript(script);
+        const preparedScript = decodedScript.replace(/\\\\/g, '').replace(/\\n/g, '\n');
 
-        return TemplateManager.readTemplate(
-            this.sceneTemplate
-        )
+        // return TemplateManager.readTemplate(
+        //     this.sceneTemplate
+        // )
+        return Promise.resolve(preparedScript)
         .then(t => {
-            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, levelName);
+            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, true, levelName);
         })
         .then(t => {
             return generatePreloadCode(t, level, resources);
@@ -47,7 +52,7 @@ export class GenerateScene{
             this.sceneTemplate
         )
         .then(t => {
-            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, levelName);
+            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, false, levelName);
         })
         .then(t => {
             return {

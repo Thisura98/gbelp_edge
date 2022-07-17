@@ -53,12 +53,13 @@ export function generatePreloadCode(
     }
 
     return TemplateManager.replacePlaceholder(
-        code, 'EDGTOKEN_LOADBASEURL', false, serverBaseURL
+        code, 'EDGTOKEN_LOADBASEURL', false, false, serverBaseURL
     )
     .then(t => {
         return TemplateManager.replacePlaceholder(
             t, 
             'EDGTOKEN_PRELOAD',
+            false,
             false,
             resourceLoadCommands.join('\n')
         );

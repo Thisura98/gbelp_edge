@@ -27,12 +27,14 @@ export class TemplateManager{
      * @param source the string to search for the placeholder in.
      * @param placeholder the string which will be replaced
      * @param multiple replace all occurences or just the first?
+     * @param boolean if true, missing tokens will not generate errors
      * @param replaceWith content then will replace "placeholder"
      */
     static replacePlaceholder(
         source: string, 
         placeholder: string, 
         multiple: boolean, 
+        optional: boolean,
         replaceWith: string
     ): Promise<string>{
 
@@ -41,9 +43,14 @@ export class TemplateManager{
         const search = new RegExp(realToken, multiple ? 'g' : '');
 
         if (source.search(search) == -1){
-            return Promise.reject(
-                `Could not find '${placeholder}' to replace with '${replaceWith}' in source`
-            );
+            if (optional){
+                return Promise.resolve(source);
+            }
+            else{
+                return Promise.reject(
+                    `Could not find '${placeholder}' to replace with '${replaceWith}' in source`
+                );
+            }
         }
 
         return Promise.resolve(source.replace(search, replaceWith));

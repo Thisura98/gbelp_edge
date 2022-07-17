@@ -30,15 +30,15 @@ export class GenerateGame{
             })
             .then(t => {
                 const allSceneCodes = scenesCodes.join('\n\n');
-                return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_SCENECODE', false, allSceneCodes);
+                return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_SCENECODE', false, false, allSceneCodes);
             })
             .then(t => {
                 const strSceneNames = sceneNames.join(', ');
-                return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_SCENES', false, strSceneNames);
+                return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_SCENES', false, false, strSceneNames);
             })
             .then(t => {
                 const startSceneName = sceneNames[startingLeveIndex!];
-                return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_STARTING_SCENE', false, startSceneName);
+                return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_STARTING_SCENE', false, false, startSceneName);
             })
             .then(final => {
                 resolve(final);

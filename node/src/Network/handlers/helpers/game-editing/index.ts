@@ -51,7 +51,8 @@ export function compileGame(userId: any, gameId: any): Promise<ResponseModel>{
                 })
                 .catch(err => {
                     const status = new CompileStatus([err]);
-                    resolve(new ResponseModel(true, 200, 'Game compilation error', status));
+                    console.log("Game Compilation Error = ", err);
+                    resolve(new ResponseModel(false, 200, 'Game compilation error', status));
                 })
             });
         });

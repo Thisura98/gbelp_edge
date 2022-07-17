@@ -39,7 +39,7 @@ export function generateCreateCode(
     return Promise.resolve(code)
     .then(t => {
         const createLines = commands.join('\n');
-        return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, createLines);
+        return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, false, createLines);
     })
     .catch(err => {
         l.logc(err, 'generateCreateCode');
