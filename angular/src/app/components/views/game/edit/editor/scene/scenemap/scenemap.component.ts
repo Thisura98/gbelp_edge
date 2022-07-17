@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { SceneObject, SceneObjectFrame, SceneObjectType } from "../../../../../../../../../../commons/src/models/game/levels/scene";
 import { GameProjectResource } from "../../../../../../../../../../commons/src/models/game/resources";
 import { fabric } from 'fabric';
@@ -51,7 +51,7 @@ class CanvasMovement{
     //     {provide: EditorDataService, useClass: EditorDataService}
     // ]
 })
-export class SceneMapComponent implements OnInit{
+export class SceneMapComponent implements OnInit, AfterViewInit{
 
     @Input()
     gameListing: GameListing | undefined;
@@ -77,6 +77,14 @@ export class SceneMapComponent implements OnInit{
     ngOnInit(){
         this.setupCanvas();
         this.setupData();
+    }
+
+    ngAfterViewInit(): void {
+        // Refresh canvas size 
+        // after dyn-anim-fadein-delayed CSS animation.
+        setTimeout(() => {
+            this.updateCanvasSize();
+        }, 400);
     }
 
     /**
@@ -117,14 +125,18 @@ export class SceneMapComponent implements OnInit{
 
     @HostListener('window:resize', ['$event'])
     windowResize(event: Event){
+        this.updateCanvasSize();
+    }
+
+    /* private methods */
+
+    private updateCanvasSize(){
         const element = this.hostRef.nativeElement! as HTMLElement
 
         this.canvas?.setWidth(element.clientWidth);
         this.canvas?.setHeight(element.clientHeight);
         this.canvas?.calcOffset();
     }
-
-    /* private methods */
 
     /**
      * Returns the index of this object in the sceneObjects array
