@@ -6,6 +6,7 @@ import { fabric } from 'fabric';
 import { ResourceUrlTransformPipe } from "src/app/pipes/resource-url-transform.pipe";
 import { EditorDataService } from "src/app/services/editor.data.service";
 import { debounceTime } from "rxjs/operators";
+import { CameraBoundingBox } from "./cameragroup.scenemap";
 
 export class SceneMapDataPack{
     constructor(
@@ -183,7 +184,7 @@ export class SceneMapComponent implements OnInit{
                 this.canvas!.remove(this.canvas!._objects[0]);
             }
             // this.canvas?.requestRenderAll();
-            this.updateCanvas();
+            this.updateCanvasFromSceneObjects();
         });
 
         // Listen to adding invidual scene objects
@@ -218,7 +219,7 @@ export class SceneMapComponent implements OnInit{
         this.addCanvasEvents();
     }
 
-    private updateCanvas(){
+    private updateCanvasFromSceneObjects(){
         console.log(this.sceneObjects);
         this.sceneObjects.forEach((obj) => {
             if (obj.type == SceneObjectType.sprite){
@@ -308,7 +309,7 @@ export class SceneMapComponent implements OnInit{
         const staticElements = new fabric.Group([cameraLabelBackground, cameraIcon, cameraLabel], {
         });
 
-        const group = new fabric.Group([cameraRect, staticElements], {
+        const group = new CameraBoundingBox([cameraRect, staticElements], {
             left: frame.x,
             top: frame.y,
             lockRotation: true,
