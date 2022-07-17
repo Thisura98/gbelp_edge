@@ -62,6 +62,15 @@ export function generatePreloadCode(
     .then(t => {
         return TemplateManager.replacePlaceholder(
             t, 
+            'EDGTOKEN_LEVEL', 
+            false, 
+            false, 
+            `this.levelData = ${JSON.stringify(level.scene, undefined, 4)}`
+        );
+    })
+    .then(t => {
+        return TemplateManager.replacePlaceholder(
+            t, 
             'EDGTOKEN_PRELOAD',
             false,
             false,

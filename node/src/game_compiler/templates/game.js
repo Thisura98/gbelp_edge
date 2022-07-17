@@ -1,26 +1,30 @@
 require('../phaser/phaser');
 
+/**
+ * Check SPLAY component for this canvas.
+ */
+const canvasName = 'canvas-container';
+
 EDGTOKEN_SCENECODE
 
 const scenes = [EDGTOKEN_SCENES];
 const gameZoom = 1.0;
 
 /**
- * @type Phaser.Core.Config
+ * @type {Phaser.Core.Config}
  */
 const config = {
     type: Phaser.AUTO,
-    parent: 'canvas-container',
+    parent: canvasName,
     width: 1366,
     height: 500,
-    // scene: scenes,
     title: 'Shock and Awesome',
     backgroundColor: "#000022",
     fps: {
         target: 25,
         forceSetTimeOut: true
     },
-    scaleMode: Phaser.Scale.FIT,
+    scaleMode: Phaser.Scale.NONE,
     zoom: gameZoom
 };
 
