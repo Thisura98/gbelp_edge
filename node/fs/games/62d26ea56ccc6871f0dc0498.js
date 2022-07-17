@@ -124,7 +124,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
          */
         window.EdgeProxy.currentScene = this;
 
-        window.Title = "Fuck this "
+        window.Title = "do this "
     }
     update(){
         // ----- Auto Generated File. Do not edit ----

@@ -42,11 +42,16 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     return params;
   }
 
+  get isProcessing(): boolean{
+    return this.isSaving || this.isCompiling;
+  }
+
   selectedLevelIndex: number | undefined;
   selectedLevel: GameLevel | undefined;
   gameLevels: GameLevel[] = [];
   didLoadData: boolean = false
   isSaving: boolean = false;
+  isCompiling: boolean = false;
   
   viewMode = ViewMode.UNKNOWN;
   private editingGameId: number | undefined;
@@ -107,9 +112,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   /**
    * Saves the current level by collecting data
    * from all children. 
+   * @param {boolean} showSuccessToast Show toast if saving is successful
    * @param callback Invoked after successfull game save
    */
-  saveGame(callback: (() => void) | undefined = undefined){
+  saveGame(showSuccessToast: boolean, callback: (() => void) | undefined = undefined){
     console.log("Saving...");
     this.isSaving = true;
 
@@ -126,7 +132,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
         if (r.success){
           if (callback != undefined)
             callback();
-          this.dialogService.showSnackbar("Saved successfully!");
+
+          if (showSuccessToast)
+            this.dialogService.showSnackbar("Saved successfully!");
         }
         else
           this.dialogService.showDismissable('Error', `Could not save game. ${r.description}`);
@@ -166,7 +174,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       default: return;
     }
     
-    this.saveGame(() => {
+    this.saveGame(true, () => {
       this.router.navigate([command], {
         queryParams: queryParams
       });
@@ -179,7 +187,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   playGamePressed(){
-    this.saveGame(() => {
+    this.saveGame(false, () => {
       this.apiService.editor.getGameTestSession(this.editingGameId!.toString()).subscribe((r) => {
         if (!r.success){
           this.dialogService.showDismissable('Cannot Play Game', r.description);
@@ -192,10 +200,12 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   compileGamePressed(){
-    this.saveGame(() => {
+    this.saveGame(false, () => {
+      this.isCompiling = true;
       this.apiService.editor.compileGame(this.editingGameId!.toString()).subscribe((r) => {
+        this.isCompiling = false;
         if (r.success){
-          this.dialogService.showDismissable('Game Compilation Successful', r.description);
+          this.dialogService.showSnackbar('Game Compilation Successful');
         }
         else{
           this.dialogService.showDismissable('Game Compilation failed', r.description);
