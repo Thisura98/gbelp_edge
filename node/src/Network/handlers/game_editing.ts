@@ -10,7 +10,7 @@ import * as l from '../../util/logger';
 import multer from 'multer';
 import { getNewObjectId } from "../../../../commons/src/models/common";
 import * as utils from '../../util/utils';
-import { getCompiledGameURL } from "../../game_compiler";
+import { compileAndGetGameURL } from "../../game_compiler";
 import { CompileStatus } from '../../../../commons/src/models/game/compile';
 
 const config = pc.parseConfig('config.json');
@@ -98,7 +98,7 @@ export function handlerGameEditing(app: Express){
                     return;
                 }
 
-                getCompiledGameURL(listing.entry, listing.project).then(url => {
+                compileAndGetGameURL(listing.entry, listing.project).then(url => {
                     const status = new CompileStatus([]);
                     res.send(new ResponseModel(true, 200, "Compiled successfully!", status));
                 })

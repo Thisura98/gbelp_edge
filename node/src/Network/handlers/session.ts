@@ -27,7 +27,8 @@ export function handlerSession(app: Express){
     app.post(aurl('create-test-session'), (req, res) => {
         const userId = req.header('uid')!;
         const gameId = req.body.gameId;
-        playDAO.createTestSession(userId, gameId).then(result => {
+        const compileGame = req.body.compileGame as boolean;
+        playDAO.createTestSession(userId, gameId, compileGame).then(result => {
             res.send(new ResponseModel(true, 200, 'Group ID and Session ID retrieved for test session', result))
         }).catch(error => {
             res.send(new ResponseModel(false, 200, error, null));

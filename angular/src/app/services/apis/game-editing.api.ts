@@ -99,10 +99,11 @@ export class GameEditingAPIs implements APIBase {
   }
 
   // To be deprecated
-  getGameTestSession(gameId: string): Observable<ServerResponseGameTestSession> {
+  getGameTestSession(gameId: string, compileGame: boolean): Observable<ServerResponseGameTestSession> {
     const url = this.aurl('create-test-session')
     const body = {
-      gameId: gameId
+      gameId: gameId,
+      compile: compileGame
     }
     return this.http.post<ServerResponseGameTestSession>(url, body, {
       headers: this.getHeaders()

@@ -7,7 +7,7 @@ import * as sessionDAO from './session';
 import * as groupsDAO from './group';
 import * as gamesDAO from './games';
 import * as l from '../../util/logger';
-import { getCompiledGameURL } from '../../game_compiler/index';
+import { compileAndGetGameURL, getGameURLWithoutCompiling } from '../../game_compiler/index';
 
 export interface TestSessionResult{
     sessionId: string | number,
@@ -24,6 +24,7 @@ export interface TestSessionResult{
 export function createTestSession(
     userId: string, 
     gameId: string,
+    compileGame: boolean
 ): Promise<TestSessionResult>{
     const timeNow = DateTime.now().toISO({includeOffset: false});
     let finalSessionId: string = '';
@@ -47,7 +48,7 @@ export function createTestSession(
         }
         else{
             return existingGroupId!.toString();
-        } // getCompiledGameURL
+        }
     })
     .then(groupId => {
         finalGroupId = groupId;
@@ -93,10 +94,20 @@ export function createTestSession(
         });
     })
     .then(gameEntryAndProject => {
-        return getCompiledGameURL(
-            gameEntryAndProject.entry,
-            gameEntryAndProject.project,
-        );
+
+        if (compileGame){
+            return compileAndGetGameURL(
+                gameEntryAndProject.entry,
+                gameEntryAndProject.project,
+            );
+        }
+        else{
+            return Promise.resolve(
+                getGameURLWithoutCompiling(
+                    gameEntryAndProject.project
+                )
+            );
+        }
     }).then(gameJS => {
         const result: TestSessionResult = {
             groupId: finalGroupId,

@@ -188,7 +188,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   playGamePressed(){
     this.saveGame(false, () => {
-      this.apiService.editor.getGameTestSession(this.editingGameId!.toString()).subscribe((r) => {
+      this.apiService.editor.getGameTestSession(this.editingGameId!.toString(), false).subscribe((r) => {
         if (!r.success){
           this.dialogService.showDismissable('Cannot Play Game', r.description);
           return;

@@ -41,7 +41,7 @@ export function getCompileGameURLForGameId(
                 reject(msg);
         });
     }).then(result => {
-        return getCompiledGameURL(
+        return compileAndGetGameURL(
             result.entry,
             result.project
         );
@@ -53,10 +53,20 @@ export function getCompileGameURLForGameId(
     return result;
 }
 
+export function getGameURLWithoutCompiling(
+    gameProject: GameProject
+): Promise<string>{
+    const fileName = gameProject._id;
+    const directory = config.fs_compiled_games;
+    const filePath = `${directory}/${fileName}.js`;
+
+    return Promise.resolve(filePath);
+}
+
 /**
  * Generate URL for the Game JS file on demand using the game entry and project
  */
-export function getCompiledGameURL(
+export function compileAndGetGameURL(
     gameEntry: GameEntry,
     gameProject: GameProject
 ): Promise<string>{
