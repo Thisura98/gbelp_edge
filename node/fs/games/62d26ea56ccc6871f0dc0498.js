@@ -15,6 +15,11 @@ class LevelScene_Title_Screen extends Phaser.Scene{
          * Add all references to create sprites to this array.
          */
         this.spriteReferences = {};
+
+        /**
+         * @type {Phaser.Sprite}
+         */
+        this.star = null;
     }
 
     preload(){
@@ -61,10 +66,16 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
         // Add your code below this line
 
+        /**
+         * @type {Phaser.Sprite}
+         */
+        const star = this.spriteReferences['sprite_png'];
+        this.star = star;
     }
     update(){
 
         // Add your code below this line
+        this.star.angle += 1;
 
     }
     destroy(){

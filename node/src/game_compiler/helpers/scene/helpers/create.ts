@@ -11,6 +11,10 @@ export function generateCreateCode(
     level: GameLevel,
 ): Promise<string>{
 
+    if (code == undefined || code == null || code.trim().length == 0){
+        return Promise.resolve(code);
+    }
+
     let commands: string[] = [];
     let i = 1;
 

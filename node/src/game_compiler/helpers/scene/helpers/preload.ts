@@ -15,6 +15,10 @@ export function generatePreloadCode(
     resources: GameProjectResource[]
 ): Promise<string>{
 
+    if (code == undefined || code == null || code.trim().length == 0){
+        return Promise.resolve(code);
+    }
+
     let resourceMap: Map<string, GameProjectResource> = new Map([]);
     let resourceLoadCommands: string[] = ['\n'];
     const serverBaseURL = pc.parseConfig('config.json').server_base_url;

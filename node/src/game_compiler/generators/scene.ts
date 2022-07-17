@@ -21,10 +21,14 @@ export class GenerateScene{
         const decodedScript = utils.decodeGameScript(script);
         const preparedScript = decodedScript.replace(/\\\\/g, '').replace(/\\n/g, '\n');
 
-        // return TemplateManager.readTemplate(
-        //     this.sceneTemplate
-        // )
         return Promise.resolve(preparedScript)
+        .then(t => {
+            if (t.trim().length == 0){
+                return TemplateManager.readTemplate(this.sceneTemplate)
+            }
+            else    
+                return t;
+        })
         .then(t => {
             return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, true, levelName);
         })
