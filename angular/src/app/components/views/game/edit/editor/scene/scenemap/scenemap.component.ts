@@ -299,6 +299,7 @@ export class SceneMapComponent implements OnInit{
             left: frame.x,
             top: frame.y,
             lockRotation: true,
+            data: obj._id!
         });
 
         this.canvas?.add(group);
