@@ -94,6 +94,11 @@ stroke: #ffffff;
     height: 4px;
 }
 
+.editor-nav-right{
+    display: flex;
+    justify-content: flex-end;
+}
+
 /* End Editor Tabs */
 
 /* Library Item */

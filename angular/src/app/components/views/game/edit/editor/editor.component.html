@@ -52,7 +52,9 @@
                     </div>
                 </div>
             </ng-container>
-            <app-userstatus class="nav-stretch"></app-userstatus>
+            <div class="nav-stretch editor-nav-right">
+                <app-userstatus></app-userstatus>
+            </div>
         </div>
         <ng-container *ngIf="didLoadData">
             <ng-container *ngIf="selectedLevel != undefined">
