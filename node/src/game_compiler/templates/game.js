@@ -1,4 +1,6 @@
-// EDGTOKEN_SCENECODE
+require('../phaser/phaser');
+
+EDGTOKEN_SCENECODE
 
 const scenes = [EDGTOKEN_SCENES];
 const gameZoom = 1.0;

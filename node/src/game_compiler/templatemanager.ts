@@ -17,6 +17,7 @@ export class TemplateManager{
                 }
                 else{
                     const stripped = this.stripUnwantedRequires(data);
+                    console.log("STRIPPED = ", stripped);
                     resolve(stripped)
                 }
             });
@@ -58,7 +59,7 @@ export class TemplateManager{
     }
 
     static stripUnwantedRequires(source: string): string{
-        const search = new RegExp('^require.+', 'g');
+        const search = new RegExp(/^require.+$/gm);
         const replace = '// removed import';
         return source.replace(search, replace);
     }
