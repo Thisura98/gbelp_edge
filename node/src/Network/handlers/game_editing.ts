@@ -8,10 +8,6 @@ import * as levelsDAO from '../../model/dao/levels';
 import { getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
 import * as l from '../../util/logger';
 import multer from 'multer';
-import { getNewObjectId } from "../../../../commons/src/models/common";
-import * as utils from '../../util/utils';
-import { compileAndGetGameURL } from "../../game_compiler";
-import { CompileStatus } from '../../../../commons/src/models/game/compile';
 
 import * as gameEditingHelper from './helpers/game-editing';
 
@@ -73,6 +69,15 @@ export function handlerGameEditing(app: Express){
         const userId = req.header('uid') as string;
         const gameId = req.body.gameId as string;
         gameEditingHelper.compileGame(userId, gameId).then(response => {
+            res.json(response);
+        })
+    });
+
+    app.get(aurl('game-script-template'), (req, res) => {
+        const gameId = req.query.gameId as string;
+        const levelId = req.query.levelId as string;
+        const userId = req.header('uid') as string;
+        gameEditingHelper.getGameScriptTemplate(gameId, levelId, userId).then(response => {
             res.json(response);
         })
     });

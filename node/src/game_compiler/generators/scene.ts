@@ -1,12 +1,9 @@
 import { GameLevel } from "../../../../commons/src/models/game/levels";
 import { GameProjectResource } from "../../../../commons/src/models/game/resources";
 import { TemplateManager } from "../templatemanager";
-import * as pc from '../../util/parseconfig';
-import * as l from '../../util/logger';
-import { SceneObjectType } from "../../../../commons/src/models/game/levels/scene";
 
-import { generateCreateCode } from '../helpers/scene/helpers/helper_create';
-import { generateUpdateCode } from '../helpers/scene/helpers/helper_update';
+import { generatePreloadCode } from '../helpers/scene/helpers/preload';
+import { generateCreateCode } from '../helpers/scene/helpers/create';
 
 export interface GenerateSceneResult{
     code: string
@@ -14,28 +11,23 @@ export interface GenerateSceneResult{
 }
 
 export class GenerateScene{
+
+    private static readonly sceneTemplate = '../templates/scene.js';
+
     static generate(level: GameLevel, resources: GameProjectResource[]): Promise<GenerateSceneResult>{
-        const levelNameReplace = new RegExp('[ -!@#$%^&*0-9]', 'g');
-        const levelName = level.name.replace(levelNameReplace, '_');
+        const levelName = this.getLevelName(level.name);
 
         return TemplateManager.readTemplate(
-            '../templates/scene.js'
+            this.sceneTemplate
         )
         .then(t => {
             return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, levelName);
         })
         .then(t => {
-            return this.generatePreloadCode(t, level, resources);
+            return generatePreloadCode(t, level, resources);
         })
         .then(t => {
             return generateCreateCode(t, level);
-        })
-        .then(t => {
-            return generateUpdateCode(t, level);
-        })
-        .then(t => {
-            const code = `console.log("${levelName}, destroy called!");`
-            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_DESTROY', false, code);
         })
         .then(t => {
             return {
@@ -48,64 +40,28 @@ export class GenerateScene{
         })
     }
 
-    /**
-     * Generate code that goes in the scene's 'preload()' function.
-     * 
-     * Contains mostly load commands. 
-     */
-    private static generatePreloadCode(
-        code: string,
-        level: GameLevel,
-        resources: GameProjectResource[]
-    ): Promise<string>{
+    static generateForScripting(level: GameLevel): Promise<GenerateSceneResult>{
+        const levelName = this.getLevelName(level.name);
 
-        let resourceMap: Map<string, GameProjectResource> = new Map([]);
-        let resourceLoadCommands: string[] = ['\n'];
-        const serverBaseURL = pc.parseConfig('config.json').server_base_url;
-        const sceneObjects = level.scene.objects.filter(o => {
-            return o.type == SceneObjectType.sprite || o.type == SceneObjectType.sound;
-        });
-        
-        // Find the Resources we need to load for this scene (level),
-        // then create a Map with (resId: res).
-        for (let so of sceneObjects){
-            const resIndex = resources.findIndex(res => {
-                return res._id == so.spriteResourceId;
-            })
-            if (resIndex == -1)
-                continue;
-
-            const resource = resources[resIndex];
-            resourceMap.set(resource._id.toString(), resource);
-        }
-
-        // Create the load commands for the scene objects
-        for (let so of sceneObjects){
-            const res = resourceMap.get(so.spriteResourceId);
-            let cmd = '';
-
-            if (so.type == SceneObjectType.sprite){
-                // this.load.image('kirby-1', 'fs/res_upload/image/123.png')
-                // image's key is the scene object's name
-                cmd = `this.load.image('${so.name}', '${res?.filename ?? "sprite-res-unavail"}');`
-            }
-            else if (so.type == SceneObjectType.sound){
-                // not implemented yet
-                cmd = '// loading sounds are not yet supported in scene generator';
-            }
-            resourceLoadCommands.push(`\t\t${cmd}`);
-        }
-
-        return TemplateManager.replacePlaceholder(
-            code, 'EDGTOKEN_LOADBASEURL', false, serverBaseURL
+        return TemplateManager.readTemplate(
+            this.sceneTemplate
         )
         .then(t => {
-            return TemplateManager.replacePlaceholder(
-                t, 
-                'EDGTOKEN_PRELOAD',
-                false,
-                resourceLoadCommands.join('\n')
-            );
-        });
+            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, levelName);
+        })
+        .then(t => {
+            return {
+                code: t,
+                sceneName: `LevelScene_${levelName}`
+            }
+        })
+        .catch((err) => {
+            return Promise.reject('GenerateScene Error:' + err);
+        })
+    }
+
+    private static getLevelName(name: string): string{
+        const levelNameReplace = new RegExp('[ -!@#$%^&*0-9]', 'g');
+        return name.replace(levelNameReplace, '_');
     }
 }

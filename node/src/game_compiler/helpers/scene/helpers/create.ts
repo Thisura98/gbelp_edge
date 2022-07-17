@@ -36,17 +36,10 @@ export function generateCreateCode(
         i++;
     }
 
-    return Promise.resolve(
-        code
-    )
+    return Promise.resolve(code)
     .then(t => {
         const createLines = commands.join('\n');
         return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, createLines);
-    })
-    .then(t => {
-        const base64Code = level.logic.script.setup;
-        const decoded = util.decodeGameScript(base64Code);
-        return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_GAMESCRIPT_LEVEL_SETUP', false, decoded);
     })
     .catch(err => {
         l.logc(err, 'generateCreateCode');
