@@ -54,8 +54,17 @@
 }
 
 .hierarchy-item{
+    display: flex;
     background-color: #F8F8F8;
     padding: 6px 12px;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hierarchy-item-controls{
+    height: 16px;
+    display: flex;
 }
 
 .section-hierarchy .hierarchy-selected{

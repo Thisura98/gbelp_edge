@@ -26,6 +26,8 @@ export class SceneEditorComponent implements OnInit {
   sceneObjects: SceneObject[] = [];
   selectedSceneObjIndex: number | undefined = 0;
 
+  cameraActive: boolean = true;
+
   constructor(
     private editorDataService: EditorDataService,
     private activatedRoute: ActivatedRoute,
@@ -92,6 +94,10 @@ export class SceneEditorComponent implements OnInit {
       return;
 
     this.editorDataService.setSceneObjectSelection(index);
+  }
+
+  cameraActiveStateClicked(){
+    
   }
 
 }

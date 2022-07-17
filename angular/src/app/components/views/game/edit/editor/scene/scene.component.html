@@ -7,6 +7,12 @@
                 [class.hierarchy-selected]="obj._id == getSelectedSceneObj()?._id"
                 (click)="hierarchyItemClicked(obj)">
                 {{obj.name}}
+                <div class="hierarchy-item-controls">
+                    <!-- Camera Active/Inactive -->
+                    <ng-container *ngIf="obj.type == 'camera'">
+                        <img src="assets/editor/scene/layer_{{ cameraActive ? 'active.png' : 'inactive.png' }}">
+                    </ng-container>
+                </div>
             </div>
         </div>
     </div>

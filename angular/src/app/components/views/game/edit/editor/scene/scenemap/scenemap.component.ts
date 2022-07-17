@@ -14,6 +14,13 @@ export class SceneMapDataPack{
     ){}
 }
 
+export class ActiveStateDataPack{
+    constructor(
+        public object: SceneObject,
+        public active: boolean
+    ){}
+}
+
 class Point{
     constructor(
         public x: number,
@@ -188,6 +195,11 @@ export class SceneMapComponent implements OnInit{
         this.dataService.getSceneObjectSelection().subscribe((sel) => {
             this.selectedSceneObjIndex = sel;
             this.updateCanvasSelection()
+        });
+
+        // List to object active state
+        this.dataService.getSceneObjectActiveState().subscribe((obj) => {
+            this.handleObjectActiveState(obj);
         });
     }
 
@@ -427,6 +439,18 @@ export class SceneMapComponent implements OnInit{
             console.log('selection:cleared', undefined);
             this.selectObject(undefined);
         });
+    }
+
+    private handleObjectActiveState(pack: ActiveStateDataPack){
+        const objectId = pack.object._id;
+        const object = this.canvas?._objects.find((obj) => obj.data!._id == objectId);
+        if (object == undefined){
+            console.log("Could not change active state of object", JSON.stringify(pack.object));
+            return;
+        }
+
+        object.selectable = pack.active;
+        console.log("Set object active state =", pack.active)
     }
 
 }
