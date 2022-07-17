@@ -19,6 +19,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
      */
     star = undefined;
 
+    t = 0;
+
+    cameraBaseX = 0;
+
     constructor(){
         super({key: "LevelScene_Title_Screen", active: false });
 
@@ -43,10 +47,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 184.828125,
-                "y": 30,
-                "w": 681.8092739058038,
-                "h": 531.190726094196
+                "x": 255.828125,
+                "y": 1,
+                "w": 555,
+                "h": 356.00000000000006
             },
             "rotation": 0,
             "physicsBehavior": "1",
@@ -62,8 +66,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "sprite",
             "name": "sprite_png",
             "frame": {
-                "x": 318.4458642695158,
-                "y": 213.5580766424917,
+                "x": 290.4458642695158,
+                "y": 84.5580766424917,
                 "w": 100,
                 "h": 100
             },
@@ -81,8 +85,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "sprite",
             "name": "sprite_png_2",
             "frame": {
-                "x": 582,
-                "y": 213,
+                "x": 291,
+                "y": 237,
                 "w": 100,
                 "h": 100
             },
@@ -105,16 +109,16 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(525.7327619529019, 295.595363047098, 'Camera');
+		const sprite_1 = this.add.sprite(533.328125, 179.00000000000003, 'Camera');
 		sprite_1.name = "Camera";
-		scaleX = 681.8092739058038 / sprite_1.displayWidth;
-		scaleY = 531.190726094196 / sprite_1.displayHeight;
+		scaleX = 555 / sprite_1.displayWidth;
+		scaleY = 356.00000000000006 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences['Camera'] = sprite_1;
 
 
 		// --- scene object sprite_png ---
-		const sprite_2 = this.add.sprite(368.4458642695158, 263.5580766424917, 'sprite_png');
+		const sprite_2 = this.add.sprite(340.4458642695158, 134.5580766424917, 'sprite_png');
 		sprite_2.name = "sprite_png";
 		scaleX = 100 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;
@@ -123,7 +127,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		// --- scene object sprite_png_2 ---
-		const sprite_3 = this.add.sprite(632, 263, 'sprite_png_2');
+		const sprite_3 = this.add.sprite(341, 287, 'sprite_png_2');
 		sprite_3.name = "sprite_png_2";
 		scaleX = 100 / sprite_3.displayWidth;
 		scaleY = 100 / sprite_3.displayHeight;
@@ -141,18 +145,30 @@ class LevelScene_Title_Screen extends Phaser.Scene{
          */
         const objects = this.levelData.objects; 
         const camera = objects.find((o) => o.type == 'camera');
+        const camX = camera.frame.x;
+        const camY = camera.frame.y;
         const camWidth = camera.frame.w;
         const camHeight = camera.frame.h;
 
         console.log("Camera width & height", camWidth, camHeight);
 
         this.scale.setGameSize(camWidth, camHeight);
+        this.scale.resize(camWidth, camHeight);
+
+        this.cameraBaseX = camX;
+        
+        this.cameras.main.setBounds(camX, camY, camWidth, camHeight)
+        
     }
     update(){
 
         // Add your code below this line
-        this.star.angle += 1;
-        this.star.frame.x += 10;
+        // this.star.angle += 1;
+        this.star.frame.x = 800 + Math.sin(this.t) * 1000;
+
+        this.cameras.main.setPosition(Math.cos(this.t) * 100, 0);
+
+        this.t += 0.1;
 
     }
     destroy(){
@@ -287,9 +303,9 @@ const config = {
     width: 1366,
     height: 500,
     title: 'Shock and Awesome',
-    backgroundColor: "#000022",
+    backgroundColor: "#0000dd",
     fps: {
-        target: 25,
+        target: 30,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,

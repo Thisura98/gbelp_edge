@@ -19,9 +19,9 @@ const config = {
     width: 1366,
     height: 500,
     title: 'Shock and Awesome',
-    backgroundColor: "#000022",
+    backgroundColor: "#0000dd",
     fps: {
-        target: 25,
+        target: 30,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,
