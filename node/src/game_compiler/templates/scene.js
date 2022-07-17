@@ -8,7 +8,7 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
         /**
          * Add all references to create sprites to this array.
          */
-        this.spriteReferences = [];
+        this.spriteReferences = {};
     }
 
     preload(){
@@ -21,6 +21,7 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
         
     }
     create(){
+        // EDGTOKEN_CREATE
 
         // Add your code below this line
 

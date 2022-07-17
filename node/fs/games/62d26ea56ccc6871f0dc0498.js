@@ -14,7 +14,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         /**
          * Add all references to create sprites to this array.
          */
-        this.spriteReferences = [];
+        this.spriteReferences = {};
     }
 
     preload(){
@@ -23,6 +23,11 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 		this.load.image('sprite_png', 'fs/res_upload/image/1657959470527.png');
 		this.load.image('sprite_png_2', 'fs/res_upload/image/1657959470527.png');
+
+        // Add your code below this line
+
+
+        
     }
     create(){
         let scaleX = 0, scaleY = 0;
@@ -32,7 +37,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		scaleX = 591.9999999999999 / sprite_1.displayWidth;
 		scaleY = 431 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
-		this.spriteReferences.push(sprite_1);
+		this.spriteReferences['Camera'] = sprite_1;
 
 
 		// --- scene object sprite_png ---
@@ -41,7 +46,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		scaleX = 100 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
-		this.spriteReferences.push(sprite_2);
+		this.spriteReferences['sprite_png'] = sprite_2;
 
 
 		// --- scene object sprite_png_2 ---
@@ -50,32 +55,22 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		scaleX = 100 / sprite_3.displayWidth;
 		scaleY = 100 / sprite_3.displayHeight;
 		sprite_3.setScale(scaleX, scaleY);
-		this.spriteReferences.push(sprite_3);
+		this.spriteReferences['sprite_png_2'] = sprite_3;
 
 
-        
-        /**
-         * EdgeProxy is defined in singleplayer.lib.js
-         */
-        // window.EdgeProxy.currentScene = this;
 
-        window.Title = "do this "
-// test code
+        // Add your code below this line
+
     }
     update(){
-        // ----- Auto Generated File. Do not edit ----
-class EdgeResourceHelper{
-    EdgeResourceHelper(){
 
-    }
+        // Add your code below this line
 
-    getSprite(){
-
-    }
-}
     }
     destroy(){
-        console.log("Title_Screen, destroy called!");
+        
+        // Add your code below this line
+
     }
 }
 
@@ -89,29 +84,34 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
         /**
          * Add all references to create sprites to this array.
          */
-        this.spriteReferences = [];
+        this.spriteReferences = {};
     }
 
     preload(){
         this.load.setBaseURL('http://localhost/');
         
 
-    }
-    create(){
-        let scaleX = 0, scaleY = 0;
-        
-        /**
-         * EdgeProxy is defined in singleplayer.lib.js
-         */
-        // window.EdgeProxy.currentScene = this;
+
+        // Add your code below this line
+
 
         
     }
+    create(){
+        let scaleX = 0, scaleY = 0;
+
+        // Add your code below this line
+
+    }
     update(){
-        
+
+        // Add your code below this line
+
     }
     destroy(){
-        console.log("Example_Level_Screen, destroy called!");
+        
+        // Add your code below this line
+
     }
 }
 
@@ -125,13 +125,18 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         /**
          * Add all references to create sprites to this array.
          */
-        this.spriteReferences = [];
+        this.spriteReferences = {};
     }
 
     preload(){
         this.load.setBaseURL('http://localhost/');
         
 
+
+        // Add your code below this line
+
+
+        
     }
     create(){
         let scaleX = 0, scaleY = 0;
@@ -141,22 +146,22 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 		scaleX = 1366 / sprite_1.displayWidth;
 		scaleY = 768 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
-		this.spriteReferences.push(sprite_1);
+		this.spriteReferences['Camera'] = sprite_1;
 
 
-        
-        /**
-         * EdgeProxy is defined in singleplayer.lib.js
-         */
-        // window.EdgeProxy.currentScene = this;
 
-        
+        // Add your code below this line
+
     }
     update(){
-        
+
+        // Add your code below this line
+
     }
     destroy(){
-        console.log("Game_Over_Screen, destroy called!");
+        
+        // Add your code below this line
+
     }
 }
 

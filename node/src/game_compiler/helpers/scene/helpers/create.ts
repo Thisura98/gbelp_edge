@@ -25,7 +25,7 @@ export function generateCreateCode(
         const c3 = `scaleX = ${so.frame.w} / sprite_${i}.displayWidth;`
         const c4 = `scaleY = ${so.frame.h} / sprite_${i}.displayHeight;`
         const c5 = `sprite_${i}.setScale(scaleX, scaleY);`;
-        const c6 = `this.spriteReferences.push(sprite_${i});`;
+        const c6 = `this.spriteReferences['${so.name}'] = sprite_${i};`;
 
         const lines = [c1, c2, c3, c4, c5, c6].map(v => `\t\t${v}`);
 
