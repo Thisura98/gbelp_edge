@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { GameListing } from 'src/app/models/game/game';
 import { ApiService } from 'src/app/services/api.service';
 import { EditorChildDataPack, EditorDataService } from 'src/app/services/editor.data.service';
 import { LevelScript } from '../../../../../../../../../commons/src/models/game/levels/logic';
+import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
 
 type EditorOptions = monaco.editor.IStandaloneEditorConstructionOptions;
 type Editor = monaco.editor.IStandaloneCodeEditor;

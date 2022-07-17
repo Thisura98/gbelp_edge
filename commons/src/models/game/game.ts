@@ -78,6 +78,6 @@ export interface SaveGameRequestData extends SaveGameReportOptions{
 }
 
 export interface GameListing{
-    entry: GameEntry;
-    project: GameProject;
+    project: GameProject,
+    entry: GameEntry
 }
