@@ -5,10 +5,10 @@ import * as pc from '../../util/parseconfig';
 import * as path from 'path';
 import * as gamesDAO from '../../model/dao/games';
 import * as levelsDAO from '../../model/dao/levels';
-import { ObjectId } from 'mongodb';
 import { getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
 import * as l from '../../util/logger';
 import multer from 'multer';
+import { getNewObjectId } from "../../../../commons/src/models/common";
 
 const config = pc.parseConfig('config.json');
 
@@ -32,8 +32,23 @@ const upload = multer({storage: multerDiskWriteConfig});
 export function handlerGameEditing(app: Express){
     // Get a new mongodb object id
     app.get(aurl('get-objectid'), (req, res) => {
-        const newObjectId = (new ObjectId()).toHexString();
-        res.json(new ResponseModel(true, 200, 'Created MongoDB Object ID', newObjectId));
+        let objectIdCount = 1;
+        let objectIdList: string[] = [];
+
+        if (req.query.count != undefined && req.query.count != ''){
+            try{
+                objectIdCount = Number.parseInt(req.query.count as string);
+            }
+            catch(err){
+                console.log("get-objectid", err);
+            }
+        }
+
+        for (let i = 0; i < objectIdCount; i++){
+            objectIdList.push(getNewObjectId());
+        }
+
+        res.json(new ResponseModel(true, 200, `Created ${objectIdList.length} MongoDB Object ID(s)`, objectIdList));
     });
 
     // README: https://www.npmjs.com/package/multer
