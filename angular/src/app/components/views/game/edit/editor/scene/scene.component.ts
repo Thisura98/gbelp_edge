@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing, ServerResponseGameListing } from 'src/app/models/game/game';
-import { SceneObject, SceneObjectHelper } from '../../../../../../../../../commons/src/models/game/levels/scene';
+import { SceneObject, SceneObjectHelper, SceneObjectType } from '../../../../../../../../../commons/src/models/game/levels/scene';
 import { GameProjectResource } from '../../../../../../../../../commons/src/models/game/resources';
+import { DialogService } from 'src/app/services/dialog.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class SceneEditorComponent implements OnInit {
   cameraActive: boolean = true;
 
   constructor(
+    private dialogService: DialogService,
     private editorDataService: EditorDataService,
     private activatedRoute: ActivatedRoute,
   ) { }
@@ -89,15 +91,31 @@ export class SceneEditorComponent implements OnInit {
   }
 
   hierarchyItemClicked(item: SceneObject){
-    const index = this.sceneObjects.findIndex((obj) => { return obj._id == item._id });
+    const index = this.sceneObjects.findIndex((obj) => { 
+      if (obj._id == item._id){
+        if (obj.type == SceneObjectType.camera && !this.cameraActive){
+          this.dialogService.showSnackbar("Camera inactive. Click the cursor icon to re-active it.");
+          return false;
+        }
+        return true;
+      }
+      return false;
+    });
+
     if (index == -1)
       return;
 
     this.editorDataService.setSceneObjectSelection(index);
   }
 
-  cameraActiveStateClicked(){
-    
+  cameraActiveStateClicked(camera: SceneObject, event: Event){
+    event.preventDefault();
+    event.cancelBubble = true;
+    this.cameraActive = !this.cameraActive;
+    this.editorDataService.setSceneObjectActiveState(camera, this.cameraActive);
+
+    if (!this.cameraActive)
+      this.editorDataService.setSceneObjectSelection(undefined);
   }
 
 }

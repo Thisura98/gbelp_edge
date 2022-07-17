@@ -232,13 +232,14 @@ export class SceneMapComponent implements OnInit{
 
     private updateCanvasSelection(){
         console.log("SceneMap: updateCanvasSelection");
+        const ignoreEvent = new Event(this.kIgnoreSelectionEvent);
         if (this.selectedSceneObjIndex == undefined)
-            this.canvas?.discardActiveObject();
+            this.canvas?.discardActiveObject(ignoreEvent);
         else{
             const nextActiveObj = this.canvas!._objects[this.selectedSceneObjIndex!];
-            this.canvas?.setActiveObject(nextActiveObj, new Event(this.kIgnoreSelectionEvent));
-            this.canvas?.requestRenderAll();
+            this.canvas?.setActiveObject(nextActiveObj, ignoreEvent);
         }
+        this.canvas?.requestRenderAll();
     }
 
     private addImageToCanvas(obj: SceneObject){
@@ -443,14 +444,18 @@ export class SceneMapComponent implements OnInit{
 
     private handleObjectActiveState(pack: ActiveStateDataPack){
         const objectId = pack.object._id;
-        const object = this.canvas?._objects.find((obj) => obj.data!._id == objectId);
+        const object = this.canvas?._objects.find((obj) => obj.data! == objectId);
         if (object == undefined){
             console.log("Could not change active state of object", JSON.stringify(pack.object));
             return;
         }
 
         object.selectable = pack.active;
-        console.log("Set object active state =", pack.active)
+
+        if (!pack.active){
+            this.canvas?.discardActiveObject(new Event(this.kIgnoreSelectionEvent));
+            this.canvas?.requestRenderAll();
+        }
     }
 
 }
