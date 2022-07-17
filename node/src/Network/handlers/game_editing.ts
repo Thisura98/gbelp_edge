@@ -13,6 +13,8 @@ import * as utils from '../../util/utils';
 import { compileAndGetGameURL } from "../../game_compiler";
 import { CompileStatus } from '../../../../commons/src/models/game/compile';
 
+import * as gameEditingHelper from './helpers/game-editing';
+
 const config = pc.parseConfig('config.json');
 
 const multerDiskWriteConfig = multer.diskStorage({
@@ -35,24 +37,9 @@ const upload = multer({storage: multerDiskWriteConfig});
 export function handlerGameEditing(app: Express){
     // Get a new mongodb object id
     app.get(aurl('get-objectid'), (req, res) => {
-        let objectIdCount = 1;
-        let objectIdList: string[] = [];
-
-        if (req.query.count != undefined && req.query.count != ''){
-            try{
-                objectIdCount = Number.parseInt(req.query.count as string);
-            }
-            catch(err){
-                console.log("get-objectid", err);
-                res.json(new ResponseModel(false, 200, 'Unable to create object ID', null));
-            }
-        }
-
-        for (let i = 0; i < objectIdCount; i++){
-            objectIdList.push(getNewObjectId());
-        }
-
-        res.json(new ResponseModel(true, 200, `Created ${objectIdList.length} MongoDB Object ID(s)`, objectIdList));
+        gameEditingHelper.getObjectIds(req.query.count).then(response => {;
+            res.json(response);
+        })
     });
 
     // README: https://www.npmjs.com/package/multer
@@ -85,29 +72,9 @@ export function handlerGameEditing(app: Express){
     app.post(aurl('compile-game'), (req, res) => {
         const userId = req.header('uid') as string;
         const gameId = req.body.gameId as string;
-
-        utils.checkUserCanModifyGame(gameId, userId, (canModify) => {
-            if (!canModify){
-                res.send(new ResponseModel(false, 200, 'User not allowed to compile game', null));
-                return;
-            }
-
-            gamesDAO.getGame(gameId, (status, msg, listing) => {
-                if (!status || listing == null){
-                    res.send(new ResponseModel(false, 200, msg ?? "Could not find game listing", null));
-                    return;
-                }
-
-                compileAndGetGameURL(listing.entry, listing.project).then(url => {
-                    const status = new CompileStatus([]);
-                    res.send(new ResponseModel(true, 200, "Compiled successfully!", status));
-                })
-                .catch(err => {
-                    const status = new CompileStatus([err]);
-                    res.send(new ResponseModel(false, 200, "Game compilation error", status));
-                })
-            });
-        });
+        gameEditingHelper.compileGame(userId, gameId).then(response => {
+            res.json(response);
+        })
     });
 
     app.get(aurl('game-lib'), (req, res) => {

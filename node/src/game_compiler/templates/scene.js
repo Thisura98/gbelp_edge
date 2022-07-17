@@ -13,22 +13,26 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
 
     preload(){
         this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
-        EDGTOKEN_PRELOAD
+        // EDGTOKEN_PRELOAD
+
+        // Add your code below this line
+
+
+        
     }
     create(){
-        EDGTOKEN_CREATE
-        
-        /**
-         * EdgeProxy is defined in singleplayer.lib.js
-         */
-        // window.EdgeProxy.currentScene = this;
 
-        EDGTOKEN_GAMESCRIPT_LEVEL_SETUP
+        // Add your code below this line
+
     }
     update(){
-        EDGTOKEN_GAMESCRIPT_EACH_FRAME
+
+        // Add your code below this line
+
     }
     destroy(){
-        EDGTOKEN_DESTROY
+        
+        // Add your code below this line
+
     }
 }
