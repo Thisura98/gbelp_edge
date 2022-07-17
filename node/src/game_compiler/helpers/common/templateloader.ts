@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import * as l from '../../../util/logger';
 
-export class Template{
+export class TemplateManager{
     /**
      * @param path Path relative to the "game_compiler/helpers folder" (e.g. scene/template.js)
      */
@@ -16,7 +16,7 @@ export class Template{
                     reject(msg);
                 }
                 else{
-                    const stripped = this.stripUnwantedImports(data);
+                    const stripped = this.stripUnwantedRequires(data);
                     resolve(stripped)
                 }
             });
@@ -48,7 +48,7 @@ export class Template{
 
     }
 
-    static stripUnwantedImports(source: string): string{
+    static stripUnwantedRequires(source: string): string{
         const search = new RegExp('^require.+', 'g');
         const replace = '// removed import';
         return source.replace(search, replace);

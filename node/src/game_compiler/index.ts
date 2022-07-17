@@ -5,7 +5,7 @@ import * as gamesDAO from './../model/dao/games';
 import * as l from '../util/logger';
 import * as pc from '../util/parseconfig';
 import { GenerateGame } from './helpers/game/generator';
-import { Template } from './helpers/common/templateloader';
+import { TemplateManager } from './helpers/common/templateloader';
 
 const config = pc.parseConfig('config.json')
 
@@ -79,7 +79,7 @@ export function compileAndGetGameURL(
 
     return new Promise<string>((resolve, reject) => {
         getSingleplayerGameLibContent().then(gameLib => {
-            return Template.stripUnwantedImports(gameLib);
+            return TemplateManager.stripUnwantedRequires(gameLib);
         })
         .then(gameLib => {
             gameJS += gameLib;

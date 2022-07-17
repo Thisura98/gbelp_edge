@@ -1,6 +1,6 @@
 import { GameLevel } from "../../../../../commons/src/models/game/levels";
 import { GameProjectResource } from "../../../../../commons/src/models/game/resources";
-import { Template } from "../common/templateloader";
+import { TemplateManager } from "../common/templateloader";
 import * as pc from '../../../util/parseconfig';
 import * as l from '../../../util/logger';
 import { SceneObjectType } from "../../../../../commons/src/models/game/levels/scene";
@@ -18,11 +18,11 @@ export class GenerateScene{
         const levelNameReplace = new RegExp('[ -!@#$%^&*0-9]', 'g');
         const levelName = level.name.replace(levelNameReplace, '_');
 
-        return Template.readTemplate(
+        return TemplateManager.readTemplate(
             'scene/template.js'
         )
         .then(t => {
-            return Template.replacePlaceholder(t, 'EDGTOKEN_1', true, levelName);
+            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, levelName);
         })
         // .then(t => {
         //     const code = `console.log("${levelName}, preload called!");`
@@ -47,7 +47,7 @@ export class GenerateScene{
         })
         .then(t => {
             const code = `console.log("${levelName}, destroy called!");`
-            return Template.replacePlaceholder(t, 'EDGTOKEN_DESTROY', false, code);
+            return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_DESTROY', false, code);
         })
         .then(t => {
             return {
@@ -108,11 +108,11 @@ export class GenerateScene{
             resourceLoadCommands.push(`\t\t${cmd}`);
         }
 
-        return Template.replacePlaceholder(
+        return TemplateManager.replacePlaceholder(
             code, 'EDGTOKEN_LOADBASEURL', false, serverBaseURL
         )
         .then(t => {
-            return Template.replacePlaceholder(
+            return TemplateManager.replacePlaceholder(
                 t, 
                 'EDGTOKEN_PRELOAD',
                 false,
