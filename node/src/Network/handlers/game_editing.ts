@@ -41,6 +41,7 @@ export function handlerGameEditing(app: Express){
             }
             catch(err){
                 console.log("get-objectid", err);
+                res.json(new ResponseModel(false, 200, 'Unable to create object ID', null));
             }
         }
 
