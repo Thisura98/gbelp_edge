@@ -53,7 +53,8 @@ export class CameraBoundingBox extends fabric.Group {
       if (point.y > this.top! && point.x < (this.left! + this.cachedCameraGroup!.width!))
         return true;
 
-      return false;
+      if (point.y < topEdge - strokeWidth)
+        return false;
     }
 
     // below bottom edge
