@@ -61,39 +61,49 @@
                 <div class="buttons dyn-anim-fadein-delayed">
                     <div 
                         class="dyn-btn clickable btn-save"
-                        [class.dyn-btn-disabled]="isSaving"
+                        [class.dyn-btn-disabled]="isProcessing"
                         (click)="saveGame(true)">
-                        {{isSaving ? "" : "Save Game"}}
+                        {{processingSaving ? "" : "Save Game"}}
                         <mat-progress-spinner class="saving-progress"
-                            *ngIf="isSaving" [diameter]="20" mode="indeterminate">
+                            *ngIf="processingSaving" [diameter]="20" mode="indeterminate">
                         </mat-progress-spinner>
                     </div>
                     <div class="buttons-separator"></div>
-                    <div class="dyn-btn clickable btn-play-game" (click)="playGamePressed()">
+                    <div 
+                        class="dyn-btn clickable btn-play-game"
+                        [class.dyn-btn-disabled]="isProcessing"
+                        (click)="playGamePressed()">
                         <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
                         <div class="btn-content">
-                            <div class="btn-content-main">{{isProcessing ? "" : "Play"}}</div>
+                            <div class="btn-content-main">{{processingPlay ? "" : "Play"}}</div>
                             <mat-progress-spinner class="saving-progress"
-                                *ngIf="isProcessing" [diameter]="20" mode="indeterminate">
-                            </mat-progress-spinner>
-                            <!-- <div class="btn-content-sub">Win + N</div> -->
-                        </div>
-                    </div><div class="dyn-btn clickable btn-compile-game" (click)="compileGamePressed()">
-                        <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
-                        <div class="btn-content">
-                            <div class="btn-content-main">{{isProcessing ? "" : "Compile"}}</div>
-                            <mat-progress-spinner class="saving-progress"
-                                *ngIf="isProcessing" [diameter]="20" mode="indeterminate">
+                                *ngIf="processingPlay" [diameter]="20" mode="indeterminate">
                             </mat-progress-spinner>
                             <!-- <div class="btn-content-sub">Win + N</div> -->
                         </div>
                     </div>
-                    <div class="dyn-btn clickable btn-compile-play" (click)="compileAndPlayGamePressed()">
+                    <div 
+                        class="dyn-btn clickable btn-compile-game" 
+                        [class.dyn-btn-disabled]="isProcessing"
+                        (click)="compileGamePressed()">
                         <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
                         <div class="btn-content">
-                            <div class="btn-content-main">{{isProcessing ? "" : "Compile & Play"}}</div>
+                            <div class="btn-content-main">{{processingCompiling ? "" : "Compile"}}</div>
                             <mat-progress-spinner class="saving-progress"
-                                *ngIf="isProcessing" [diameter]="20" mode="indeterminate">
+                                *ngIf="processingCompiling" [diameter]="20" mode="indeterminate">
+                            </mat-progress-spinner>
+                            <!-- <div class="btn-content-sub">Win + N</div> -->
+                        </div>
+                    </div>
+                    <div 
+                        class="dyn-btn clickable btn-compile-play" 
+                        [class.dyn-btn-disabled]="isProcessing"
+                        (click)="compileAndPlayGamePressed()">
+                        <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
+                        <div class="btn-content">
+                            <div class="btn-content-main">{{processingCompilingAndPlaying ? "" : "Compile & Play"}}</div>
+                            <mat-progress-spinner class="saving-progress"
+                                *ngIf="processingCompilingAndPlaying" [diameter]="20" mode="indeterminate">
                             </mat-progress-spinner>
                             <!-- <div class="btn-content-sub">Win + N</div> -->
                         </div>

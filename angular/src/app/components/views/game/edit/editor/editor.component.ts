@@ -43,15 +43,20 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   get isProcessing(): boolean{
-    return this.isSaving || this.isCompiling;
+    return this.isSavingAPIWorking || this.processingSaving || this.processingCompiling || this.processingCompilingAndPlaying || this.processingPlay;
   }
 
   selectedLevelIndex: number | undefined;
   selectedLevel: GameLevel | undefined;
   gameLevels: GameLevel[] = [];
   didLoadData: boolean = false
-  isSaving: boolean = false;
-  isCompiling: boolean = false;
+
+  isSavingAPIWorking: boolean = false;
+
+  processingSaving: boolean = false;
+  processingCompiling: boolean = false;
+  processingCompilingAndPlaying: boolean = false;
+  processingPlay: boolean = false;
   
   viewMode = ViewMode.UNKNOWN;
   private editingGameId: number | undefined;
@@ -117,7 +122,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
    */
   saveGame(showSuccessToast: boolean, callback: (() => void) | undefined = undefined){
     console.log("Saving...");
-    this.isSaving = true;
+    this.isSavingAPIWorking = true;
 
     this.editorDataService.invokeAllSaveListeners(this.gameListing!.project, () => {
       console.log("Project levels:", this.gameListing!.project!.levels);
@@ -128,7 +133,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
         this.gameListing!.project!._id, 
         this.gameLevels
       ).subscribe((r) => {
-        this.isSaving = false;
+        this.isSavingAPIWorking = false;
         if (r.success){
           if (callback != undefined)
             callback();
@@ -187,8 +192,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   playGamePressed(){
+    this.processingPlay = true;
     this.saveGame(false, () => {
       this.apiService.editor.getGameTestSession(this.editingGameId!.toString(), false).subscribe((r) => {
+        this.processingPlay = false;
         if (!r.success){
           this.dialogService.showDismissable('Cannot Play Game', r.description);
           return;
@@ -200,10 +207,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   compileGamePressed(){
+    this.processingCompiling = true;
     this.saveGame(false, () => {
-      this.isCompiling = true;
       this.apiService.editor.compileGame(this.editingGameId!.toString()).subscribe((r) => {
-        this.isCompiling = false;
+        this.processingCompiling = false;
         if (r.success){
           this.dialogService.showSnackbar('Game Compilation Successful');
         }
@@ -219,7 +226,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   compileAndPlayGamePressed(){
-    // todo;
+    this.processingCompilingAndPlaying = true;
   }
 
   /* private methods */
