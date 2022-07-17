@@ -1,8 +1,8 @@
-import { GameLevel, LevelTypeMulti, LevelTypeSingle } from "../../../../../commons/src/models/game/levels";
-import { GameProject } from "../../../../../commons/src/models/game/project";
-import { GameProjectResource } from "../../../../../commons/src/models/game/resources";
-import { TemplateManager } from "../../templatemanager";
-import { GenerateScene } from "../scene/generator";
+import { GameLevel, LevelTypeMulti, LevelTypeSingle } from "../../../../commons/src/models/game/levels";
+import { GameProject } from "../../../../commons/src/models/game/project";
+import { GameProjectResource } from "../../../../commons/src/models/game/resources";
+import { TemplateManager } from "../templatemanager";
+import { GenerateScene } from "./scene";
 
 export class GenerateGame{
     static generate(project: GameProject): Promise<string>{
@@ -26,7 +26,7 @@ export class GenerateGame{
                 return Promise.resolve();
             })
             .then(() => {
-                return TemplateManager.readTemplate('game/template.js');
+                return TemplateManager.readTemplate('../templates/game.js');
             })
             .then(t => {
                 const allSceneCodes = scenesCodes.join('\n\n');

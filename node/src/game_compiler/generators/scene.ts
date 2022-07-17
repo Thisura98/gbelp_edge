@@ -1,12 +1,12 @@
-import { GameLevel } from "../../../../../commons/src/models/game/levels";
-import { GameProjectResource } from "../../../../../commons/src/models/game/resources";
-import { TemplateManager } from "../../templatemanager";
-import * as pc from '../../../util/parseconfig';
-import * as l from '../../../util/logger';
-import { SceneObjectType } from "../../../../../commons/src/models/game/levels/scene";
+import { GameLevel } from "../../../../commons/src/models/game/levels";
+import { GameProjectResource } from "../../../../commons/src/models/game/resources";
+import { TemplateManager } from "../templatemanager";
+import * as pc from '../../util/parseconfig';
+import * as l from '../../util/logger';
+import { SceneObjectType } from "../../../../commons/src/models/game/levels/scene";
 
-import { generateCreateCode } from './helpers/helper_create';
-import { generateUpdateCode } from './helpers/helper_update';
+import { generateCreateCode } from '../helpers/scene/helpers/helper_create';
+import { generateUpdateCode } from '../helpers/scene/helpers/helper_update';
 
 export interface GenerateSceneResult{
     code: string
@@ -19,29 +19,17 @@ export class GenerateScene{
         const levelName = level.name.replace(levelNameReplace, '_');
 
         return TemplateManager.readTemplate(
-            'scene/template.js'
+            '../templates/scene.js'
         )
         .then(t => {
             return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_1', true, levelName);
         })
-        // .then(t => {
-        //     const code = `console.log("${levelName}, preload called!");`
-        //     return Template.replacePlaceholder(t, 'EDGTOKEN_PRELOAD', false, code);
-        // })
         .then(t => {
             return this.generatePreloadCode(t, level, resources);
         })
-        // .then(t => {
-        //     const code = `console.log("${levelName}, create called!");`
-        //     return Template.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, code);
-        // })
         .then(t => {
             return generateCreateCode(t, level);
         })
-        // .then(t => {
-        //     const code = `console.log("${levelName}, update called!");`
-        //     return Template.replacePlaceholder(t, 'EDGTOKEN_UPDATE', false, code);
-        // })
         .then(t => {
             return generateUpdateCode(t, level);
         })

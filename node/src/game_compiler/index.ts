@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as gamesDAO from './../model/dao/games';
 import * as l from '../util/logger';
 import * as pc from '../util/parseconfig';
-import { GenerateGame } from './helpers/game/generator';
+import { GenerateGame } from './generators/game';
 import { TemplateManager } from './templatemanager';
 
 const config = pc.parseConfig('config.json')

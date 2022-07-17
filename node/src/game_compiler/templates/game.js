@@ -35,12 +35,12 @@ edgeGame.scene.add('scene', startingScene, true, null);
  * 
  * EdgeProxy is defined in singleplayer.lib.js
  */
-window.EdgeProxy.unloadGame = function(){
-    console.log("EdgeProxy manual destroy invoked");
-    edgeGame.destroy();
-}
+// window.EdgeProxy.unloadGame = function(){
+//     console.log("EdgeProxy manual destroy invoked");
+//     edgeGame.destroy();
+// }
 
-window.addEventListener('resize', () => {
-    // const parent
-    // edgeGame.scale.setZoom
-});
+// window.addEventListener('resize', () => {
+//     // const parent
+//     // edgeGame.scale.setZoom
+// });

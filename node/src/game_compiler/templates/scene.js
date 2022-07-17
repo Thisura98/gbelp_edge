@@ -1,4 +1,4 @@
-require('../../phaser/phaser');
+require('../phaser/phaser');
 
 class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
 
@@ -21,7 +21,7 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
         /**
          * EdgeProxy is defined in singleplayer.lib.js
          */
-        window.EdgeProxy.currentScene = this;
+        // window.EdgeProxy.currentScene = this;
 
         EDGTOKEN_GAMESCRIPT_LEVEL_SETUP
     }
