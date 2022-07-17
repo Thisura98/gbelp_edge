@@ -87,25 +87,35 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         
 
 		this.load.image('sprite_png', 'fs/res_upload/image/1657959470527.png');
+		this.load.image('sprite_png_2', 'fs/res_upload/image/1657959470527.png');
     }
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(428.556786011657, 283.44321398834296, 'Camera');
+		const sprite_1 = this.add.sprite(404.99999999999994, 240.5, 'Camera');
 		sprite_1.name = "Camera";
-		scaleX = 187.11357202331396 / sprite_1.displayWidth;
-		scaleY = 142.88642797668612 / sprite_1.displayHeight;
+		scaleX = 591.9999999999999 / sprite_1.displayWidth;
+		scaleY = 431 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences.push(sprite_1);
 
 
 		// --- scene object sprite_png ---
-		const sprite_2 = this.add.sprite(427, 303, 'sprite_png');
+		const sprite_2 = this.add.sprite(519.1456818914904, 253.911463307076, 'sprite_png');
 		sprite_2.name = "sprite_png";
 		scaleX = 100 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
 		this.spriteReferences.push(sprite_2);
+
+
+		// --- scene object sprite_png_2 ---
+		const sprite_3 = this.add.sprite(596, 134, 'sprite_png_2');
+		sprite_3.name = "sprite_png_2";
+		scaleX = 100 / sprite_3.displayWidth;
+		scaleY = 100 / sprite_3.displayHeight;
+		sprite_3.setScale(scaleX, scaleY);
+		this.spriteReferences.push(sprite_3);
 
 
         
@@ -144,15 +154,6 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
     }
     create(){
         let scaleX = 0, scaleY = 0;
-		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(683, 384, 'Camera');
-		sprite_1.name = "Camera";
-		scaleX = 1366 / sprite_1.displayWidth;
-		scaleY = 768 / sprite_1.displayHeight;
-		sprite_1.setScale(scaleX, scaleY);
-		this.spriteReferences.push(sprite_1);
-
-
         
         /**
          * EdgeProxy is defined in singleplayer.lib.js

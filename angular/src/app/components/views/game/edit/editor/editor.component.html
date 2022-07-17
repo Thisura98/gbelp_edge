@@ -69,14 +69,21 @@
                         </mat-progress-spinner>
                     </div>
                     <div class="buttons-separator"></div>
-                    <div class="dyn-btn clickable btn-add-level">Add Level</div>
                     <div class="dyn-btn clickable btn-play-game" (click)="playGamePressed()">
                         <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
                         <div class="btn-content">
-                            <div class="btn-content-main">Play Game</div>
-                            <div class="btn-content-sub">Win + N</div>
+                            <div class="btn-content-main">Play</div>
+                            <!-- <div class="btn-content-sub">Win + N</div> -->
                         </div>
                     </div>
+                    <div class="dyn-btn clickable btn-compile-play">
+                        <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
+                        <div class="btn-content">
+                            <div class="btn-content-main">Compile & Play</div>
+                            <!-- <div class="btn-content-sub">Win + N</div> -->
+                        </div>
+                    </div>
+                    <div class="buttons-separator"></div>
                     <div class="dyn-btn clickable" (click)="openHelpPressed()">Help</div>
                 </div>
             </ng-container>
