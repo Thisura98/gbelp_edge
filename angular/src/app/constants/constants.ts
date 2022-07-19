@@ -13,7 +13,8 @@ export enum NextSignInAction{
 
 export enum QueryKey{
     nextAction = 'next',
-    nextActionKey = 'key'
+    nextActionKey = 'key',
+    testSession = 'testsession'
 }
 
 /**

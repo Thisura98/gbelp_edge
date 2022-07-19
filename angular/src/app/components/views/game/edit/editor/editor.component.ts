@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
+import { getGameSidebarItems, QueryKey, ViewMode } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
 import { GameTestSession, ServerResponseGameListing } from 'src/app/models/game/game';
@@ -230,26 +230,27 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     this.processingCompilingAndPlaying = true;
 
     this.saveGame(false, () => {
-      this.apiService.editor.compileGame(gameId).subscribe((r) => {
-        if (r.success){
-          this.apiService.editor.getGameTestSession(gameId, false).subscribe((r) => {
-            this.processingCompiling = false;
-            
-            if (!r.success){
-              this.dialogService.showDismissable('Cannot Play Game', r.description);
+      this.apiService.editor.compileGame(gameId).subscribe((compileResponse) => {
+        if (compileResponse.success){
+          this.apiService.editor.getGameTestSession(gameId, false).subscribe((testSession) => {
+            this.processingCompilingAndPlaying = false;
+
+            if (!testSession.success){
+              this.dialogService.showDismissable('Cannot Play Game', testSession.description);
               return;
             }
     
-            this.navigateToPlaySession(r.data);
+            this.navigateToPlaySession(testSession.data);
           });
         }
         else{
-          this.processingCompiling = false;
-          this.dialogService.showDismissable('Game Compilation failed', r.description);
           // todo show error list modal
+
+          this.processingCompilingAndPlaying = false;
+          this.dialogService.showDismissable('Game Compilation failed', compileResponse.description);
         }
       }, (error) => {
-        this.processingCompiling = false;
+        this.processingCompilingAndPlaying = false;
         console.timeLog("Game Compilation Error:", error);
         this.dialogService.showDismissable('Game Compilation failed', "Unknown error occurred");
       })
@@ -333,10 +334,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   private navigateToPlaySession(data: GameTestSession){
     if (this.gameListing!.entry.type == GameType.Singleplayer){
-      this.router.navigate([`splay/${data.sessionId}`]);
+      window.open(`splay/${data.sessionId}?${QueryKey.testSession}=true`, '_blank');
     }
     else{
-      this.router.navigate([`mplay/${data.sessionId}`]);
+      window.open(`mplay/${data.sessionId}?${QueryKey.testSession}=true`, '_blank');
     }
   }
 

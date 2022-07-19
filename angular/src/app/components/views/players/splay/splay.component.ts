@@ -12,6 +12,7 @@ import { ChatGroupType, ChatMessage } from '../../../../../../../commons/src/mod
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { PlayerChatPanelComponent } from '../panels/chat/chat.panel.component';
 import { GameListing } from '../../../../../../../commons/src/models/game/game';
+import { QueryKey } from 'src/app/constants/constants';
 
 type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
 
@@ -31,6 +32,8 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   panelExpanded: boolean = false;
   panelTitle: string = '';
   game: GameListing | undefined;
+
+  isTestSession: boolean = false;
 
   chats: ChatMessage[] = [];
 
@@ -79,6 +82,10 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   goBack(){
     this.manualDestroyGameSession();
+
+    if (this.isTestSession)
+      window.close();
+
     if (this.router.navigated)
       this.location.back()
     else
@@ -111,6 +118,11 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   /* **** Private Methods **** */
 
   private loadData(){
+    this.activatedRoute.queryParamMap.subscribe(data => {
+      if (data.has(QueryKey.testSession))
+        this.isTestSession = data.get(QueryKey.testSession) == 'true';
+    });
+
     this.activatedRoute.params.subscribe(data => {
       this.sessionId = data.sessionid as string;
       console.log("Loaded Single Play Session Component with session id:", this.sessionId);
