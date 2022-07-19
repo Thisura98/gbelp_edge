@@ -12,19 +12,18 @@
             <div class="select-lvl-container dyn-anim-fadein-delayed">
                 <select class="dyn-select" placeholder="Select a game type" (change)="didSelectLevel($event)">
                     <option value="-1">Select a level...</option>
-                    <option 
-                        *ngFor="let level of gameLevels" value="{{level._id}}"
+                    <option *ngFor="let level of gameLevels" value="{{level._id}}"
                         [selected]="level._id == selectedLevel?._id">
                         {{level.name}}
                     </option>
                 </select>
             </div>
+            <!-- End Level Editor -->
             <!-- Scene, Animation, Logic tabs -->
             <ng-container *ngIf="selectedLevel != undefined">
                 <div class="buttons-separator nav-separator dyn-anim-fadein-delayed"></div>
                 <div class="editor-tabs dyn-anim-fadein-delayed">
-                    <div class="editor-tab" 
-                        [class.selected]="getSelectedTabIndex() == 0"
+                    <div class="editor-tab" [class.selected]="getSelectedTabIndex() == 0"
                         (click)="didSelectedEditorTab(0)">
                         <a [routerLink]="['/game/edit/editor/scene']" [queryParams]="editorQueryParams">
                             Scene
@@ -33,8 +32,7 @@
                     <div class="editor-tab-separator">
                         <img src="assets/game/graydot.png">
                     </div>
-                    <div class="editor-tab" 
-                        [class.selected]="getSelectedTabIndex() == 1"
+                    <div class="editor-tab" [class.selected]="getSelectedTabIndex() == 1"
                         (click)="didSelectedEditorTab(1)">
                         <a [routerLink]="['/game/edit/editor/animation']" [queryParams]="editorQueryParams">
                             Properties
@@ -43,8 +41,7 @@
                     <div class="editor-tab-separator">
                         <img src="assets/game/graydot.png">
                     </div>
-                    <div class="editor-tab" 
-                        [class.selected]="getSelectedTabIndex() == 2"
+                    <div class="editor-tab" [class.selected]="getSelectedTabIndex() == 2"
                         (click)="didSelectedEditorTab(2)">
                         <a [routerLink]="['/game/edit/editor/logic']" [queryParams]="editorQueryParams">
                             Logic
@@ -52,66 +49,66 @@
                     </div>
                 </div>
             </ng-container>
+            <div class="buttons-separator nav-separator dyn-anim-fadein-delayed"></div>
+            <!-- Buttons -->
+            <ng-container *ngIf="didLoadData">
+                <ng-container *ngIf="selectedLevel != undefined">
+                    <div class="buttons dyn-anim-fadein-delayed">
+                        <div class="dyn-btn clickable btn-save" [class.dyn-btn-disabled]="isProcessing"
+                            (click)="saveGame(true)">
+                            {{processingSaving ? "" : "Save Game"}}
+                            <mat-progress-spinner class="saving-progress" *ngIf="processingSaving" [diameter]="20"
+                                mode="indeterminate">
+                            </mat-progress-spinner>
+                        </div>
+                        <div class="buttons-separator"></div>
+                        <div class="dyn-btn clickable btn-play-game" [class.dyn-btn-disabled]="isProcessing"
+                            (click)="playGamePressed()">
+                            <img class="btn-play-image" src="/assets/game/whitecontroller.png" />
+                            <div class="btn-content">
+                                <div class="btn-content-main">{{processingPlay ? "" : "Play"}}</div>
+                                <mat-progress-spinner class="saving-progress" *ngIf="processingPlay" [diameter]="20"
+                                    mode="indeterminate">
+                                </mat-progress-spinner>
+                                <!-- <div class="btn-content-sub">Win + N</div> -->
+                            </div>
+                        </div>
+                        <div class="dyn-btn clickable btn-compile-game" [class.dyn-btn-disabled]="isProcessing"
+                            (click)="compileGamePressed()">
+                            <img class="btn-play-image" src="/assets/game/whitecontroller.png" />
+                            <div class="btn-content">
+                                <div class="btn-content-main">{{processingCompiling ? "" : "Compile"}}</div>
+                                <mat-progress-spinner class="saving-progress" *ngIf="processingCompiling"
+                                    [diameter]="20" mode="indeterminate">
+                                </mat-progress-spinner>
+                                <!-- <div class="btn-content-sub">Win + N</div> -->
+                            </div>
+                        </div>
+                        <div class="dyn-btn clickable btn-compile-play" [class.dyn-btn-disabled]="isProcessing"
+                            (click)="compileAndPlayGamePressed()">
+                            <img class="btn-play-image" src="/assets/game/whitecontroller.png" />
+                            <div class="btn-content">
+                                <div class="btn-content-main">{{processingCompilingAndPlaying ? "" : "Compile & Play"}}
+                                </div>
+                                <mat-progress-spinner class="saving-progress" *ngIf="processingCompilingAndPlaying"
+                                    [diameter]="20" mode="indeterminate">
+                                </mat-progress-spinner>
+                                <!-- <div class="btn-content-sub">Win + N</div> -->
+                            </div>
+                        </div>
+                        <div class="buttons-separator"></div>
+                        <div class="dyn-btn clickable" (click)="openHelpPressed()">Help</div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <!-- End Buttons -->
+            <!-- User status -->
             <div class="nav-stretch editor-nav-right">
                 <app-userstatus></app-userstatus>
             </div>
         </div>
+
         <ng-container *ngIf="didLoadData">
-            <ng-container *ngIf="selectedLevel != undefined">
-                <div class="buttons dyn-anim-fadein-delayed">
-                    <div 
-                        class="dyn-btn clickable btn-save"
-                        [class.dyn-btn-disabled]="isProcessing"
-                        (click)="saveGame(true)">
-                        {{processingSaving ? "" : "Save Game"}}
-                        <mat-progress-spinner class="saving-progress"
-                            *ngIf="processingSaving" [diameter]="20" mode="indeterminate">
-                        </mat-progress-spinner>
-                    </div>
-                    <div class="buttons-separator"></div>
-                    <div 
-                        class="dyn-btn clickable btn-play-game"
-                        [class.dyn-btn-disabled]="isProcessing"
-                        (click)="playGamePressed()">
-                        <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
-                        <div class="btn-content">
-                            <div class="btn-content-main">{{processingPlay ? "" : "Play"}}</div>
-                            <mat-progress-spinner class="saving-progress"
-                                *ngIf="processingPlay" [diameter]="20" mode="indeterminate">
-                            </mat-progress-spinner>
-                            <!-- <div class="btn-content-sub">Win + N</div> -->
-                        </div>
-                    </div>
-                    <div 
-                        class="dyn-btn clickable btn-compile-game" 
-                        [class.dyn-btn-disabled]="isProcessing"
-                        (click)="compileGamePressed()">
-                        <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
-                        <div class="btn-content">
-                            <div class="btn-content-main">{{processingCompiling ? "" : "Compile"}}</div>
-                            <mat-progress-spinner class="saving-progress"
-                                *ngIf="processingCompiling" [diameter]="20" mode="indeterminate">
-                            </mat-progress-spinner>
-                            <!-- <div class="btn-content-sub">Win + N</div> -->
-                        </div>
-                    </div>
-                    <div 
-                        class="dyn-btn clickable btn-compile-play" 
-                        [class.dyn-btn-disabled]="isProcessing"
-                        (click)="compileAndPlayGamePressed()">
-                        <img class="btn-play-image" src="/assets/game/whitecontroller.png"/>
-                        <div class="btn-content">
-                            <div class="btn-content-main">{{processingCompilingAndPlaying ? "" : "Compile & Play"}}</div>
-                            <mat-progress-spinner class="saving-progress"
-                                *ngIf="processingCompilingAndPlaying" [diameter]="20" mode="indeterminate">
-                            </mat-progress-spinner>
-                            <!-- <div class="btn-content-sub">Win + N</div> -->
-                        </div>
-                    </div>
-                    <div class="buttons-separator"></div>
-                    <div class="dyn-btn clickable" (click)="openHelpPressed()">Help</div>
-                </div>
-            </ng-container>
             <router-outlet></router-outlet>
         </ng-container>
     </div>

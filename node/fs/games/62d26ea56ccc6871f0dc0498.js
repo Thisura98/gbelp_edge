@@ -166,7 +166,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         // this.star.angle += 1;
         this.star.frame.x = 800 + Math.sin(this.t) * 1000;
 
-        this.cameras.main.setPosition(Math.cos(this.t) * 100, 0);
+        this.cameras.main.setPosition(Math.cos(this.t) * 100, Math.sin(this.t) * 100);
 
         this.t += 0.1;
 
