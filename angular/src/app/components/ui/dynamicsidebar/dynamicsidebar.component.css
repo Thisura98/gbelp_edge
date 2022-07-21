@@ -75,11 +75,10 @@
     width: 100%;
     background-color: #0588D8;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     flex-direction: column;
     padding: 20px 0;
     border-radius: 8px;
-    gap: 25px;
 }
 
 .dyn-sidebar-subitem{
@@ -88,6 +87,12 @@
     flex-direction: column;
     display: flex;
     align-items: center;
+    padding: 11.5px 0;
+}
+
+.dyn-sidebar-subitem:hover, .dyn-sidebar-subitem.selected{
+    background-color: #F7F7F722;
+    color: #FFFFFF;
 }
 
 .dyn-sidebar-subitem-img{

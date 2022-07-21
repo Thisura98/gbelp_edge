@@ -27,7 +27,7 @@ export class GameEditLevelsComponent implements OnInit {
    * Left sidebar
    */
   get sidebarItems(): DynamicSidebarItem[]{
-    return getGameSidebarItems('Levels', this.viewMode);
+    return getGameSidebarItems('Levels', this.viewMode, undefined);
   }
 
   saveBtnText: string = 'Save';

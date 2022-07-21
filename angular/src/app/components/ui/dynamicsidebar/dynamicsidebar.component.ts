@@ -23,6 +23,10 @@ export interface DynamicSidebarItem{
    * Sub Items
    */
   subItems: DynamicSidebarItem[] | undefined
+  /**
+   * Custom handler
+   */
+  handler: ((item: DynamicSidebarItem, index: number) => void) | undefined
 }
 
 @Component({
@@ -120,11 +124,14 @@ export class DynamicsidebarComponent implements OnInit {
     })
   }
 
-  onItemClicked(item: DynamicSidebarItem){
-    console.log(JSON.stringify(item));
-
+  onItemClicked(item: DynamicSidebarItem, index: number){
     if (item.sel)
       return;
+
+    if (item.handler != undefined){
+      item.handler(item, index)
+      return;
+    }
 
     if (this.onClick.observers.length == 0 && this.followPath && item.path != undefined){
       if (this.inheritParams){

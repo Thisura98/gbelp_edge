@@ -21,7 +21,12 @@ export enum QueryKey{
  * @param selected Item currently selected. Leave blank if none is selected.
  * @returns 
  */
-export function getGameSidebarItems(selected: string | undefined = undefined, viewMode: string): DynamicSidebarItem[]{
+export function getGameSidebarItems(
+    selected: string | undefined = undefined, 
+    viewMode: string, 
+    selectedSub: number | undefined,
+    subHandler: ((item: DynamicSidebarItem, index: number) => void) | undefined = undefined
+): DynamicSidebarItem[]{
     const prefix = "assets/game/";
     const eprefix = "assets/editor/";
     const modePath = viewMode == ViewMode.GAME ? '/game' : '/template'
@@ -32,7 +37,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"mhome.png",
             s: prefix+"mhome_sel.png",
             path: `${modePath}/edit`,
-            subItems: []
+            subItems: [], handler: undefined
         },
         {
             name: "Resources", 
@@ -40,7 +45,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"mresources.png", 
             s: prefix+"mresources_sel.png", 
             path: `${modePath}/edit/resources`,
-            subItems: []
+            subItems: [], handler: undefined
         },
         {
             name: "Levels",    
@@ -48,7 +53,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"mlevels.png",    
             s: prefix+"mlevels_sel.png",    
             path: `${modePath}/edit/levels`,
-            subItems: []
+            subItems: [], handler: undefined
         },
         {   
             name: "Editor",    
@@ -56,6 +61,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"meditor.png",    
             s: prefix+"meditor_sel.png",    
             path: `${modePath}/edit/editor`,
+            handler: undefined,
             subItems: [
                 {
                     name: "Scene",    
@@ -63,7 +69,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
                     n: eprefix+"ico_scene.svg",    
                     s: eprefix+"ico_scene_sel.svg",    
                     path: `${modePath}/edit/editor/scene`,
-                    subItems: []
+                    subItems: [], handler: subHandler
                 },
                 {
                     name: "Properties",    
@@ -71,7 +77,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
                     n: eprefix+"ico_props.svg",    
                     s: eprefix+"ico_props_sel.svg",    
                     path: `${modePath}/edit/editor/animation`,
-                    subItems: []
+                    subItems: [], handler: subHandler
                 },
                 {
                     name: "Scripts",    
@@ -79,7 +85,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
                     n: eprefix+"ico_scripts.svg",    
                     s: eprefix+"ico_scripts_sel.svg",    
                     path: `${modePath}/edit/editor/logic`,
-                    subItems: []
+                    subItems: [], handler: subHandler
                 },
             ]
         },
@@ -88,6 +94,9 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
     items.forEach((v,_,__) => {
         if (v.name == selected)
             v.sel = true
+        v.subItems?.forEach((sb, i) => {
+            sb.sel = i == selectedSub;
+        });
     })
 
     return items;
@@ -107,7 +116,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"moverview.png",
             s: prefix+"moverview_sel.png",
             path: '/groups/overview',
-            subItems: []
+            subItems: [], handler: undefined
         },
         {
             name: "Users", 
@@ -115,7 +124,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"musers.png", 
             s: prefix+"musers_sel.png", 
             path: '/groups/users',
-            subItems: []
+            subItems: [], handler: undefined
         },
         {
             name: "Chats",    
@@ -123,7 +132,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"mcomms.png",    
             s: prefix+"mcomms_sel.png",    
             path: '/groups/chats',
-            subItems: []
+            subItems: [], handler: undefined
         },
         {   
             name: "Sessions",    
@@ -131,7 +140,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"msession.png",    
             s: prefix+"msession_sel.png",    
             path: '/groups/sessions',
-            subItems: []
+            subItems: [], handler: undefined
         },
         {   
             name: "Reports",    
@@ -139,7 +148,7 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
             n: prefix+"mreport.png",    
             s: prefix+"mreport_sel.png",    
             path: '/groups/reports',
-            subItems: []
+            subItems: [], handler: undefined
         },
     ]
 

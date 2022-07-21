@@ -43,7 +43,7 @@ export class GameEditResourcesComponent implements OnInit {
   private gameListing: GameListing | undefined;
   
   get sidebarItems(): DynamicSidebarItem[]{
-    return getGameSidebarItems('Resources', this.viewMode);
+    return getGameSidebarItems('Resources', this.viewMode, undefined, undefined);
   }
 
   constructor(

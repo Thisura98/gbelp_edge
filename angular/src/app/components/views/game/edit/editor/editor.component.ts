@@ -31,7 +31,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
    * Left sidebar
    */
   get sidebarItems(): DynamicSidebarItem[]{
-    return getGameSidebarItems('Editor', this.viewMode);
+    return getGameSidebarItems('Editor', this.viewMode, this.getSelectedTabIndex(), (item, index) => {
+      this.didSelectedEditorTab(item, index);
+    });
   }
 
   get editorQueryParams(): Params{
@@ -148,6 +150,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   getSelectedTabIndex(): number | undefined{
+    if (this.activatedRoute.children == null || this.activatedRoute.children.length == 0)
+      return undefined;
+
     const component = this.activatedRoute.children[0].component
     if (component == SceneEditorComponent)
       return 0;
@@ -160,11 +165,17 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   /**
-   * @param index Scene, Animation, Index (0, 1, 2)
+   * @param {DynamicSidebarItem} item
+   * @param {number} index Index in the subitems array
    */
-  didSelectedEditorTab(index: number){
-    if(index == this.getSelectedTabIndex())
+  didSelectedEditorTab(item: DynamicSidebarItem, index: number){
+    if(this.getSelectedTabIndex() == index)
       return;
+
+    if (this.selectedLevelIndex == undefined){
+      this.dialogService.showSnackbar('Select a level first');
+      return;
+    }
 
     const queryParams = {
       gameId: this.editingGameId,

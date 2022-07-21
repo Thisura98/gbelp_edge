@@ -19,17 +19,30 @@
     flex-grow: 1;
 }
 
+.buttons-container{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-right: 20px;
+}
+
 .buttons-separator.nav-separator{
     margin-left: 10px;
     height: 50%;
 }
 
-.buttons{
+.buttons-left{
+    margin-left: 10px;
+}
+
+.buttons-left, .buttons-right{
+    display: flex;
+    gap: 10px;
     align-items: center;
 }
 
 .buttons-separator{
-    height: 70%;
+    height: 25px;
     width: 1px;
     background-color: #DBDBDB;
 }
