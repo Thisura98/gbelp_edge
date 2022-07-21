@@ -19,6 +19,10 @@ export interface DynamicSidebarItem{
    * Path to linked component
    */
   path: string | undefined
+  /**
+   * Sub Items
+   */
+  subItems: DynamicSidebarItem[] | undefined
 }
 
 @Component({
