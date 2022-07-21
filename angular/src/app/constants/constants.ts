@@ -24,34 +24,63 @@ export enum QueryKey{
 export function getGameSidebarItems(selected: string | undefined = undefined, viewMode: string): DynamicSidebarItem[]{
     const prefix = "assets/game/";
     const modePath = viewMode == ViewMode.GAME ? '/game' : '/template'
-    let items = [
+    let items: DynamicSidebarItem[] = [
         {
             name: "Overview",
             sel: false, 
             n: prefix+"mhome.png",
             s: prefix+"mhome_sel.png",
-            path: `${modePath}/edit`
+            path: `${modePath}/edit`,
+            subItems: []
         },
         {
             name: "Resources", 
             sel: false, 
             n: prefix+"mresources.png", 
             s: prefix+"mresources_sel.png", 
-            path: `${modePath}/edit/resources`
+            path: `${modePath}/edit/resources`,
+            subItems: []
         },
         {
             name: "Levels",    
             sel: false, 
             n: prefix+"mlevels.png",    
             s: prefix+"mlevels_sel.png",    
-            path: `${modePath}/edit/levels`
+            path: `${modePath}/edit/levels`,
+            subItems: []
         },
         {   
             name: "Editor",    
             sel: false, 
             n: prefix+"meditor.png",    
             s: prefix+"meditor_sel.png",    
-            path: `${modePath}/edit/editor`
+            path: `${modePath}/edit/editor`,
+            subItems: [
+                {
+                    name: "Scene",    
+                    sel: false, 
+                    n: prefix+"mlevels.png",    
+                    s: prefix+"mlevels_sel.png",    
+                    path: `${modePath}/edit/editor/scene`,
+                    subItems: []
+                },
+                {
+                    name: "Properties",    
+                    sel: false, 
+                    n: prefix+"mlevels.png",    
+                    s: prefix+"mlevels_sel.png",    
+                    path: `${modePath}/edit/editor/animation`,
+                    subItems: []
+                },
+                {
+                    name: "Scripts",    
+                    sel: false, 
+                    n: prefix+"mlevels.png",    
+                    s: prefix+"mlevels_sel.png",    
+                    path: `${modePath}/edit/editor/logic`,
+                    subItems: []
+                },
+            ]
         },
     ]
 
@@ -70,41 +99,46 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
  */
  export function getGroupSidebarItems(selected: string | undefined = undefined): DynamicSidebarItem[]{
     const prefix = "assets/groups/";
-    let items = [
+    let items: DynamicSidebarItem[] = [
         {
             name: "Overview",
             sel: false, 
             n: prefix+"moverview.png",
             s: prefix+"moverview_sel.png",
-            path: '/groups/overview'
+            path: '/groups/overview',
+            subItems: []
         },
         {
             name: "Users", 
             sel: false, 
             n: prefix+"musers.png", 
             s: prefix+"musers_sel.png", 
-            path: '/groups/users'
+            path: '/groups/users',
+            subItems: []
         },
         {
             name: "Chats",    
             sel: false, 
             n: prefix+"mcomms.png",    
             s: prefix+"mcomms_sel.png",    
-            path: '/groups/chats'
+            path: '/groups/chats',
+            subItems: []
         },
         {   
             name: "Sessions",    
             sel: false, 
             n: prefix+"msession.png",    
             s: prefix+"msession_sel.png",    
-            path: '/groups/sessions'
+            path: '/groups/sessions',
+            subItems: []
         },
         {   
             name: "Reports",    
             sel: false, 
             n: prefix+"mreport.png",    
             s: prefix+"mreport_sel.png",    
-            path: '/groups/reports'
+            path: '/groups/reports',
+            subItems: []
         },
     ]
 
