@@ -27,31 +27,7 @@ export interface DynamicSidebarItem{
 
 @Component({
   selector: 'app-dynamicsidebar',
-  template: `
-  <div class="dyn-sidebar-container" 
-    [style.height]="containerHeightProp" 
-    [style.padding]="containerPadding" 
-    [style.borderRadius]="containerBorderRadius"
-    [style.minWidth]="containerMinWidth"
-  >
-    <div class="dyn-sidebar-expand-btn" *ngIf="isScreenSmall" (click)="toggleExpand()">
-      <img src="assets/common/hamburger.png">
-    </div>
-    <div class="dyn-sidebar-item-container" *ngIf="isItemsExpanded">
-      <div class="dyn-sidebar-back-item clickable" (click)="onBackClicked()">
-        <img src="assets/common/chevronleft.png"> Back
-      </div>
-      <div class="dyn-sidebar-item clickable" 
-        *ngFor="let item of items" 
-        [ngClass]="{dynSidebarItemSelected: item.sel}"
-        (click)="onItemClicked(item)"
-      >
-        <img class="dyn-sidebar-item-img" src="{{item.sel ? item.s : item.n}}">
-        <div>{{item.name}}</div>
-      </div>
-    </div>
-  </div>
-  `,
+  templateUrl: './dynamicsidebar.component.html',
   styleUrls: ['./dynamicsidebar.component.css']
 })
 export class DynamicsidebarComponent implements OnInit {
