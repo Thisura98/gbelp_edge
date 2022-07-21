@@ -23,6 +23,7 @@ export enum QueryKey{
  */
 export function getGameSidebarItems(selected: string | undefined = undefined, viewMode: string): DynamicSidebarItem[]{
     const prefix = "assets/game/";
+    const eprefix = "assets/editor/";
     const modePath = viewMode == ViewMode.GAME ? '/game' : '/template'
     let items: DynamicSidebarItem[] = [
         {
@@ -59,24 +60,24 @@ export function getGameSidebarItems(selected: string | undefined = undefined, vi
                 {
                     name: "Scene",    
                     sel: false, 
-                    n: prefix+"mlevels.png",    
-                    s: prefix+"mlevels_sel.png",    
+                    n: eprefix+"ico_scene.svg",    
+                    s: eprefix+"ico_scene_sel.svg",    
                     path: `${modePath}/edit/editor/scene`,
                     subItems: []
                 },
                 {
                     name: "Properties",    
                     sel: false, 
-                    n: prefix+"mlevels.png",    
-                    s: prefix+"mlevels_sel.png",    
+                    n: eprefix+"ico_props.svg",    
+                    s: eprefix+"ico_props_sel.svg",    
                     path: `${modePath}/edit/editor/animation`,
                     subItems: []
                 },
                 {
                     name: "Scripts",    
                     sel: false, 
-                    n: prefix+"mlevels.png",    
-                    s: prefix+"mlevels_sel.png",    
+                    n: eprefix+"ico_scripts.svg",    
+                    s: eprefix+"ico_scripts_sel.svg",    
                     path: `${modePath}/edit/editor/logic`,
                     subItems: []
                 },

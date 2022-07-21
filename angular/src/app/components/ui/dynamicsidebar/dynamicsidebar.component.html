@@ -12,9 +12,14 @@
             <img class="dyn-sidebar-item-img" src="{{item.sel ? item.s : item.n}}">
             <div>{{item.name}}</div>
             
-            <div class="dyn-sidebar-subitems-container" *ngIf="item.subItems">
-                <div class="dyn-sidebar-subitem clickable" *ngFor="let subItem of item.subItems">
-                    {{subItem.name}}
+            <div class="dyn-sidebar-subitems-container" 
+                *ngIf="item.sel && (item.subItems != null && item.subItems!.length > 0)">
+                <img class="dyn-sidebar-subitems-anchor" src="assets/common/dynsidebar_anchor.svg"/>
+                <div class="dyn-sidebar-subitems-container-internal">
+                    <div class="dyn-sidebar-subitem clickable" *ngFor="let subItem of item.subItems">
+                        <img class="dyn-sidebar-subitem-img" src="{{subItem.sel ? subItem.s : subItem.n}}">
+                        <div>{{item.name}}</div>
+                    </div>
                 </div>
             </div>
 
