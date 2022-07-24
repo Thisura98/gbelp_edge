@@ -5,8 +5,8 @@ import { ApiService } from 'src/app/services/api.service';
 import { EditorChildDataPack, EditorDataService } from 'src/app/services/editor.data.service';
 import { LevelScript } from '../../../../../../../../../commons/src/models/game/levels/logic';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
+import { EDGEMonacoEditorOptions } from './monaco.editor.options';
 
-type EditorOptions = monaco.editor.IStandaloneEditorConstructionOptions;
 type Editor = monaco.editor.IStandaloneCodeEditor;
 
 @Component({
@@ -20,15 +20,7 @@ type Editor = monaco.editor.IStandaloneCodeEditor;
 export class LogicEditorComponent implements OnInit {
   // MARK: Editor Properties
   code: string = '// Welcome to EDGE!';
-  editorOptions: EditorOptions = {
-    theme: 'vs-dark', 
-    language: 'javascript',
-    fixedOverflowWidgets: true,
-    suggest: {
-      showFiles: false // Hide the "Document Icon" on suggestions widget
-    },
-    fontSize: 14
-  };
+  editorOptions = EDGEMonacoEditorOptions;
 
   // MARK: Game Properties
   readonly scriptTypes: string[] = ['Main Script'];
@@ -63,14 +55,12 @@ export class LogicEditorComponent implements OnInit {
     });
   }
 
+  /**
+   * 'init' callback set on ngx-monaco-editor from template.
+   */
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
     this.editorReference.next(editor);
-    editor.onDidChangeModelContent(() => {
-      this.copyCurrentCodeToScriptObject();
-    });
-    // editor.onDidPaste(() => {
-    //   this.copyCurrentCodeToScriptObject();
-    // });
+    editor.onDidChangeModelContent(() => this.copyCurrentCodeToScriptObject());
   }
 
   scriptItemClicked(index: number){
