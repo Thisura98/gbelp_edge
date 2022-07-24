@@ -19,7 +19,7 @@ import { GameEditLevelsComponent } from './components/views/game/edit/levels/lev
 import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
 import { GameEditorComponents } from './components/views/game/edit/editor/editor.component';
 import { SceneEditorComponent } from './components/views/game/edit/editor/scene/scene.component';
-import { AnimationEditorComponent } from './components/views/game/edit/editor/properties/properties.component';
+import { PropertiesEditorComponent } from './components/views/game/edit/editor/properties/properties.component';
 import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
 import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
@@ -72,7 +72,7 @@ const routes: Routes = [
     data: { mode: ViewMode.GAME },
     children: [
       {path: "scene", component: SceneEditorComponent, data: { mode: ViewMode.GAME }},
-      {path: "animation", component: AnimationEditorComponent, data: { mode: ViewMode.GAME }},
+      {path: "animation", component: PropertiesEditorComponent, data: { mode: ViewMode.GAME }},
       {path: "logic", component: LogicEditorComponent, data: { mode: ViewMode.GAME }}
     ]
   },
@@ -87,7 +87,7 @@ const routes: Routes = [
     data: { mode: ViewMode.TEMPLATE },
     children: [
       {path: "scene", component: SceneEditorComponent, data: { mode: ViewMode.TEMPLATE }},
-      {path: "animation", component: AnimationEditorComponent, data: { mode: ViewMode.TEMPLATE }},
+      {path: "animation", component: PropertiesEditorComponent, data: { mode: ViewMode.TEMPLATE }},
       {path: "logic", component: LogicEditorComponent, data: { mode: ViewMode.TEMPLATE }}
     ]
   },

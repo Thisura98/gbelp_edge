@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { SceneEditorComponent } from './scene/scene.component';
-import { AnimationEditorComponent } from './properties/properties.component';
+import { PropertiesEditorComponent } from './properties/properties.component';
 import { LogicEditorComponent } from './logic/logic.component';
 import { GameListing, GameType } from '../../../../../../../../commons/src/models/game/game';
 import { combineLatest } from 'rxjs';
@@ -170,7 +170,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     const component = this.activatedRoute.children[0].component
     if (component == SceneEditorComponent)
       return 0;
-    else if (component == AnimationEditorComponent)
+    else if (component == PropertiesEditorComponent)
       return 1;
     else if (component == LogicEditorComponent)
       return 2;

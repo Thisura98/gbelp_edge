@@ -1,0 +1,17 @@
+[
+    {
+        "section": "General",
+        "properties": [
+            {
+                "id": "grav",
+                "name": "gravity",
+                "type": "number",
+                "min": 0,
+                "max": 10,
+                "default": 2,
+                "hint": "This option sets the world gravity",
+                "enabledOn": "otherid"
+            }
+        ]
+    }
+]

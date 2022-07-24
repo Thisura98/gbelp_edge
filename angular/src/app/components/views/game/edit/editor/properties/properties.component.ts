@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.css']
 })
-export class AnimationEditorComponent implements OnInit {
+export class PropertiesEditorComponent implements OnInit {
 
   constructor() { }
 
