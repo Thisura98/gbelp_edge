@@ -186,8 +186,19 @@ mat-card { margin:2em;  }
     transition: background-color 0.3s;
 }
 
+.dyn-btn.dyn-btn-mini{
+    padding: 4px 6px;
+    background-color: white;
+    color: black;
+    font-weight: normal;
+}
+
 .dyn-btn:hover{ background-color: #23a8fa; }
 .dyn-btn:active{ background-color: #00619e; }
+
+.dyn-btn.dyn-btn-mini:hover, .dyn-btn.dyn-btn-mini:active{
+    color: white;
+}
 
 .dyn-btn-image{
     width: 20px;

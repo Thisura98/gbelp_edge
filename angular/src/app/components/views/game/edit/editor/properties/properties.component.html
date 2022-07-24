@@ -1,11 +1,21 @@
 <div class="container3 dyn-anim-fadein-delayed">
     <div class="section-preview">
-        <h2>Properties</h2>
+        <div class="section-preview-header">
+            <h2>Properties</h2>
+            <div class="buttons-separator"></div>
+            <ng-container *ngIf="isTemplate">
+                <div class="dyn-btn dyn-btn-mini clickable" (click)="toggleCodeHidden()">{{userHidEditor ? 'Show' : 'Hide'}} Code</div>
+                <div class="editor-tab-separator">
+                    <img src="assets/game/graydot.png">
+                </div>
+                <div class="dyn-btn dyn-btn-mini clickable" (click)="togglePreviewHidden()">{{userHidPreview ? 'Show' : 'Hide'}} Preview</div>
+            </ng-container>
+        </div>
         <div class="sub-section-container">
-            <div class="sub-section-editor">
+            <div class="sub-section-editor" *ngIf="isTemplate" [class.animatehide]="userHidEditor">
                 <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" (init)="editorInit($event)"></ngx-monaco-editor>
             </div>
-            <div class="sub-section-preview">
+            <div class="sub-section-preview" [class.animatehide]="userHidPreview">
                 Nothing here yet
             </div>
         </div>
