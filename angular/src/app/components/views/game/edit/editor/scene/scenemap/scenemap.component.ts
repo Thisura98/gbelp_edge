@@ -275,7 +275,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
 
             img.borderColor = "#009EFF";
             img.borderScaleFactor = 2;
-            img.data = obj._id;
+            img.data = obj._id;                 // IMPORTANT! Object ID.
 
             this.canvas?.add(img);
             this.hookFabricImageEvents(img, obj);
@@ -325,7 +325,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             left: frame.x,
             top: frame.y,
             lockRotation: true,
-            data: obj._id!
+            data: obj._id!                 // IMPORTANT! Object ID.
         });
 
         this.canvas?.add(group);
