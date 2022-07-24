@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { getGameSidebarItems, QueryKey, ViewMode } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
@@ -13,6 +13,7 @@ import { AnimationEditorComponent } from './properties/properties.component';
 import { LogicEditorComponent } from './logic/logic.component';
 import { GameListing, GameType } from '../../../../../../../../commons/src/models/game/game';
 import { combineLatest } from 'rxjs';
+import { MetaKeyService } from 'src/app/services/metakey.service';
 
 @Component({
   selector: 'app-editor',
@@ -70,6 +71,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     private apiService: ApiService,
     private dialogService: DialogService,
     private editorDataService: EditorDataService,
+    private metaKeyService: MetaKeyService,
     private router: Router,
   ) { }
 
@@ -114,6 +116,18 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       },
       replaceUrl: true
     });
+  }
+
+  /**
+   * Save the game when user presses Ctlr / Command + S
+   */
+  @HostListener('document:keydown', ['$event'])
+  saveShortcutPressed(e: Event){
+    const kbEvent = e as KeyboardEvent;
+    if (this.metaKeyService.isMetaKey(kbEvent) && kbEvent.key == 's'){
+      e.preventDefault();
+      this.saveGame(true, undefined);
+    }
   }
 
   /**

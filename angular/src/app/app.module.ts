@@ -81,6 +81,7 @@ import { GroupReportsAvailableComponent } from './components/views/groups/report
 import { ReportAvailableCard } from './components/ui/groups/reports/available-report-card/available.report.card';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
+import { MetaKeyService } from './services/metakey.service';
 
 
 @NgModule({
@@ -161,7 +162,7 @@ import { TextWrapPipe } from './pipes/text-wrap-pipe';
     MonacoEditorModule
   ],
   providers: [
-    ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService,
+    ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService,
     ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, TextWrapPipe,
     httpInterceptorProviders
   ],
