@@ -9,7 +9,6 @@
     flex-grow: 1;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: -8px;
     gap: 10px;
 }
 
@@ -24,9 +23,9 @@
     overflow-y: auto;
 }
 
-.section-pane h2:not(:first-child){
+/* .section-pane h2:not(:first-child){
     margin-top: 10px;
-}
+} */
 
 .asset-container{
     display: flex;
@@ -96,4 +95,11 @@
     flex-direction: row;
     gap: 4px;
     flex-wrap: wrap;
+}
+
+/* H2 */
+
+.section-hierarchy h2, .section-scene-map h2, .section-pane h2{
+    line-height: 20px;
+    margin: 0 0 10px 0;
 }
