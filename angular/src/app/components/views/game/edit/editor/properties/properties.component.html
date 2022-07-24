@@ -1,1 +1,13 @@
-<p>Properties component loaded works!</p>
+<div class="container3 dyn-anim-fadein-delayed">
+    <div class="section-preview">
+        <h2>Properties</h2>
+        <div class="sub-section-container">
+            <div class="sub-section-editor">
+                <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" (init)="editorInit($event)"></ngx-monaco-editor>
+            </div>
+            <div class="sub-section-preview">
+                Nothing here yet
+            </div>
+        </div>
+    </div>
+</div>
