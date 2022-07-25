@@ -20,7 +20,7 @@ export class PropertiesEditorComponent implements OnInit {
   gameListing: GameListing | undefined;
 
   userHidEditor: boolean = false;
-  userHidPreview: boolean = true;
+  userHidPreview: boolean = false;
 
   get isTemplate(): boolean{
     return this.gameListing?.entry.is_template ?? false;
