@@ -1,34 +1,34 @@
-export interface NumberProperties{
+export interface NumberProperties {
     min: number;
     max: number;
     defaultNumber: number;
 }
 
-export interface TextProperties{
+export interface TextProperties {
     charLimit: number;
     defaultString: string;
 }
 
-export interface SelectProperties{
-    options: { [key: string] : object };
+export interface SelectProperties {
+    options: { [key: string]: object };
 }
 
-export interface TemplateProperties{
+export interface TemplateProperties {
     template: LevelProperty;
     templateIndexer: string;
     templateRepeatOn: string;
 }
 
-export interface ResourceProperties{
+export interface ResourceProperties {
     resourceType: 'sprite' | 'sound';
     resourceId: string | null;
 }
 
-export interface LevelPropertyProperties{
+export interface LevelPropertyProperties {
     levelId: string | null;
 }
 
-export interface LevelProperty{
+export interface LevelProperty {
     id?: string;
     name: string;
     hint?: string;
@@ -42,16 +42,26 @@ export interface LevelProperty{
     level?: LevelPropertyProperties;
 }
 
-export class LevelPropertySection{
+export class LevelPropertySection {
     constructor(
         public section: string,
         public properties: LevelProperty[]
-    ){}
+    ) { }
 }
 
-export class LevelProperties{
+export class LevelProperties {
     constructor(
         public propertyFormHTML: string,
-        public propertyValues: { [id: string] : any }
-    ){}
+        public propertyValues: { [id: string]: any }
+    ) { }
 }
+export const LevelPropertiesJSONSchema = {
+    "type": "object",
+    "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "hint": { "type": "string" },
+        "type": { "enum": ['number', 'text', 'select', 'template', 'break', 'resource', 'level'] },
+    },
+    "required": ["name", "type"]
+};

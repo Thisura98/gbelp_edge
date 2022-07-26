@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
+import { getMonacoLevelPropertiesTextModel } from './monaco.editor.model';
 import { EDGEMonacoEditorOptions } from './monaco.editor.options';
 
 type Editor = monaco.editor.IStandaloneCodeEditor;
@@ -43,7 +44,18 @@ export class PropertiesEditorComponent implements OnInit {
    * 'init' callback set on ngx-monaco-editor from template.
    */
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
-    this.editorReference.next(editor);;
+    this.editorReference.next(editor);
+    const modelUri = monaco.Uri.parse('edge://b/foo.json');
+    const model = monaco.editor.createModel('{}', 'json', modelUri);
+    const schema = getMonacoLevelPropertiesTextModel(modelUri);
+    editor.setModel(model);
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: true,
+      schemas: [
+        schema
+      ]
+    });
+    
   }
 
   toggleCodeHidden(){
