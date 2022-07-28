@@ -39,7 +39,7 @@
                     <a class="clickable-link" (click)="leaveGroupPressed($event)">Leave Group</a>
                 </div>
                 <div class="stats dyn-anim-fadein-delayed">
-                    <div class="total-count">{{totalUserCount}} Users</div>
+                    <div class="total-count">{{totalUserCount}} User{{totalUserCount > 1 ? 's' : ''}}</div>
                     <br>
                     <div class="single-stat" *ngFor="let c of composition">
                         {{c.count}} {{c.type_name | titlecase }}{{c.count > 1 ? 's' : ''}}
