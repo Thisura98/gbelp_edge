@@ -18,6 +18,9 @@
             <div class="sub-section-preview" [class.animatehide]="userHidPreview">
                 <div class="property-section" *ngFor="let section of sections">
                     {{section.section}}
+                    <div class="property-value" *ngFor="let item of section.properties">
+                        {{item.name}}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+import { BehaviorSubject, interval } from 'rxjs';
+import { debounce, delay, throttleTime } from 'rxjs/operators';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
 import { LevelPropertySection } from '../../../../../../../../../commons/src/models/game/levels/properties';
@@ -72,8 +72,13 @@ export class PropertiesEditorComponent implements OnInit {
   }
 
   private handleEditorCodeChanged(){
-    this.codeChanged.pipe(throttleTime(2000)).subscribe(code => {
-      this.sections.push(new LevelPropertySection("Test", []));
+    this.codeChanged.pipe(debounce(() => interval(800))).pipe(delay(200)).subscribe(code => {
+      let modelMarkers = monaco.editor.getModelMarkers({owner: 'json'});
+
+      if (modelMarkers.length == 0)
+        this.sections = JSON.parse(code) as LevelPropertySection[];
+      else
+        this.sections = [ new LevelPropertySection("INVALID", []) ];
     })
   }
 
