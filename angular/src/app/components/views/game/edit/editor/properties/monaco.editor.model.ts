@@ -1,4 +1,4 @@
-import { LevelPropsSectionsJSONSchema, LevelPropsItemsJSONSchema, LevelPropsSectionsJSONSchemaURI } from "../../../../../../../../../commons/src/models/game/levels/properties";
+import { LevelPropsSectionsJSONSchema, LevelPropsItemsJSONSchema, LevelPropsSectionsJSONSchemaURI } from "../../../../../../../../../commons/src/models/game/levels/properties/schemas";
 
 export interface IMonacoLevelProperties{
   uri: string;

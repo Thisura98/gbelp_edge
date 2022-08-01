@@ -79,7 +79,7 @@ export class PropertiesEditorComponent implements OnInit {
     // delay 200 - Wait 200ms after we get an event to check markers
     // Monaco Markers are warnings/errors in the Editor
     // If there are errors, don't display sections.
-    // Else show sections.
+    // Else show errors.
     this.codeChanged.pipe(debounce(() => interval(800))).pipe(delay(200)).subscribe(code => {
       let modelMarkers = monaco.editor.getModelMarkers({owner: 'json'});
 

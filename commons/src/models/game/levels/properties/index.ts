@@ -1,16 +1,22 @@
+// Note: Keep Schemas in the 'schemas' file up-to-date
+// with interface definitions.
+
 export interface NumberProperties {
     min: number;
     max: number;
     defaultNumber: number;
+    value?: number;
 }
 
 export interface TextProperties {
     charLimit: number;
     defaultString: string;
+    value?: string;
 }
 
 export interface SelectProperties {
     options: { [key: string]: object };
+    value?: object;
 }
 
 export interface TemplateProperties {
@@ -21,11 +27,11 @@ export interface TemplateProperties {
 
 export interface ResourceProperties {
     resourceType: 'sprite' | 'sound';
-    resourceId: string | null;
+    resourceId?: string;
 }
 
 export interface LevelPropertyProperties {
-    levelId: string | null;
+    levelId?: string;
 }
 
 export interface LevelProperty {
@@ -66,41 +72,3 @@ export class LevelProperties {
 //     },
 //     "required": ["name", "type"]
 // };
-
-export const LevelPropsSectionsJSONSchemaURI = 'http://edgeelp.online/schema/levelprops-sections.json';
-
-export const LevelPropsSectionsJSONSchema = {
-    "type": "array",
-    "items": {
-        "type": "object",
-        "properties": {
-            "section": { "type": "string" },
-            "properties": {
-                "type": "array",
-                "items": {}         //   LevelPropsItemsJSONSchema
-            },
-            "required": ["section", "properties"]
-        }
-    }
-};
-
-export const LevelPropsItemsJSONSchema = {
-    "type": "object",
-    "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "hint": { "type": "string" },
-        "type": { "enum": ['number', 'text', 'select', "template", "break", "resource", "level"] },
-
-        "number": {
-            "type": "object",
-            "properties": {
-                "min": { "type": "number" },
-                "max": { "type": "number" },
-                "defaultNumber": { "type": "number" },
-            },
-            "required": ["min", "max", "defaultNumber"]
-        }
-    },
-    "required": ["name", "type"]
-}
