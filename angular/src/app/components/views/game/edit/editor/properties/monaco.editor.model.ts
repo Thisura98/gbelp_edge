@@ -1,4 +1,4 @@
-import { LevelPropertiesJSONSchema } from "../../../../../../../../../commons/src/models/game/levels/properties";
+import { LevelPropsSectionsJSONSchema, LevelPropsItemsJSONSchema, LevelPropsSectionsJSONSchemaURI } from "../../../../../../../../../commons/src/models/game/levels/properties";
 
 export interface IMonacoLevelProperties{
   uri: string;
@@ -6,10 +6,14 @@ export interface IMonacoLevelProperties{
   schema?: any
 }
 
-export function getMonacoLevelPropertiesTextModel(modelURI: monaco.Uri): IMonacoLevelProperties{
+export function getMonacoLevelPropsTextModel(modelURI: monaco.Uri): IMonacoLevelProperties{
+
+  let schema = LevelPropsSectionsJSONSchema;
+  schema.items.properties.properties.items = LevelPropsItemsJSONSchema;
+
   return {
-    uri: 'https://edgeelp.online/schema/level-properties.shema.json',
+    uri: LevelPropsSectionsJSONSchemaURI,
     fileMatch: [modelURI.toString()],
-    schema: LevelPropertiesJSONSchema
+    schema: schema
   }
 }
