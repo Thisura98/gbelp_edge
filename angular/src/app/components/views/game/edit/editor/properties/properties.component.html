@@ -16,7 +16,9 @@
                 <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" (init)="editorInit($event)"></ngx-monaco-editor>
             </div>
             <div class="sub-section-preview" [class.animatehide]="userHidPreview">
-                Nothing here yet
+                <div class="property-section" *ngFor="let section of sections">
+                    {{section.section}}
+                </div>
             </div>
         </div>
     </div>

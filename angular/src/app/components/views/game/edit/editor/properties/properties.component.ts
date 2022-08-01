@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { throttleTime } from 'rxjs/operators';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
+import { LevelPropertySection } from '../../../../../../../../../commons/src/models/game/levels/properties';
 import { getMonacoLevelPropsTextModel } from './monaco.editor.model';
 import { EDGEMonacoEditorOptions } from './monaco.editor.options';
 
@@ -19,6 +21,7 @@ export class PropertiesEditorComponent implements OnInit {
   code: string = '[]';
   editorOptions = EDGEMonacoEditorOptions;
   gameListing: GameListing | undefined;
+  sections: LevelPropertySection[] = [];
 
   userHidEditor: boolean = false;
   userHidPreview: boolean = false;
@@ -28,6 +31,7 @@ export class PropertiesEditorComponent implements OnInit {
   }
 
   private editorReference = new BehaviorSubject<Editor | undefined>(undefined);
+  private codeChanged = new BehaviorSubject<string>("");
 
   constructor(
     private editorDataService: EditorDataService
@@ -54,7 +58,9 @@ export class PropertiesEditorComponent implements OnInit {
       validate: true,
       schemas: [ sectionsSchema ]
     });
-    
+
+    editor.onDidChangeModelContent(() => this.codeChanged.next(this.code));
+    this.handleEditorCodeChanged();
   }
 
   toggleCodeHidden(){
@@ -63,6 +69,12 @@ export class PropertiesEditorComponent implements OnInit {
 
   togglePreviewHidden(){
     this.userHidPreview = !this.userHidPreview;
+  }
+
+  private handleEditorCodeChanged(){
+    this.codeChanged.pipe(throttleTime(2000)).subscribe(code => {
+      this.sections.push(new LevelPropertySection("Test", []));
+    })
   }
 
 }
