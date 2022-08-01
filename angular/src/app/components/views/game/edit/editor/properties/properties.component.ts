@@ -4,8 +4,10 @@ import { debounce, delay, throttleTime } from 'rxjs/operators';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
 import { LevelPropertySection } from '../../../../../../../../../commons/src/models/game/levels/properties';
+import { Example } from './example.levelprops';
 import { getMonacoLevelPropsTextModel } from './monaco.editor.model';
 import { EDGEMonacoEditorOptions } from './monaco.editor.options';
+
 
 type Editor = monaco.editor.IStandaloneCodeEditor;
 
@@ -18,10 +20,11 @@ type Editor = monaco.editor.IStandaloneCodeEditor;
   ]
 })
 export class PropertiesEditorComponent implements OnInit {
-  code: string = '[]';
+  code: string = JSON.stringify(Example, null, 4); // Remove after testing
   editorOptions = EDGEMonacoEditorOptions;
   gameListing: GameListing | undefined;
   sections: LevelPropertySection[] = [];
+  errorInSchema: boolean = false;
 
   userHidEditor: boolean = false;
   userHidPreview: boolean = false;
@@ -31,7 +34,7 @@ export class PropertiesEditorComponent implements OnInit {
   }
 
   private editorReference = new BehaviorSubject<Editor | undefined>(undefined);
-  private codeChanged = new BehaviorSubject<string>("");
+  private codeChanged = new BehaviorSubject<string>(this.code);
 
   constructor(
     private editorDataService: EditorDataService
@@ -50,7 +53,7 @@ export class PropertiesEditorComponent implements OnInit {
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
     this.editorReference.next(editor);
     const modelUri = monaco.Uri.parse('edge://b/foo.json');
-    const model = monaco.editor.createModel('{}', 'json', modelUri);
+    const model = monaco.editor.createModel(this.code, 'json', modelUri);
     const sectionsSchema = getMonacoLevelPropsTextModel(modelUri);
     editor.setModel(model);
 
@@ -72,14 +75,22 @@ export class PropertiesEditorComponent implements OnInit {
   }
 
   private handleEditorCodeChanged(){
+    // debounce 800 - Bundle code changes into 800ms groups
+    // delay 200 - Wait 200ms after we get an event to check markers
+    // Monaco Markers are warnings/errors in the Editor
+    // If there are errors, don't display sections.
+    // Else show sections.
     this.codeChanged.pipe(debounce(() => interval(800))).pipe(delay(200)).subscribe(code => {
       let modelMarkers = monaco.editor.getModelMarkers({owner: 'json'});
 
-      if (modelMarkers.length == 0)
+      if (modelMarkers.length == 0 && code.length > 0){
         this.sections = JSON.parse(code) as LevelPropertySection[];
-      else
-        this.sections = [ new LevelPropertySection("INVALID", []) ];
-    })
+        this.errorInSchema = false;
+      }
+      else{
+        this.errorInSchema = true;
+      }
+    });
   }
 
 }
