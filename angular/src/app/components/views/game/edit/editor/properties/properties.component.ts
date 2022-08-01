@@ -16,6 +16,7 @@ type Editor = monaco.editor.IStandaloneCodeEditor;
   templateUrl: './properties.component.html',
   styleUrls: [
     './properties.component.css',
+    './properties.fields.css',
     '../editor.component.css'
   ]
 })

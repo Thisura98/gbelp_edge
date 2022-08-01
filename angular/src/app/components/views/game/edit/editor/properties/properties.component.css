@@ -59,3 +59,24 @@ ngx-monaco-editor{
 .animatehide{
     display: none;
 }
+
+/* Properties Grid */
+
+.properties-form{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.property-title{
+    background-color: #F0F0F0;
+    padding: 8px 13px;
+    display: flex;
+    border-radius: 7px;
+    margin-bottom: 11px;
+}
+
+.property-item{
+    padding: 8px 13px;
+    border: 1px #EDEDED solid;
+}

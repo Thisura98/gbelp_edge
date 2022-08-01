@@ -16,16 +16,28 @@
                 <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" (init)="editorInit($event)"></ngx-monaco-editor>
             </div>
             <div class="sub-section-preview" [class.animatehide]="userHidPreview">
-                <form>
+                <form class="properties-form">
                     <div class="property-section" *ngFor="let section of sections">
-                        {{section.section}}
+                        <div class="property-title">{{section.section}}</div>
                         <div class="property-item" *ngFor="let item of section.properties">
                             <div class="property-item-name">
                                 {{item.name}}
                                 <div class="property-item-hint">{{item.hint}}</div>
                             </div>
                             <div class="property-item-value">
-                                
+                                <div class="property-item-value-number" *ngIf="item.type == 'number'">
+                                    <input type="number" 
+                                        name="{{item.name}}" 
+                                        min="{{item.number?.min}}" 
+                                        max="{{item.number?.max}}"
+                                        value="{{item.number?.value ?? item.number?.defaultNumber}}"/>
+                                </div>
+                                <div class="property-item-value-number" *ngIf="item.type == 'text'">
+                                    <input type="text" 
+                                        name="{{item.name}}" 
+                                        [attr.maxlength]="item.text?.charLimit"
+                                        value="{{item.text?.value}}"/>
+                                </div>
                             </div>
                         </div>
                     </div>
