@@ -36,7 +36,7 @@
                                     <input type="text" 
                                         name="{{item.name}}" 
                                         [attr.maxlength]="item.text?.charLimit"
-                                        value="{{item.text?.value}}"/>
+                                        value="{{item.text?.value ?? item.text?.defaultString}}"/>
                                 </div>
                             </div>
                         </div>
