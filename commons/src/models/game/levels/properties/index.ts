@@ -15,8 +15,8 @@ export interface TextProperties {
 }
 
 export interface SelectProperties {
-    options: { [key: string]: object };
-    value?: object;
+    options: { [key: string]: string };
+    value?: string;
 }
 
 export interface TemplateProperties {
