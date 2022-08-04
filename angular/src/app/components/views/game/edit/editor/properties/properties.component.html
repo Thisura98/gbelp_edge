@@ -25,19 +25,19 @@
                                 <div class="property-item-hint">{{item.hint}}</div>
                             </div>
                             <div class="property-item-value">
-                                <div class="property-item-value-number" *ngIf="item.type == 'number'">
+                                <ng-container class="property-item-value-number" *ngIf="item.type == 'number'">
                                     <input type="number" 
                                         name="{{item.name}}" 
                                         min="{{item.number?.min}}" 
                                         max="{{item.number?.max}}"
                                         value="{{item.number?.value ?? item.number?.defaultNumber}}"/>
-                                </div>
-                                <div class="property-item-value-number" *ngIf="item.type == 'text'">
+                                </ng-container>
+                                <ng-container class="property-item-value-number" *ngIf="item.type == 'text'">
                                     <input type="text" 
                                         name="{{item.name}}" 
                                         [attr.maxlength]="item.text?.charLimit"
                                         value="{{item.text?.value ?? item.text?.defaultString}}"/>
-                                </div>
+                                </ng-container>
                             </div>
                         </div>
                     </div>

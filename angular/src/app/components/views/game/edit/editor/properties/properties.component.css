@@ -77,6 +77,24 @@ ngx-monaco-editor{
 }
 
 .property-item{
-    padding: 8px 13px;
+    display: flex;
+    flex-direction: row;
+}
+
+.property-item:not(:last-of-type){
     border: 1px #EDEDED solid;
+    border-bottom: none;
+}
+
+.property-item:last-of-type{
+    border: 1px #EDEDED solid;
+}
+
+.property-item-name, .property-item-value{
+    padding: 8px 13px;
+    flex: 1;
+}
+
+.property-item-value{
+    border-left: 1px #EDEDED solid;
 }

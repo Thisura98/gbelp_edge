@@ -21,6 +21,15 @@ export const Example: LevelPropertySection[] = [
           "max": 10,
           "defaultNumber": 0
         }
+      },
+      {
+        "name": "Test",
+        "type": "select",
+        "select": {
+          "options": {
+            "k": "hello"
+          }
+        }
       }
     ]
   }
