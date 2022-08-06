@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, interval } from 'rxjs';
 import { debounce, delay, throttleTime } from 'rxjs/operators';
+import { DialogService } from 'src/app/services/dialog.service';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
 import { LevelPropertySection } from '../../../../../../../../../commons/src/models/game/levels/properties';
+import { GameProject } from '../../../../../../../../../commons/src/models/game/project';
 import { Example } from './example.levelprops';
 import { getMonacoLevelPropsTextModel } from './monaco.editor.model';
 import { EDGEMonacoEditorOptions } from './monaco.editor.options';
@@ -34,18 +36,23 @@ export class PropertiesEditorComponent implements OnInit {
     return this.gameListing?.entry.is_template ?? false;
   }
 
+  private selectedLevelIndex: number | undefined;
   private editorReference = new BehaviorSubject<Editor | undefined>(undefined);
   private codeChanged = new BehaviorSubject<string>(this.code);
 
   constructor(
-    private editorDataService: EditorDataService
+    private editorDataService: EditorDataService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
     // Get from Parent Editor Component
     this.editorDataService.getEditorChildData().subscribe(data => {
       this.gameListing = data.gameListing?.data;
+      this.selectedLevelIndex = data.selectedLevelIndex;
     });
+
+    this.editorDataService.addOnSaveListener(project => this.prepareForSave(project))
   }
 
   /**
@@ -104,6 +111,39 @@ export class PropertiesEditorComponent implements OnInit {
     // TODO: Capture values from the controls
     // TODO:
     this.code = JSON.stringify(this.sections, null, 4);
+  }
+
+  private prepareForSave(project: GameProject){
+
+    try{
+      let propertyMap = this.generateLevelPropertyMap();
+      project.levels[this.selectedLevelIndex!].properties.propertyValues = propertyMap;
+      project.levels[this.selectedLevelIndex!].properties.properties = this.sections;
+    }
+    catch(error){
+      this.dialogService.showDismissable("Error occurred while saving", `${error}`);
+    }
+
+  }
+
+  private generateLevelPropertyMap(): { [key: string] : any } {
+    let map: { [key: string] : any } = {};
+
+    for (let section of this.sections){
+      for (let param of section.properties){
+        const key = param.name;
+        switch(param.type){
+          case 'number':  map[key] = param.number!.value; break;
+          case 'text':    map[key] = param.text!.value;   break;
+          case 'select':  map[key] = param.select!.value; break;
+          default: 
+            throw new Error(`Unsupported parameter type '${param.type}' when generating level property map`);
+          break;
+        }
+      }
+    }
+
+    return map;
   }
 
 }
