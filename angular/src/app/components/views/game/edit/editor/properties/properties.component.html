@@ -22,11 +22,16 @@
                         <div class="property-item" *ngFor="let item of section.properties">
                             <div class="property-item-name">
                                 {{item.name}}
-                                <div class="property-item-hint">{{item.hint}}</div>
+                                <div class="property-item-hint" *ngIf='item.hint != undefined && item.hint != ""'>
+                                    <img class="property-item-hint-ico" 
+                                        src="assets/editor/properties/ico_property_hint.png"
+                                        [matTooltip]="item.hint" matTooltipPosition="right"
+                                        />
+                                </div>
                             </div>
                             <div class="property-item-value">
+                                <!-- Number Properties -->
                                 <ng-container class="property-item-value-number" *ngIf="item.type == 'number'">
-                                    <!-- Number Properties -->
                                     <input type="number" 
                                         class="property-control"
                                         name="{{item.name}}" 
@@ -35,8 +40,9 @@
                                         [(ngModel)]="item.number!.value"
                                         (change)="valueChanged()"/>
                                 </ng-container>
+
+                                <!-- Text Properties -->
                                 <ng-container class="property-item-value-text" *ngIf="item.type == 'text'">
-                                    <!-- Text Properties -->
                                     <input type="text" 
                                         class="property-control"
                                         name="{{item.name}}" 
@@ -44,15 +50,19 @@
                                         [(ngModel)]="item.text!.value"
                                         (change)="valueChanged()"/>
                                 </ng-container>
+                                
+                                <!-- Select Properties -->
                                 <ng-container class="property-item-value-select" *ngIf="item.type == 'select'">
-                                    <!-- Select Properties -->
                                     <select name="{{item.name}}" class="property-control" 
                                         [(ngModel)]="item.select!.value" (change)="valueChanged()">
-                                        <option *ngFor="let option of item.select!.options | keyvalue" value="{{option.key}}">
+                                        <option *ngFor="let option of item.select!.options | keyvalue" 
+                                            [attr.selected]="option.value == item.select!.value"
+                                            value="{{option.key}}">
                                             {{option.value}}
                                         </option>
                                     </select>
                                 </ng-container>
+                                <!-- TODO the rest of the properties types -->
                             </div>
                         </div>
                     </div>

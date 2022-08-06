@@ -95,10 +95,28 @@ ngx-monaco-editor{
     flex: 1;
 }
 
+.property-item-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.property-item-hint{
+    display: flex;
+    margin-left: 6px;
+}
+
+.property-item-hint-ico{
+    user-select: none;
+    width: 15px;
+    height: 15px;
+}
+
 .property-item-value{
     display: flex;
     flex-direction: column;
     border-left: 1px #EDEDED solid;
+    align-items: stretch;
 }
 
 .property-control{

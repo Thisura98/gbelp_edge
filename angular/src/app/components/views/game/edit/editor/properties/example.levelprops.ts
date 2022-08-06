@@ -7,6 +7,7 @@ export const Example: LevelPropertySection[] = [
       {
         "name": "Level Difficulty",
         "type": "number",
+        "hint": "The higher the value, the more difficult the game will become",
         "number": {
           "min": 0,
           "max": 10,
@@ -30,7 +31,8 @@ export const Example: LevelPropertySection[] = [
             "2": "Green",
             "3": "Blue",
             "4": "Yellow"
-          }
+          },
+          "value": "2"
         }
       }
     ]

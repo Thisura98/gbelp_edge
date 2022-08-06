@@ -30,7 +30,13 @@ class LevelScene_Title_Screen extends Phaser.Scene{
          * Add all references to create sprites to this array.
          */
         this.spriteReferences = {};
+        
         this.star = null;
+        /**
+         * Demo Code
+         * @type {Object.<string, string>}
+         */
+        this.properties = null;
     }
 
     preload(){
@@ -47,8 +53,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 255.828125,
-                "y": 1,
+                "x": 234.828125,
+                "y": 14,
                 "w": 555,
                 "h": 356.00000000000006
             },
@@ -109,7 +115,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(533.328125, 179.00000000000003, 'Camera');
+		const sprite_1 = this.add.sprite(512.328125, 192.00000000000003, 'Camera');
 		sprite_1.name = "Camera";
 		scaleX = 555 / sprite_1.displayWidth;
 		scaleY = 356.00000000000006 / sprite_1.displayHeight;
@@ -158,6 +164,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         this.cameraBaseX = camX;
         
         this.cameras.main.setBounds(camX, camY, camWidth, camHeight)
+
+        // Demo Code
+        // const asteroids = this.properties['no_asteroids'];
+
         
     }
     update(){
