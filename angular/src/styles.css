@@ -43,6 +43,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 /* Required for <mat-card> shadows */
 mat-card { margin:2em;  }
 
+body .cdk-overlay-container{
+    display: block! important;
+}
+
 /* Fonts */
 
 @font-face {

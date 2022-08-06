@@ -96,5 +96,11 @@ ngx-monaco-editor{
 }
 
 .property-item-value{
+    display: flex;
+    flex-direction: column;
     border-left: 1px #EDEDED solid;
+}
+
+.property-control{
+    border: none;
 }

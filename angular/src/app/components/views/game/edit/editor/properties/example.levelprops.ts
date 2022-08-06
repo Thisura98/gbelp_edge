@@ -5,29 +5,31 @@ export const Example: LevelPropertySection[] = [
     "section": "General",
     "properties": [
       {
-        "name": "Game Title",
+        "name": "Level Difficulty",
         "type": "number",
         "number": {
           "min": 0,
           "max": 10,
-          "defaultNumber": 0
+          "value": 0
         }
       },
       {
         "name": "Game Title",
-        "type": "number",
-        "number": {
-          "min": 0,
-          "max": 10,
-          "defaultNumber": 0
+        "type": "text",
+        "text": {
+          "charLimit": 10,
+          "value": "Example title"
         }
       },
       {
-        "name": "Test",
+        "name": "Character Color",
         "type": "select",
         "select": {
           "options": {
-            "k": "hello"
+            "1": "Red",
+            "2": "Green",
+            "3": "Blue",
+            "4": "Yellow"
           }
         }
       }

@@ -4,13 +4,11 @@
 export interface NumberProperties {
     min: number;
     max: number;
-    defaultNumber: number;
     value?: number;
 }
 
 export interface TextProperties {
     charLimit: number;
-    defaultString: string;
     value?: string;
 }
 

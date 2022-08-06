@@ -137,7 +137,7 @@ import { MetaKeyService } from './services/metakey.service';
     GroupReportsAvailableComponent,
     GroupReportsUsageComponent,
     StatefulButton,
-    PlayerChatPanelComponent,
+    PlayerChatPanelComponent
   ],
   imports: [
     CommonModule,

@@ -26,17 +26,32 @@
                             </div>
                             <div class="property-item-value">
                                 <ng-container class="property-item-value-number" *ngIf="item.type == 'number'">
+                                    <!-- Number Properties -->
                                     <input type="number" 
+                                        class="property-control"
                                         name="{{item.name}}" 
                                         min="{{item.number?.min}}" 
                                         max="{{item.number?.max}}"
-                                        value="{{item.number?.value ?? item.number?.defaultNumber}}"/>
+                                        [(ngModel)]="item.number!.value"
+                                        (change)="valueChanged()"/>
                                 </ng-container>
-                                <ng-container class="property-item-value-number" *ngIf="item.type == 'text'">
+                                <ng-container class="property-item-value-text" *ngIf="item.type == 'text'">
+                                    <!-- Text Properties -->
                                     <input type="text" 
+                                        class="property-control"
                                         name="{{item.name}}" 
                                         [attr.maxlength]="item.text?.charLimit"
-                                        value="{{item.text?.value ?? item.text?.defaultString}}"/>
+                                        [(ngModel)]="item.text!.value"
+                                        (change)="valueChanged()"/>
+                                </ng-container>
+                                <ng-container class="property-item-value-select" *ngIf="item.type == 'select'">
+                                    <!-- Select Properties -->
+                                    <select name="{{item.name}}" class="property-control" 
+                                        [(ngModel)]="item.select!.value" (change)="valueChanged()">
+                                        <option *ngFor="let option of item.select!.options | keyvalue" value="{{option.key}}">
+                                            {{option.value}}
+                                        </option>
+                                    </select>
                                 </ng-container>
                             </div>
                         </div>

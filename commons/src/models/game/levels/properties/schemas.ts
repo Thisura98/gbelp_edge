@@ -30,20 +30,18 @@ export const LevelPropsItemsJSONSchema = {
             "properties": {
                 "min": { "type": "number" },
                 "max": { "type": "number" },
-                "defaultNumber": { "type": "number" },
                 "value": { "type": "number" }
             },
-            "required": ["min", "max", "defaultNumber"]
+            "required": ["min", "max"]
         },
 
         "text": {
             "type": "object",
             "properties": {
                 "charLimit": { "type": "number" },
-                "defaultString": { "type": "string" },
                 "value": { "type": "string" }
             },
-            "required": ["charLimit", "defaultString"]
+            "required": ["charLimit"]
         },
 
         "select": {

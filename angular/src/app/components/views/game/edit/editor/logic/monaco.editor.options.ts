@@ -1,5 +1,5 @@
 export const EDGEMonacoEditorOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
-  theme: 'vs-dark', 
+  theme: 'vs', 
   language: 'javascript',
   fixedOverflowWidgets: true,
   suggest: {

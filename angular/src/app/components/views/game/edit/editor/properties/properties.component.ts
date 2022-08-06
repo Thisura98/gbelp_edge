@@ -54,14 +54,20 @@ export class PropertiesEditorComponent implements OnInit {
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
     this.editorReference.next(editor);
     const modelUri = monaco.Uri.parse('edge://b/foo.json');
-    const model = monaco.editor.createModel(this.code, 'json', modelUri);
-    const sectionsSchema = getMonacoLevelPropsTextModel(modelUri);
-    editor.setModel(model);
+    if (monaco.editor.getModel(modelUri) == null){
+      const model = monaco.editor.createModel(this.code, 'json', modelUri);
+      const sectionsSchema = getMonacoLevelPropsTextModel(modelUri);
 
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      validate: true,
-      schemas: [ sectionsSchema ]
-    });
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        validate: true,
+        schemas: [ sectionsSchema ]
+      });
+
+      editor.setModel(model);
+    }
+    else{
+      editor.setModel(monaco.editor.getModel(modelUri));
+    }
 
     editor.onDidChangeModelContent(() => this.codeChanged.next(this.code));
     this.handleEditorCodeChanged();
@@ -92,6 +98,12 @@ export class PropertiesEditorComponent implements OnInit {
         this.errorInSchema = true;
       }
     });
+  }
+
+  valueChanged(){
+    // TODO: Capture values from the controls
+    // TODO:
+    this.code = JSON.stringify(this.sections, null, 4);
   }
 
 }
