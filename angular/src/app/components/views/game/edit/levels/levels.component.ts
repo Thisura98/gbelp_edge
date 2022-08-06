@@ -92,7 +92,7 @@ export class GameEditLevelsComponent implements OnInit {
         levelExitType,
         levelExitTypeValue,
         new LevelScene([defaultCamera]),
-        new LevelProperties("", {}),
+        new LevelProperties([], {}),
         new LevelLogic(
           new LevelScript('', '', '')
         ),

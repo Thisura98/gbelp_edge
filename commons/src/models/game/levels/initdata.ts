@@ -12,7 +12,7 @@ import { SceneObjectHelper } from "./scene";
 ): GameLevel[] {
 
     let lExitCriteria: LevelExitCriteria;
-    const emptyProperties = new LevelProperties("", {});
+    const emptyProperties = new LevelProperties([], {});
     const defaultCamera = SceneObjectHelper.createBlankCamera(getNewObjectId());
 
     if (typeof levelExitCriteria == 'number')
@@ -93,7 +93,7 @@ export function getMultiPlayerLevelInitData(
 ): GameLevel[] {
 
     let lExitCriteria: LevelExitCriteria
-    const emptyProperties = new LevelProperties("", {});
+    const emptyProperties = new LevelProperties([], {});
     const defaultCamera = SceneObjectHelper.createBlankCamera(getNewObjectId());
 
     if (typeof levelExitCriteria == 'number')

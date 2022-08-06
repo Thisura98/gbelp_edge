@@ -55,7 +55,7 @@ export class LevelPropertySection {
 
 export class LevelProperties {
     constructor(
-        public propertyFormHTML: string,
+        public properties: LevelPropertySection[],
         public propertyValues: { [id: string]: any }
     ) { }
 }
