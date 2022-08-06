@@ -62,6 +62,15 @@ export function generatePreloadCode(
     .then(t => {
         return TemplateManager.replacePlaceholder(
             t, 
+            'EDGTOKEN_PRELOAD',
+            false,
+            false,
+            resourceLoadCommands.join('\n')
+        );
+    })
+    .then(t => {
+        return TemplateManager.replacePlaceholder(
+            t, 
             'EDGTOKEN_LEVEL', 
             false, 
             false, 
@@ -70,11 +79,11 @@ export function generatePreloadCode(
     })
     .then(t => {
         return TemplateManager.replacePlaceholder(
-            t, 
-            'EDGTOKEN_PRELOAD',
+            t,
+            'EDGTOKEN_PROPERTIES',
             false,
             false,
-            resourceLoadCommands.join('\n')
+            `this.levelProperties = ${JSON.stringify(level.properties.propertyValues, null, 4)}`
         );
     });
 }

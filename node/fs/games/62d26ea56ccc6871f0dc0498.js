@@ -26,17 +26,24 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     constructor(){
         super({key: "LevelScene_Title_Screen", active: false });
 
+        this.star = null;
+        this.star2 = null;
+        
         /**
-         * Add all references to create sprites to this array.
+         * All sprites loaded in the create() method
+         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
          */
         this.spriteReferences = {};
-        
-        this.star = null;
         /**
-         * Demo Code
-         * @type {Object.<string, string>}
+         * The entire scene object (contains the raw game objects in the 'objects' array)
+         * @type {Array}
          */
-        this.properties = null;
+        this.levelData = null;
+        /**
+         * Properties loaded from the Property Editor
+         * @type {Object.<string, any>}
+         */
+        this.levelProperties = null;
     }
 
     preload(){
@@ -106,10 +113,13 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         }
     ]
 }
+        this.levelProperties = {
+    "Level Difficulty": 0,
+    "Game Title": "Example title",
+    "Character Color": "1"
+}
 
         // Add your code below this line
-
-
         
     }
     create(){
@@ -145,6 +155,14 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         // Add your code below this line
 
         this.star = this.spriteReferences['sprite_png'];
+        this.star2 = this.spriteReferences['sprite_png_2'];
+
+        if (this.levelProperties['Character Color'] != null){
+            const tints = [0xFF0000, 0x00FF00, 0x0000EE, 0x00FFFF];
+            const index = Number.parseInt(this.levelProperties['Character Color']) - 1;
+            this.star.setTint(tints[index]);
+            this.star2.setTint(this.star.tintTopLeft);
+        }
 
         /**
          * @type {Object[]}
@@ -195,8 +213,21 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
     constructor(){
         super({key: "LevelScene_Example_Level_Screen", active: false });
 
+        /**
+         * All sprites loaded in the create() method
+         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
+         */
         this.spriteReferences = {};
+        /**
+         * The entire scene object (contains the raw game objects in the 'objects' array)
+         * @type {Array}
+         */
         this.levelData = null;
+        /**
+         * Properties loaded from the Property Editor
+         * @type {Object.<string, any>}
+         */
+        this.levelProperties = null;
     }
 
     preload(){
@@ -206,6 +237,7 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
         this.levelData = {
     "objects": []
 }
+        this.levelProperties = {}
 
         // Add your code below this line
 
@@ -237,8 +269,21 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     constructor(){
         super({key: "LevelScene_Game_Over_Screen", active: false });
 
+        /**
+         * All sprites loaded in the create() method
+         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
+         */
         this.spriteReferences = {};
+        /**
+         * The entire scene object (contains the raw game objects in the 'objects' array)
+         * @type {Array}
+         */
         this.levelData = null;
+        /**
+         * Properties loaded from the Property Editor
+         * @type {Object.<string, any>}
+         */
+        this.levelProperties = null;
     }
 
     preload(){
@@ -268,6 +313,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         }
     ]
 }
+        this.levelProperties = {}
 
         // Add your code below this line
 
