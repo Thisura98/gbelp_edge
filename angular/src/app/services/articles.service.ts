@@ -24,7 +24,8 @@ export class ArticlesService{
   }
 
   private replaceServerBaseURL(content: string): string{
-    return content.replace(ARTICLES_SERVER_PATH_CONST, this.getServerPath());
+    const regex = new RegExp(ARTICLES_SERVER_PATH_CONST, 'g');
+    return content.replace(regex, this.getServerPath());
   }
 
   private getServerPath(): string{

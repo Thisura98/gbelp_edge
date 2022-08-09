@@ -4,8 +4,8 @@
  * @author Tim  Shedor
  */
 
-code[class*="language-"],
-pre[class*="language-"] {
+markdown code[class*="language-"],
+markdown pre[class*="language-"] {
 	color: black;
 	background: none;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
@@ -28,14 +28,14 @@ pre[class*="language-"] {
 }
 
 /* Code blocks */
-pre[class*="language-"] {
+markdown pre[class*="language-"] {
 	position: relative;
 	margin: .5em 0;
 	overflow: visible;
 	padding: 1px;
 }
 
-pre[class*="language-"] > code {
+markdown pre[class*="language-"] > code {
 	position: relative;
 	z-index: 1;
 	border: 2px solid #bfd7e8;
@@ -49,7 +49,7 @@ pre[class*="language-"] > code {
 	background-attachment: local;
 }
 
-code[class*="language-"] {
+markdown code[class*="language-"] {
 	max-height: inherit;
 	height: inherit;
 	padding: 0 1em;
@@ -58,8 +58,8 @@ code[class*="language-"] {
 }
 
 /* Margin bottom to accommodate shadow */
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
+markdown :not(pre) > code[class*="language-"],
+markdown pre[class*="language-"] {
 	background-color: #fdfdfd;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -69,7 +69,7 @@ pre[class*="language-"] {
 }
 
 /* Inline code */
-:not(pre) > code[class*="language-"] {
+markdown :not(pre) > code[class*="language-"] {
 	position: relative;
 	padding: .2em;
 	border-radius: 0.3em;
@@ -107,87 +107,87 @@ pre[class*="language-"]:after {
 	transform: rotate(2deg);
 } */
 
-.token.comment,
-.token.block-comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
+markdown .token.comment,
+markdown .token.block-comment,
+markdown .token.prolog,
+markdown .token.doctype,
+markdown .token.cdata {
 	color: #7D8B99;
 }
 
-.token.punctuation {
+markdown .token.punctuation {
 	color: #5F6364;
 }
 
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.function-name,
-.token.constant,
-.token.symbol,
-.token.deleted {
+markdown .token.property,
+markdown .token.tag,
+markdown .token.boolean,
+markdown .token.number,
+markdown .token.function-name,
+markdown .token.constant,
+markdown .token.symbol,
+markdown .token.deleted {
 	color: #c92c2c;
 }
 
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.function,
-.token.builtin,
-.token.inserted {
+markdown .token.selector,
+markdown .token.attr-name,
+markdown .token.string,
+markdown .token.char,
+markdown .token.function,
+markdown .token.builtin,
+markdown .token.inserted {
 	color: #2f9c0a;
 }
 
-.token.operator,
-.token.entity,
-.token.url,
-.token.variable {
+markdown .token.operator,
+markdown .token.entity,
+markdown .token.url,
+markdown .token.variable {
 	color: #a67f59;
 	background: rgba(255, 255, 255, 0.5);
 }
 
-.token.atrule,
-.token.attr-value,
-.token.keyword,
-.token.class-name {
+markdown .token.atrule,
+markdown .token.attr-value,
+markdown .token.keyword,
+markdown .token.class-name {
 	color: #1990b8;
 }
 
-.token.regex,
-.token.important {
+markdown .token.regex,
+markdown .token.important {
 	color: #e90;
 }
 
-.language-css .token.string,
-.style .token.string {
+markdown .language-css .token.string,
+markdown .style .token.string {
 	color: #a67f59;
 	background: rgba(255, 255, 255, 0.5);
 }
 
-.token.important {
+markdown .token.important {
 	font-weight: normal;
 }
 
-.token.bold {
+markdown .token.bold {
 	font-weight: bold;
 }
-.token.italic {
+markdown .token.italic {
 	font-style: italic;
 }
 
-.token.entity {
+markdown .token.entity {
 	cursor: help;
 }
 
-.token.namespace {
+markdown .token.namespace {
 	opacity: .7;
 }
 
 @media screen and (max-width: 767px) {
-	pre[class*="language-"]:before,
-	pre[class*="language-"]:after {
+	markdown pre[class*="language-"]:before,
+	markdown pre[class*="language-"]:after {
 		bottom: 14px;
 		box-shadow: none;
 	}
@@ -195,39 +195,39 @@ pre[class*="language-"]:after {
 }
 
 /* Plugin styles: Line Numbers */
-pre[class*="language-"].line-numbers.line-numbers {
+markdown pre[class*="language-"].line-numbers.line-numbers {
 	padding-left: 0;
 }
 
-pre[class*="language-"].line-numbers.line-numbers code {
+markdown pre[class*="language-"].line-numbers.line-numbers code {
 	padding-left: 3.8em;
 }
 
-pre[class*="language-"].line-numbers.line-numbers .line-numbers-rows {
+markdown pre[class*="language-"].line-numbers.line-numbers .line-numbers-rows {
 	left: 0;
 }
 
 /* Plugin styles: Line Highlight */
-pre[class*="language-"][data-line] {
+markdown pre[class*="language-"][data-line] {
 	padding-top: 0;
 	padding-bottom: 0;
 	padding-left: 0;
 }
-pre[data-line] code {
+markdown pre[data-line] code {
 	position: relative;
 	padding-left: 4em;
 }
-pre .line-highlight {
+markdow pre .line-highlight {
 	margin-top: 0;
 }
 
 /* Header Styles (custom */
-h2{
+markdown h2{
 	margin: 26px 0 16px 0;
 }
 
 /* Fig Caption (custom) */
-figcaption{
+markdown figcaption{
 	font-style: oblique;
 	color: #8c8c8c;
 }
@@ -239,14 +239,14 @@ markdown img{
 }
 
 /* Copy Link Icon */
-.show-heading-link{
+markdown .show-heading-link{
 	position: relative;
 	display: flex;
 	flex-direction: row;
 	margin-left: -23px;
 }
 
-.link-copy-ico{
+markdown .link-copy-ico{
 	display: inline-block;
 	visibility: hidden;
     width: 18px;
@@ -259,6 +259,17 @@ markdown img{
 	cursor: pointer;
 }
 
-.show-heading-link:hover .link-copy-ico{
+markdown .show-heading-link:hover .link-copy-ico{
 	visibility: visible;
+}
+
+markdown blockquote{
+	background-color: #d9eaf5;
+    margin: 0px;
+    border-radius: 8px;
+    padding: 1em;
+}
+
+body.mat-typography markdown blockquote > p{
+	margin: 0;
 }

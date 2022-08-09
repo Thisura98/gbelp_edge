@@ -67,7 +67,8 @@ import { SceneMapComponent } from './components/views/game/edit/editor/scene/sce
 import { AnyToStringPipe } from './pipes/any-to-string.pipe';
 import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
-import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
+import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference';
+import { PropertiesArticleComponent } from './components/views/docs/articles/pages/properties';
 import { SplayComponent } from './components/views/players/splay/splay.component';
 import { PlayerControlButtonComponent } from './components/views/players/controlbtn/controlbtn.component';
 import { GroupCreateComponent } from './components/views/groups/create/create.component';
@@ -127,6 +128,7 @@ import { CustomRenderer } from './services/md-renderer';
     DocsComponent,
     DocsArticlesComponent,
     ScriptReferenceArticleComponent,
+    PropertiesArticleComponent,
     SplayComponent,
     PlayerControlButtonComponent,
     GroupsSessionTable,

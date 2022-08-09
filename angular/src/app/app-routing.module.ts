@@ -23,7 +23,7 @@ import { PropertiesEditorComponent } from './components/views/game/edit/editor/p
 import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
 import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
-import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference/script.ref.doc.component';
+import { ScriptReferenceArticleComponent } from './components/views/docs/articles/pages/scripts/reference';
 import { SplayComponent } from './components/views/players/splay/splay.component';
 import { GroupCreateComponent } from './components/views/groups/create/create.component';
 import { GroupOverviewComponent } from './components/views/groups/overview/overview.component';
@@ -33,6 +33,7 @@ import { GroupSessionComponent } from './components/views/groups/session/session
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
 import { ViewMode } from './constants/constants';
+import { PropertiesArticleComponent } from './components/views/docs/articles/pages/properties';
 
 
 
@@ -96,7 +97,8 @@ const routes: Routes = [
     path: "docs/articles", 
     component: DocsArticlesComponent,
     children: [
-      {path: "script/reference", component: ScriptReferenceArticleComponent}
+      {path: "script/reference", component: ScriptReferenceArticleComponent},
+      {path: "properties", component: PropertiesArticleComponent}
     ]
   },
   {path: "splay/:sessionid", component: SplayComponent},

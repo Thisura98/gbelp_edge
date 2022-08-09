@@ -48,6 +48,7 @@
 
 .main-links{
     flex-direction: column;
+    gap: 5px;
 }
 
 .main-link{
