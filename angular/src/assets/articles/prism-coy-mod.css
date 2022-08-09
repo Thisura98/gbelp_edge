@@ -9,7 +9,7 @@ pre[class*="language-"] {
 	color: black;
 	background: none;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-	font-size: 1em;
+	font-size: 0.95em;
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
@@ -38,8 +38,10 @@ pre[class*="language-"] {
 pre[class*="language-"] > code {
 	position: relative;
 	z-index: 1;
-	border-left: 10px solid #358ccb;
-	box-shadow: -1px 0px 0px 0px #358ccb, 0px 0px 0px 1px #dfdfdf;
+	border: 2px solid #bfd7e8;
+	padding: 8px 13px;
+	/* border-left: 10px solid #358ccb; */
+	/* box-shadow: -1px 0px 0px 0px #358ccb, 0px 0px 0px 1px #dfdfdf; */
 	background-color: #fdfdfd;
 	background-image: linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
 	background-size: 3em 3em;
@@ -62,6 +64,7 @@ pre[class*="language-"] {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	margin-top: 1.95em;
 	margin-bottom: 1em;
 }
 
@@ -76,7 +79,7 @@ pre[class*="language-"] {
 	white-space: normal;
 }
 
-pre[class*="language-"]:before,
+/* pre[class*="language-"]:before,
 pre[class*="language-"]:after {
 	content: '';
 	display: block;
@@ -102,7 +105,7 @@ pre[class*="language-"]:after {
 	-ms-transform: rotate(2deg);
 	-o-transform: rotate(2deg);
 	transform: rotate(2deg);
-}
+} */
 
 .token.comment,
 .token.block-comment,
@@ -216,4 +219,46 @@ pre[data-line] code {
 }
 pre .line-highlight {
 	margin-top: 0;
+}
+
+/* Header Styles (custom */
+h2{
+	margin: 26px 0 16px 0;
+}
+
+/* Fig Caption (custom) */
+figcaption{
+	font-style: oblique;
+	color: #8c8c8c;
+}
+
+/* Images (custom) */
+markdown img{
+	border-radius: 3px;
+	border: 1px solid #c7c7c7;
+}
+
+/* Copy Link Icon */
+.show-heading-link{
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	margin-left: -23px;
+}
+
+.link-copy-ico{
+	display: inline-block;
+	visibility: hidden;
+    width: 18px;
+    height: 18px;
+    top: calc(50% - 9px);
+    left: -24px;
+    border: none;
+	margin-top: 6px;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.show-heading-link:hover .link-copy-ico{
+	visibility: visible;
 }

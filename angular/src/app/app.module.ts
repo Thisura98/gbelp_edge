@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -83,7 +83,8 @@ import { GroupReportsAvailableComponent } from './components/views/groups/report
 import { ReportAvailableCard } from './components/ui/groups/reports/available-report-card/available.report.card';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
+import { CustomRenderer } from './services/md-renderer';
 
 
 @NgModule({
@@ -162,7 +163,14 @@ import { MarkdownModule } from 'ngx-markdown';
     MatSnackBarModule,
     MatTooltipModule,
     MonacoEditorModule,
-    MarkdownModule.forRoot({ loader: HttpClient })
+    MarkdownModule.forRoot({ 
+      loader: HttpClient, 
+      sanitize: SecurityContext.NONE, // to allow 'id' attributes in CustomRenderer
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: CustomRenderer,
+      } 
+    })
   ],
   providers: [
     ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService,
