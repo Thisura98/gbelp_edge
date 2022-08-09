@@ -31,6 +31,6 @@ export function CustomRenderer(): MarkedOptions{
     breaks: true,
     pedantic: false,
     smartLists: true,
-    smartypants: false
+    smartypants: true
   }
 }

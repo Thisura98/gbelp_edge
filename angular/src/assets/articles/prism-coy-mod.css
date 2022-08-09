@@ -27,6 +27,12 @@ markdown pre[class*="language-"] {
 	hyphens: none;
 }
 
+body.mat-typography markdown h3, 
+body.mat-typography markdown h4,
+body.mat-typography markdown h5{
+	margin: 0;
+}
+
 /* Code blocks */
 markdown pre[class*="language-"] {
 	position: relative;
@@ -64,7 +70,7 @@ markdown pre[class*="language-"] {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	margin-top: 1.95em;
+	margin-top: 1em;
 	margin-bottom: 1em;
 }
 
@@ -283,7 +289,7 @@ markdown table th,
 markdown table td {
 	border-collapse: collapse;
 	border: 2px solid #bfd7e8;
-	width: 100%;
+	/* width: 100%; */
 }
 
 markdown table th,

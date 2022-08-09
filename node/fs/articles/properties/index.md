@@ -69,5 +69,54 @@ Depending on the 'type' of the property, you can specify additional constraints 
 ## Property Types
 
 | Property Type | Options |
-|----|---------|
-|1|2|
+|-----------|---------|
+| number    | min, max, value |    
+| text      | charLimit, value |
+| select    | options, value |
+
+<br/>
+
+### Examples
+
+- __Number__: Show a number input
+```js
+{
+    "name": "Level Difficulty",
+    "type": "number",
+    "hint": "Increase difficulty of levels",
+    "number": {
+        "min": 0,
+        "max": 10,
+        "value": 0
+    }
+}
+```
+
+- __Text__: Show a text input
+```js
+{
+    "name": "Game Title",
+    "type": "text",
+    "text": {
+        "charLimit": 10,
+        "value": "Example title"
+    }
+}
+```
+
+-  __Select__: Show a selection dropdown
+```js
+{
+    "name": "Character Color",
+    "type": "select",
+    "select": {
+        "options": {
+            "1": "Red",
+            "2": "Green",
+            "3": "Blue",
+            "4": "Yellow"
+        },
+        "value": "2"
+    }
+}
+```
