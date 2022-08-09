@@ -1,7 +1,10 @@
 import * as sql from './connections/sql/sql_connection';
 import express from 'express';
+import * as path from 'path';
+import * as pc from './parseconfig';
 
 let app_root_path = '';
+let server_base_url = '';
 
 export function setRootPath(path: string){
     app_root_path = path;
@@ -9,6 +12,13 @@ export function setRootPath(path: string){
 
 export function getRootPath(): string{
     return app_root_path;
+}
+
+export function getServerURLFor(pathStr: string): string{
+    if (server_base_url == ''){
+        server_base_url = pc.parseConfig('config.json').server_base_url;
+    }
+    return path.join(server_base_url, pathStr);
 }
 
 /**

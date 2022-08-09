@@ -55,4 +55,34 @@ export function fileHandler(app: Express){
             }
         });
     });
+
+    // articles
+    app.get(`/${config.fs_articles}/*`, (req, res) => {
+        const filePath = `${utils.getRootPath()}${req.path}`;
+        fs.readFile(filePath, {}, (error, content) => {
+            if (error) {
+                if(error.code == 'ENOENT') {
+                    res.writeHead(404);
+                    res.end('Article resource not found')
+                    res.end();
+                }
+                else {
+                    res.writeHead(500);
+                    res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                    res.end();
+                }
+            }
+            else {
+                const requestPath = String(req.path);
+                if (requestPath.search('.md') != -1){
+                    res.writeHead(200, { 'Content-Type': 'text/markdown' });
+                    res.end(content, 'utf-8');
+                }
+                else{
+                    res.writeHead(200, { 'Content-Type': 'image/png' });
+                    res.end(content, 'utf-8');
+                }
+            }
+        });
+    });
 }

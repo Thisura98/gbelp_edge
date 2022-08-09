@@ -24,15 +24,12 @@ This section contains the Syntax that you can use in your Gme Scripts. Where app
 </p>
 <br>
 
-<h4 class="ae code-method">Sprite(spriteName: string)</h4>
+<h4 class="ae code-method">Accessing Sprite References</h4>
 <p class="ae">
-Use this syntax to refer to any game object in your level.
-</p>
-<p class="ae">
-For example if your level has a object named, <span>"mario-1.png"</span> you can refer to that object as follows.
+You can access sprite references after the '// EDGTOKEN_CREATE' line as follows.
 </p>
 <pre class="ae code">
-const mario = Sprite('mario-1.png')
+class LevelScene_Title_Screen extends Phaser.Scene{{"{"}}
 </pre>
 <p class="ae">
 Sprite properties can be changed as follows.

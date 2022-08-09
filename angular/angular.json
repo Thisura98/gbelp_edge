@@ -30,10 +30,14 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "./src/assets/articles/prism-coy-mod.css",
+              "./node_modules/prismjs/components/prism-javascript.js"
             ],
             "scripts": [
-              "./node_modules/phaser/dist/phaser.js"
+              "./node_modules/phaser/dist/phaser.js",
+              "./node_modules/marked/marked.min.js",
+              "./node_modules/prismjs/prism.js"
             ]
           },
           "configurations": {

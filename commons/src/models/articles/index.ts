@@ -1,0 +1,1 @@
+export const ARTICLES_SERVER_PATH_CONST = '<server_path>';

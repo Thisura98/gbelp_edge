@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +28,8 @@ import { UserService } from './services/user.service';
 import { DialogService } from './services/dialog.service';
 import { GroupsService } from './services/groups.service';
 import { NextActionService } from './services/next-action.service';
+import { MetaKeyService } from './services/metakey.service';
+import { ArticlesService } from './services/articles.service';
 
 import { SimpleDialogComponent } from './components/ui/dialogs/simple.component';
 import { LoginComponent } from './components/views/login/login.component';
@@ -81,7 +83,7 @@ import { GroupReportsAvailableComponent } from './components/views/groups/report
 import { ReportAvailableCard } from './components/ui/groups/reports/available-report-card/available.report.card';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
-import { MetaKeyService } from './services/metakey.service';
+import { MarkdownModule } from 'ngx-markdown';
 
 
 @NgModule({
@@ -159,10 +161,12 @@ import { MetaKeyService } from './services/metakey.service';
     MatTableModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MonacoEditorModule
+    MonacoEditorModule,
+    MarkdownModule.forRoot({ loader: HttpClient })
   ],
   providers: [
     ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService,
+    ArticlesService,
     ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, TextWrapPipe,
     httpInterceptorProviders
   ],

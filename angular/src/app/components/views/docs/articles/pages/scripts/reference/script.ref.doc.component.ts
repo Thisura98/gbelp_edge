@@ -1,19 +1,26 @@
 import { Component, OnInit, Output } from "@angular/core";
-import { EventEmitter } from "@angular/core";
+import { ApiService } from "src/app/services/api.service";
+import { ArticlesService } from "src/app/services/articles.service";
 
 @Component({
-  templateUrl: './index.html',
+  template: `
+  <markdown [data]="content">
+  </markdown>
+  `,
   styleUrls: ['../../../articles.docs.component.css'],
 })
 export class ScriptReferenceArticleComponent implements OnInit{
 
-  @Output()
-  titleElements = new EventEmitter<NodeListOf<Element>>();
+  readonly fileUrl: string = `${ApiService.getBaseURL()}/fs/articles/script/reference/index.md`;
+  content = '';
 
-  constructor(){}
+  constructor(
+    private articles: ArticlesService
+  ){}
 
   ngOnInit(){
-    const elements = document.querySelectorAll('h1,h2,h3');
-    this.titleElements.emit(elements);
+    this.articles.getArticle(this.fileUrl).subscribe(data => {
+      this.content = data;
+    });
   }
 }

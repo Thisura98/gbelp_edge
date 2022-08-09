@@ -27,6 +27,7 @@
     "fabric": "^4.6.0",
     "monaco-editor": "^0.27.0",
     "ng-apexcharts": "^1.5.10",
+    "ngx-markdown": "^12.1.0",
     "phaser": "^3.55.2",
     "rxjs": "~6.6.0",
     "socket.io-client": "^4.2.0",
