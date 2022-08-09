@@ -28,10 +28,14 @@
                     <div class="title">
                         Welcome <span>{{userName}}</span> to, <span>{{group?.name}}</span>
                     </div>
+                    <div class="description">
+                        {{group?.description}}
+                    </div>
+                    <br/>
                     <a class="clickable-link" (click)="copyInvitationPressed()">
                         Copy Invitation
                     </a>
-                    <br>
+                    <br/>
                     <a class="clickable-link">Invite via Email</a>
                     <a class="clickable-link" (click)="deleteGroupPressed($event)">
                         Delete Group

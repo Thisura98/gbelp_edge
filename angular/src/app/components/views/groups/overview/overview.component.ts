@@ -156,7 +156,7 @@ export class GroupOverviewComponent implements OnInit{
       // navigate to dashboard and remove this group's link
       // from history.
       this.dialogService.showSnackbar("You have succesfully deleted the group!");
-      this.router.navigate(['/dashboard'], {
+      this.router.navigate(['/dashboard/f/groups'], {
         replaceUrl: true
       });
     });
