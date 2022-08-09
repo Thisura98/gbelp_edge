@@ -1,8 +1,5 @@
-import DAOCallback, { DAOTypedCallback } from './commons';
-import * as sql from '../../util/connections/sql/sql_connection';
 import { DateTime } from 'luxon';
 import { GameSessionType, GameSessionState, GameSession } from '../../../../commons/src/models/session/index';
-import { useIfTrueOrResolve } from './commons';
 import * as sessionDAO from './session';
 import * as groupsDAO from './group';
 import * as gamesDAO from './games';
@@ -70,7 +67,7 @@ export function createTestSession(
                 );
             })
             .then(existingSessionId => {
-                // Create session if needed
+                // Create session if needed with indefinite end time.
                 if (existingSessionId == undefined){
                     return sessionDAO.createSession(
                         GameSessionType.test, 

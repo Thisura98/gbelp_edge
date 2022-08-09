@@ -162,8 +162,7 @@ export function updateObjectives(
 }
 
 /**
- * Creates an array of promises to INSERT, UPDATE and DELETE
- * Game Objectives.
+ * Creates an array of INSERT, UPDATE and DELETE operations for Game Objectives.
  */
 function createObjectivesQueryPromises(operations: DAOMergeOperation<IGameObjective>[]): Promise<boolean>[]{
     return operations.map(op => {
@@ -269,8 +268,7 @@ export function updateTrackers(
 
 
 /**
- * Creates an array of promises to INSERT, UPDATE and DELETE
- * Game.
+ * Creates an array of INSERT, UPDATE and DELETE operations for Guidance trackers
  */
 function createTrackerQueryPromises(operations: DAOMergeOperation<IGameGuidanceTracker>[]): Promise<boolean>[]{
     return operations.map(op => {

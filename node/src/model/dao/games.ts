@@ -11,7 +11,7 @@ import { GameListing, GameType, kGameEntryParentEntryIdNone, SaveGameRequestData
 import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
 import DAOCallback, { DAOTypedCallback } from './commons';
-import { updateObjectives, updateTrackers } from './metrics';
+import * as metricsDAO from './metrics'
 import { GameProject } from '../../../../commons/src/models/game/project';
 
 /**
@@ -157,9 +157,9 @@ export function saveGame(data: SaveGameRequestData, callback: DAOCallback){
         console.log('editGame-err', JSON.stringify(err));
         if (err == null && typeof res == 'object' && res.affectedRows && res.affectedRows > 0){
             // callback(true, 'Successfully updated!', null);
-            updateObjectives(data.id as string, data.objectives ?? [], (status) => {
+            metricsDAO.updateObjectives(data.id as string, data.objectives ?? [], (status) => {
                 if (status){
-                    updateTrackers(data.id, data.trackers ?? [], (status) => {
+                    metricsDAO.updateTrackers(data.id, data.trackers ?? [], (status) => {
                         if (status){
                             callback(true, 'Successfully updated!', null);
                         }
