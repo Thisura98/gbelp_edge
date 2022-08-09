@@ -9,20 +9,20 @@
         <div id="links">
             <div class="link" id="link-register" *ngIf="!isLoggedIn" (click)="registerClicked()">
                 <span class="link-name">Register</span>
-                <span class="link-img"><img src="assets/home/next.png" /></span>
+                <span class="link-img"><img class="noselect" src="assets/home/next.png" /></span>
             </div>
             <div class="link" id="link-login" *ngIf="!isLoggedIn" (click)="loginClicked()">
                 <span class="link-name">Login</span>
-                <span class="link-img"><img src="assets/home/next.png" /></span>
+                <span class="link-img"><img class="noselect" src="assets/home/next.png" /></span>
             </div>
             <div class="link" id="link-dashboard" *ngIf="isLoggedIn" (click)="showDashboardClicked()">
                 <span class="link-name">Show dashboard</span>
-                <span class="link-img"><img src="assets/home/next.png" /></span>
+                <span class="link-img"><img class="noselect" src="assets/home/next.png" /></span>
             </div>
         </div>
     </div>
 </div>
-<img id="bottom-image" src="assets/home/btmimg.jpg" />
+<img class="noselect" id="bottom-image" src="assets/home/btmimg.jpg" />
 
 <div id="section-what" class="section">
     <h3>What is <span class="section-hl">EDGE?</span></h3>
@@ -35,7 +35,7 @@
     <div class="section-heading-underline"></div>
     <div class="section-w-img">
         <div class="section-element">
-            <img src="assets/home/svg_teach.jpeg">
+            <img class="noselect" src="assets/home/svg_teach.jpeg">
         </div>
         <div class="section-element">
             <div class="section-body-l"><span class="section-body-hl">Teachers</span> sign up to create and publish their games.</div>
@@ -46,12 +46,12 @@
             <div class="section-body-l"><span class="section-body-hl">Students</span> sign up to play these games.</div>
         </div>
         <div class="section-element">
-            <img src="assets/home/svg_student.jpeg">
+            <img class="noselect" src="assets/home/svg_student.jpeg">
         </div>
     </div>
     <div class="section-w-img">
         <div class="section-element">
-            <img src="assets/home/svg_supervise.jpeg">
+            <img class="noselect" src="assets/home/svg_supervise.jpeg">
         </div>
         <div class="section-element">
             <div class="section-body-l"><span class="section-body-hl">Parents</span> sign up to supervise student progress.</div>
