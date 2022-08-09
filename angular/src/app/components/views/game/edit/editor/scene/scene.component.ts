@@ -26,14 +26,13 @@ export class SceneEditorComponent implements OnInit {
 
   sceneObjects: SceneObject[] = [];
   selectedSceneObjIndex: number | undefined = 0;
-  // get selectedObject(): SceneObject | undefined{
-  //   if (this.selectedSceneObjIndex == undefined)
-  //     return undefined;
-
-  //   return this.sceneObjects[this.selectedSceneObjIndex!];
-  // }
+  selectedLevelIndex: number | undefined = 0;
 
   cameraActive: boolean = true;
+
+  get cameraObjectType(): string{
+    return SceneObjectType.camera;
+  }
 
   constructor(
     private dialogService: DialogService,
@@ -48,6 +47,8 @@ export class SceneEditorComponent implements OnInit {
 
       if (value.selectedLevelIndex == undefined)
         return;
+
+      this.selectedLevelIndex = value.selectedLevelIndex;
 
       // Set data for Child Scene Map Component
       const levels = this.gameListing?.project?.levels ?? [];
@@ -129,6 +130,24 @@ export class SceneEditorComponent implements OnInit {
 
     const state = object.type == 'camera' ? this.cameraActive : true;
     this.editorDataService.setSceneObjectState(object, state);
+  }
+
+  removeSceneObject(index: number){
+    this.dialogService.showYesNo(
+      "Confirm Object Deletion",
+      "Are you sure you want to delete this object?", 
+      () => {
+        this.deleteSceneObjectConfirmed(index);
+      },
+      () => {}
+    );
+  }
+
+  private deleteSceneObjectConfirmed(index: number){
+    this.selectedSceneObjIndex = undefined;
+    this.editorDataService.setSceneObjectSelection(undefined);
+    this.sceneObjects.splice(index, 1);
+    this.editorDataService.setSceneMapData(this.sceneObjects, this.selectedLevelIndex!);
   }
 
 }

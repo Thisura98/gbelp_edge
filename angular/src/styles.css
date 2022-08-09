@@ -209,6 +209,10 @@ body .cdk-overlay-container{
     color: white;
 }
 
+.dyn-btn.btn-danger{
+    background-color: #b90000;
+}
+
 .dyn-btn-image{
     width: 20px;
     height: 20px;

@@ -9,7 +9,7 @@
                 {{obj.name}}
                 <div class="hierarchy-item-controls">
                     <!-- Camera Active/Inactive -->
-                    <ng-container *ngIf="obj.type == 'camera'">
+                    <ng-container *ngIf="obj.type == cameraObjectType">
                         <img 
                             src="assets/editor/scene/layer_{{ cameraActive ? 'active.png' : 'inactive.png' }}"
                             (click)="cameraActiveStateClicked(obj, $event)"
@@ -55,8 +55,12 @@
                     <input class="dyn-textbox tb-user-limit" type="text" [(ngModel)]="sceneObjects[selectedSceneObjIndex!].name"/>
                 </div>
             </div>
+            <div class="options-separator-transform"></div>
             <div class="options-rect">
                 <scene-transform-box [object]="getSelectedSceneObj()" (changed)="updateObjectState($event)"></scene-transform-box>
+            </div>
+            <div class="options-management" *ngIf="getSelectedSceneObj()?.type != cameraObjectType">
+                <div class="dyn-btn clickable btn-obj-delete btn-danger" (click)="removeSceneObject(selectedSceneObjIndex)">Delete object from Scene</div>
             </div>
         </ng-container>
     </div>

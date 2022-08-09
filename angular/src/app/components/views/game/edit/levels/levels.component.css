@@ -71,10 +71,6 @@ app-game-edit-level-item{
     justify-content: center;
 }
 
-.btn-danger{
-    background-color: #b90000;
-}
-
 .btn-container{
     display: flex;
     gap: 10px;

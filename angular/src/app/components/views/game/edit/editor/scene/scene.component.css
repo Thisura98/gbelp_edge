@@ -107,3 +107,27 @@
 .section-pane h2:not(:first-of-type){
     margin-top: 10px;
 }
+
+/* Options Panel */
+
+.options-selected-name{
+    color: #009EFF;
+    font-family: 'Roboto Medium';
+    margin-top: 15px;
+}
+
+.options-separator-transform{
+    width: 100%;
+    height: 1px;
+    background-color: #E3E3E3;
+    margin: 15px 0;
+}
+
+.options-sprite-name{
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.btn-obj-delete{
+    justify-content: center;
+}

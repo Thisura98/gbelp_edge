@@ -87,11 +87,6 @@ div.asset-container .asset-selected{
     background-color: #E3E3E3;
     margin: 30px 0;
 }
-
-.btn-danger{
-    background-color: #b90000;
-}
-
 .btn-play-sound{
     flex-direction: column;
 }
