@@ -35,7 +35,7 @@ markdown pre[class*="language-"] {
 	padding: 1px;
 }
 
-markdown pre[class*="language-"] > code {
+markdown pre[class*="language-"]>code {
 	position: relative;
 	z-index: 1;
 	border: 2px solid #bfd7e8;
@@ -58,7 +58,7 @@ markdown code[class*="language-"] {
 }
 
 /* Margin bottom to accommodate shadow */
-markdown :not(pre) > code[class*="language-"],
+markdown :not(pre)>code[class*="language-"],
 markdown pre[class*="language-"] {
 	background-color: #fdfdfd;
 	-webkit-box-sizing: border-box;
@@ -69,7 +69,7 @@ markdown pre[class*="language-"] {
 }
 
 /* Inline code */
-markdown :not(pre) > code[class*="language-"] {
+markdown :not(pre)>code[class*="language-"] {
 	position: relative;
 	padding: .2em;
 	border-radius: 0.3em;
@@ -173,6 +173,7 @@ markdown .token.important {
 markdown .token.bold {
 	font-weight: bold;
 }
+
 markdown .token.italic {
 	font-style: italic;
 }
@@ -186,6 +187,7 @@ markdown .token.namespace {
 }
 
 @media screen and (max-width: 767px) {
+
 	markdown pre[class*="language-"]:before,
 	markdown pre[class*="language-"]:after {
 		bottom: 14px;
@@ -213,63 +215,88 @@ markdown pre[class*="language-"][data-line] {
 	padding-bottom: 0;
 	padding-left: 0;
 }
+
 markdown pre[data-line] code {
 	position: relative;
 	padding-left: 4em;
 }
+
 markdow pre .line-highlight {
 	margin-top: 0;
 }
 
 /* Header Styles (custom */
-markdown h2{
+markdown h2 {
 	margin: 26px 0 16px 0;
 }
 
 /* Fig Caption (custom) */
-markdown figcaption{
+markdown figcaption {
 	font-style: oblique;
 	color: #8c8c8c;
 }
 
 /* Images (custom) */
-markdown img{
+markdown img {
 	border-radius: 3px;
 	border: 1px solid #c7c7c7;
 }
 
 /* Copy Link Icon */
-markdown .show-heading-link{
+markdown .show-heading-link {
 	position: relative;
 	display: flex;
 	flex-direction: row;
 	margin-left: -23px;
 }
 
-markdown .link-copy-ico{
+markdown .link-copy-ico {
 	display: inline-block;
 	visibility: hidden;
-    width: 18px;
-    height: 18px;
-    top: calc(50% - 9px);
-    left: -24px;
-    border: none;
+	width: 18px;
+	height: 18px;
+	top: calc(50% - 9px);
+	left: -24px;
+	border: none;
 	margin-top: 6px;
 	margin-right: 5px;
 	cursor: pointer;
 }
 
-markdown .show-heading-link:hover .link-copy-ico{
+markdown .show-heading-link:hover .link-copy-ico {
 	visibility: visible;
 }
 
-markdown blockquote{
+markdown blockquote {
 	background-color: #d9eaf5;
-    margin: 0px;
-    border-radius: 8px;
-    padding: 1em;
+	margin: 0px;
+	border-radius: 8px;
+	padding: 1em;
 }
 
-body.mat-typography markdown blockquote > p{
+body.mat-typography markdown blockquote>p {
 	margin: 0;
+}
+
+markdown table,
+markdown table th,
+markdown table td {
+	border-collapse: collapse;
+	border: 2px solid #bfd7e8;
+	width: 100%;
+}
+
+markdown table th,
+markdown table td {
+	padding: 6px 13px;
+	border: 1px solid #d0d7de;
+}
+
+markdown table tr {
+	background-color: #fff;
+	border-top: 1px solid hsla(210,18%,87%,1);
+}
+
+markdown table tr:nth-child(2n) {
+	background-color: #f6f8fa;
 }
