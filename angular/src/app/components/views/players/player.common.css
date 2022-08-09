@@ -78,7 +78,6 @@ app-userstatus{
 }
 
 .canvas-container{
-    /* position: relative; */
     flex-grow: 1;
     display: flex;
     align-items: center;
