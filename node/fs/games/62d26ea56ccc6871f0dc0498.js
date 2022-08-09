@@ -79,12 +79,12 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "sprite",
             "name": "sprite_png_1",
             "frame": {
-                "x": 291.4458642695158,
-                "y": 89.5580766424917,
+                "x": 291,
+                "y": 90,
                 "w": 100,
                 "h": 100
             },
-            "rotation": 0.5086715234408358,
+            "rotation": 0,
             "physicsBehavior": "0",
             "physicsCollision": "0",
             "opacity": 0,
@@ -134,7 +134,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		// --- scene object sprite_png_1 ---
-		const sprite_2 = this.add.sprite(341.4458642695158, 139.5580766424917, 'sprite_png_1');
+		const sprite_2 = this.add.sprite(341, 140, 'sprite_png_1');
 		sprite_2.name = "sprite_png_1";
 		scaleX = 100 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;
