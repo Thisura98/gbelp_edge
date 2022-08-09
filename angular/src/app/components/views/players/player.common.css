@@ -78,10 +78,18 @@ app-userstatus{
 }
 
 .canvas-container{
+    /* position: relative; */
     flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.loading-indicator{
+    line-height: 14px;
+    font-size: 14px;
+    text-align: center;
+    color: rgb(137, 137, 137);
 }
 
 @media only screen and (min-width: 600px){

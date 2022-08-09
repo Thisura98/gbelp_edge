@@ -14,7 +14,9 @@
                 <span class="game-title">{{game?.entry?.name ?? ""}}</span>
                 <span class="game-level">{{currentLevelName}}</span>
             </div>
+            <!-- Check the game.js template (in game compiler) to find where this is used -->
             <div class="canvas-container" id="canvas-container">
+                <div class="loading-indicator">Loading game...</div>
             </div>
             <div class="buttons-container">
                 <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat"

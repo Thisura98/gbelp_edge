@@ -40,9 +40,17 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(PlayerChatPanelComponent)
   chatPanel: PlayerChatPanelComponent | undefined;
   
+  /**
+   * Unique 'nonce' for this session. 
+   * Retrieved through the socket io API.
+   * 
+   * Used for relating game statistics 
+   * to a single 'play session'.
+   */
+  private playNonce: string | undefined;
+
   private session: GameSession | undefined;
   private destroyableSockets: Socket[] = [];
-  private playNonce: string | undefined;
   private levelIndex: number = 0;
   private chatSocket: EdgeSocket | undefined;
 
@@ -151,7 +159,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.game = gameResponse.data;
-        this.loadCompiledGame();
+        // this.loadCompiledGame();
       })
     })
   }
