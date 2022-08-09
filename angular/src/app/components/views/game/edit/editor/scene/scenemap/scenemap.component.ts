@@ -22,6 +22,15 @@ export class SceneObjectDataPack{
     ){}
 }
 
+class CameraBoxElements{
+    constructor(
+        public group: fabric.Group,
+        public staticElements: fabric.Group,
+        public cameraRect: fabric.Rect,
+        public cameraObject: SceneObject
+    ){}
+}
+
 class Point{
     constructor(
         public x: number,
@@ -59,6 +68,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
     private selectedSceneObjIndex: number | undefined;
     private canvasMovement = new CanvasMovement(false, 0, 0);
     private canvas: fabric.Canvas | undefined;
+    private cameraBoxElements: CameraBoxElements | undefined;
     // private canvasObjects: fabric.Object[] = [];
     private sceneObjects: SceneObject[] = [];
     private selectedLevelIndex: number | undefined;
@@ -255,6 +265,23 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         this.canvas?.requestRenderAll();
     }
 
+    /**
+     * 
+     * @param obj The Scene Object
+     * @param image fabric.Object cast as an fabric.Image
+     */
+    private setFabricTransformFrameFrom(obj: SceneObject, image: fabric.Image){
+        image.left = obj.frame.x;
+        image.top = obj.frame.y;
+
+        const scaleX = obj.frame.w / image.getOriginalSize().width;
+        const scaleY = obj.frame.h / image.getOriginalSize().height;
+        image.scaleX = scaleX;
+        image.scaleY = scaleY;
+
+        image.angle = obj.rotation;
+    }
+
     private addImageToCanvas(obj: SceneObject){
         const fileName = this.getResource(obj.spriteResourceId)?.filename;
         if (fileName == undefined)
@@ -263,15 +290,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         console.log('updatingCanvas with', url);
 
         fabric.Image.fromURL(url, (img) => {
-            img.left = obj.frame.x;
-            img.top = obj.frame.y;
-
-            const scaleX = obj.frame.w / img.getOriginalSize().width;
-            const scaleY = obj.frame.h / img.getOriginalSize().height;
-            img.scaleX = scaleX;
-            img.scaleY = scaleY;
-
-            img.angle = obj.rotation;
+            this.setFabricTransformFrameFrom(obj, img);
 
             img.borderColor = "#009EFF";
             img.borderScaleFactor = 2;
@@ -318,8 +337,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             fill: "#FFFFFF",
         });
 
-        const staticElements = new fabric.Group([cameraLabelBackground, cameraIcon, cameraLabel], {
-        });
+        const staticElements = new fabric.Group([cameraLabelBackground, cameraIcon, cameraLabel], {});
 
         const group = new CameraBoundingBox([cameraRect, staticElements], {
             left: frame.x,
@@ -329,6 +347,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         });
 
         this.canvas?.add(group);
+        this.cameraBoxElements = new CameraBoxElements(group, staticElements, cameraRect, obj);
         this.hookFabricCameraEvents(group, cameraRect, staticElements, obj);
     }
 
@@ -364,28 +383,41 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             const target = e.target!;
             console.log('camera', 'scaled!')
 
-            // Prevent scaling group
-            group.width = target.width! * target.scaleX!;
-            group.height = target.height! * target.scaleY!;
-            group.scaleX = 1;
-            group.scaleY = 1;
-
-            // Reposition 'Camera' label
-            staticElements.left = -group.width! / 2;
-            staticElements.top = -group.height! / 2;
-
-            // Reposition camera box
-            cameraRect.left = staticElements.left;
-            cameraRect.top = staticElements.top! + staticElements.height!;
-            cameraRect.width = group.width;
-            cameraRect.height = group.height - staticElements.height!;
-
-            // Update SceneObject
-            sObj.frame.x = target.left!;
-            sObj.frame.y = target.top!;
-            sObj.frame.w = group.width;
-            sObj.frame.h = group.height;
+            this.handleCameraTransform(
+                target.left!,
+                target.top!,
+                target.width! * target.scaleX!,
+                target.height! * target.scaleY!
+            );
         });
+    }
+
+    private handleCameraTransform(left: number, top: number, width: number, height: number, updateSceneObject: boolean = true){
+        let box = this.cameraBoxElements!;
+
+        // Prevent scaling group
+        box.group.width = width;
+        box.group.height = height;
+        box.group.scaleX = 1;
+        box.group.scaleY = 1;
+
+        // Reposition 'Camera' label
+        box.staticElements.left = -box.group.width! / 2;
+        box.staticElements.top = -box.group.height! / 2;
+
+        // Reposition camera box
+        box.cameraRect.left = box.staticElements.left;
+        box.cameraRect.top = box.staticElements.top! + box.staticElements.height!;
+        box.cameraRect.width = box.group.width;
+        box.cameraRect.height = box.group.height - box.staticElements.height!;
+
+        if (updateSceneObject){
+            // Update SceneObject
+            box.cameraObject.frame.x = left;
+            box.cameraObject.frame.y = top;
+            box.cameraObject.frame.w = box.group.width;
+            box.cameraObject.frame.h = box.group.height;
+        }
     }
 
     /**
@@ -464,10 +496,19 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         }
 
         console.log("Handle Object state called", JSON.stringify(pack.object));
-
-        object.left = pack.object.frame.x;
-        object.top = pack.object.frame.y;
-        object.selectable = pack.active;
+        const image = object as fabric.Image;
+        if (pack.object.type == SceneObjectType.sprite){
+            this.setFabricTransformFrameFrom(pack.object, image);
+        }
+        else if(pack.object.type == SceneObjectType.camera){
+            this.handleCameraTransform(
+                pack.object.frame.x, 
+                pack.object.frame.y, 
+                pack.object.frame.w, 
+                pack.object.frame.h,
+                false 
+            );
+        }
 
         if (!pack.active){
             this.canvas?.discardActiveObject(new Event(this.kIgnoreSelectionEvent));

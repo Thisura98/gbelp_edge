@@ -60,10 +60,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 197.828125,
+                "x": 100,
                 "y": 18,
-                "w": 307.171875,
-                "h": 382.00000000000006
+                "w": 640,
+                "h": 380
             },
             "rotation": 0,
             "physicsBehavior": "1",
@@ -125,10 +125,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(351.4140625, 209.00000000000003, 'Camera');
+		const sprite_1 = this.add.sprite(420, 208, 'Camera');
 		sprite_1.name = "Camera";
-		scaleX = 307.171875 / sprite_1.displayWidth;
-		scaleY = 382.00000000000006 / sprite_1.displayHeight;
+		scaleX = 640 / sprite_1.displayWidth;
+		scaleY = 380 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences['Camera'] = sprite_1;
 
