@@ -1,13 +1,8 @@
 import { Express } from 'express';
 import { aurl } from '../api_handler';
-import * as sessionDAO from '../../model/dao/session';
-import * as playDAO from '../../model/dao/play';
-import * as gameCompiler from '../../game_compiler/index';
 import { ResponseModel } from '../../model/models/common';
-import * as sql from '../../util/connections/sql/sql_connection';
 import * as l from '../../util/logger';
-import path from "path";
-import * as utils from '../../util/utils';
+import * as helper from './helpers/play';
 
 // getCompileGameURLForGameId
 
@@ -25,41 +20,17 @@ export function handlerPlay(app: Express){
 
         l.logc('Fetching Game JS', 'get-game');
 
-        sessionDAO.checkUserBelongsToSession(
-            userId, sessionId
-        ).then(doesBelong => {
-            if (doesBelong){
-                // Find game ID from session
-                return sessionDAO.getSession(sessionId);
-            }
-            else{
-                return Promise.reject('User does not belong to session');
-            }
-        })
-        .then(session => {
-            const gameEntryID = session.game_entry_id;
-            console.log(JSON.stringify(session), gameEntryID, String(gameEntryID));
-            if (gameEntryID){
-                return Promise.resolve(gameEntryID)
-            }
-            else{
-                return Promise.reject('Could not find game ID and play/get-game-js');
-            }
-        })
-        .then(gameId => {
-            return gameCompiler.getCompileGameURLForGameId(gameId);
-        })
-        .then(gameJS => {
-            const absolutePath = path.join(utils.getRootPath(), gameJS);
-            res.type('text/javascript').sendFile(absolutePath, (err) => {
+        helper.getGameJS(sessionId, userId)
+        .then(gameJSPath => {
+            res.type('text/javascript').sendFile(gameJSPath, (err) => {
                 if (err){
-                    l.logc(`Could not locate game lib file at "${gameJS}"`, 'play/get-game-js - fs err')
+                    l.logc(`Could not locate game lib file at "${gameJSPath}"`, 'play/get-game-js - fs err')
                     l.logc(err.message, 'play/get-game-js - fs err');
                 }
             });
-        }).catch(error => {
-            l.logc(error, 'play/get-game-js - catch');
+        })
+        .catch(error => {
             res.sendStatus(404);
-        });
+        })
     });
 }
