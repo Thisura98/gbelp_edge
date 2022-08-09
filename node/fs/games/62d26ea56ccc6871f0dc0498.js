@@ -50,7 +50,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         this.load.setBaseURL('http://localhost/');
         
 
-		this.load.image('sprite_png', 'fs/res_upload/image/1657959470527.png');
+		this.load.image('sprite_png_1', 'fs/res_upload/image/1657959470527.png');
 		this.load.image('sprite_png_2', 'fs/res_upload/image/1657959470527.png');
         this.levelData = {
     "objects": [
@@ -60,10 +60,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 234.828125,
-                "y": 14,
-                "w": 555,
-                "h": 356.00000000000006
+                "x": 197.828125,
+                "y": 18,
+                "w": 307.171875,
+                "h": 382.00000000000006
             },
             "rotation": 0,
             "physicsBehavior": "1",
@@ -77,10 +77,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "_id": "temp_1657961437079",
             "spriteResourceId": "62d2742ed7b1f90c30e4e176",
             "type": "sprite",
-            "name": "sprite_png",
+            "name": "sprite_png_1",
             "frame": {
-                "x": 290.4458642695158,
-                "y": 84.5580766424917,
+                "x": 291.4458642695158,
+                "y": 89.5580766424917,
                 "w": 100,
                 "h": 100
             },
@@ -125,21 +125,21 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(512.328125, 192.00000000000003, 'Camera');
+		const sprite_1 = this.add.sprite(351.4140625, 209.00000000000003, 'Camera');
 		sprite_1.name = "Camera";
-		scaleX = 555 / sprite_1.displayWidth;
-		scaleY = 356.00000000000006 / sprite_1.displayHeight;
+		scaleX = 307.171875 / sprite_1.displayWidth;
+		scaleY = 382.00000000000006 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences['Camera'] = sprite_1;
 
 
-		// --- scene object sprite_png ---
-		const sprite_2 = this.add.sprite(340.4458642695158, 134.5580766424917, 'sprite_png');
-		sprite_2.name = "sprite_png";
+		// --- scene object sprite_png_1 ---
+		const sprite_2 = this.add.sprite(341.4458642695158, 139.5580766424917, 'sprite_png_1');
+		sprite_2.name = "sprite_png_1";
 		scaleX = 100 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
-		this.spriteReferences['sprite_png'] = sprite_2;
+		this.spriteReferences['sprite_png_1'] = sprite_2;
 
 
 		// --- scene object sprite_png_2 ---
@@ -154,7 +154,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
         // Add your code below this line
 
-        this.star = this.spriteReferences['sprite_png'];
+        this.star = this.spriteReferences['sprite_png_1'];
         this.star2 = this.spriteReferences['sprite_png_2'];
 
         if (this.levelProperties['Character Color'] != null){

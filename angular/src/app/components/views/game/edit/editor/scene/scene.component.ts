@@ -26,6 +26,12 @@ export class SceneEditorComponent implements OnInit {
 
   sceneObjects: SceneObject[] = [];
   selectedSceneObjIndex: number | undefined = 0;
+  // get selectedObject(): SceneObject | undefined{
+  //   if (this.selectedSceneObjIndex == undefined)
+  //     return undefined;
+
+  //   return this.sceneObjects[this.selectedSceneObjIndex!];
+  // }
 
   cameraActive: boolean = true;
 
@@ -112,10 +118,17 @@ export class SceneEditorComponent implements OnInit {
     event.preventDefault();
     event.cancelBubble = true;
     this.cameraActive = !this.cameraActive;
-    this.editorDataService.setSceneObjectActiveState(camera, this.cameraActive);
+    this.editorDataService.setSceneObjectState(camera, this.cameraActive);
 
     if (!this.cameraActive)
       this.editorDataService.setSceneObjectSelection(undefined);
+  }
+
+  updateObjectState(object: SceneObject){
+    console.log("updateObjectstate called");
+
+    const state = object.type == 'camera' ? this.cameraActive : true;
+    this.editorDataService.setSceneObjectState(object, state);
   }
 
 }

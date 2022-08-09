@@ -1,0 +1,25 @@
+<div class="dyn-form-row">
+    <div class="dyn-form-label">X</div>
+    <input #x class="dyn-textbox tb-user-limit" type="number" [value]="sceneObject!.frame.x" (keyup)="triggerChange()"
+        (change)="triggerChange()" />
+</div>
+<div class="dyn-form-row">
+    <div class="dyn-form-label">Y</div>
+    <input #y class="dyn-textbox tb-user-limit" type="number" [value]="sceneObject!.frame.y" (keyup)="triggerChange()"
+        (change)="triggerChange()" />
+</div>
+<div class="dyn-form-row">
+    <div class="dyn-form-label">R</div>
+    <input #rotation class="dyn-textbox tb-user-limit" type="number" [value]="sceneObject!.rotation"
+        (keyup)="triggerChange()" (change)="triggerChange()" />
+</div>
+<div class=" dyn-form-row">
+    <div class="dyn-form-label">W</div>
+    <input #w class="dyn-textbox tb-user-limit" type="number" [value]="sceneObject!.frame.w" (keyup)="triggerChange()"
+        (change)="triggerChange()" />
+</div>
+<div class="dyn-form-row">
+    <div class="dyn-form-label">H</div>
+    <input #h class="dyn-textbox tb-user-limit" type="number" [value]="sceneObject!.frame.h" (keyup)="triggerChange()"
+        (change)="triggerChange()" />
+</div>

@@ -47,6 +47,17 @@
             </div>
         </div>
         <h2>Options</h2>
-        
+        <ng-container *ngIf="selectedSceneObjIndex != undefined">
+            <div class="options-selected-name">"{{sceneObjects[selectedSceneObjIndex!].name}}"sprite selected</div>
+            <div class="options-sprite-name">
+                <div class="dyn-form-row">
+                    <div class="dyn-form-label">Sprite Name</div>
+                    <input class="dyn-textbox tb-user-limit" type="text" [(ngModel)]="sceneObjects[selectedSceneObjIndex!].name"/>
+                </div>
+            </div>
+            <div class="options-rect">
+                <scene-transform-box [object]="getSelectedSceneObj()" (changed)="updateObjectState($event)"></scene-transform-box>
+            </div>
+        </ng-container>
     </div>
 </div>

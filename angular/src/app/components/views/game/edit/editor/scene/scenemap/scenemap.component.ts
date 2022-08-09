@@ -15,7 +15,7 @@ export class SceneMapDataPack{
     ){}
 }
 
-export class ActiveStateDataPack{
+export class SceneObjectDataPack{
     constructor(
         public object: SceneObject,
         public active: boolean
@@ -210,9 +210,9 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             this.updateCanvasSelection()
         });
 
-        // List to object active state
-        this.dataService.getSceneObjectActiveState().subscribe((obj) => {
-            this.handleObjectActiveState(obj);
+        // Listen to object state (active state, frame changes, etc.)
+        this.dataService.getSceneObjectState().subscribe((obj) => {
+            this.handleObjectState(obj);
         });
     }
 
@@ -455,7 +455,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         });
     }
 
-    private handleObjectActiveState(pack: ActiveStateDataPack){
+    private handleObjectState(pack: SceneObjectDataPack){
         const objectId = pack.object._id;
         const object = this.canvas?._objects.find((obj) => obj.data! == objectId);
         if (object == undefined){
@@ -463,12 +463,16 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             return;
         }
 
+        console.log("Handle Object state called", JSON.stringify(pack.object));
+
+        object.left = pack.object.frame.x;
+        object.top = pack.object.frame.y;
         object.selectable = pack.active;
 
         if (!pack.active){
             this.canvas?.discardActiveObject(new Event(this.kIgnoreSelectionEvent));
-            this.canvas?.requestRenderAll();
         }
+        this.canvas?.requestRenderAll();
     }
 
 }

@@ -61,9 +61,10 @@ import { GameEditLevelsAddComponentComponent } from './components/views/game/edi
 import { GameEditLevelItemComponent } from './components/views/game/edit/levels/item/item.component';
 import { GameEditorComponents } from './components/views/game/edit/editor/editor.component';
 import { SceneEditorComponent } from './components/views/game/edit/editor/scene/scene.component';
+import { SceneObjectTransformBoxComponent } from './components/views/game/edit/editor/scene/transformbox/transformbox.component';
+import { SceneMapComponent } from './components/views/game/edit/editor/scene/scenemap/scenemap.component';
 import { PropertiesEditorComponent } from './components/views/game/edit/editor/properties/properties.component';
 import { LogicEditorComponent } from './components/views/game/edit/editor/logic/logic.component';
-import { SceneMapComponent } from './components/views/game/edit/editor/scene/scenemap/scenemap.component';
 import { AnyToStringPipe } from './pipes/any-to-string.pipe';
 import { DocsComponent } from './components/views/docs/docs.component';
 import { DocsArticlesComponent } from './components/views/docs/articles/articles.docs.component';
@@ -122,9 +123,10 @@ import { CustomRenderer } from './services/md-renderer';
     GameEditLevelItemComponent,
     GameEditorComponents,
     SceneEditorComponent,
+    SceneObjectTransformBoxComponent,
+    SceneMapComponent,
     PropertiesEditorComponent,
     LogicEditorComponent,
-    SceneMapComponent,
     DocsComponent,
     DocsArticlesComponent,
     ScriptReferenceArticleComponent,

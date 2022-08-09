@@ -2,7 +2,7 @@ import { Injectable, Injector } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
 import { SceneObject } from "../../../../commons/src/models/game/levels/scene";
 import { GameProject } from "../../../../commons/src/models/game/project";
-import { ActiveStateDataPack, SceneMapDataPack } from "../components/views/game/edit/editor/scene/scenemap/scenemap.component";
+import { SceneObjectDataPack, SceneMapDataPack } from "../components/views/game/edit/editor/scene/scenemap/scenemap.component";
 import { ServerResponseGameListing } from "../models/game/game";
 
 export class EditorChildDataPack{
@@ -17,7 +17,7 @@ let sceneData = new BehaviorSubject<EditorChildDataPack>(new EditorChildDataPack
 let sceneMapData = new BehaviorSubject<SceneMapDataPack>(new SceneMapDataPack([], undefined));
 let addSceneObject = new Subject<SceneObject>();
 let sceneObjectSelection = new BehaviorSubject<number | undefined>(undefined);
-let objectActiveState = new Subject<ActiveStateDataPack>();
+let objectState = new Subject<SceneObjectDataPack>();
 
 interface OnSaveListener{
     callback: (project: GameProject) => void
@@ -129,14 +129,14 @@ export class EditorDataService{
         return sceneObjectSelection;
     }
 
-    // Object active state
+    // Scene Object state
 
-    setSceneObjectActiveState(object: SceneObject, active: boolean){
-        objectActiveState.next(new ActiveStateDataPack(object, active));
+    setSceneObjectState(object: SceneObject, active: boolean){
+        objectState.next(new SceneObjectDataPack(object, active));
     }
 
-    getSceneObjectActiveState(): Subject<ActiveStateDataPack>{
-        return objectActiveState;
+    getSceneObjectState(): Subject<SceneObjectDataPack>{
+        return objectState;
     }
 
 }
