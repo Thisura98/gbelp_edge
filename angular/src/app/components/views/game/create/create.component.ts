@@ -1,5 +1,5 @@
 import { Location, TitleCasePipe } from '@angular/common';
-import { Component, OnInit, AfterContentInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
@@ -13,6 +13,7 @@ import { GameEntry, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../
 import { GameObjective } from '../../../../../../../commons/src/models/game/objectives';
 import { GameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
 import { GameEditConstants } from 'src/app/constants/constants';
+import { MetaKeyService } from 'src/app/services/metakey.service';
 
 @Component({
   selector: 'app-game-create',
@@ -71,6 +72,7 @@ export class GameCreateComponent implements OnInit {
     private location: Location,
     private apiService: ApiService,
     private dialogService: DialogService,
+    private metaKeyService: MetaKeyService,
     private activateRoute: ActivatedRoute,
     private router: Router,
     private titleCasePipe: TitleCasePipe
@@ -97,6 +99,7 @@ export class GameCreateComponent implements OnInit {
 
   // MARK: Event Handlers
 
+  /// Create or Save button, depending on whether in Create or Edit mode
   createButtonClicked(){
     const userId = this.userService.getUserAndToken().user.userId;
     let data: SaveGameRequestData = {
@@ -188,6 +191,18 @@ export class GameCreateComponent implements OnInit {
       this.router.navigate([
         `/dashboard/f/templates`
       ]);
+    }
+  }
+  
+  /**
+   * Save the game when user presses Ctlr / Command + S
+   */
+  @HostListener('document:keydown', ['$event'])
+  saveShortcutPressed(e: Event){
+    const kbEvent = e as KeyboardEvent;
+    if (this.metaKeyService.isMetaKey(kbEvent) && kbEvent.key == 's'){
+      e.preventDefault();
+      this.createButtonClicked();
     }
   }
 

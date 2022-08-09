@@ -104,18 +104,11 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   didSelectLevel(event: Event){
     const levelId = (event.target as HTMLInputElement).value;
-    const path = this.viewMode == ViewMode.GAME ? '/game/edit/editor/scene' : '/template/edit/editor/scene';
 
     if (levelId == "-1")
       return;
 
-    this.router.navigate([path], {
-      queryParams: {
-        gameId: this.editingGameId!,
-        levelId: levelId
-      },
-      replaceUrl: true
-    });
+    this.navigateToLevelId(levelId);
   }
 
   /**
@@ -305,10 +298,16 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const levelId = params['levelId'];
       const matchingLevelIndex = this.gameLevels.findIndex((lvl) => {return lvl._id == levelId});
+
       if (matchingLevelIndex >= 0){
         indexOfLevel = matchingLevelIndex;
         this.selectedLevel = this.gameLevels[indexOfLevel];
         this.selectedLevelIndex = indexOfLevel;
+      }
+      else if (this.gameLevels.length > 0){
+        // No level is selected. select the first one available.
+        this.navigateToLevelId(this.gameLevels[0]._id!);
+        return;
       }
 
       this.editorDataService.setEditorChildData(response, this.selectedLevelIndex, this.selectedLevel!._id!);
@@ -364,6 +363,17 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     else{
       window.open(`mplay/${data.sessionId}?${QueryKey.testSession}=true`, '_blank');
     }
+  }
+
+  private navigateToLevelId(levelId: string){
+    const path = this.viewMode == ViewMode.GAME ? '/game/edit/editor/scene' : '/template/edit/editor/scene';
+    this.router.navigate([path], {
+      queryParams: {
+        gameId: this.editingGameId!,
+        levelId: levelId
+      },
+      replaceUrl: true
+    });
   }
 
 }

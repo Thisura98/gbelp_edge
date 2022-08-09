@@ -90,6 +90,11 @@
     padding: 11.5px 0;
 }
 
+.dyn-sidebar-subitems-container-internal .dyn-sidebar-subitem:active{
+    background-color: #0163a0;
+    color: #FFFFFF;
+}
+
 .dyn-sidebar-subitem:hover, .dyn-sidebar-subitem.selected{
     background-color: #F7F7F722;
     color: #FFFFFF;

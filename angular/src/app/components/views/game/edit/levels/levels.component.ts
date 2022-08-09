@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { getGameSidebarItems, ViewMode } from 'src/app/constants/constants';
@@ -6,6 +6,7 @@ import { GameListing } from '../../../../../../../../commons/src/models/game/gam
 import { LevelExitCriteria, GameLevel, GameLevelHelper, LevelTypeSingle, LevelDisplayMode, LevelExitCriteriaHelper, LevelTypeMulti } from '../../../../../../../../commons/src/models/game/levels';
 import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { MetaKeyService } from 'src/app/services/metakey.service';
 import { UserService } from 'src/app/services/user.service';
 import { GameEditLevelItemComponent } from './item/item.component';
 import { LevelScene, SceneObjectHelper } from '../../../../../../../../commons/src/models/game/levels/scene';
@@ -45,6 +46,7 @@ export class GameEditLevelsComponent implements OnInit {
     private userService: UserService,
     private apiService: ApiService,
     private dialogService: DialogService,
+    private metaKeyService: MetaKeyService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) { }
@@ -70,6 +72,18 @@ export class GameEditLevelsComponent implements OnInit {
       this.router.navigate([
         `/dashboard/f/templates`
       ]);
+    }
+  }
+  
+  /**
+   * Save the game when user presses Ctlr / Command + S
+   */
+  @HostListener('document:keydown', ['$event'])
+  saveShortcutPressed(e: Event){
+    const kbEvent = e as KeyboardEvent;
+    if (this.metaKeyService.isMetaKey(kbEvent) && kbEvent.key == 's'){
+      e.preventDefault();
+      this.handleSaveButtonPressed();
     }
   }
 

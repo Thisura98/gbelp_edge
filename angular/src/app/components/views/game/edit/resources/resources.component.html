@@ -10,7 +10,7 @@
             <app-userstatus></app-userstatus>
         </div>
         <div class="buttons">
-            <div class="dyn-btn clickable btn-save">Save</div>
+            <!-- <div class="dyn-btn clickable btn-save">Save</div> -->
             <div class="dyn-btn clickable btn-upload" (click)="uploadResourceClicked()">Upload Resource</div>
             <input type="file" #resourceUploadInput class="file-uploader hidden-input" (change)="uploadInputFileChanged($event)">
         </div>
@@ -47,7 +47,7 @@
             <div class="section-pane">
                 <h2>Options</h2>
                 <ng-container *ngIf="selectedResource == undefined">
-                    <div class="options-selected-type">Select a resource to get started</div>
+                    <div class="options-selected-type">Select a resource to get started<br><br>Uploaded resources are automatically saved in the project</div>
                     <div class="options-separator"></div>
                 </ng-container>
                 <ng-container *ngIf="selectedResource != undefined">
