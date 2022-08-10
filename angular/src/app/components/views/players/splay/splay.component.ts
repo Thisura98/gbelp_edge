@@ -41,6 +41,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   chats: ChatMessage[] = [];
   objectives: ProgressfulGameObjective[] = [];
   guidanceTrackers: ProgressfulGameGuidanceTracker[] = [];
+  activeGuidance: ProgressfulGameGuidanceTracker | undefined;
 
   @ViewChild(PlayerChatPanelComponent)
   chatPanel: PlayerChatPanelComponent | undefined;
@@ -193,6 +194,12 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
         if (objectivesResponse.success && guidanceTrackersResponse.success){
           this.objectives = objectivesResponse.data.map(v => ProgressfulGameObjective.from(v));
           this.guidanceTrackers = guidanceTrackersResponse.data.map(v => ProgressfulGameGuidanceTracker.from(v));
+
+          // demo code
+          if (this.guidanceTrackers.length > 0){
+            this.activeGuidance = this.guidanceTrackers[0];
+          }
+          // end demo code
 
           resolve();
         }

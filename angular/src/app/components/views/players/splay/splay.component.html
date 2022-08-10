@@ -47,5 +47,9 @@
         <app-player-panel-objectives *ngIf="panelTitle == 'Objectives'"
             [objectives]="objectives">
         </app-player-panel-objectives>
+        <app-player-panel-guidance *ngIf="panelTitle == 'Guidance'"
+            [guidance]="activeGuidance">
+
+        </app-player-panel-guidance>
     </div>
 </div>

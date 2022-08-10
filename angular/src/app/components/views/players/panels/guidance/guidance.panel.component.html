@@ -1,0 +1,17 @@
+
+<div *ngIf="guidance != undefined">
+    Hey {{username}},
+    
+    Looks like you are having a little trouble with the game.
+
+    We noticed that you didn't {{guidance!.name}}.
+
+    <div>
+        Relax, take a deep breath.
+
+        {{guidance!.message}}
+    </div>
+    <div>
+        Okay got it
+    </div>
+</div>
