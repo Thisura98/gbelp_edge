@@ -107,7 +107,7 @@ export const columns = {
     },
     gameSessionGuidanceTracker: {
         id: 'id',
-        sessionId: 'gsession_id',
+        sessionId: 'session_id',
         trackerId: 'tracker_id',
         userId: 'user_id',
         progress: 'progress',

@@ -4,6 +4,7 @@ import { ResponseModel } from '../../model/models/common';
 import * as l from '../../util/logger';
 import * as helper from './helpers/play';
 import { updateObjectiveProgress } from './helpers/play/update-objective';
+import { updateGuidanceTrackerProgress } from './helpers/play/update-guidance';
 
 // getCompileGameURLForGameId
 
@@ -47,7 +48,27 @@ export function handlerPlay(app: Express){
             if (success)
                 res.send(new ResponseModel(true, 200, 'Objective Progress updated successfully'));
             else
-                res.send(new ResponseModel(false, 200, 'Unknown error occurred while trying to update progress'));
+                res.send(new ResponseModel(false, 200, 'Unknown error occurred while trying to update objective progress'));
+                
+        })
+        .catch(error => {
+            res.send(new ResponseModel(false, 200, error));
+        })
+    });
+
+    app.post(aurl('play/update-guidance'), (req, res) => {
+        const nonce = req.body.nonce as string;
+        const sessionId = req.body.sessionId as string;
+        const trackerId = req.body.trackerId as string;
+        const newProgress = req.body.progress as string;
+        const uid = req.header('uid');
+
+        updateGuidanceTrackerProgress(nonce, sessionId, trackerId, newProgress, uid)
+        .then(success => {
+            if (success)
+                res.send(new ResponseModel(true, 200, 'Guidance Tracker progress updated successfully'));
+            else
+                res.send(new ResponseModel(false, 200, 'Unknown error occurred while trying to update guidance tracker progress'));
                 
         })
         .catch(error => {
