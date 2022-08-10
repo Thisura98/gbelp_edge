@@ -5,7 +5,7 @@ import * as pc from '../../util/parseconfig';
 import * as path from 'path';
 import * as gamesDAO from '../../model/dao/games';
 import * as levelsDAO from '../../model/dao/levels';
-import { getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
+import { getPhaserLibPath, getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
 import * as l from '../../util/logger';
 import multer from 'multer';
 
@@ -83,7 +83,6 @@ export function handlerGameEditing(app: Express){
     });
 
     app.get(aurl('game-lib'), (req, res) => {
-        const userId = req.header('uid')! as string;
         const scriptType = req.query.type as string;
         let gameLibPath: string = '';
 
@@ -96,6 +95,16 @@ export function handlerGameEditing(app: Express){
             if (err){
                 l.logc(`Could not locate game lib file at "${gameLibPath}"`, 'game-lib')
                 l.logc(err.message, 'game-lib');
+            }
+        });
+    });
+
+    app.get(aurl('phaser-lib'), (req, res) => {
+        let libPath = getPhaserLibPath();
+        res.type('text/javascript').sendFile(libPath, (err) => {
+            if (err){
+                l.logc(`Could not locate phaser lib file at "${libPath}"`, 'phaser-lib')
+                l.logc(err.message, 'phaser-lib');
             }
         });
     });

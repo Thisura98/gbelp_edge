@@ -87,12 +87,19 @@ export class GameEditingAPIs implements APIBase {
     return this.http.put<ServerResponsePlain>(url, body, { headers: this.getHeaders() });
   }
 
+  getPhaserLibraryFile(): Observable<string>{
+    const url = this.aurl('phaser-lib');
+    return this.http.get(url, {
+      params: { },
+      responseType: 'text',
+      headers: this.getHeaders()
+    });
+  }
+
   getGameLibraryJSFile(type: string): Observable<string> {
     const url = this.aurl(`game-lib`);
     return this.http.get(url, {
-      params: {
-        type: type
-      },
+      params: { type: type },
       responseType: 'text',
       headers: this.getHeaders()
     });

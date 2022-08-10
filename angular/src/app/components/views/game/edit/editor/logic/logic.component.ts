@@ -6,6 +6,7 @@ import { EditorChildDataPack, EditorDataService } from 'src/app/services/editor.
 import { LevelScript } from '../../../../../../../../../commons/src/models/game/levels/logic';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
 import { EDGEMonacoEditorOptions } from './monaco.editor.options';
+import { DialogService } from 'src/app/services/dialog.service';
 
 type Editor = monaco.editor.IStandaloneCodeEditor;
 
@@ -34,6 +35,7 @@ export class LogicEditorComponent implements OnInit {
 
   constructor(
     private editorDataService: EditorDataService,
+    private dialogService: DialogService,
     private apiService: ApiService
   ) { }
 
@@ -105,30 +107,41 @@ export class LogicEditorComponent implements OnInit {
     this.loadTemplateIfNeeded(data);
   }
 
+  /**
+   * Load the Phaser and Edge game libraries into Monaco
+   */
   private loadExtraLib(){
     if (this.gameLibLoaded)
       return;
 
     const type = this.gameListing!.entry.type.toString();
-    this.apiService.editor.getGameLibraryJSFile(type).subscribe((_lib) => {
-      const lib = this.stripUnwantedImports(_lib);
-      console.log("Received Game LIB:", lib);
+    this.apiService.editor.getGameLibraryJSFile(type).subscribe(_gameLib => {
+      this.apiService.editor.getPhaserLibraryFile().subscribe(_phaserLib => {
+        const gameLib = this.stripUnwantedImports(_gameLib);
+        const phaserLib = this.stripUnwantedImports(_phaserLib);
 
-      this.editorReference.pipe(filter(v => v != undefined)).subscribe(value => {
-        console.log("Editor:", value);
-        console.log(monaco.languages.typescript.javascriptDefaults.getExtraLibs());
-        monaco.languages.typescript.javascriptDefaults.addExtraLib(lib);
-      })
-      
-    }, (err) => {
-      console.log(err);
-    });
+        // console.log("Received Game LIB:", lib);
+
+        this.editorReference.pipe(filter(v => v != undefined)).subscribe(value => {
+          console.log("Editor:", value);
+          console.log(monaco.languages.typescript.javascriptDefaults.getExtraLibs());
+          monaco.languages.typescript.javascriptDefaults.addExtraLib(gameLib);
+          monaco.languages.typescript.javascriptDefaults.addExtraLib(phaserLib);
+        })
+
+      }, (err) => this.showLibLoadError(err))
+    }, (err) => this.showLibLoadError(err));
   }
 
   private stripUnwantedImports(lib: string): string{
     const search = new RegExp('^require.+', 'g');
     const replace = '// removed import';
     return lib.replace(search, replace);
+  }
+
+  private showLibLoadError(error: any){
+    const str = typeof error == 'string' ? error : JSON.stringify(error);
+    this.dialogService.showDismissable('Error white loading game library', str);
   }
 
   private loadTemplateIfNeeded(data: EditorChildDataPack){

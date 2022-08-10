@@ -11,6 +11,11 @@ const scenes = [EDGTOKEN_SCENES];
 const gameZoom = 1.0;
 
 /**
+ * Remove all elements inside the canvas container
+ */
+document.getElementById(canvasName).replaceChildren([]);
+
+/**
  * @type {Phaser.Core.Config}
  */
 const config = {

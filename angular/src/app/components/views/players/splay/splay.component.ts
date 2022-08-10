@@ -159,7 +159,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.game = gameResponse.data;
-        // this.loadCompiledGame();
+        this.loadCompiledGame();
       })
     })
   }
