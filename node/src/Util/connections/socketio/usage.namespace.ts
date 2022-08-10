@@ -46,12 +46,12 @@ export function setupUsageNamespace(usageNamespace: socket.Namespace<DefaultEven
         const userId = socket.handshake.auth['uid'] as string;
         const sessionId = socket.handshake.auth['sessionId'] as string;
 
-        metricsDAO.recordUsage(sessionId, userId, '1', playNonce).then(result => {
+        metricsDAO.recordSessionUsage(sessionId, userId, '1', playNonce).then(result => {
             if (!result){ return Promise.reject('Recorindg usage failed'); }
             socket.emit('play-nonce', { nonce: playNonce });
         })
         socket.on('disconnect', () => {
-            metricsDAO.recordUsage(sessionId, userId, '0', playNonce);
+            metricsDAO.recordSessionUsage(sessionId, userId, '0', playNonce);
         })
     });
 }

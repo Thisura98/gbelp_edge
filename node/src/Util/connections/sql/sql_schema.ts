@@ -102,6 +102,7 @@ export const columns = {
         objectiveId: 'objective_id',
         userId: 'user_id',
         progress: 'progress',
+        playNonce: 'play_nonce',
         lastUpdated: 'last_updated'
     },
     gameSessionGuidanceTracker: {

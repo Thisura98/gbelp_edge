@@ -318,22 +318,78 @@ function createTrackerQueryPromises(operations: DAOMergeOperation<IGameGuidanceT
  * @param playNonce Any unique value identifying this play session.
  * @returns 
  */
-export function recordUsage(
+export function recordSessionUsage(
     sessionId: string,
     userId: string,
     isStart: string,
     playNonce: string,
 ): Promise<boolean>{
     const se = sql.smartEscape;
-    const query = `INSERT INTO \`gsession_user_usage\`
+    const query = `INSERT INTO \`${sql.tables.gameSessionUsage}\`
     (session_id, user_id, is_start, play_nonce)
     VALUES (${se(sessionId)}, ${se(userId)}, ${se(isStart)}, ${se(playNonce)});
     `;
     return new Promise<boolean>((resolve, reject) => {
         sql.getPool()!.query(query, (error, result) => {
             if (error){
-                l.logc(error.message, 'recordUsageStarted');
+                l.logc(error.message, 'recordSessionUsageStarted');
                 reject(error.message);
+            }
+            else{
+                resolve(result.affectedRows > 0);
+            }
+        });
+    });
+}
+
+export function recordSessionObjectiveProgress(
+    sessionId: string,
+    objectiveId: string,
+    userId: string,
+    playNonce: string,
+    progress: number
+): Promise<boolean>{
+    const c = sql.columns.gameSessionUserObjective;
+    const fn = 'recordSessionObjectiveProgress';
+
+    return new Promise<boolean>((resolve, reject) => {
+        const query = `INSERT INTO \`${sql.tables.gameSessionUserObjective}\`
+            (${c.sessionId}, ${c.objectiveId}, ${c.userId}, ${c.playNonce}, ${c.progress})
+            VALUES (?, ?, ?, ?, ?)`;
+        const values = [sessionId, objectiveId, userId, playNonce, progress];
+
+        sql.getPool()!.query(query, values, (error, result) => {
+            if (error){
+                l.logc(error.message, fn);
+                reject('Error occurred while trying to update session objective progress');
+            }
+            else{
+                resolve(result.affectedRows > 0);
+            }
+        });
+    });
+}
+
+export function recordSessionGuidanceTrackerProgress(
+    sessionId: string,
+    trackerId: string,
+    userId: string,
+    playNonce: string,
+    progress: number
+): Promise<boolean>{
+    const c = sql.columns.gameSessionGuidanceTracker;
+    const fn = 'recordSessionGuidanceTrackerProgress';
+
+    return new Promise<boolean>((resolve, reject) => {
+        const query = `INSERT INTO \`${sql.tables.gameSessionGuidanceTracker}\`
+            (${c.sessionId}, ${c.trackerId}, ${c.userId}, ${c.playNonce}, ${c.progress})
+            VALUES (?, ?, ?, ?, ?)`;
+        const values = [sessionId, trackerId, userId, playNonce, progress];
+
+        sql.getPool()!.query(query, values, (error, result) => {
+            if (error){
+                l.logc(error.message, fn);
+                reject('Error occurred while trying to update session guidance tracker progress');
             }
             else{
                 resolve(result.affectedRows > 0);
