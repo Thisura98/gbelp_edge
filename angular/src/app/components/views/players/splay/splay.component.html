@@ -44,5 +44,8 @@
         <app-player-panel-chat *ngIf="panelTitle == 'Chats'" 
             [messages]="chats" (sendMsg)="sendChatMessage($event)">
         </app-player-panel-chat>
+        <app-player-panel-objectives *ngIf="panelTitle == 'Objectives'"
+            [objectives]="objectives">
+        </app-player-panel-objectives>
     </div>
 </div>

@@ -78,6 +78,7 @@ import { GroupOverviewComponent } from './components/views/groups/overview/overv
 import { GroupsMenuselectorComponent } from './components/views/groups/common/menuselector/menuselector.component';
 import { GroupJoinComponent } from './components/views/groups/join/join.component';
 import { PlayerChatPanelComponent } from './components/views/players/panels/chat/chat.panel.component';
+import { PlayerObjectivesPanelComponent } from './components/views/players/panels/objectives/objectives.panel.component';
 import { GroupReportsComponent } from './components/views/groups/reports/report.component';
 import { GroupsSessionTable } from './components/ui/groups/session-data-table/groups.sessiontable';
 import { GroupSessionComponent } from './components/views/groups/session/session.component';
@@ -144,7 +145,8 @@ import { CustomRenderer } from './services/md-renderer';
     GroupReportsAvailableComponent,
     GroupReportsUsageComponent,
     StatefulButton,
-    PlayerChatPanelComponent
+    PlayerChatPanelComponent,
+    PlayerObjectivesPanelComponent
   ],
   imports: [
     CommonModule,

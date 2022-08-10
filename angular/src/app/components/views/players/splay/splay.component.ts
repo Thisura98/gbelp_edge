@@ -146,11 +146,13 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   * Get the session then,
+   * Get the game then,
+   * Get objectives & trackers then,
+   * Get the game JS
+   */
   private loadGame(){
-    // Get the session then,
-    // get the game then,
-    // get objectives & guidance trackers then,
-    // get the game js.
     this.apiService.session.getSession(this.sessionId!).subscribe(sessionResponse => {
       if (!sessionResponse.success){
         this.handleLoadError(sessionResponse, 'Sessions');
@@ -172,6 +174,10 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     }, err => this.handleLoadServerError(err, 'Sessions'))
   }
 
+  /**
+   * Fetch the Game Objectives & Guidance Trackers, then
+   * transform them to progressful versions.
+   */
   private loadObjectivesAndTrackers(): Promise<void>{
     const gameId = this.session!.game_entry_id;
     return new Promise<void>((resolve, reject) => {
