@@ -3,9 +3,7 @@ import { aurl } from '../api_handler';
 import { ResponseModel } from '../../model/models/common';
 import * as l from '../../util/logger';
 import * as helper from './helpers/play';
-import * as sessionDAO from '../../model/dao/session';
-import * as metricsDAO from '../../model/dao/metrics';
-import { isEmptyParam } from '../../util/utils';
+import { updateObjectiveProgress } from './helpers/play/update-objective';
 
 // getCompileGameURLForGameId
 
@@ -44,40 +42,7 @@ export function handlerPlay(app: Express){
         const newProgress = req.body.progress as string;
         const uid = req.header('uid');
 
-        if (isEmptyParam(uid)){
-            res.send(new ResponseModel(false, 200, 'User ID invalid'));
-            return;
-        }
-
-        if (isEmptyParam(sessionId)){
-            res.send(new ResponseModel(false, 200, 'Session ID invalid'));
-            return;
-        }
-
-        sessionDAO.checkUserBelongsToSession(uid!, sessionId)
-        .then(belongs => {
-            if (!belongs){
-                return Promise.reject('User does not belong to session');
-            }
-            return Promise.resolve();
-        })
-        .then(() => {
-            const parsed = Number.parseFloat(newProgress);
-            if (isNaN(parsed))
-                return Promise.reject('Progress is not a number');
-            else
-                return parsed;
-        })
-        .then(progress => {
-            if (nonce != null && objectiveId != null && newProgress != null){
-                return metricsDAO.recordSessionObjectiveProgress(
-                    sessionId, objectiveId, uid!, nonce, progress
-                );
-            }
-            else{
-                return Promise.reject('Required parameter for updating objective was null');
-            }
-        })
+        updateObjectiveProgress(nonce, sessionId, objectiveId, newProgress, uid)
         .then(success => {
             if (success)
                 res.send(new ResponseModel(true, 200, 'Objective Progress updated successfully'));
