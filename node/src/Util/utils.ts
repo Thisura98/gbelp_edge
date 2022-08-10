@@ -22,6 +22,13 @@ export function getServerURLFor(pathStr: string): string{
 }
 
 /**
+ * Returns true if value is not one of: undefined, null or ''
+ */
+export function isEmptyParam(value: any): boolean{
+    return value == undefined || value == null || value == '';
+}
+
+/**
  * Checks whether the provided user can modify the 
  * game.
  * @param gameId Game Entry ID

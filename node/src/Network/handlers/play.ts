@@ -5,6 +5,7 @@ import * as l from '../../util/logger';
 import * as helper from './helpers/play';
 import * as sessionDAO from '../../model/dao/session';
 import * as metricsDAO from '../../model/dao/metrics';
+import { isEmptyParam } from '../../util/utils';
 
 // getCompileGameURLForGameId
 
@@ -43,29 +44,49 @@ export function handlerPlay(app: Express){
         const newProgress = req.body.progress as string;
         const uid = req.header('uid');
 
-        if (uid == undefined || uid == ''){
+        if (isEmptyParam(uid)){
             res.send(new ResponseModel(false, 200, 'User ID invalid'));
             return;
         }
 
-        sessionDAO.checkUserBelongsToSession(uid, sessionId)
+        if (isEmptyParam(sessionId)){
+            res.send(new ResponseModel(false, 200, 'Session ID invalid'));
+            return;
+        }
+
+        sessionDAO.checkUserBelongsToSession(uid!, sessionId)
         .then(belongs => {
             if (!belongs){
-                Promise.reject('User does not belong to session');
+                return Promise.reject('User does not belong to session');
             }
-            Promise.resolve();
+            return Promise.resolve();
         })
         .then(() => {
+            const parsed = Number.parseFloat(newProgress);
+            if (isNaN(parsed))
+                return Promise.reject('Progress is not a number');
+            else
+                return parsed;
+        })
+        .then(progress => {
             if (nonce != null && objectiveId != null && newProgress != null){
-                // metricsDAO.
+                return metricsDAO.recordSessionObjectiveProgress(
+                    sessionId, objectiveId, uid!, nonce, progress
+                );
             }
             else{
-                Promise.reject('Required parameter for updating objective was null')
+                return Promise.reject('Required parameter for updating objective was null');
             }
+        })
+        .then(success => {
+            if (success)
+                res.send(new ResponseModel(true, 200, 'Objective Progress updated successfully'));
+            else
+                res.send(new ResponseModel(false, 200, 'Unknown error occurred while trying to update progress'));
+                
         })
         .catch(error => {
             res.send(new ResponseModel(false, 200, error));
         })
-
-    })
+    });
 }
