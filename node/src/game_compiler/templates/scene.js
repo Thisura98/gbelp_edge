@@ -27,6 +27,7 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
         // EDGTOKEN_PRELOAD
         // EDGTOKEN_LEVEL
         // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
 

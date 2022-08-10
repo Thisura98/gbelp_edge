@@ -4,6 +4,11 @@ import { TemplateManager } from "../../../templatemanager";
 import * as pc from '../../../../util/parseconfig';
 import { SceneObjectType } from "../../../../../../commons/src/models/game/levels/scene";
 
+const EDGTOKEN_LOADBASEURL = 'EDGTOKEN_LOADBASEURL';
+const EDGTOKEN_PRELOAD = 'EDGTOKEN_PRELOAD';
+const EDGTOKEN_LEVEL = 'EDGTOKEN_LEVEL';
+const EDGTOKEN_PROPERTIES = 'EDGTOKEN_PROPERTIES';
+
 /**
  * Generate code that goes in the scene's 'preload()' function.
  * 
@@ -57,12 +62,12 @@ export function generatePreloadCode(
     }
 
     return TemplateManager.replacePlaceholder(
-        code, 'EDGTOKEN_LOADBASEURL', false, false, serverBaseURL
+        code, EDGTOKEN_LOADBASEURL, false, false, serverBaseURL
     )
     .then(t => {
         return TemplateManager.replacePlaceholder(
             t, 
-            'EDGTOKEN_PRELOAD',
+            EDGTOKEN_PRELOAD,
             false,
             false,
             resourceLoadCommands.join('\n')
@@ -71,7 +76,7 @@ export function generatePreloadCode(
     .then(t => {
         return TemplateManager.replacePlaceholder(
             t, 
-            'EDGTOKEN_LEVEL', 
+            EDGTOKEN_LEVEL, 
             false, 
             false, 
             `this.levelData = ${JSON.stringify(level.scene, undefined, 4)}`
@@ -80,7 +85,7 @@ export function generatePreloadCode(
     .then(t => {
         return TemplateManager.replacePlaceholder(
             t,
-            'EDGTOKEN_PROPERTIES',
+            EDGTOKEN_PROPERTIES,
             false,
             false,
             `this.levelProperties = ${JSON.stringify(level.properties.propertyValues, null, 4)}`

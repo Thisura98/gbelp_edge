@@ -180,6 +180,12 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		this.spriteReferences['sprite_png_2'] = sprite_3;
 
 
+        		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
         // Add your code below this line
 
@@ -192,25 +198,6 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             this.star.setTint(tints[index]);
             this.star2.setTint(this.star.tintTopLeft);
         }
-
-        /**
-         * @type {Object[]}
-         */
-        const objects = this.levelData.objects; 
-        const camera = objects.find((o) => o.type == 'camera');
-        const camX = camera.frame.x;
-        const camY = camera.frame.y;
-        const camWidth = camera.frame.w;
-        const camHeight = camera.frame.h;
-
-        console.log("Camera width & height", camWidth, camHeight);
-
-        this.scale.setGameSize(camWidth, camHeight);
-        this.scale.resize(camWidth, camHeight);
-
-        this.cameraBaseX = camX;
-        
-        this.cameras.main.setBounds(camX, camY, camWidth, camHeight)
 
         // Demo Code
         // const asteroids = this.properties['no_asteroids'];
@@ -267,6 +254,12 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
     "objects": []
 }
         this.levelProperties = {}
+        		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
         // Add your code below this line
 
@@ -343,6 +336,12 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     ]
 }
         this.levelProperties = {}
+        		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
         // Add your code below this line
 

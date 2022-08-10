@@ -6,6 +6,9 @@ import * as l from '../../../../util/logger';
 import * as util from '../../../../util/utils';
 import { SceneObjectType } from "../../../../../../commons/src/models/game/levels/scene";
 
+const EDGTOKEN_CREATE = 'EDGTOKEN_CREATE';
+const EDGTOKEN_SETCAMERA = 'EDGTOKEN_SETCAMERA';
+
 export function generateCreateCode(
     code: string,
     level: GameLevel,
@@ -43,10 +46,27 @@ export function generateCreateCode(
     return Promise.resolve(code)
     .then(t => {
         const createLines = commands.join('\n');
-        return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_CREATE', false, false, createLines);
+        return TemplateManager.replacePlaceholder(t, EDGTOKEN_CREATE, false, false, createLines);
+    })
+    .then(t => {
+        const cameraCoode = createSetCameraCode();
+        return TemplateManager.replacePlaceholder(t, EDGTOKEN_SETCAMERA, false, false, cameraCoode);
     })
     .catch(err => {
         l.logc(err, 'generateCreateCode');
         return Promise.reject(err);
     })
+}
+
+function createSetCameraCode(): string{
+    let lines: string[] = [
+        "const objects = this.levelData.objects;",
+        "const camera = objects.find((o) => o.type == 'camera');",
+        `console.log("Camera width & height", camera.frame.w, camera.frame.h);`,
+        `this.scale.setGameSize(camera.frame.w, camera.frame.h);`,
+        `this.scale.resize(camera.frame.w, camera.frame.h);`,
+        `this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)`
+    ];
+    lines = lines.map(v => `\t\t${v}`);
+    return lines.join('\n');
 }
