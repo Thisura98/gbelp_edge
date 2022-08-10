@@ -13,6 +13,9 @@ import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import { PlayerChatPanelComponent } from '../panels/chat/chat.panel.component';
 import { GameListing } from '../../../../../../../commons/src/models/game/game';
 import { QueryKey } from 'src/app/constants/constants';
+import { ProgressfulGameObjective } from '../../../../../../../commons/src/models/game/objectives';
+import { combineLatest } from 'rxjs';
+import { ProgressfulGameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
 
 type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
 
@@ -36,6 +39,8 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   isTestSession: boolean = false;
 
   chats: ChatMessage[] = [];
+  objectives: ProgressfulGameObjective[] = [];
+  guidanceTrackers: ProgressfulGameGuidanceTracker[] = [];
 
   @ViewChild(PlayerChatPanelComponent)
   chatPanel: PlayerChatPanelComponent | undefined;
@@ -144,6 +149,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   private loadGame(){
     // Get the session then,
     // get the game then,
+    // get objectives & guidance trackers then,
     // get the game js.
     this.apiService.session.getSession(this.sessionId!).subscribe(sessionResponse => {
       if (!sessionResponse.success){
@@ -152,16 +158,51 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.session = sessionResponse.data;
-      this.apiService.game.getGame(this.session!.game_entry_id).subscribe(gameResponse => {
-        if (!gameResponse.success){
-          this.handleLoadError(gameResponse, 'Games');
-          return;
+      this.loadObjectivesAndTrackers().then(() => {
+        this.apiService.game.getGame(this.session!.game_entry_id).subscribe(gameResponse => {
+          if (!gameResponse.success){
+            this.handleLoadError(gameResponse, 'Games');
+            return;
+          }
+  
+          this.game = gameResponse.data;
+          // this.loadCompiledGame();
+        }, err => this.handleLoadServerError(err, 'Games'))
+      });
+    }, err => this.handleLoadServerError(err, 'Sessions'))
+  }
+
+  private loadObjectivesAndTrackers(): Promise<void>{
+    const gameId = this.session!.game_entry_id;
+    return new Promise<void>((resolve, reject) => {
+      combineLatest([
+        this.apiService.game.getObjectives(gameId),
+        this.apiService.game.getGuidanceTrackers(gameId)
+      ])
+      .subscribe((res) => {
+        
+        const objectivesResponse = res[0];
+        const guidanceTrackersResponse = res[1];
+
+        if (objectivesResponse.success && guidanceTrackersResponse.success){
+          this.objectives = objectivesResponse.data.map(v => ProgressfulGameObjective.from(v));
+          this.guidanceTrackers = guidanceTrackersResponse.data.map(v => ProgressfulGameGuidanceTracker.from(v));
+
+          resolve();
+        }
+        else{
+          if (!objectivesResponse.success)
+            this.handleLoadError(objectivesResponse, 'Objectives')
+          else if(!guidanceTrackersResponse.success)
+            this.handleLoadError(guidanceTrackersResponse, 'Guidance Trackers')
+          reject();
         }
 
-        this.game = gameResponse.data;
-        this.loadCompiledGame();
-      })
-    })
+      }, error => {
+        this.handleLoadServerError(error, 'Objectives and Guidance Trackers')
+        reject();
+      });
+    });
   }
 
   private handleLoadError<T>(response: ServerResponse<T>, entityName: string){
@@ -171,10 +212,17 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dialogService.showDismissable(
       "Data Loading Error",
       msg,
-      () => {
-        this.router.navigate(['/dashboard']);
-      }
-    )
+      () => this.router.navigate(['/dashboard'])
+    );
+  }
+
+  private handleLoadServerError(error: any, entityName: string){
+    const msg = typeof error == 'string' ? error : JSON.stringify(error);
+    this.dialogService.showDismissable(
+      `Error white loading ${entityName}`,
+      msg,
+      () => this.router.navigate(['/dashboard'])
+    );
   }
 
   /**

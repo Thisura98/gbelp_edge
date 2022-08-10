@@ -145,7 +145,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         this.levelProperties = {
     "Level Difficulty": 0,
     "Game Title": "Example title",
-    "Character Color": "2"
+    "Character Color": "1"
 }
 
         // Add your code below this line
