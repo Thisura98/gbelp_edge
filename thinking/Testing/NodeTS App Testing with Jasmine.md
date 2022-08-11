@@ -2,19 +2,14 @@
 
 ## Note
 
-The main node project is a CommonJS project, with ES6 module interop. That is why you still see code like,
 ```ts
 export function myFunc(){}
 import { myFunc } from './lib';
 ```
 
-CommonJS definitions should look like this:
-```ts
-exports.myFunc = function (){}
-const myFunc = require('./lib');
-```
+These are TypeScript modules. They are compiled into whatever module format you specify in the `tsconfig.json` file. There are no 'require' methods in TypeScript modules.
 
-While ES6 interop works on the Node project, it does not work on the Jasmin Spec files. Those are still pure CommonJS modules.
+*.spec.ts are also TypeScript modules. However, Jasmine (by default) only works with .js files. To support TS to JS compilation in the middle, ts-node is used. In jasmine.json we have configured a helper that registers the ts-node compiler before jasmine evaluates code.
 
 ## Pre-requisites
 
