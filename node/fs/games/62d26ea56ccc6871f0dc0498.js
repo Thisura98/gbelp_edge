@@ -244,6 +244,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             this.star2.setTint(this.star.tintTopLeft);
         }
 
+        // Add Mouse events to the joystick buttons
+
         this.btnObjective.on('pointerdown', () => this.btnObjective.setTint(0xFF3333));
         this.btnGuidance.on('pointerdown', () => this.btnGuidance.setTint(0x33FF33));
         this.btnObjective.on('pointerup', () => {
@@ -253,6 +255,12 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         this.btnGuidance.on('pointerup', () => {
             this.btnGuidance.setTint(0xFFFFFF)
             EdgeProxy.increaseGuidanceProgress(this.tracker1, 0.05);
+        });
+
+        this.input.keyboard.on('keyup', (event) => {
+            if (event.keyCode == Phaser.Input.Keyboard.KeyCodes.W){
+                EdgeProxy.increaseGuidanceProgress(this.tracker1, 0.025);
+            }
         });
         
     }

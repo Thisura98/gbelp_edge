@@ -68,3 +68,29 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 }
 ```
+
+<br/>
+
+## Recording Performance
+
+'Objectives' and 'Guidance Trackers' can be used to track a player's performance. They are defined in the Overview tab in the Game/Template editor. 
+
+- Objectives and Guidance Trackers are reset every game, but are not reset on every level.
+- In the game code, you can reference these entries using their 'name'. 
+- You can record performance anywhere in the scene class.
+
+```js
+class LevelScene_Title_Screen extends Phaser.Scene{
+
+    objective1 = 'Collect 10 gold coins';
+    tracker1 = 'Unable to collect 1 coin timeout';
+
+    create(){
+        EdgeProxy.increaseObjectiveProgress(this.objective1, 1);  // Update Objective
+        EdgeProxy.increaseGuidanceProgress(this.tracker1, 0.025); // Update Guidance
+    }
+
+}
+```
+
+> __IMPORTANT:__ Objectives and Guidance Trackers are referenced by their name in the code. Changing the name or deleting these items without also modifying the code _may_ break the game.
