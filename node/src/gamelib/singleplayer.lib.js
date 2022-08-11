@@ -1,9 +1,5 @@
 require('../game_compiler/phaser/phaser');
-
-window.EdgeInternals = {
-    _on_updateObjective: null,
-    _on_updateGuidance: null
-}
+require('./edgeinternals');
 
 /**
  * Communicate with the EDGE system.

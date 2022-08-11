@@ -16,6 +16,7 @@ import { QueryKey } from 'src/app/constants/constants';
 import { ProgressfulGameObjective } from '../../../../../../../commons/src/models/game/objectives';
 import { combineLatest } from 'rxjs';
 import { ProgressfulGameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
+import { PlayService } from 'src/app/services/play.service';
 
 type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
 
@@ -69,6 +70,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     private apiService: ApiService,
     private userService: UserService,
     private dialogService: DialogService,
+    private playService: PlayService,
   ) { }
 
   get currentLevelName(): string{
@@ -169,7 +171,8 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           }
   
           this.game = gameResponse.data;
-          // this.loadCompiledGame();
+          this.playService.injectWindowEdgeInternals();
+          this.loadCompiledGame();
         }, err => this.handleLoadServerError(err, 'Games'))
       });
     }, err => this.handleLoadServerError(err, 'Sessions'))
@@ -247,7 +250,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     // return;
     this.apiService.play.getCompiledGameJS(this.sessionId!).subscribe(gameJS => {
       console.log("Received game JS!");
-      console.log(gameJS);
+      console.log("Game JS length: ", gameJS.length, "character(s)");
 
       this.runOutside(() => {
         eval(gameJS);

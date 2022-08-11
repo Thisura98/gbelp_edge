@@ -30,6 +30,8 @@ import { GroupsService } from './services/groups.service';
 import { NextActionService } from './services/next-action.service';
 import { MetaKeyService } from './services/metakey.service';
 import { ArticlesService } from './services/articles.service';
+import { PlayService } from './services/play.service';
+import { UtilsService } from './services/utils.service';
 
 import { SimpleDialogComponent } from './components/ui/dialogs/simple.component';
 import { LoginComponent } from './components/views/login/login.component';
@@ -40,7 +42,6 @@ import { StudentDashboardComponent } from './components/views/dashboards/student
 import { HomeComponent } from './components/views/home/home.component';
 import { httpInterceptorProviders } from './interceptors';
 import { UserstatusComponent } from './components/views/dashboards/common/userstatus/userstatus.component';
-import { UtilsService } from './services/utils.service';
 import { Simple2DialogComponent } from './components/ui/dialogs/simple2.component';
 import { TeacherDashboardComponent } from './components/views/dashboards/teacher-dashboard/teacher-dashboard.component';
 import { MenuselectorComponent } from './components/views/dashboards/common/menuselector/menuselector.component';
@@ -88,8 +89,7 @@ import { ReportAvailableCard } from './components/ui/groups/reports/available-re
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
-import { CustomRenderer } from './services/md-renderer';
-
+import { CustomRenderer } from './utils/md-renderer';
 
 @NgModule({
   declarations: [
@@ -181,7 +181,7 @@ import { CustomRenderer } from './services/md-renderer';
     })
   ],
   providers: [
-    ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService,
+    ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService, PlayService,
     ArticlesService,
     ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, TextWrapPipe,
     httpInterceptorProviders
