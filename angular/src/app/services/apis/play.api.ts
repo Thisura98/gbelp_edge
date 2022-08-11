@@ -53,7 +53,7 @@ export class PlayAPIs implements APIBase{
       nonce: nonce,
       sessionId: sessionId,
       trackerId: trackerId,
-      newProgress: progress
+      progress: progress
     };
     return this.http.post<ServerResponsePlain>(url, data, {
       headers: this.getHeaders()

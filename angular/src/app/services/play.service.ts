@@ -56,8 +56,8 @@ export class PlayService{
 
   private getEdgeInternalsObject(): IEdgeInternals{
     return {
-      _on_updateGuidance: (name, progress) => {
-        console.log("Hello Guidance Update from Angular!");
+      _on_updateGuidance: (name, hitPoints) => {
+        this.updateGuidanceTracker(name, hitPoints)
       },
       _on_updateObjective: (name, progressPoints) => {
         this.updateObjective(name, progressPoints);
@@ -83,6 +83,7 @@ export class PlayService{
     }
 
     // Modify progress points
+    // todo: Update Play Service as well?
     objective.progress += progress;
 
     const objectiveStr = (objective.objective_id ?? 0).toString();
@@ -102,8 +103,52 @@ export class PlayService{
         this.dialogService.showSnackbar('Error while updating objective (0x2)');
       }
     }, (err) => {
-      console.debug('Server level error updating objectives: ', err);
+      console.debug('Server level error updating objective: ', err);
       this.dialogService.showSnackbar('Error while updating objective (0x1)');
+    })
+  }
+
+
+  /**
+   * Set progress for a guidance tracker from its name
+   * @param trackerName The 'name' of the Guidance Tracker (not ID)
+   * @param hits Hit points to add (or subtract) from a guidance tracker
+   */
+   private updateGuidanceTracker(trackerName: string, hits: number){
+    if (Object.keys(this.guidanceCache).length == 0){
+      this.dialogService.showSnackbar("Guidance cache not built");
+      return;
+    }
+
+    const guidanceTracker = this.guidanceCache[trackerName];
+    if (guidanceTracker == undefined){
+      this.dialogService.showSnackbar(`Guidance Tracker for, '${trackerName}' not found`)
+      return;
+    }
+
+    // Modify progress points
+    // todo: Update Play Service as well?
+    guidanceTracker.hits += hits;
+
+    const trackerIdStr = (guidanceTracker.tracker_id ?? 0).toString();
+    const progressStr = guidanceTracker.hits.toString();
+
+    this.apiService.play.updateGuidance(
+      this.nonce,
+      this.sessionId,
+      trackerIdStr,
+      progressStr,
+    ).subscribe(res => {
+      if (res.success){
+        console.debug('Guidance tracker updated successfully');
+      }
+      else{
+        console.debug('Error updating guidance tracker: ', res.description);
+        this.dialogService.showSnackbar('Error while updating guidance tracker (0x2)');
+      }
+    }, (err) => {
+      console.debug('Server level error updating guidance tracker: ', err);
+      this.dialogService.showSnackbar('Error while updating guidance tracker (0x1)');
     })
   }
 }

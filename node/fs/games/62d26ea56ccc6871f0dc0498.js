@@ -40,6 +40,7 @@ const canvasName = 'canvas-container';
 class LevelScene_Title_Screen extends Phaser.Scene{
 
     objective1 = 'Objective 1: Collect 10 gold coins';
+    tracker1 = 'Trigger 1: Interact with coins timeout';
 
     t = 0;
 
@@ -251,7 +252,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         });
         this.btnGuidance.on('pointerup', () => {
             this.btnGuidance.setTint(0xFFFFFF)
-            EdgeProxy.increaseGuidanceProgress('todo2', 0.05);
+            EdgeProxy.increaseGuidanceProgress(this.tracker1, 0.05);
         });
         
     }
