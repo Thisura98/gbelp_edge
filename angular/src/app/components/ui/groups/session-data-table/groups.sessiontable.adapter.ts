@@ -30,7 +30,7 @@ export class GroupsSessionDataAdapter{
       const obj: GroupsSessionTableRow = {
         obj: s,
         start_time: s.start_time,
-        end_time: s.end_time,
+        end_time: s.end_time ?? 'Unspecified',
         state: s.state,
         game_name: s.game_entry_name,
         type: gameType,

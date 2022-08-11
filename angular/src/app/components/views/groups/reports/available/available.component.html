@@ -19,36 +19,36 @@
                 <h2>Available Reports</h2>
                 
                 <div class="available-reports-container">
-                    <app-report-available-card
-                        title="Student Usage"
+
+                    <app-report-available-card title="Student Usage"
                         icon="usage"
                         (click)="reportClicked('usage')"
                         *ngIf="this.game?.rep_opt_student_usg == 1"
                         desc="View a report on how often your students interacted with the sessions.">
                     </app-report-available-card>
-                    <app-report-available-card
-                        title="Objective Progress"
+
+                    <app-report-available-card title="Objective Progress"
                         icon="objective"
                         (click)="reportClicked('objective')"
                         *ngIf="this.game?.rep_opt_objectives == 1"
                         desc="See a breakdown on how well your students completed game objectives.">
                     </app-report-available-card>
-                    <app-report-available-card
-                        title="Guidance Triggers"
+
+                    <app-report-available-card title="Guidance Triggers"
                         icon="guidance"
                         (click)="reportClicked('guidance')"
                         *ngIf="this.game?.rep_opt_guidance_trg == 1"
                         desc="See a breakdown on which students needed the most guidance">
                     </app-report-available-card>
-                    <app-report-available-card
-                        title="Level Timing"
+
+                    <app-report-available-card title="Level Timing"
                         icon="ltiming"
                         (click)="reportClicked('leveltiming')"
                         *ngIf="this.game?.rep_opt_level_time == 1"
                         desc="View how your students faired against the clock.">
                     </app-report-available-card>
-                    <app-report-available-card
-                        title="Level Score"
+
+                    <app-report-available-card title="Level Score"
                         icon="lscore"
                         (click)="reportClicked('levelscore')"
                         *ngIf="this.game?.rep_opt_level_score == 1"
@@ -80,7 +80,7 @@
                             To:
                             <span class="session-time-from">
                                 {{
-                                    session?.end_time | date
+                                    session?.end_time == undefined ? 'Unspecified' : (session?.end_time | date)
                                 }}
                             </span>
                         </div>
