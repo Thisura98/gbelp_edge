@@ -120,7 +120,7 @@ export class LogicEditorComponent implements OnInit {
         const gameLib = this.stripUnwantedImports(_gameLib);
         const phaserLib = this.stripUnwantedImports(_phaserLib);
 
-        console.log("Received Game LIB:", gameLib);
+        // console.log("Received Game LIB:", gameLib);
 
         this.editorReference.pipe(filter(v => v != undefined)).subscribe(value => {
           console.log("Editor exists? ", value == undefined ? 'yes' : 'no');
