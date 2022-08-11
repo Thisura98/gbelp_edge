@@ -90,6 +90,7 @@ import { GroupReportsUsageComponent } from './components/views/groups/reports/us
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { CustomRenderer } from './utils/md-renderer';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -178,7 +179,8 @@ import { CustomRenderer } from './utils/md-renderer';
         provide: MarkedOptions,
         useFactory: CustomRenderer,
       } 
-    })
+    }),
+    NgChartsModule
   ],
   providers: [
     ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService, PlayService,

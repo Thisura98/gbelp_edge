@@ -20,7 +20,16 @@
 
         <div class="container3">
             <div class="section-reports">
-                
+                <div id="overview">
+                    <div class="chart-container-overview">
+                        <canvas baseChart id="chart-overview"
+                            [data]="sampleData"
+                            [options]="chartOptions"
+                            [type]="'bar'">
+    
+                        </canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
