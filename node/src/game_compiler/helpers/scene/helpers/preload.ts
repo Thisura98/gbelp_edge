@@ -50,7 +50,6 @@ export function generatePreloadCode(
         let cmd = '';
 
         if (so.type == SceneObjectType.sprite){
-            // this.load.image('kirby-1', 'fs/res_upload/image/123.png')
             // image's key is the scene object's name
             cmd = `this.load.image('${so.name}', '${res?.filename ?? "sprite-res-unavail"}');`
         }

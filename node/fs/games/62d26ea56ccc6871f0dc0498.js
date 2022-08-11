@@ -246,12 +246,15 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             this.star2.setTint(this.star.tintTopLeft);
         }
 
-        this.btnObjective.on('pointerdown', (pointer) => {
-            this.btnObjective.setTint(0xFF0000);
-        });
-
-        this.btnObjective.on('pointerup', (pointer) => {
+        this.btnObjective.on('pointerdown', () => this.btnObjective.setTint(0xFF3333));
+        this.btnGuidance.on('pointerdown', () => this.btnGuidance.setTint(0x33FF33));
+        this.btnObjective.on('pointerup', () => {
             this.btnObjective.setTint(0xFFFFFF);
+            EdgeProxy.increaseObjectiveProgress('todo', 0.1);
+        });
+        this.btnGuidance.on('pointerup', () => {
+            this.btnGuidance.setTint(0xFFFFFF)
+            EdgeProxy.increaseGuidanceProgress('todo2', 0.05);
         });
         
     }

@@ -96,6 +96,9 @@ export function handlerGameEditing(app: Express){
                 l.logc(`Could not locate game lib file at "${gameLibPath}"`, 'game-lib')
                 l.logc(err.message, 'game-lib');
             }
+            else{
+                l.logc('Sent game-lib to frontend');
+            }
         });
     });
 
@@ -105,6 +108,9 @@ export function handlerGameEditing(app: Express){
             if (err){
                 l.logc(`Could not locate phaser lib file at "${libPath}"`, 'phaser-lib')
                 l.logc(err.message, 'phaser-lib');
+            }
+            else{
+                l.logc('Sent phaser-lib to frontend');
             }
         });
     });

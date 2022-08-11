@@ -120,10 +120,10 @@ export class LogicEditorComponent implements OnInit {
         const gameLib = this.stripUnwantedImports(_gameLib);
         const phaserLib = this.stripUnwantedImports(_phaserLib);
 
-        // console.log("Received Game LIB:", lib);
+        console.log("Received Game LIB:", gameLib);
 
         this.editorReference.pipe(filter(v => v != undefined)).subscribe(value => {
-          console.log("Editor:", value);
+          console.log("Editor exists? ", value == undefined ? 'yes' : 'no');
           console.log(monaco.languages.typescript.javascriptDefaults.getExtraLibs());
           monaco.languages.typescript.javascriptDefaults.addExtraLib(gameLib);
           monaco.languages.typescript.javascriptDefaults.addExtraLib(phaserLib);
@@ -134,7 +134,7 @@ export class LogicEditorComponent implements OnInit {
   }
 
   private stripUnwantedImports(lib: string): string{
-    const search = new RegExp('^require.+', 'g');
+    const search = new RegExp('^require.+', 'gm');
     const replace = '// removed import';
     return lib.replace(search, replace);
   }
