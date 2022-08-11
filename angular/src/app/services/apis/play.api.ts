@@ -23,4 +23,41 @@ export class PlayAPIs implements APIBase{
       headers: this.getHeaders()
     })
   }
+
+  updateObjective(
+    nonce: string,
+    sessionId: string,
+    objectiveId: string,
+    progress: string,
+  ): Observable<ServerResponsePlain>{
+    const url = this.aurl('play/update-objective');
+    const data = {
+      nonce: nonce,
+      sessionId: sessionId,
+      objectiveId: objectiveId,
+      progress: progress
+    };
+    return this.http.post<ServerResponsePlain>(url, data, {
+      headers: this.getHeaders()
+    });
+  }
+
+  updateGuidance(
+    nonce: string,
+    sessionId: string,
+    trackerId: string,
+    progress: string,
+  ): Observable<ServerResponsePlain>{
+    const url = this.aurl('play/update-guidance');
+    const data = {
+      nonce: nonce,
+      sessionId: sessionId,
+      trackerId: trackerId,
+      newProgress: progress
+    };
+    return this.http.post<ServerResponsePlain>(url, data, {
+      headers: this.getHeaders()
+    });
+  }
+
 }

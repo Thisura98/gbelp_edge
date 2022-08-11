@@ -156,6 +156,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
    * Get the game JS
    */
   private loadGame(){
+    this.playService.setNonceAndSession(this.playNonce ?? '', this.sessionId ?? '');
     this.apiService.session.getSession(this.sessionId!).subscribe(sessionResponse => {
       if (!sessionResponse.success){
         this.handleLoadError(sessionResponse, 'Sessions');
@@ -204,6 +205,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           // end demo code
 
+          this.playService.buildCache(this.objectives, this.guidanceTrackers);
           resolve();
         }
         else{

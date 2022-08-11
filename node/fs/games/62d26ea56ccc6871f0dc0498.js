@@ -39,10 +39,7 @@ const canvasName = 'canvas-container';
 // Start of file
 class LevelScene_Title_Screen extends Phaser.Scene{
 
-    /**
-     * @type {Phaser.GameObjects.Sprite}
-     */
-    star = undefined;
+    objective1 = 'Objective 1: Collect 10 gold coins';
 
     t = 0;
 
@@ -250,7 +247,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         this.btnGuidance.on('pointerdown', () => this.btnGuidance.setTint(0x33FF33));
         this.btnObjective.on('pointerup', () => {
             this.btnObjective.setTint(0xFFFFFF);
-            EdgeProxy.increaseObjectiveProgress('todo', 0.1);
+            EdgeProxy.increaseObjectiveProgress(this.objective1, 0.1);
         });
         this.btnGuidance.on('pointerup', () => {
             this.btnGuidance.setTint(0xFFFFFF)
