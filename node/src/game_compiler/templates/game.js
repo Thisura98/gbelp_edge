@@ -19,7 +19,7 @@ document.getElementById(canvasName).replaceChildren([]);
  * @type {Phaser.Core.Config}
  */
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     parent: canvasName,
     width: 1366,
     height: 500,

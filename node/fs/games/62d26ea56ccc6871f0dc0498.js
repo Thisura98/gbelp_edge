@@ -51,6 +51,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
         this.star = null;
         this.star2 = null;
+        this.btnObjective = null;
+        this.btnGuidance = null;
         
         /**
          * All sprites loaded in the create() method
@@ -75,6 +77,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 		this.load.image('sprite_png_1', 'fs/res_upload/image/1657959470527.png');
 		this.load.image('sprite_png_2', 'fs/res_upload/image/1657959470527.png');
+		this.load.image('btn_objective', 'fs/res_upload/image/1660211080337.png');
+		this.load.image('btn_guidance', 'fs/res_upload/image/1660211080337.png');
         this.levelData = {
     "objects": [
         {
@@ -83,9 +87,9 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 100,
+                "x": 30,
                 "y": 18,
-                "w": 640,
+                "w": 800,
                 "h": 380
             },
             "rotation": 0,
@@ -133,6 +137,44 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "spawnBehavior": "1",
             "spriteStretch": "1",
             "hidden": false
+        },
+        {
+            "_id": "temp_1660211100896",
+            "spriteResourceId": "62f4cf88ca6ee9ad4bd59690",
+            "type": "sprite",
+            "name": "btn_objective",
+            "frame": {
+                "x": 139,
+                "y": 323,
+                "w": 50,
+                "h": 50
+            },
+            "rotation": 0,
+            "physicsBehavior": "0",
+            "physicsCollision": "0",
+            "opacity": 0,
+            "spawnBehavior": "1",
+            "spriteStretch": "1",
+            "hidden": false
+        },
+        {
+            "_id": "temp_1660211110414",
+            "spriteResourceId": "62f4cf88ca6ee9ad4bd59690",
+            "type": "sprite",
+            "name": "btn_guidance",
+            "frame": {
+                "x": 515.5,
+                "y": 328.5,
+                "w": 50,
+                "h": 50
+            },
+            "rotation": 0,
+            "physicsBehavior": "0",
+            "physicsCollision": "0",
+            "opacity": 0,
+            "spawnBehavior": "1",
+            "spriteStretch": "1",
+            "hidden": false
         }
     ]
 }
@@ -147,31 +189,40 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
     create(){
         let scaleX = 0, scaleY = 0;
-		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(420, 208, 'Camera');
-		sprite_1.name = "Camera";
-		scaleX = 640 / sprite_1.displayWidth;
-		scaleY = 380 / sprite_1.displayHeight;
-		sprite_1.setScale(scaleX, scaleY);
-		this.spriteReferences['Camera'] = sprite_1;
-
-
 		// --- scene object sprite_png_1 ---
-		const sprite_2 = this.add.sprite(341, 140, 'sprite_png_1');
-		sprite_2.name = "sprite_png_1";
-		scaleX = 100 / sprite_2.displayWidth;
-		scaleY = 100 / sprite_2.displayHeight;
-		sprite_2.setScale(scaleX, scaleY);
-		this.spriteReferences['sprite_png_1'] = sprite_2;
+		const sprite_1 = this.add.sprite(341, 140, 'sprite_png_1').setInteractive();
+		sprite_1.name = "sprite_png_1";
+		scaleX = 100 / sprite_1.displayWidth;
+		scaleY = 100 / sprite_1.displayHeight;
+		sprite_1.setScale(scaleX, scaleY);
+		this.spriteReferences['sprite_png_1'] = sprite_1;
 
 
 		// --- scene object sprite_png_2 ---
-		const sprite_3 = this.add.sprite(341, 287, 'sprite_png_2');
-		sprite_3.name = "sprite_png_2";
-		scaleX = 100 / sprite_3.displayWidth;
-		scaleY = 100 / sprite_3.displayHeight;
+		const sprite_2 = this.add.sprite(341, 287, 'sprite_png_2').setInteractive();
+		sprite_2.name = "sprite_png_2";
+		scaleX = 100 / sprite_2.displayWidth;
+		scaleY = 100 / sprite_2.displayHeight;
+		sprite_2.setScale(scaleX, scaleY);
+		this.spriteReferences['sprite_png_2'] = sprite_2;
+
+
+		// --- scene object btn_objective ---
+		const sprite_3 = this.add.sprite(164, 348, 'btn_objective').setInteractive();
+		sprite_3.name = "btn_objective";
+		scaleX = 50 / sprite_3.displayWidth;
+		scaleY = 50 / sprite_3.displayHeight;
 		sprite_3.setScale(scaleX, scaleY);
-		this.spriteReferences['sprite_png_2'] = sprite_3;
+		this.spriteReferences['btn_objective'] = sprite_3;
+
+
+		// --- scene object btn_guidance ---
+		const sprite_4 = this.add.sprite(540.5, 353.5, 'btn_guidance').setInteractive();
+		sprite_4.name = "btn_guidance";
+		scaleX = 50 / sprite_4.displayWidth;
+		scaleY = 50 / sprite_4.displayHeight;
+		sprite_4.setScale(scaleX, scaleY);
+		this.spriteReferences['btn_guidance'] = sprite_4;
 
 
         		const objects = this.levelData.objects;
@@ -185,6 +236,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
         this.star = this.spriteReferences['sprite_png_1'];
         this.star2 = this.spriteReferences['sprite_png_2'];
+        this.btnObjective = this.spriteReferences['btn_objective'];
+        this.btnGuidance = this.spriteReferences['btn_guidance'];
 
         if (this.levelProperties['Character Color'] != null){
             const tints = [0xFF0000, 0x00FF00, 0x0000EE, 0x00FFFF];
@@ -193,9 +246,13 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             this.star2.setTint(this.star.tintTopLeft);
         }
 
-        // Demo Code
-        // const asteroids = this.properties['no_asteroids'];
+        this.btnObjective.on('pointerdown', (pointer) => {
+            this.btnObjective.setTint(0xFF0000);
+        });
 
+        this.btnObjective.on('pointerup', (pointer) => {
+            this.btnObjective.setTint(0xFFFFFF);
+        });
         
     }
     update(){
@@ -204,8 +261,10 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         // this.star.angle += 1;
         this.star.frame.x = 800 + Math.sin(this.t) * 1000;
 
-        this.cameras.main.setPosition(Math.cos(this.t) * 100, Math.sin(this.t) * 100);
+        // Uncomment to add camera movement tests
+        // this.cameras.main.setPosition(Math.cos(this.t) * 100, Math.sin(this.t) * 100);
 
+        // Increase animation clock
         this.t += 0.1;
 
     }
@@ -344,15 +403,6 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     }
     create(){
         let scaleX = 0, scaleY = 0;
-		// --- scene object Camera ---
-		const sprite_1 = this.add.sprite(683, 384, 'Camera');
-		sprite_1.name = "Camera";
-		scaleX = 1366 / sprite_1.displayWidth;
-		scaleY = 768 / sprite_1.displayHeight;
-		sprite_1.setScale(scaleX, scaleY);
-		this.spriteReferences['Camera'] = sprite_1;
-
-
 
         // Add your code below this line
 
@@ -381,7 +431,7 @@ document.getElementById(canvasName).replaceChildren([]);
  * @type {Phaser.Core.Config}
  */
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     parent: canvasName,
     width: 1366,
     height: 500,

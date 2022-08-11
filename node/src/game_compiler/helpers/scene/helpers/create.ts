@@ -24,10 +24,16 @@ export function generateCreateCode(
     commands.push(`let scaleX = 0, scaleY = 0;`);
 
     for (let so of level.scene.objects){
+
+        // Don't create camera object as a sprite
+        if (so.type == SceneObjectType.camera){
+            continue;
+        }
+
         const x = so.frame.x + so.frame.w / 2;
         const y = so.frame.y + so.frame.h / 2;
 
-        const c1 = `const sprite_${i} = this.add.sprite(${x}, ${y}, '${so.name}');`;
+        const c1 = `const sprite_${i} = this.add.sprite(${x}, ${y}, '${so.name}').setInteractive();`;
         const c2 = `sprite_${i}.name = "${so.name}";`;
         const c3 = `scaleX = ${so.frame.w} / sprite_${i}.displayWidth;`
         const c4 = `scaleY = ${so.frame.h} / sprite_${i}.displayHeight;`
