@@ -37,7 +37,8 @@
             "scripts": [
               "./node_modules/phaser/dist/phaser.js",
               "./node_modules/marked/marked.min.js",
-              "./node_modules/prismjs/prism.js"
+              "./node_modules/prismjs/prism.js",
+              "./node_modules/apexcharts/dist/apexcharts.min.js"
             ]
           },
           "configurations": {

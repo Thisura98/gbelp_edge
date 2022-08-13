@@ -9,7 +9,20 @@ import { GameEntry } from "../../../../../../../../commons/src/models/game/game"
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
 import { forkJoin } from "rxjs";
-import { ChartConfiguration, ChartArea, ScriptableContext } from 'chart.js';
+// import { ChartConfiguration, ScriptableContext } from 'chart.js';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from "ng-apexcharts";
+
+export type ApexChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
+  dataLabels: ApexDataLabels;
+  title: ApexTitleSubtitle;
+  tooltip: ApexTooltip;
+  grid: ApexGrid,
+  fill: ApexFill
+}
 
 @Component({
   templateUrl: './usage.component.html',
@@ -33,11 +46,67 @@ export class GroupReportsUsageComponent implements OnInit {
 
   usageDataLoaded = false;
 
+  public apexChartOptions: ApexChartOptions = {
+
+    title: {
+      text: ''
+    },
+    series: [{ name:' test', data: [] }],
+    chart: {
+      type: 'area',
+      height: '200px',
+    },
+    xaxis: {
+      type: 'datetime',
+      categories: [],
+      crosshairs: {
+        show: true
+      },
+      labels: {
+        format: 'MMM dd HH:mm',
+        datetimeFormatter: {
+          day: 'MMM dd',
+          hour: 'dd HH:mm'
+        }
+      },
+      tooltip: {
+        enabled: false
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Cumulative Students'
+      }
+    },
+    dataLabels: { enabled: false },
+    tooltip: {
+      x: {
+        formatter: (ts, opts) => {
+          const date = new Date(ts);
+          const day = date.toDateString();
+          const hours = date.getHours().toString().padStart(2, '0');
+          const minutes = date.getMinutes().toString().padStart(2, '0');
+          return `${day} - ${hours}:${minutes}`
+        }
+      },
+      marker: {
+        show: false
+      }
+    },
+    grid: {
+      borderColor: '#AEAEAE',
+      strokeDashArray: 3
+    },
+    fill: {
+    }
+  }
+
+  /*
   chartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false }
+      legend: { display: false },
     }
   };
 
@@ -46,7 +115,7 @@ export class GroupReportsUsageComponent implements OnInit {
     datasets: [{
       // categoryPercentage: 1.0,
       // barPercentage: 1.0,
-      pointRadius: 0,
+      pointRadius: 1,
       borderWidth: 0,
       data: [],
       label: '',
@@ -56,7 +125,7 @@ export class GroupReportsUsageComponent implements OnInit {
       backgroundColor: (context) => this.getGradient(context)
       // backgroundColor: '#FF0000'
     }]
-  }
+  }*/
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,7 +134,7 @@ export class GroupReportsUsageComponent implements OnInit {
     private apiService: ApiService,
     private dialogService: DialogService,
     private utilsService: UtilsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.userService.routeOutIfLoggedOut();
@@ -76,6 +145,18 @@ export class GroupReportsUsageComponent implements OnInit {
     });
   }
 
+  handleBack(){
+    this.router.navigate([
+      'groups/reports/available'
+    ], {
+      queryParams: {
+        groupId: this.groupId!,
+        sessionId: this.sessionId!
+      }
+    })
+  }
+
+  /*
   private getGradient(context: ScriptableContext<'line'>): any {
     let { ctx, chartArea } = context.chart;
     if (!chartArea)
@@ -86,7 +167,7 @@ export class GroupReportsUsageComponent implements OnInit {
     gradient.addColorStop(0, stopColor);
     gradient.addColorStop(1, startColor);
     return gradient;
-  }
+  }*/
 
   private loadData() {
     forkJoin([
@@ -123,9 +204,16 @@ export class GroupReportsUsageComponent implements OnInit {
     this.apiService.reports.usageReports(this.sessionId!).subscribe(res => {
       if (res.success){
         this.usageDataLoaded = true;
-        this.usageData.labels = res.data.labels;
-        this.usageData.datasets[0].data = res.data.data;
-        this.usageData.datasets[0].label = res.data.xAxesLabel;
+
+        // NG2 Charts (chart.js wrapper)
+        // this.usageData.labels = res.data.labels;
+        // this.usageData.datasets[0].data = res.data.data;
+        // this.usageData.datasets[0].label = res.data.xAxesLabel;
+
+        // Apex Charts
+        this.apexChartOptions.xaxis.categories = res.data.labels;
+        this.apexChartOptions.series[0].data = res.data.data;
+        this.apexChartOptions.series[0].name = res.data.xAxesLabel;
       }
       else{
         this.handleReportLoadError(res.description);

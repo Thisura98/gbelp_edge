@@ -57,6 +57,16 @@ export class GroupReportsAvailableComponent implements OnInit{
       }
     })
   }
+  
+  handleBack(){
+    this.router.navigate([
+      'groups/reports'
+    ], {
+      queryParams: {
+        groupId: this.groupId!,
+      }
+    })
+  }
 
   private loadData(){
     forkJoin([

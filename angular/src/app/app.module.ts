@@ -91,6 +91,7 @@ import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { CustomRenderer } from './utils/md-renderer';
 import { NgChartsModule } from 'ng2-charts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { LoadingReportsComponent } from './components/views/groups/reports/common/loading/loading.reports.component';
 
 @NgModule({
@@ -182,7 +183,8 @@ import { LoadingReportsComponent } from './components/views/groups/reports/commo
         useFactory: CustomRenderer,
       } 
     }),
-    NgChartsModule
+    NgChartsModule,     // Remove this
+    NgApexchartsModule  // or this
   ],
   providers: [
     ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService, PlayService,

@@ -1,6 +1,6 @@
 export class ReportGraphDataUserUsage{
     constructor(
-        public labels: string[],
+        public labels: number[],
         public data: number[],
         public xAxesLabel: string,
         public yAxesLabel: String

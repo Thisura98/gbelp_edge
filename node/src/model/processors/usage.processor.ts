@@ -71,12 +71,12 @@ export function processUsage(session: GameSession, input: GameSessionUserUsageGr
 
     // Convert the map into readable format
     for (let label in map){
-        const date = DateTime.fromMillis(Number.parseInt(label));
-        // console.log(label, date.toISO(), 'Date TMZ =', date.zoneName);
+        const timestamp = Number.parseInt(label)
+        const date = DateTime.fromMillis(timestamp);
         const timeLabel = date.toFormat('HH:mm');
-        data.labels.push(timeLabel);
+        // data.labels.push(timeLabel);
+        data.labels.push(timestamp);
         data.data.push(map[label]);
-        // console.log(label, ':', map[label]);
     }
 
     return Promise.resolve(data);

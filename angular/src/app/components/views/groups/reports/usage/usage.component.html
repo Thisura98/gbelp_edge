@@ -1,5 +1,5 @@
 <div class="container">
-    <app-dynamicsidebar [items]="sidebarItems">
+    <app-dynamicsidebar [items]="sidebarItems" (onBack)="handleBack()">
     </app-dynamicsidebar>
 
     <div class="container2 dyn-anim-fadein-delayed">
@@ -23,14 +23,28 @@
                 <div id="overview">
                     <h2>Overview</h2>
                     <div class="chart-container-overview">
-                        <canvas baseChart id="chart-overview"
+                        <!-- <canvas baseChart id="chart-overview"
                             [data]="usageData"
                             [options]="chartOptions"
                             [type]="'line'"
                             *ngIf="usageDataLoaded"
                             class="dyn-fade">
-    
-                        </canvas>
+                        </canvas> -->
+
+                        <apx-chart
+                            [series]="apexChartOptions.series"
+                            [chart]="apexChartOptions.chart"
+                            [xaxis]="apexChartOptions.xaxis"
+                            [yaxis]="apexChartOptions.yaxis"
+                            [dataLabels]="apexChartOptions.dataLabels"
+                            [title]="apexChartOptions.title"
+                            [tooltip]="apexChartOptions.tooltip"
+                            [grid]="apexChartOptions.grid"
+                            [fill]="apexChartOptions.fill"
+                            *ngIf="usageDataLoaded"
+                            
+                            class="dyn-fade"
+                        ></apx-chart>
                         
                         <loading-reports text="Loading overview..."
                             *ngIf="!usageDataLoaded"

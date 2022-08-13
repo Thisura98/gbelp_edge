@@ -60,6 +60,10 @@ export class GroupReportsComponent implements OnInit{
     })
   }
 
+  handleBack(){
+    this.router.navigate(['dashboard/f/groups']);
+  }
+
   private loadData(){
     this.apiService.group.getGroup(this.groupId!).subscribe(response => {
       if (!response.success){
