@@ -33,7 +33,7 @@ export class GroupReportsUsageComponent implements OnInit {
 
   usageDataLoaded = false;
 
-  chartOptions: ChartConfiguration<'bar'>['options'] = {
+  chartOptions: ChartConfiguration<'line'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -41,14 +41,16 @@ export class GroupReportsUsageComponent implements OnInit {
     }
   };
 
-  usageData: ChartConfiguration<'bar'>['data'] = {
+  usageData: ChartConfiguration<'line'>['data'] = {
     labels: [],
     datasets: [{
-      categoryPercentage: 1.0,
-      barPercentage: 1.0,
+      // categoryPercentage: 1.0,
+      // barPercentage: 1.0,
       data: [],
       label: '',
-      hoverBackgroundColor: (context) => this.getGradient(context),
+      fill: true,
+      pointBackgroundColor: '#00713B',
+      borderColor: '#00713B',
       backgroundColor: (context) => this.getGradient(context)
     }]
   }
@@ -71,7 +73,7 @@ export class GroupReportsUsageComponent implements OnInit {
     });
   }
 
-  private getGradient(context: ScriptableContext<'bar'>): any {
+  private getGradient(context: ScriptableContext<'line'>): any {
     let { ctx, chartArea } = context.chart;
     if (!chartArea)
       return null;

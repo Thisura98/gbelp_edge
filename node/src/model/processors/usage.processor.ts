@@ -5,8 +5,8 @@ import { GameSession } from '../../../../commons/src/models/session';
 import { isofy, roundedDateToInterval } from './processor.utils';
 
 export function processUsage(session: GameSession, input: GameSessionUserUsage[]): Promise<ReportGraphDataUserUsage>{
-    const yAxes = 'Cumulative Students';
-    const xAxes = 'Minutes';
+    const yAxes = 'Minutes';
+    const xAxes = 'Cumulative Students';
     const minuteInterval = 10 * 60 * 1000;
     const hourInterval = 1 * 60 * 60 * 1000;
     let data = new ReportGraphDataUserUsage([], [], xAxes, yAxes);
@@ -29,7 +29,7 @@ export function processUsage(session: GameSession, input: GameSessionUserUsage[]
         // we count hours. Otherwise, we count minutes.
         if (lastSessionTime.minus(firstSessionTime.toMillis()).hour > 0){
             isUnitHours = true;
-            data.xAxesLabel = 'Hours';
+            data.yAxesLabel = 'Hours';
             interval = hourInterval;
         }
     }
