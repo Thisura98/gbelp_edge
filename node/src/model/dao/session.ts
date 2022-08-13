@@ -1,4 +1,5 @@
 import { GameSession, GameSessionState, GameSessionType, GameSessionWithExtensions } from '../../../../commons/src/models/session';
+import { GameSessionUserUsage } from '../../../../commons/src/models/session/user.usage';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as l from '../../util/logger';
 
@@ -218,6 +219,26 @@ export function getSessionsInGroup(
             if (error){
                 l.logc(error.message, "getSessionsInGroup");
                 reject(error.message);
+            }
+            else{
+                resolve(result);
+            }
+        });
+    });
+}
+
+export function getUserUsage(sessionId: string): Promise<GameSessionUserUsage[]>{
+    const fn = 'getUserUsage';
+    const table = sql.tables.gameSessionUsage;
+    const c = sql.columns.gameSessionUsage;
+    const query = `SELECT * FROM ${table} WHERE ${c.sessionId} = ?`;
+    const values: string[] = [sessionId];
+
+    return new Promise<GameSessionUserUsage[]>((resolve, reject) => {
+        sql.getPool()!.query(query, values, (error, result) => {
+            if (error){
+                l.logc(error.message, fn);
+                reject('Could not retrieve user usage data');
             }
             else{
                 resolve(result);
