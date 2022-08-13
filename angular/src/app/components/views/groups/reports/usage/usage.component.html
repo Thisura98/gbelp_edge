@@ -23,11 +23,16 @@
                 <div id="overview">
                     <div class="chart-container-overview">
                         <canvas baseChart id="chart-overview"
-                            [data]="sampleData"
+                            [data]="usageData"
                             [options]="chartOptions"
-                            [type]="'bar'">
+                            [type]="'bar'"
+                            *ngIf="usageDataLoaded">
     
                         </canvas>
+                        
+                        <loading-reports text="Loading overview..."
+                            *ngIf="!usageDataLoaded">
+                        </loading-reports>
                     </div>
                 </div>
             </div>

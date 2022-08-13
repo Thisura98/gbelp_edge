@@ -54,26 +54,5 @@ export function processUsage(session: GameSession, input: GameSessionUserUsage[]
         data.data.push(map[label]);
     }
 
-    return new Promise<ReportGraphDataUserUsage>((resolve, reject) => {
-        // let i = 0;
-        // if (input.length > 1){
-
-        //     return;
-        // }
-        
-        
-        // for (let entry of input){
-        //     const ts = entry.timestamp.replace(' ', 'T');
-        //     const entryTime = DateTime.fromISO(ts);
-
-
-        //     i += 1;
-
-        //     if (i > 5)
-        //         break;
-        // }
-
-        // Demo code
-        resolve(data);
-    });
+    return Promise.resolve(data);
 }

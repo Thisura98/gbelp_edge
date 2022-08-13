@@ -25,28 +25,30 @@ export class GroupReportsUsageComponent implements OnInit {
     return [];
   }
 
-  sampleData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['1', '2', '3', '4', '5', '6', '7', '8'],
-    datasets: [{
-      categoryPercentage: 1.0,
-      barPercentage: 1.0,
-      data: [1, 2, 3, 4, 5, 6, 7, 8],
-      label: 'Sample Data',
-      hoverBackgroundColor: (context) => this.getGradient(context),
-      backgroundColor: (context) => this.getGradient(context)
-    }]
-  }
+  private groupId: string | undefined;
+  private sessionId: string | undefined;
+  group: UserGroup | undefined;
+  session: GameSession | undefined;
+  game: GameEntry | undefined;
+
+  usageDataLoaded = false;
 
   chartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: false,
     maintainAspectRatio: false,
   };
 
-  private groupId: string | undefined;
-  private sessionId: string | undefined;
-  group: UserGroup | undefined;
-  session: GameSession | undefined;
-  game: GameEntry | undefined;
+  usageData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [{
+      categoryPercentage: 1.0,
+      barPercentage: 1.0,
+      data: [],
+      label: '',
+      hoverBackgroundColor: (context) => this.getGradient(context),
+      backgroundColor: (context) => this.getGradient(context)
+    }]
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,

@@ -91,6 +91,7 @@ import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { CustomRenderer } from './utils/md-renderer';
 import { NgChartsModule } from 'ng2-charts';
+import { LoadingReportsComponent } from './components/views/groups/reports/common/loading/loading.reports.component';
 
 @NgModule({
   declarations: [
@@ -143,6 +144,7 @@ import { NgChartsModule } from 'ng2-charts';
     GroupJoinComponent,
     GroupSessionComponent,
     GroupReportsComponent,
+    LoadingReportsComponent,
     ReportAvailableCard,
     GroupReportsAvailableComponent,
     GroupReportsUsageComponent,

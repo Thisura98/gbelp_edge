@@ -19,6 +19,7 @@ import { APIBase } from './apis/base.api';
 import { GameEditingAPIs } from './apis/game-editing.api';
 import { SessionAPIs } from './apis/session.api';
 import { PlayAPIs } from './apis/play.api';
+import { ReportsAPIs } from './apis/reports.api';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -64,6 +65,7 @@ export class ApiService {
   public editor: GameEditingAPIs;
   public session: SessionAPIs;
   public play: PlayAPIs;
+  public reports: ReportsAPIs;
 
   // MARK END
 
@@ -77,6 +79,7 @@ export class ApiService {
     this.editor = this.prepareAPI(new GameEditingAPIs);
     this.session = this.prepareAPI(new SessionAPIs);
     this.play = this.prepareAPI(new PlayAPIs);
+    this.reports = this.prepareAPI(new ReportsAPIs);
   }
 
   /**
