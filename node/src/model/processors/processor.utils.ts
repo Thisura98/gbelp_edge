@@ -11,6 +11,13 @@ export function isofy(date: string): string{
  * Round the source DateTime into the target milliseconds and return DateTime
  */
 export function roundedDateToInterval(source: DateTime, intervalMs: number, zone: Zone = LocalZone.instance): DateTime{
-    const roundedMs = intervalMs * Math.floor(source.toMillis() / intervalMs);
+    const roundedMs = roundedDateToIntervalMS(source.toMillis(), intervalMs);
     return DateTime.fromMillis(roundedMs, { zone: zone });
+}
+
+/**
+ * Round the source DateTime into the target milliseconds and return DateTime
+ */
+ export function roundedDateToIntervalMS(source: number, intervalMs: number): number{
+    return intervalMs * Math.floor(source / intervalMs);
 }

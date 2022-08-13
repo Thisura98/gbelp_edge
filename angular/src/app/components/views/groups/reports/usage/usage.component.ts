@@ -46,12 +46,15 @@ export class GroupReportsUsageComponent implements OnInit {
     datasets: [{
       // categoryPercentage: 1.0,
       // barPercentage: 1.0,
+      pointRadius: 0,
+      borderWidth: 0,
       data: [],
       label: '',
       fill: true,
-      pointBackgroundColor: '#00713B',
-      borderColor: '#00713B',
+      // pointBackgroundColor: '#FF0000',
+      // borderColor: '#00713B',
       backgroundColor: (context) => this.getGradient(context)
+      // backgroundColor: '#FF0000'
     }]
   }
 

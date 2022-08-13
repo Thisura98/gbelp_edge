@@ -47,7 +47,7 @@ export function handlerReports(app: Express){
         sessionDAO.getSession(sessionId)
         .then(rawSession => {
             session = rawSession as GameSession;
-            return sessionDAO.getUserUsage(sessionId);
+            return sessionDAO.getUserUsageGroupedByNonce(sessionId);
         })
         .then(usageData => {
             return processUsage(session!, usageData);

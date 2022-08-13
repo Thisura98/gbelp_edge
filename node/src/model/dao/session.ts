@@ -1,5 +1,5 @@
-import { GameSession, GameSessionState, GameSessionType, GameSessionWithExtensions } from '../../../../commons/src/models/session';
-import { GameSessionUserUsage } from '../../../../commons/src/models/session/user.usage';
+import { GameSessionWithExtensions } from '../../../../commons/src/models/session';
+import { GameSessionUserUsage, GameSessionUserUsageGroupedByNonce } from '../../../../commons/src/models/session/user.usage';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as l from '../../util/logger';
 
@@ -227,14 +227,22 @@ export function getSessionsInGroup(
     });
 }
 
-export function getUserUsage(sessionId: string): Promise<GameSessionUserUsage[]>{
+export function getUserUsageGroupedByNonce(sessionId: string): Promise<GameSessionUserUsageGroupedByNonce[]>{
     const fn = 'getUserUsage';
     const table = sql.tables.gameSessionUsage;
     const c = sql.columns.gameSessionUsage;
-    const query = `SELECT * FROM ${table} WHERE ${c.sessionId} = ? ORDER BY ${c.timestamp} ASC`;
+    const query = `SELECT ${c.playNonce}, MIN(${c.userId}) AS user_id, MIN(${c.sessionId}) AS session_id, 
+        MIN(${c.timestamp}) AS start_time,
+        MAX(${c.timestamp}) AS end_time
+        FROM ${table} 
+        WHERE ${c.sessionId} = ? 
+        GROUP BY ${c.playNonce}
+        ORDER BY start_time ASC`;
     const values: string[] = [sessionId];
 
-    return new Promise<GameSessionUserUsage[]>((resolve, reject) => {
+    l.logc(query, 'usage-data-bynonce-query');
+
+    return new Promise<GameSessionUserUsageGroupedByNonce[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {
             if (error){
                 l.logc(error.message, fn);
