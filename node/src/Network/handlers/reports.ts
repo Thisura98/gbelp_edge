@@ -1,4 +1,5 @@
 import { Express } from "express";
+import { aurl } from '../api_handler';
 import { isEmptyParam } from '../../util/utils';
 import { ResponseModel } from '../../model/models/common';
 import * as sessionDAO from '../../model/dao/session';
@@ -8,7 +9,7 @@ export function handlerReports(app: Express){
 
     // Check for missing sessionId, userId, then
     // Check user permission in session
-    app.use(async (req, res, next) => {
+    app.use(aurl('reports/*'), async (req, res, next) => {
         const sessionId = req.query.sessionId as string;
         const userId = req.header('uid')!;
 
@@ -38,7 +39,7 @@ export function handlerReports(app: Express){
     })
 
     // Student/User usage reports
-    app.get('reports/usage', (req, res) => {
+    app.get(aurl('reports/usage'), (req, res) => {
         const sessionId = req.query.sessionId as string;
         
         sessionDAO.getUserUsage(sessionId)
