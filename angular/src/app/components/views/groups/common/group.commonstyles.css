@@ -13,6 +13,10 @@
     flex-direction: row;
 }
 
+.nav-stretch{
+    flex-grow: 1;
+}
+
 .small-heading{
     margin: 0px !important;
     margin-left: 20px;
