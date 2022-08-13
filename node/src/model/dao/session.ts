@@ -231,7 +231,7 @@ export function getUserUsage(sessionId: string): Promise<GameSessionUserUsage[]>
     const fn = 'getUserUsage';
     const table = sql.tables.gameSessionUsage;
     const c = sql.columns.gameSessionUsage;
-    const query = `SELECT * FROM ${table} WHERE ${c.sessionId} = ?`;
+    const query = `SELECT * FROM ${table} WHERE ${c.sessionId} = ? ORDER BY ${c.timestamp} ASC`;
     const values: string[] = [sessionId];
 
     return new Promise<GameSessionUserUsage[]>((resolve, reject) => {

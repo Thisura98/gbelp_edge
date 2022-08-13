@@ -4,6 +4,7 @@ import { isEmptyParam } from '../../util/utils';
 import { ResponseModel } from '../../model/models/common';
 import * as sessionDAO from '../../model/dao/session';
 import { processUsage } from "../../model/processors/usage.processor";
+import { GameSession } from "../../../../commons/src/models/session";
 
 export function handlerReports(app: Express){
 
@@ -41,10 +42,15 @@ export function handlerReports(app: Express){
     // Student/User usage reports
     app.get(aurl('reports/usage'), (req, res) => {
         const sessionId = req.query.sessionId as string;
+        let session: GameSession | undefined;
         
-        sessionDAO.getUserUsage(sessionId)
+        sessionDAO.getSession(sessionId)
+        .then(rawSession => {
+            session = rawSession as GameSession;
+            return sessionDAO.getUserUsage(sessionId);
+        })
         .then(usageData => {
-            return processUsage(usageData);
+            return processUsage(session!, usageData);
         })
         .then(output => {
             res.send(new ResponseModel(true, 200, 'Processed usage data', output));
