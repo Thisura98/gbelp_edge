@@ -61,7 +61,8 @@ export function initialize(){
         port: 9000,
         user: 'root',
         password: 'root',
-        database: 'edge_gbelp'
+        database: 'edge_gbelp',
+        dateStrings: true
     });
 
     // Migrations must run sequentially, 
