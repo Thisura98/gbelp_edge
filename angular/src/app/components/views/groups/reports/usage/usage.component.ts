@@ -34,8 +34,11 @@ export class GroupReportsUsageComponent implements OnInit {
   usageDataLoaded = false;
 
   chartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: false,
+    responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false }
+    }
   };
 
   usageData: ChartConfiguration<'bar'>['data'] = {
@@ -79,7 +82,6 @@ export class GroupReportsUsageComponent implements OnInit {
     gradient.addColorStop(1, startColor);
     return gradient;
   }
-  
 
   private loadData() {
     forkJoin([
@@ -108,8 +110,27 @@ export class GroupReportsUsageComponent implements OnInit {
 
       this.group = groupResponse.data;
       this.session = sessionResponse.data;
-      // this.loadGameEntry();
+      this.loadReportData();
     })
+  }
+
+  private loadReportData(){
+    this.apiService.reports.usageReports(this.sessionId!).subscribe(res => {
+      if (res.success){
+        this.usageDataLoaded = true;
+        this.usageData.labels = res.data.labels;
+        this.usageData.datasets[0].data = res.data.data;
+        this.usageData.datasets[0].label = res.data.xAxesLabel;
+      }
+      else{
+        this.handleReportLoadError(res.description);
+      }
+    }, err => this.handleReportLoadError(err));
+  }
+
+  private handleReportLoadError(err: any){
+    const msg = typeof err == 'string' ? (err as string) : JSON.stringify(err);
+    this.dialogService.showDismissable('Error loading Data', msg);
   }
 
 }

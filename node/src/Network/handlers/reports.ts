@@ -53,7 +53,9 @@ export function handlerReports(app: Express){
             return processUsage(session!, usageData);
         })
         .then(output => {
-            res.send(new ResponseModel(true, 200, 'Processed usage data', output));
+            setTimeout(() => {
+                res.send(new ResponseModel(true, 200, 'Processed usage data', output));
+            }, 3000)
         })
         .catch(err => {
             res.send(new ResponseModel(false, 200, err));

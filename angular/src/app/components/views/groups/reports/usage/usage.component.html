@@ -21,17 +21,20 @@
         <div class="container3">
             <div class="section-reports">
                 <div id="overview">
+                    <h2>Overview</h2>
                     <div class="chart-container-overview">
                         <canvas baseChart id="chart-overview"
                             [data]="usageData"
                             [options]="chartOptions"
                             [type]="'bar'"
-                            *ngIf="usageDataLoaded">
+                            *ngIf="usageDataLoaded"
+                            class="dyn-fade">
     
                         </canvas>
                         
                         <loading-reports text="Loading overview..."
-                            *ngIf="!usageDataLoaded">
+                            *ngIf="!usageDataLoaded"
+                            class="dyn-fade">
                         </loading-reports>
                     </div>
                 </div>
