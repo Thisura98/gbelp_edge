@@ -286,7 +286,7 @@ export function getUserUsageBreakdown(
     }
 
     if (endTimestamp != blank){
-        whereParts.push(`(${k.isStart}) = 0 AND ${k.timestamp} < FROM_UNIXTIME(?))`);
+        whereParts.push(`(${k.isStart} = 0 AND ${k.timestamp} < FROM_UNIXTIME(?))`);
         values.push(endTimestamp!);
     }
 

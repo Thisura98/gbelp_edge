@@ -48,6 +48,8 @@ export class GroupReportsUsageComponent implements OnInit {
   game: GameEntry | undefined;
 
   usageDataLoaded = false;
+  breakdownStartTimetstamp: string | undefined;
+  breakdownEndTimestamp: string | undefined;
   breakdownDataLoaded = false;
 
   public breakdownData: GameSessionUserUsageBreakdown[] = [];
@@ -74,6 +76,7 @@ export class GroupReportsUsageComponent implements OnInit {
       events: {
         zoomed: (chart, opts) => {
           console.log('Overview zoomed:', opts);
+          this.handleChartZoomed(opts);
         }
       }
     },
@@ -245,7 +248,12 @@ export class GroupReportsUsageComponent implements OnInit {
   }
 
   private loadBreakdownData(){
-    this.apiService.reports.usageReportBreakdown(this.sessionId!, undefined, undefined).subscribe(res => {
+    this.breakdownDataLoaded = false;
+    this.apiService.reports.usageReportBreakdown(
+      this.sessionId!, 
+      this.breakdownStartTimetstamp, 
+      this.breakdownEndTimestamp
+    ).subscribe(res => {
       if (res.success){
         this.breakdownDataLoaded = true;
         this.breakdownData = res.data;
@@ -269,15 +277,28 @@ export class GroupReportsUsageComponent implements OnInit {
 
     if (sec > TimeConstants.oneHourInSeconds){
       const val = Math.floor(sec / TimeConstants.oneHourInSeconds)
-      return val == 1 ? '1 Hour' : (val + ' Hours')
+      return val == 1 ? '1 hour' : (val + ' hours')
     }
 
     if (sec > TimeConstants.oneMinuteInSeconds){
       const val = Math.round((sec / TimeConstants.oneMinuteInSeconds) * 100) / 100;
-      return val == 1 ? '1 Minute' : (val + ' Minutes')
+      return val == 1 ? '1 minute' : (val + ' minutes')
     }
 
-    return sec + ' Seconds';
+    return sec + ' seconds';
+  }
+
+  private handleChartZoomed(opts: any){
+    try{
+      const min = opts.xaxis.min;
+      const max = opts.xaxis.max;
+      this.breakdownStartTimetstamp = min == undefined ? undefined : (opts.xaxis.min / 1000).toString();
+      this.breakdownEndTimestamp = max == undefined ? undefined : (opts.xaxis.max / 1000).toString();
+      this.loadBreakdownData();
+    }
+    catch(err){
+      this.dialogService.showSnackbar(String(err));
+    }
   }
 
 }
