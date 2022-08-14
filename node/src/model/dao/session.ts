@@ -281,12 +281,14 @@ export function getUserUsageBreakdown(
     let whereParts: string[] = [];
 
     if (startTimestamp != blank){
-        whereParts.push(`(${k.isStart} = 1 AND ${k.timestamp} > FROM_UNIXTIME(?))`);
+        // whereParts.push(`(${k.isStart} = 1 AND ${k.timestamp} > FROM_UNIXTIME(?))`);
+        whereParts.push(`(${k.timestamp} > FROM_UNIXTIME(?))`);
         values.push(startTimestamp!);
     }
 
     if (endTimestamp != blank){
-        whereParts.push(`(${k.isStart} = 0 AND ${k.timestamp} < FROM_UNIXTIME(?))`);
+        // whereParts.push(`(${k.isStart} = 0 AND ${k.timestamp} < FROM_UNIXTIME(?))`);
+        whereParts.push(`(${k.timestamp} < FROM_UNIXTIME(?))`);
         values.push(endTimestamp!);
     }
 
@@ -294,7 +296,7 @@ export function getUserUsageBreakdown(
         internalWhere = 
         `${internalWhere}
             AND (
-                ${whereParts.join('\nOR\n')}
+                ${whereParts.join('\AND\n')}
             )
         `;
     }
@@ -322,7 +324,7 @@ export function getUserUsageBreakdown(
     GROUP BY K.${k.userId}
     `;
 
-    l.logc(mainQuery, fn);
+    // l.logc(mainQuery, fn);
 
     return new Promise<GameSessionUserUsageBreakdown[]>((resolve, reject) => {
         sql.getPool()?.query(mainQuery, values, (error, result) => {

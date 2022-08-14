@@ -32,15 +32,15 @@ GROUP BY user_id;
 
 /* Average and Max usage of each user */
 
-SELECT K.user_id, U.user_name, MAX(K.duration) as max_usage, AVG(K.duration) as avg_usage
+SELECT K.user_id, U.user_name, MAX(K.duration) as max_usage, AVG(K.duration) as avg_usage, COUNT(K.user_id) as session_count
 FROM (
     SELECT user_id, MIN(`timestamp`) as start_time, MAX(`timestamp`) as end_time,
     TIMESTAMPDIFF(SECOND, MIN(`timestamp`), MAX(`timestamp`)) as duration
     FROM `gsession_user_usage`
     WHERE 
-        (`is_start` = 1 AND `timestamp` > FROM_UNIXTIME(1660003200)) 
+        (`is_start` = 1 AND `timestamp` > FROM_UNIXTIME(1660290202.435332)) 
         OR 
-        (`is_start` = 0 AND `timestamp` < FROM_UNIXTIME(1660089000))
+        (`is_start` = 0 AND `timestamp` < FROM_UNIXTIME(1660305326.8742185))
     GROUP BY `user_id`, `play_nonce`
     ORDER BY duration DESC
 ) AS K
