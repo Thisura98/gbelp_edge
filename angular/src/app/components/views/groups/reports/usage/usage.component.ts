@@ -5,7 +5,7 @@ import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
-import { GameEntry } from "../../../../../../../../commons/src/models/game/game";
+import { GameListing } from "../../../../../../../../commons/src/models/game/game";
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
 import { forkJoin } from "rxjs";
@@ -45,7 +45,7 @@ export class GroupReportsUsageComponent implements OnInit {
   private sessionId: string | undefined;
   group: UserGroup | undefined;
   session: GameSession | undefined;
-  game: GameEntry | undefined;
+  gameListing: GameListing | undefined;
 
   usageDataLoaded = false;
   breakdownStartTimetstamp: string | undefined;
@@ -196,7 +196,7 @@ export class GroupReportsUsageComponent implements OnInit {
   private loadData() {
     forkJoin([
       this.apiService.session.getSession(this.sessionId!),
-      this.apiService.group.getGroup(this.groupId!)
+      this.apiService.group.getGroup(this.groupId!),
     ]).subscribe(values => {
 
       const sessionResponse = values[0];
@@ -220,8 +220,21 @@ export class GroupReportsUsageComponent implements OnInit {
 
       this.group = groupResponse.data;
       this.session = sessionResponse.data;
-      this.loadReportData();
+
+      this.apiService.game.getGame(this.session.game_entry_id).subscribe(res => {
+        if (res.success){
+          this.gameListing = res.data;
+          this.loadReportData();
+        }
+        else{
+          this.showGameLoadError(res.description);
+        }
+      }, err => this.showGameLoadError(String(err)))
     })
+  }
+
+  private showGameLoadError(err: string){
+    this.dialogService.showDismissable('Failed to load Game', err);
   }
 
   private loadReportData(){
