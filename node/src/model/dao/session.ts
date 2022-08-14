@@ -313,7 +313,8 @@ export function getUserUsageBreakdown(
     `SELECT 
         U.${u.userId}, U.${u.userName}, 
         MAX(K.duration) as max_usage,  
-        AVG(K.duration) as avg_usage
+        AVG(K.duration) as avg_usage,
+        COUNT(K.${k.userId}) as session_count
     FROM (
         ${internalQuery}
     ) AS K

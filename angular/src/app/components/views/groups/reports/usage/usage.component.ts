@@ -12,6 +12,8 @@ import { forkJoin } from "rxjs";
 // import { ChartConfiguration, ScriptableContext } from 'chart.js';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from "ng-apexcharts";
 import { GameSessionUserUsageBreakdown } from "../../../../../../../../commons/src/models/reports/user.usage";
+import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
+import { TimeConstants } from "src/app/constants/constants";
 
 export type ApexChartOptions = {
   series: ApexAxisChartSeries;
@@ -49,6 +51,16 @@ export class GroupReportsUsageComponent implements OnInit {
   breakdownDataLoaded = false;
 
   public breakdownData: GameSessionUserUsageBreakdown[] = [];
+  public breakdownTableConfig: DynBasicTableConfig = {
+   showDelete: false,
+   columns: [
+     { name: 'Student Name', property: 'user_name', type: 'static' },
+     { name: 'Average Usage', property: 'avg_usage', type: 'static', staticFormatter: this.timeFormat },
+     { name: '# of Play Sessions', property: 'session_count', type: 'static' },
+     { name: 'Longest Session', property: 'max_usage', type: 'static', staticFormatter: this.timeFormat }
+   ],
+   textAlign: 'center'
+  }
 
   public apexChartOptions: ApexChartOptions = {
 
@@ -247,6 +259,25 @@ export class GroupReportsUsageComponent implements OnInit {
   private handleReportLoadError(err: any){
     const msg = typeof err == 'string' ? (err as string) : JSON.stringify(err);
     this.dialogService.showDismissable('Error loading Data', msg);
+  }
+
+  private timeFormat(seconds: string): string{
+    const sec = Number.parseInt(seconds);
+
+    if (isNaN(sec))
+      return seconds;
+
+    if (sec > TimeConstants.oneHourInSeconds){
+      const val = Math.floor(sec / TimeConstants.oneHourInSeconds)
+      return val == 1 ? '1 Hour' : (val + ' Hours')
+    }
+
+    if (sec > TimeConstants.oneMinuteInSeconds){
+      const val = Math.round((sec / TimeConstants.oneMinuteInSeconds) * 100) / 100;
+      return val == 1 ? '1 Minute' : (val + ' Minutes')
+    }
+
+    return sec + ' Seconds';
   }
 
 }

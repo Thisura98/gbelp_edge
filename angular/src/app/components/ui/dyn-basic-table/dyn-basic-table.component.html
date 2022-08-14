@@ -14,9 +14,10 @@
             <td 
                 *ngFor="let col of columns" 
                 class="dyn-table-cell"
+                [style.textAlign]="config.textAlign"
                 [style.height.px]="cellHeight">
                 <ng-container *ngIf="col.type == 'static'">
-                    {{row[col.property] | anytostr}}
+                    {{formattedOrRaw(row[col.property], col)}}
                 </ng-container>
                 <ng-container *ngIf="col.type == 'input:number'">
                     <input type="number" [(ngModel)]="row[col.property]" />

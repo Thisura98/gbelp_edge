@@ -1,5 +1,6 @@
 import { Component, Input, Output, OnInit } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { AnyToStringPipe } from 'src/app/pipes/any-to-string.pipe';
 
 export interface DynBasicTableCol{
   /**
@@ -11,6 +12,7 @@ export interface DynBasicTableCol{
    */
   property: string
   type: 'static' | 'input:text' | 'input:number'
+  staticFormatter?: (input: string) => string
 }
 
 export interface DynBasicTableDeleteEvent{
@@ -21,9 +23,11 @@ export interface DynBasicTableDeleteEvent{
 export class DynBasicTableConfig{
   showDelete: boolean
   columns: DynBasicTableCol[]
-  constructor(showDelete: boolean, columns: DynBasicTableCol[]){
+  textAlign?: string = 'left';
+  constructor(showDelete: boolean, columns: DynBasicTableCol[], textAlign: string = 'left'){
     this.showDelete = showDelete
     this.columns = columns;
+    this.textAlign = textAlign;
   }
 }
 
@@ -59,6 +63,7 @@ export class DynBasicTableComponent implements OnInit {
   rowCount: number = 0;
 
   constructor(
+    private anyToStringPipe: AnyToStringPipe
   ) {
     this.data = [];
   }
@@ -77,6 +82,11 @@ export class DynBasicTableComponent implements OnInit {
 
   emitDeleteEvent(obj: any, index: number){
     this.delete.emit({object: obj, index: index});
+  }
+
+  formattedOrRaw(data: any, col: DynBasicTableCol): string{
+    const str = this.anyToStringPipe.transform(data);
+    return col.staticFormatter == undefined ? str : col.staticFormatter!(str);
   }
 
 }

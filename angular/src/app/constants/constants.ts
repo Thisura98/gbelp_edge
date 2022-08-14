@@ -1,6 +1,11 @@
 import { DynBasicTableConfig } from "../components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "../components/ui/dynamicsidebar/dynamicsidebar.component";
 
+export class TimeConstants{
+    static oneHourInSeconds = 3600;
+    static oneMinuteInSeconds = 60;
+}
+
 export class ViewMode{
     static readonly UNKNOWN = '';
     static readonly GAME = 'game';

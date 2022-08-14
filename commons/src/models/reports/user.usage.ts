@@ -12,6 +12,7 @@ export class ReportGraphDataUserUsage{
         public user_id: string, 
         public user_name: string,
         public max_usage: number,
-        public avg_usage: number
+        public avg_usage: number,
+        public session_count: number
     ){}
 }
