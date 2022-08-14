@@ -21,7 +21,7 @@ export type ApexChartOptions = {
   title: ApexTitleSubtitle;
   tooltip: ApexTooltip;
   grid: ApexGrid,
-  fill: ApexFill
+  fill: ApexFill,
 }
 
 @Component({
@@ -55,6 +55,11 @@ export class GroupReportsUsageComponent implements OnInit {
     chart: {
       type: 'area',
       height: '200px',
+      events: {
+        zoomed: (chart, opts) => {
+          console.log('Overview zoomed:', opts);
+        }
+      }
     },
     xaxis: {
       type: 'datetime',
