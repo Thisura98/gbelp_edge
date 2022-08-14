@@ -1,5 +1,6 @@
 import { GameSessionWithExtensions } from '../../../../commons/src/models/session';
-import { GameSessionUserUsageBreakdown, GameSessionUserUsageGroupedByNonce } from '../../../../commons/src/models/session/user.usage';
+import { GameSessionUserUsageBreakdown } from '../../../../commons/src/models/reports/user.usage';
+import { GameSessionUserUsageGroupedByNonce } from '../../../../commons/src/models/session/user.usage';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as l from '../../util/logger';
 
@@ -264,11 +265,12 @@ export function getUserUsageGroupedByNonce(sessionId: string): Promise<GameSessi
  */
 export function getUserUsageBreakdown(
     sessionId: string,
-    startTimestamp: string | undefined,
-    endTimestamp: string | undefined
+    startTimestamp: string,
+    endTimestamp: string
 ): Promise<GameSessionUserUsageBreakdown[]>{
 
     const fn = 'getUserUsageBreakdown';
+    const blank = '';
     const usageTable = sql.tables.gameSessionUsage;
     const userTable = sql.tables.users;
     const k = sql.columns.gameSessionUsage;
@@ -278,12 +280,12 @@ export function getUserUsageBreakdown(
     let internalWhere = `WHERE ${k.sessionId} = ?`;
     let whereParts: string[] = [];
 
-    if (startTimestamp != undefined){
+    if (startTimestamp != blank){
         whereParts.push(`(${k.isStart} = 1 AND ${k.timestamp} > FROM_UNIXTIME(?))`);
         values.push(startTimestamp!);
     }
 
-    if (endTimestamp != undefined){
+    if (endTimestamp != blank){
         whereParts.push(`(${k.isStart}) = 0 AND ${k.timestamp} < FROM_UNIXTIME(?))`);
         values.push(endTimestamp!);
     }

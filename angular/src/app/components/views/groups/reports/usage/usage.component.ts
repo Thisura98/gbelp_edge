@@ -11,6 +11,7 @@ import { GameSession } from "../../../../../../../../commons/src/models/session"
 import { forkJoin } from "rxjs";
 // import { ChartConfiguration, ScriptableContext } from 'chart.js';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from "ng-apexcharts";
+import { GameSessionUserUsageBreakdown } from "../../../../../../../../commons/src/models/reports/user.usage";
 
 export type ApexChartOptions = {
   series: ApexAxisChartSeries;
@@ -45,6 +46,9 @@ export class GroupReportsUsageComponent implements OnInit {
   game: GameEntry | undefined;
 
   usageDataLoaded = false;
+  breakdownDataLoaded = false;
+
+  public breakdownData: GameSessionUserUsageBreakdown[] = [];
 
   public apexChartOptions: ApexChartOptions = {
 
@@ -224,6 +228,20 @@ export class GroupReportsUsageComponent implements OnInit {
         this.handleReportLoadError(res.description);
       }
     }, err => this.handleReportLoadError(err));
+
+    this.loadBreakdownData();
+  }
+
+  private loadBreakdownData(){
+    this.apiService.reports.usageReportBreakdown(this.sessionId!, undefined, undefined).subscribe(res => {
+      if (res.success){
+        this.breakdownDataLoaded = true;
+        this.breakdownData = res.data;
+      }
+      else{
+        this.handleReportLoadError(res.description)
+      }
+    }, (err) => this.handleReportLoadError(err));
   }
 
   private handleReportLoadError(err: any){

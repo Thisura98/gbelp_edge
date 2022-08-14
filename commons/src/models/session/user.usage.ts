@@ -19,13 +19,3 @@ export interface GameSessionUserUsageGroupedByNonce{
     start_time: string;
     end_time: string;
 }
-
-/**
- * Not a real table. Only a query result
- */
-export interface GameSessionUserUsageBreakdown{
-    user_id: string, 
-    user_name: string,
-    max_usage: number,
-    avg_usage: number
-}

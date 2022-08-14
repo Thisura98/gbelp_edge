@@ -63,8 +63,8 @@ export function handlerReports(app: Express){
     // Student/User usage breakdown
     app.get(aurl('reports/usage/breakdown'), (req, res) => {
         const sessionId = req.query.sessionId as string;
-        const startTimestamp = req.query.startTimestamp as string || undefined;
-        const endTimestamp = req.query.endTimestamp as string || undefined;
+        const startTimestamp = req.query.startTimestamp as string || '';
+        const endTimestamp = req.query.endTimestamp as string || '';
 
         sessionDAO.getUserUsageBreakdown(sessionId, startTimestamp, endTimestamp)
         .then(result => {

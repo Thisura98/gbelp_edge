@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseReportGraphDataUsage } from "src/app/models/reports";
-import { ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseUserTypes } from "src/app/models/user";
+import { ServerResponseReportUsageBreakdown, ServerResponseReportUsageGraph } from "src/app/models/reports";
 import { APIBase } from "./base.api";
 
 export class ReportsAPIs implements APIBase {
@@ -13,9 +12,25 @@ export class ReportsAPIs implements APIBase {
 
     constructor(){}
 
-    usageReportGraph(sessionId: string): Observable<ServerResponseReportGraphDataUsage>{
+    usageReportGraph(sessionId: string): Observable<ServerResponseReportUsageGraph>{
       const data = { sessionId: sessionId };
-      return this.http.get<ServerResponseReportGraphDataUsage>(this.aurl('reports/usage/graph'), {
+      return this.http.get<ServerResponseReportUsageGraph>(this.aurl('reports/usage/graph'), {
+        params: data,
+        headers: this.getHeaders()
+      })
+    }
+
+    usageReportBreakdown(
+      sessionId: string,
+      startTimestampSeconds: string | undefined,
+      endTimestampSeconds: string | undefined
+    ): Observable<ServerResponseReportUsageBreakdown>{
+      const data = { 
+        sessionId: sessionId,
+        startTimestamp: startTimestampSeconds ?? '',
+        endTimestamp: endTimestampSeconds ?? ''
+      };
+      return this.http.get<ServerResponseReportUsageBreakdown>(this.aurl('reports/usage/breakdown'), {
         params: data,
         headers: this.getHeaders()
       })

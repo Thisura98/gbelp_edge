@@ -6,3 +6,12 @@ export class ReportGraphDataUserUsage{
         public yAxesLabel: String
     ){}
 }
+
+ export class GameSessionUserUsageBreakdown{
+    constructor(
+        public user_id: string, 
+        public user_name: string,
+        public max_usage: number,
+        public avg_usage: number
+    ){}
+}
