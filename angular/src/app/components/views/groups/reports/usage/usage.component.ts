@@ -206,7 +206,7 @@ export class GroupReportsUsageComponent implements OnInit {
   }
 
   private loadReportData(){
-    this.apiService.reports.usageReports(this.sessionId!).subscribe(res => {
+    this.apiService.reports.usageReportGraph(this.sessionId!).subscribe(res => {
       if (res.success){
         this.usageDataLoaded = true;
 

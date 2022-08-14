@@ -39,8 +39,8 @@ export function handlerReports(app: Express){
 
     })
 
-    // Student/User usage reports
-    app.get(aurl('reports/usage'), (req, res) => {
+    // Student/User usage report graph
+    app.get(aurl('reports/usage/graph'), (req, res) => {
         const sessionId = req.query.sessionId as string;
         let session: GameSession | undefined;
         
@@ -60,4 +60,18 @@ export function handlerReports(app: Express){
         })
     });
 
+    // Student/User usage breakdown
+    app.get(aurl('reports/usage/breakdown'), (req, res) => {
+        const sessionId = req.query.sessionId as string;
+        const startTimestamp = req.query.startTimestamp as string || undefined;
+        const endTimestamp = req.query.endTimestamp as string || undefined;
+
+        sessionDAO.getUserUsageBreakdown(sessionId, startTimestamp, endTimestamp)
+        .then(result => {
+            res.send(new ResponseModel(true, 200, 'User usage breakdown in seconds', result));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
 }

@@ -54,7 +54,8 @@ export function processUsage(session: GameSession, input: GameSessionUserUsageGr
         labelTime = rounded + interval;
     }
 
-    // Count intermediate times between start and end of each play session
+    // Add one time point each to intermediate time intervals 
+    // between start and end of each play session.
     // [play session = sessions group by nonce]
     for (let entry of input){
         const endTime = DateTime.fromISO(isofy(entry.end_time), options).toMillis();

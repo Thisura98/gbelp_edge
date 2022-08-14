@@ -16,7 +16,7 @@ export function roundedDateToInterval(source: DateTime, intervalMs: number, zone
 }
 
 /**
- * Round the source DateTime into the target milliseconds and return DateTime
+ * Round the source DateTime into the target milliseconds and return time in ms
  */
  export function roundedDateToIntervalMS(source: number, intervalMs: number): number{
     return intervalMs * Math.floor(source / intervalMs);

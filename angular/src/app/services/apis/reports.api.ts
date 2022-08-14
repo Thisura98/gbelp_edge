@@ -13,9 +13,9 @@ export class ReportsAPIs implements APIBase {
 
     constructor(){}
 
-    usageReports(sessionId: string): Observable<ServerResponseReportGraphDataUsage>{
+    usageReportGraph(sessionId: string): Observable<ServerResponseReportGraphDataUsage>{
       const data = { sessionId: sessionId };
-      return this.http.get<ServerResponseReportGraphDataUsage>(this.aurl('reports/usage'), {
+      return this.http.get<ServerResponseReportGraphDataUsage>(this.aurl('reports/usage/graph'), {
         params: data,
         headers: this.getHeaders()
       })
