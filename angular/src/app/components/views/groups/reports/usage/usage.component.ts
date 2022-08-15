@@ -100,7 +100,7 @@ export class GroupReportsUsageComponent implements OnInit {
     },
     yaxis: {
       title: {
-        text: 'Cumulative Students'
+        text: 'Cumulative Sessions'
       }
     },
     dataLabels: { enabled: false },
