@@ -253,7 +253,7 @@ export function isTokenValidForUser(userId: string, token: string, callback: (st
         }
         else if (res && res.length > 0){
             const expiry = res[0].expiry_date;
-            const expiryDate = DateTime.fromJSDate(expiry);
+            const expiryDate = DateTime.fromSQL(expiry);
             const diff = expiryDate.diffNow('hours');
             if (diff.hours <= 0.0){
                 db.getPool()!.query(`DELETE ${fromAndWhere}`, (err, res, fields) => {

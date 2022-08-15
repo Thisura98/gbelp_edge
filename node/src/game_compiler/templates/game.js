@@ -24,7 +24,7 @@ const config = {
     width: 1366,
     height: 500,
     title: 'Shock and Awesome',
-    backgroundColor: "#0000dd",
+    backgroundColor: "#FFFFFF",
     fps: {
         target: 30,
         forceSetTimeOut: true

@@ -70,7 +70,8 @@ export class GenerateScene{
     }
 
     private static getLevelName(name: string): string{
-        const levelNameReplace = new RegExp('[ -!@#$%^&*0-9]', 'g');
+        // const levelNameReplace = new RegExp('[ -!@#$%^&*0-9]', 'g');
+        const levelNameReplace = new RegExp('[ -!@#$%^&*]', 'g');
         return name.replace(levelNameReplace, '_');
     }
 }

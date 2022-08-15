@@ -15,7 +15,7 @@ import { isofy, roundedDateToInterval, roundedDateToIntervalMS } from './process
  */
 export function processUsage(session: GameSession, input: GameSessionUserUsageGroupedByNonce[]): Promise<ReportGraphDataUserUsage>{
     const yAxes = 'Minutes';
-    const xAxes = 'Cumulative Students';
+    const xAxes = 'Cumulative Sessions';
     const oneHourInMs = 1 * 60 * 60 * 1000;
     const minuteInterval = 10 * 60 * 1000;
     const hourInterval = oneHourInMs;

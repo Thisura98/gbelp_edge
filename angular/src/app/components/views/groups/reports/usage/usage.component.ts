@@ -87,6 +87,7 @@ export class GroupReportsUsageComponent implements OnInit {
         show: true
       },
       labels: {
+        datetimeUTC: false,
         format: 'MMM dd HH:mm',
         datetimeFormatter: {
           day: 'MMM dd',

@@ -23,7 +23,8 @@ type Editor = monaco.editor.IStandaloneCodeEditor;
   ]
 })
 export class PropertiesEditorComponent implements OnInit {
-  code: string = JSON.stringify(Example, null, 4); // Remove after testing
+  // code: string = JSON.stringify(Example, null, 4); // Remove after testing
+  code: string = '';
   editorOptions = EDGEMonacoEditorOptions;
   gameListing: GameListing | undefined;
   sections: LevelPropertySection[] = [];
@@ -50,6 +51,7 @@ export class PropertiesEditorComponent implements OnInit {
     this.editorDataService.getEditorChildData().subscribe(data => {
       this.gameListing = data.gameListing?.data;
       this.selectedLevelIndex = data.selectedLevelIndex;
+      this.setLevelProperties();
     });
 
     this.editorDataService.addOnSaveListener(project => this.prepareForSave(project))
@@ -111,6 +113,15 @@ export class PropertiesEditorComponent implements OnInit {
     // TODO: Capture values from the controls
     // TODO:
     this.code = JSON.stringify(this.sections, null, 4);
+  }
+
+  private setLevelProperties(){
+    if (this.selectedLevelIndex == undefined)
+      return;
+
+    const index = this.selectedLevelIndex!;
+    this.sections = this.gameListing?.project.levels[index].properties.properties!;
+    this.valueChanged();
   }
 
   private prepareForSave(project: GameProject){

@@ -20,9 +20,9 @@ import { UtilsService } from 'src/app/services/utils.service';
     <div *ngIf="expanded" class="dashboard-userstatus-menu" #dashboardUserStatusMenu>
       <div class="dashboard-us-mitem" (click)="logoutPressed()">Logout</div>
       <div class="dashboard-us-mitem" (click)="goToDashboardPressed()">Go to Dashboard</div>
-      <div class="dashboard-us-mitemsep"></div>
-      <div class="dashboard-us-mitem">Chats <img src="assets/dashboard/ico_chat.png"></div>
-      <div class="dashboard-us-mitem">Audio Streaming <img src="assets/dashboard/ico_mic.png"></div>
+      <!-- <div class="dashboard-us-mitemsep"></div> -->
+      <!-- <div class="dashboard-us-mitem">Chats <img src="assets/dashboard/ico_chat.png"></div> -->
+      <!-- <div class="dashboard-us-mitem">Audio Streaming <img src="assets/dashboard/ico_mic.png"></div> -->
     </div>
   `,
   styleUrls: ['./userstatus.component.css']
