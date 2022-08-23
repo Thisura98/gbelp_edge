@@ -70,6 +70,11 @@ export class GroupReportsObjectiveComponent{
     yaxis: {
       title: {
         text: 'Cumulative Sessions'
+      },
+      labels: {
+        formatter: (value, opts) => {
+          return value.toPrecision(2);
+        }
       }
     },
     dataLabels: { enabled: false },
