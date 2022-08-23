@@ -21,3 +21,10 @@
 .chart-container, .breakdown-container{
     position: relative;
 }
+
+/* Side Panel */
+.objective-report-details{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
