@@ -27,18 +27,14 @@
 
 .chart-container-overview{
     position: relative;
-    /* width: 500px; */
     overflow: hidden;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
 }
+
+/* #chart-overview{
+    width: 100%;
+    height: 100%;
+} */
 
 .breakdown-container{
     position: relative;
-}
-
-#chart-overview{
-    width: 100%;
-    height: 100%;
 }

@@ -23,28 +23,20 @@
                 <div id="progressbytime">
                     <h2>Progress by Time</h2>
                     <div class="chart-container chart-container-progress-by-time">
-                        <!-- <canvas baseChart id="chart-overview"
-                            [data]="usageData"
-                            [options]="chartOptions"
-                            [type]="'line'"
-                            *ngIf="usageDataLoaded"
-                            class="dyn-fade">
-                        </canvas> -->
-
-                        <!--<apx-chart
-                            [series]="apexChartOptions.series"
-                            [chart]="apexChartOptions.chart"
-                            [xaxis]="apexChartOptions.xaxis"
-                            [yaxis]="apexChartOptions.yaxis"
-                            [dataLabels]="apexChartOptions.dataLabels"
-                            [title]="apexChartOptions.title"
-                            [tooltip]="apexChartOptions.tooltip"
-                            [grid]="apexChartOptions.grid"
-                            [fill]="apexChartOptions.fill"
-                            *ngIf="usageDataLoaded"
+                        <apx-chart
+                            [series]="timeChart.series"
+                            [chart]="timeChart.chart"
+                            [xaxis]="timeChart.xaxis"
+                            [yaxis]="timeChart.yaxis"
+                            [dataLabels]="timeChart.dataLabels"
+                            [title]="timeChart.title"
+                            [tooltip]="timeChart.tooltip"
+                            [grid]="timeChart.grid"
+                            [fill]="timeChart.fill"
+                            *ngIf="progressByTimeLoaded"
                             
                             class="dyn-fade"
-                        ></apx-chart>-->
+                        ></apx-chart>
                         
                         <loading-reports text="Loading progress..."
                             *ngIf="!progressByTimeLoaded"
@@ -63,21 +55,6 @@
                             *ngIf="usageDataLoaded"
                             class="dyn-fade">
                         </canvas> -->
-
-                        <!--<apx-chart
-                            [series]="apexChartOptions.series"
-                            [chart]="apexChartOptions.chart"
-                            [xaxis]="apexChartOptions.xaxis"
-                            [yaxis]="apexChartOptions.yaxis"
-                            [dataLabels]="apexChartOptions.dataLabels"
-                            [title]="apexChartOptions.title"
-                            [tooltip]="apexChartOptions.tooltip"
-                            [grid]="apexChartOptions.grid"
-                            [fill]="apexChartOptions.fill"
-                            *ngIf="usageDataLoaded"
-                            
-                            class="dyn-fade"
-                        ></apx-chart>-->
                         
                         <loading-reports text="Loading progress..."
                             *ngIf="!progressByObjectiveLoaded"

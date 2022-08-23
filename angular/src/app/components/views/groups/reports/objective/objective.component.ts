@@ -9,6 +9,7 @@ import { UtilsService } from "src/app/services/utils.service";
 import { GameListing } from "../../../../../../../../commons/src/models/game/game";
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
+import { ApexChartOptions } from "../usage/usage.component";
 
 @Component({
   templateUrl: "./objective.component.html",
@@ -31,6 +32,69 @@ export class GroupReportsObjectiveComponent{
   progressByTimeLoaded = false;
   progressByObjectiveLoaded = false;
   breakdownDataLoaded = false;
+
+  public timeChart: ApexChartOptions = {
+    title: {
+      text: ''
+    },
+    series: [{ name:' test', data: [] }],
+    chart: {
+      type: 'area',
+      height: '200px',
+      events: {
+        // zoomed: (chart, opts) => {
+        //   console.log('Overview zoomed:', opts);
+        //   this.handleChartZoomed(opts);
+        // }
+      }
+    },
+    xaxis: {
+      type: 'datetime',
+      categories: [],
+      crosshairs: {
+        show: true
+      },
+      labels: {
+        datetimeUTC: false,
+        format: 'MMM dd HH:mm',
+        datetimeFormatter: {
+          day: 'MMM dd',
+          hour: 'dd HH:mm',
+          minute: 'HH:mm:ss'
+        }
+      },
+      tooltip: {
+        enabled: false
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Cumulative Sessions'
+      }
+    },
+    dataLabels: { enabled: false },
+    tooltip: {
+      x: {
+        formatter: (ts, opts) => {
+          const date = new Date(ts);
+          const day = date.toDateString();
+          const hours = date.getHours().toString().padStart(2, '0');
+          const minutes = date.getMinutes().toString().padStart(2, '0');
+          const seconds = date.getSeconds().toString().padStart(2, '0');
+          return `${day} - ${hours}:${minutes}:${seconds}`
+        }
+      },
+      marker: {
+        show: false
+      }
+    },
+    grid: {
+      borderColor: '#AEAEAE',
+      strokeDashArray: 3
+    },
+    fill: {
+    }
+  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -92,7 +156,7 @@ export class GroupReportsObjectiveComponent{
       this.apiService.game.getGame(this.session.game_entry_id).subscribe(res => {
         if (res.success){
           this.gameListing = res.data;
-          // this.loadReportData();
+          this.loadReportData();
         }
         else{
           this.showGameLoadError(res.description);
@@ -101,8 +165,31 @@ export class GroupReportsObjectiveComponent{
     })
   }
 
+  private loadReportData(){
+    // Time chart
+    this.progressByTimeLoaded = false;
+    this.apiService.reports.usageObjectivesByTimeGraph(this.sessionId!).subscribe(res => {
+      if (res.success){
+        this.progressByTimeLoaded = true;
+        this.timeChart.xaxis.categories = res.data.labels;
+        this.timeChart.series[0].data = res.data.data;
+        this.timeChart.series[0].name = res.data.xAxesLabel;
+      }
+      else{
+        this.handleReportLoadError(res.description);
+      }
+    }, (err) => this.handleReportLoadError(err))
+
+    // Todo: Progress chart
+  }
+
   private showGameLoadError(err: string){
     this.dialogService.showDismissable('Failed to load Game', err);
+  }
+
+  private handleReportLoadError(err: any){
+    const msg = typeof err == 'string' ? (err as string) : JSON.stringify(err);
+    this.dialogService.showDismissable('Error loading Data', msg);
   }
 
 }

@@ -1,6 +1,6 @@
 import { isDevMode, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserType } from '../../../../commons/src/models/user';
+import { UserType, UserTypeNames } from '../../../../commons/src/models/user';
 
 @Injectable({
     providedIn: 'root'
@@ -50,8 +50,8 @@ export class UserService{
         
         const userType = user.userTypeName.toLowerCase();
         
-        if (userType == UserType.admin || userType == UserType.creator)
-            return UserType.teacher;
+        if (userType == UserTypeNames.admin || userType == UserTypeNames.creator)
+            return UserTypeNames.teacher;
         return userType;
     }
 

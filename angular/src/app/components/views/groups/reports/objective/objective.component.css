@@ -28,3 +28,14 @@
     flex-direction: column;
     gap: 10px;
 }
+
+/* Objective by Time Graph */
+#progressbytime{
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container-progress-by-time{
+    position: relative;
+    overflow: hidden;
+}
