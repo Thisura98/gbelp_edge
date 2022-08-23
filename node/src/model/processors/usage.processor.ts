@@ -2,7 +2,7 @@ import { GameSessionUserUsageGroupedByNonce } from '../../../../commons/src/mode
 import { ReportGraphDataUserUsage } from '../../../../commons/src/models/reports/user.usage';
 import { DateTime, LocalZone } from 'luxon';
 import { GameSession } from '../../../../commons/src/models/session';
-import { isofy, roundedDateToInterval, roundedDateToIntervalMS } from './processor.utils';
+import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, createEmptyQuantizedIntervalMap } from './processor.utils';
 
 /**
  * Generates graph data for User Usage
@@ -16,11 +16,6 @@ import { isofy, roundedDateToInterval, roundedDateToIntervalMS } from './process
 export function processUsage(session: GameSession, input: GameSessionUserUsageGroupedByNonce[]): Promise<ReportGraphDataUserUsage>{
     const yAxes = 'Seconds';
     const xAxes = 'Cumulative Sessions';
-    const oneHourInMs = 1 * 60 * 60 * 1000;
-    const tenMinutesInMs = 10 * 60 * 1000;
-    const minuteInterval = 10 * 60 * 1000;
-    const secondInterval = 1000;
-    const hourInterval = oneHourInMs;
     const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
     let data = new ReportGraphDataUserUsage([], [], xAxes, yAxes);
 
@@ -30,35 +25,21 @@ export function processUsage(session: GameSession, input: GameSessionUserUsageGr
 
     const firstSessionTime = DateTime.fromISO(isofy(input[0].start_time), options).toMillis(); 
     let lastSessionTime = firstSessionTime;
-    let labelTime = firstSessionTime;
-    let interval = secondInterval;
+    let interval = 0;
     let map: { [key: number]: number } = {};
 
     if (input.length > 1){
         lastSessionTime = DateTime.fromISO(isofy(input[input.length - 1].end_time), options).toMillis();
-
-        // If there is more than one hour gap between first & last session then,
-        // we count hours. 
-        // If there is more than ten minute hour gap, we count minutes.
-        // Otherwise, seconds.
-        if (lastSessionTime - firstSessionTime > oneHourInMs){
-            data.yAxesLabel = 'Hours';
-            interval = hourInterval;
-        }
-        else if (lastSessionTime - firstSessionTime > tenMinutesInMs){
-            data.yAxesLabel = 'Minutes';
-            interval = minuteInterval;
-        }
     }
+
+    // Determine interval
+    const quantization = determineTimeQuantizationInterval(firstSessionTime, lastSessionTime)
+    interval = quantization.interval;
+    data.xAxesLabel = quantization.intervalName;
 
     // Create labels
-    while(labelTime < lastSessionTime){
-        const rounded = roundedDateToIntervalMS(labelTime, interval);
-        // const label = rounded.toFormat('HH:mm');
-        // map[label] = 0;
-        map[rounded] = 0;
-        labelTime = rounded + interval;
-    }
+    const intervalMap = createEmptyQuantizedIntervalMap(firstSessionTime, lastSessionTime, interval);
+    map = intervalMap.map;
 
     // Add one time point each to intermediate time intervals 
     // between start and end of each play session.
@@ -71,7 +52,6 @@ export function processUsage(session: GameSession, input: GameSessionUserUsageGr
             const label = roundedDateToIntervalMS(time, interval);
             map[label] = map[label] + 1;
             time += interval;
-            // console.log('ts =', entry.timestamp, 'label =', label, 'rawMs =', time.toMillis(), 'roundedMs =', roundedMs);
         }
         while(time < endTime);
     }
