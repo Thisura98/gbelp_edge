@@ -14,14 +14,15 @@ import { isofy, roundedDateToInterval, roundedDateToIntervalMS } from './process
  * tell Luxon to NOT remove +0530 from the provided times.
  */
 export function processUsage(session: GameSession, input: GameSessionUserUsageGroupedByNonce[]): Promise<ReportGraphDataUserUsage>{
-    const yAxes = 'Minutes';
+    const yAxes = 'Seconds';
     const xAxes = 'Cumulative Sessions';
     const oneHourInMs = 1 * 60 * 60 * 1000;
+    const tenMinutesInMs = 10 * 60 * 1000;
     const minuteInterval = 10 * 60 * 1000;
+    const secondInterval = 1000;
     const hourInterval = oneHourInMs;
     const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
     let data = new ReportGraphDataUserUsage([], [], xAxes, yAxes);
-    let isUnitHours = false;
 
     if (input.length == 0){
         return Promise.resolve(data);
@@ -30,18 +31,23 @@ export function processUsage(session: GameSession, input: GameSessionUserUsageGr
     const firstSessionTime = DateTime.fromISO(isofy(input[0].start_time), options).toMillis(); 
     let lastSessionTime = firstSessionTime;
     let labelTime = firstSessionTime;
-    let interval = minuteInterval;
+    let interval = secondInterval;
     let map: { [key: number]: number } = {};
 
     if (input.length > 1){
         lastSessionTime = DateTime.fromISO(isofy(input[input.length - 1].end_time), options).toMillis();
 
         // If there is more than one hour gap between first & last session then,
-        // we count hours. Otherwise, we count minutes.
+        // we count hours. 
+        // If there is more than ten minute hour gap, we count minutes.
+        // Otherwise, seconds.
         if (lastSessionTime - firstSessionTime > oneHourInMs){
-            isUnitHours = true;
             data.yAxesLabel = 'Hours';
             interval = hourInterval;
+        }
+        else if (lastSessionTime - firstSessionTime > tenMinutesInMs){
+            data.yAxesLabel = 'Minutes';
+            interval = minuteInterval;
         }
     }
 

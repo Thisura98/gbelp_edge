@@ -89,7 +89,8 @@ export class GroupReportsUsageComponent implements OnInit {
         format: 'MMM dd HH:mm',
         datetimeFormatter: {
           day: 'MMM dd',
-          hour: 'dd HH:mm'
+          hour: 'dd HH:mm',
+          minute: 'HH:mm:ss'
         }
       },
       tooltip: {
@@ -109,7 +110,8 @@ export class GroupReportsUsageComponent implements OnInit {
           const day = date.toDateString();
           const hours = date.getHours().toString().padStart(2, '0');
           const minutes = date.getMinutes().toString().padStart(2, '0');
-          return `${day} - ${hours}:${minutes}`
+          const seconds = date.getSeconds().toString().padStart(2, '0');
+          return `${day} - ${hours}:${minutes}:${seconds}`
         }
       },
       marker: {
