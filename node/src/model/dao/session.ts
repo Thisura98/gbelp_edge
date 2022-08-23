@@ -113,26 +113,36 @@ export function getSessionIdMatchingCriteria(
     userId: string, 
     gameId: string,
     sessionType: string,
-    sessionState: string
+    sessionState: string,
+    groupId: string | undefined = undefined
 ): Promise<string | undefined>{
     const cSessions = sql.columns.gameSessions;
     const cSessionsMems = sql.columns.gameSessionMembers;
 
-    const qExistingSession = `SELECT G.${cSessions.sessionId} 
+    let values: string[] = [userId, sessionType, sessionState, gameId];
+    let qExistingSession = `SELECT G.${cSessions.sessionId} 
     FROM \`${sql.tables.gameSessions}\` G 
     INNER JOIN \`${sql.tables.gameSessionMembers}\` M 
     ON G.${cSessions.sessionId} = M.${cSessionsMems.sessionId}
-    WHERE M.${cSessionsMems.userId} = ${userId}
-    AND G.${cSessions.typeId} = ${sessionType} 
-    AND G.${cSessions.state} = ${sessionState}
-    AND G.${cSessions.gameEntryId} = ${gameId}
-    LIMIT 1;
+    WHERE M.${cSessionsMems.userId} = ?
+    AND G.${cSessions.typeId} = ?
+    AND G.${cSessions.state} = ?
+    AND G.${cSessions.gameEntryId} = ?
     `;
+
+    if (groupId != undefined && groupId != ''){
+        qExistingSession += `
+        AND G.${cSessions.groupId} = ?
+        `;
+        values.push(groupId!);
+    }
+
+    qExistingSession += ' LIMIT 1;';
 
     // console.log('getSessionIdMatchingCriteria', qExistingSession);
 
     return new Promise<string | undefined>((resolve, reject) => {
-        sql.getPool()!.query(qExistingSession, (error, result) => {
+        sql.getPool()!.query(qExistingSession, values, (error, result) => {
             if (error){
                 reject(error.message);
             }

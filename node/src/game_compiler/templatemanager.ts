@@ -17,7 +17,7 @@ export class TemplateManager{
                 }
                 else{
                     const stripped = this.stripUnwantedRequires(data);
-                    console.log("STRIPPED = ", stripped);
+                    // console.log("STRIPPED = ", stripped);
                     resolve(stripped)
                 }
             });

@@ -58,12 +58,13 @@ export function createTestSession(
                 finalGroupId = groupId;
                 return Promise.resolve(groupId);
             })
-            .then(() => {
+            .then(groupId => {
                 return sessionDAO.getSessionIdMatchingCriteria(
                     userId,
                     gameId,
                     GameSessionType.test.toString(),
-                    GameSessionState.live.toString()
+                    GameSessionState.live.toString(),
+                    groupId
                 );
             })
             .then(existingSessionId => {

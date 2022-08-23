@@ -280,7 +280,7 @@ export function getGroupConsitingOfOneUser(
     AND M.${cGroupMems.userId} = ${userId}
     ORDER BY M.group_id DESC`;*/
 
-    // console.log(qExistingGroup);
+    console.log('qExistingGroup:', qExistingGroup);
 
     return new Promise<number | undefined>((resolve, reject) => {
         sql.getPool()!.query(qExistingGroup, (error, result) => {
