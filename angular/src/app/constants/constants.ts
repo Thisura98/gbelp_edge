@@ -166,13 +166,15 @@ export function getGameSidebarItems(
 }
 
 export const GameEditConstants = {
+
     objectiveTableConfig: new DynBasicTableConfig(true, [
         {name: "Objective Name", property: 'name', type:"input:text"},
         {name: "Description", property: 'description', type:"input:text"},
         {name: "Maximum Progress", property: 'max_value', type:"input:number"},
     ]),
+
     guidanceTrackerTableConfig: new DynBasicTableConfig(true, [
-        {name: "Trigger Name", property: 'name', type:"input:text"},
+        {name: "Tracker Name", property: 'name', type:"input:text"},
         {name: "Feedback", property: 'message', type:"input:text"},
         {name: "Feedback Threshold", property: 'max_threshold', type:"input:number"},
     ]),

@@ -34,9 +34,9 @@
                         desc="See a breakdown on how well your students completed game objectives.">
                     </app-report-available-card>
 
-                    <app-report-available-card title="Guidance Triggers"
+                    <app-report-available-card title="Guidance Trackers"
                         icon="guidance"
-                        (click)="reportClicked('guidance')"
+                        (click)="reportClicked('guidancetracker')"
                         *ngIf="this.game?.rep_opt_guidance_trg == 1"
                         desc="See a breakdown on which students needed the most guidance">
                     </app-report-available-card>

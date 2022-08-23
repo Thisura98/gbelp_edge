@@ -93,6 +93,8 @@ import { CustomRenderer } from './utils/md-renderer';
 import { NgChartsModule } from 'ng2-charts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LoadingReportsComponent } from './components/views/groups/reports/common/loading/loading.reports.component';
+import { GroupReportsObjectiveComponent } from './components/views/groups/reports/objective/objective.component';
+import { GroupReportsGuidanceComponent } from './components/views/groups/reports/guidance/guidance.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +151,8 @@ import { LoadingReportsComponent } from './components/views/groups/reports/commo
     ReportAvailableCard,
     GroupReportsAvailableComponent,
     GroupReportsUsageComponent,
+    GroupReportsObjectiveComponent,
+    GroupReportsGuidanceComponent,
     StatefulButton,
     PlayerChatPanelComponent,
     PlayerObjectivesPanelComponent,
