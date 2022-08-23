@@ -1,4 +1,4 @@
-import { GameSessionUserUsageGroupedByNonce } from '../../../../commons/src/models/session/user.usage';
+import { GameSessionUserUsageGroupedByNonce } from '../../../../commons/src/models/reports/user.usage';
 import { ReportGraphDataUserUsage } from '../../../../commons/src/models/reports/user.usage';
 import { DateTime, LocalZone } from 'luxon';
 import { GameSession } from '../../../../commons/src/models/session';
@@ -59,9 +59,6 @@ export function processUsage(session: GameSession, input: GameSessionUserUsageGr
     // Convert the map into readable format
     for (let label in map){
         const timestamp = Number.parseInt(label)
-        const date = DateTime.fromMillis(timestamp);
-        const timeLabel = date.toFormat('HH:mm');
-        // data.labels.push(timeLabel);
         data.labels.push(timestamp);
         data.data.push(map[label]);
     }

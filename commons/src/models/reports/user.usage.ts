@@ -16,3 +16,14 @@ export class ReportGraphDataUserUsage{
         public session_count: number
     ){}
 }
+
+/**
+ * Not a real table. Only a query result
+ */
+export interface GameSessionUserUsageGroupedByNonce{
+    play_nonce: string;
+    session_id: number;
+    user_id: number;
+    start_time: string;
+    end_time: string;
+}

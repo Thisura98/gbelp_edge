@@ -3,7 +3,10 @@ import { aurl } from '../api_handler';
 import { isEmptyParam } from '../../util/utils';
 import { ResponseModel } from '../../model/models/common';
 import * as sessionDAO from '../../model/dao/session';
+import * as usageReportDAO from '../../model/dao/reports/usage';
+import * as objectiveReportDAO from '../../model/dao/reports/objective';
 import { processUsage } from "../../model/processors/usage.processor";
+import { processObjectivesByTime } from "../../model/processors/objectives.processor";
 import { GameSession } from "../../../../commons/src/models/session";
 
 export function handlerReports(app: Express){
@@ -47,7 +50,7 @@ export function handlerReports(app: Express){
         sessionDAO.getSession(sessionId)
         .then(rawSession => {
             session = rawSession as GameSession;
-            return sessionDAO.getUserUsageGroupedByNonce(sessionId);
+            return usageReportDAO.getUserUsageGroupedByNonce(sessionId);
         })
         .then(usageData => {
             return processUsage(session!, usageData);
@@ -66,9 +69,29 @@ export function handlerReports(app: Express){
         const startTimestamp = req.query.startTimestamp as string || '';
         const endTimestamp = req.query.endTimestamp as string || '';
 
-        sessionDAO.getUserUsageBreakdown(sessionId, startTimestamp, endTimestamp)
+        usageReportDAO.getUserUsageBreakdown(sessionId, startTimestamp, endTimestamp)
         .then(result => {
             res.send(new ResponseModel(true, 200, 'User usage breakdown in seconds', result));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
+
+    // Objective Projectss by Time
+    app.get(aurl('reports/objective/timegraph'), (req, res) => {
+        const sessionId = req.query.sessionId as string;
+        let session: GameSession | undefined;
+
+        sessionDAO.getSession(sessionId)
+        .then(session => {
+            return objectiveReportDAO.getUserObjectiveProgress(sessionId);
+        })
+        .then(results => {
+            return processObjectivesByTime(results);
+        })
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'Processed objectives data by time', data));
         })
         .catch(err => {
             res.send(new ResponseModel(false, 200, err));

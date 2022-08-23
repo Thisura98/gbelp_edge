@@ -8,14 +8,3 @@ export class GameSessionUserUsage{
         public timestamp: string
     ){}
 }
-
-/**
- * Not a real table. Only a query result
- */
-export interface GameSessionUserUsageGroupedByNonce{
-    play_nonce: string;
-    session_id: number;
-    user_id: number;
-    start_time: string;
-    end_time: string;
-}

@@ -54,15 +54,6 @@ const routes: Routes = [
       {path: "templates", component: DashboardgamesComponent, data: { mode: ViewMode.TEMPLATE } },
     ]
   },
-  {
-    path: "dashboard/creator", component: TeacherDashboardComponent,
-    children: [
-      {path: "overview", component: DashboardoverviewComponent},
-      {path: "games", component: DashboardgamesComponent, data: { mode: ViewMode.GAME } },
-      {path: "groups", component: DashboardgroupsComponent},
-      {path: "templates", component: DashboardgamesComponent, data: { mode: ViewMode.TEMPLATE } },
-    ]
-  },
   {path: "dashboard/parent", component: ParentDashboardComponent},
   {path: "dashboard/f/:page", component: DashboardComponent, data: { mode: 'forward'} },
   {path: "groups/create", component: GroupCreateComponent},
