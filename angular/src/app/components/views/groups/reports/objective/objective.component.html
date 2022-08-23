@@ -1,1 +1,134 @@
-Objective Report
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems" (onBack)="handleBack()">
+    </app-dynamicsidebar>
+
+    <div class="container2 dyn-anim-fadein-delayed">
+        <div class="nav">
+            <app-groups-menuselector 
+                    *ngIf="group != undefined"
+                    [title]="group?.name ?? ''" >
+            </app-groups-menuselector>
+            <div class="report-title">
+                <div class="vert-separator"></div>
+                <div class="report-title-content">Student Usage Report</div>
+            </div>
+            <div 
+                class="spacer">
+            </div>
+            <app-userstatus class="nav-stretch"></app-userstatus>
+        </div>
+
+        <div class="container3">
+            <div class="section-reports">
+                <div id="progressbytime">
+                    <h2>Progress by Time</h2>
+                    <div class="chart-container chart-container-progress-by-time">
+                        <!-- <canvas baseChart id="chart-overview"
+                            [data]="usageData"
+                            [options]="chartOptions"
+                            [type]="'line'"
+                            *ngIf="usageDataLoaded"
+                            class="dyn-fade">
+                        </canvas> -->
+
+                        <!--<apx-chart
+                            [series]="apexChartOptions.series"
+                            [chart]="apexChartOptions.chart"
+                            [xaxis]="apexChartOptions.xaxis"
+                            [yaxis]="apexChartOptions.yaxis"
+                            [dataLabels]="apexChartOptions.dataLabels"
+                            [title]="apexChartOptions.title"
+                            [tooltip]="apexChartOptions.tooltip"
+                            [grid]="apexChartOptions.grid"
+                            [fill]="apexChartOptions.fill"
+                            *ngIf="usageDataLoaded"
+                            
+                            class="dyn-fade"
+                        ></apx-chart>-->
+                        
+                        <loading-reports text="Loading progress..."
+                            *ngIf="!progressByTimeLoaded"
+                            class="dyn-fade">
+                        </loading-reports>
+                    </div>
+                </div>
+
+                <div id="progressbyobjective">
+                    <h2>Progress by Objective</h2>
+                    <div class="chart-container chart-container-progress-by-objective">
+                        <!-- <canvas baseChart id="chart-overview"
+                            [data]="usageData"
+                            [options]="chartOptions"
+                            [type]="'line'"
+                            *ngIf="usageDataLoaded"
+                            class="dyn-fade">
+                        </canvas> -->
+
+                        <!--<apx-chart
+                            [series]="apexChartOptions.series"
+                            [chart]="apexChartOptions.chart"
+                            [xaxis]="apexChartOptions.xaxis"
+                            [yaxis]="apexChartOptions.yaxis"
+                            [dataLabels]="apexChartOptions.dataLabels"
+                            [title]="apexChartOptions.title"
+                            [tooltip]="apexChartOptions.tooltip"
+                            [grid]="apexChartOptions.grid"
+                            [fill]="apexChartOptions.fill"
+                            *ngIf="usageDataLoaded"
+                            
+                            class="dyn-fade"
+                        ></apx-chart>-->
+                        
+                        <loading-reports text="Loading progress..."
+                            *ngIf="!progressByObjectiveLoaded"
+                            class="dyn-fade">
+                        </loading-reports>
+                    </div>
+                </div>
+
+                <div id="breakdown">
+                    <h2>Breakdown</h2>
+                    <div class="breakdown-container">
+                        <loading-reports text="Loading breakdown..."
+                            *ngIf="!breakdownDataLoaded"
+                            class="dyn-fade">
+                        </loading-reports>
+
+                        <!--<dyn-basic-table 
+                            [config]="breakdownTableConfig"
+                            [data]="breakdownData">
+                        </dyn-basic-table>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-pane">
+                <h2>Details</h2>
+                <div>Showing student usage reports for the selected session.</div>
+                <div class="panel-separator"></div>
+                <div>
+                    <div class="panel-section-title">Game</div>
+                    <div class="panel-section-content">{{gameListing?.entry?.name}}</div>
+                </div>
+                <div class="panel-separator"></div>
+                <div>
+                    <div class="panel-section-title">Session Duration</div>
+                    <div class="panel-section-content">
+                        <div class="session-time">
+                            From:
+                            <span class="session-time-from">{{session?.start_time | date}}</span>
+                        </div>
+                        <div class="session-time">
+                            To:
+                            <span class="session-time-from">
+                                {{
+                                    session?.end_time == undefined ? 'Unspecified' : (session?.end_time | date)
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

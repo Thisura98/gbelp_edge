@@ -37,9 +37,7 @@ export type ApexChartOptions = {
 })
 export class GroupReportsUsageComponent implements OnInit {
 
-  get sidebarItems(): DynamicSidebarItem[] {
-    return [];
-  }
+  get sidebarItems(): DynamicSidebarItem[] { return []; }
 
   private groupId: string | undefined;
   private sessionId: string | undefined;
