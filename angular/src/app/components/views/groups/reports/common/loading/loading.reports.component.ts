@@ -3,7 +3,7 @@ import { Component, Input } from "@angular/core";
 @Component({
   selector: 'loading-reports',
   template: `
-  <mat-progress-spinner class="loading"
+  <mat-progress-spinner
       [diameter]="20" mode="indeterminate">
   </mat-progress-spinner>
   {{text}}
