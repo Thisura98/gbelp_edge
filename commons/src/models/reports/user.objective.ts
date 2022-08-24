@@ -30,9 +30,9 @@ export class ReportGraphDataUserObjectiveCompletionProgress{
 export class GameSessionUserObjectiveBreakdown{
     constructor(
         public user_name: string,
-        public count_completed_objectives: number,
-        public progress: number,
-        public count_sessions: string,
+        public total_progress: string,
+        public total_play_duration: string,
+        public completed_objective_count: string,
         public velocity: string
     ){}
 }
