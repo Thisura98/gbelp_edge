@@ -22,6 +22,11 @@
     position: relative;
 }
 
+.section-reports{
+    flex-grow: unset !important;
+    width: calc(100% - 230px);  /* 230 for side pane + scrollbar */
+}
+
 /* Side Panel */
 .objective-report-details{
     display: flex;
@@ -38,4 +43,9 @@
 .chart-container-progress-by-time{
     position: relative;
     overflow: hidden;
+}
+
+/* Breakdown */
+#breakdown{
+    padding-bottom: 100px;
 }

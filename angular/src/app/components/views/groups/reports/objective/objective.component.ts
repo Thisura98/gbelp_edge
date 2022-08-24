@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ChartComponent } from "ng-apexcharts";
 import { forkJoin } from "rxjs";
 import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
@@ -33,7 +34,7 @@ export class GroupReportsObjectiveComponent{
 
   progressByTimeLoaded = false;
   progressByCompletionLoaded = false;
-  breakdownDataLoaded = true;
+  breakdownDataLoaded = false;
 
   public timeChart: ApexChartOptions = {
     title: {
@@ -43,6 +44,7 @@ export class GroupReportsObjectiveComponent{
     chart: {
       type: 'area',
       height: '200px',
+      redrawOnWindowResize: true
     },
     xaxis: {
       type: 'datetime',
@@ -118,6 +120,7 @@ export class GroupReportsObjectiveComponent{
     chart: {
       type: 'bar',
       height: '200px',
+      redrawOnWindowResize: true
     },
     xaxis: {
       type: 'category',
@@ -174,9 +177,9 @@ export class GroupReportsObjectiveComponent{
    showDelete: false,
    columns: [
      { name: 'Student Name', property: 'user_name', type: 'static' },
-     { name: 'Objectives Completed', property: 'count_completed_objectives', type: 'static' },
-     { name: 'Progress', property: 'progress', type: 'static' },
-     { name: 'Play Sessions', property: 'count_sessions', type: 'static' },
+     { name: 'Objectives Completed', property: 'completed_objective_count', type: 'static' },
+     { name: 'Progress', property: 'total_progress', type: 'static' },
+     { name: 'Play Duration', property: 'total_play_duration', type: 'static' },
      { name: 'Velocity', property: 'velocity', type: 'static' },
    ],
    textAlign: 'center'
@@ -274,6 +277,19 @@ export class GroupReportsObjectiveComponent{
         this.completionChart.xaxis.categories = res.data.labels;
         this.completionChart.series[0].data = res.data.data;
         this.completionChart.series[0].name = res.data.xAxesLabel;
+      }
+      else{
+        this.handleReportLoadError(res.description);
+      }
+    }, (err) => this.handleReportLoadError(err));
+
+    // Breakdown
+    this.breakdownDataLoaded = false;
+    this.apiService.reports.usageObjectivesBreakdown(this.sessionId!).subscribe(res => {
+      if (res.success){
+        this.breakdownDataLoaded = true;
+        this.breakdownData = res.data;
+        
       }
       else{
         this.handleReportLoadError(res.description);

@@ -103,7 +103,20 @@ export function handlerReports(app: Express){
             return processObjectivesByCompletion(results);
         })
         .then(data => {
-            res.send(new ResponseModel(true, 200, 'Processed objectives data by time', data));
+            res.send(new ResponseModel(true, 200, 'Processed objectives data by Completion', data));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
+
+    // Objective Breakdown
+    app.get(aurl('reports/objective/breakdown'), (req, res) => {
+        const sessionId = req.query.sessionId as string;
+
+        objectiveReportDAO.getUserObjectiveBreakdown(sessionId)
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'Processed objective breakdown', data));
         })
         .catch(err => {
             res.send(new ResponseModel(false, 200, err));
