@@ -6,7 +6,7 @@ import * as sessionDAO from '../../model/dao/session';
 import * as usageReportDAO from '../../model/dao/reports/usage';
 import * as objectiveReportDAO from '../../model/dao/reports/objective';
 import { processUsage } from "../../model/processors/usage.processor";
-import { processObjectivesByTime } from "../../model/processors/objectives.processor";
+import { processObjectivesByObjective, processObjectivesByTime } from "../../model/processors/objectives.processor";
 import { GameSession } from "../../../../commons/src/models/session";
 
 export function handlerReports(app: Express){
@@ -81,14 +81,26 @@ export function handlerReports(app: Express){
     // Objective Projectss by Time
     app.get(aurl('reports/objective/timegraph'), (req, res) => {
         const sessionId = req.query.sessionId as string;
-        let session: GameSession | undefined;
 
-        sessionDAO.getSession(sessionId)
-        .then(session => {
-            return objectiveReportDAO.getUserObjectiveProgress(sessionId);
-        })
+        objectiveReportDAO.getUserObjectiveProgress(sessionId)
         .then(results => {
             return processObjectivesByTime(results);
+        })
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'Processed objectives data by time', data));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
+
+    // Objective Projectss by each objective
+    app.get(aurl('reports/objective/objectivegraph'), (req, res) => {
+        const sessionId = req.query.sessionId as string;
+
+        objectiveReportDAO.getUserObjectiveProgressByObjective(sessionId)
+        .then(results => {
+            return processObjectivesByObjective(results);
         })
         .then(data => {
             res.send(new ResponseModel(true, 200, 'Processed objectives data by time', data));

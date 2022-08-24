@@ -1,4 +1,4 @@
-import { ReportGraphDataUserObjectives } from '../../../../commons/src/models/reports/user.objective';
+import { ReportGraphDataUserObjectiveProgressByObjective, ReportGraphDataUserObjectives, ReportGraphDataUserObjectivesSumByObjective } from '../../../../commons/src/models/reports/user.objective';
 import { DateTime } from 'luxon';
 import { GameSessionUserObjective } from '../../../../commons/src/models/session/user.objective';
 import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, createEmptyQuantizedIntervalMap } from './processor.utils';
@@ -50,6 +50,32 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
         const timestamp = Number.parseInt(label)
         data.labels.push(timestamp);
         data.data.push(map[label]);
+    }
+
+    return Promise.resolve(data);
+}
+
+/**
+ * Generates Graph Data for User Objectives progress by each Objective.
+ * [For a Bar graph - unlike the area chart for 'processObjectivesByTime']
+ * 
+ * @param input Must be sorted in ascending last_updated order
+ */
+ export function processObjectivesByObjective(input: ReportGraphDataUserObjectivesSumByObjective[]){
+    const yAxes = 'Objective';
+    const xAxes = 'Cumulative Progress';
+    const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
+    let data = new ReportGraphDataUserObjectiveProgressByObjective([], [], xAxes, yAxes);
+
+    if (input.length == 0){
+        return Promise.resolve(data);
+    }
+    
+    let i = 1;
+    for (let entry of input){
+        data.labels.push(i.toString());
+        data.data.push( Number.parseInt(entry.cumulative_sum) );
+        i += 1;
     }
 
     return Promise.resolve(data);

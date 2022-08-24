@@ -15,3 +15,19 @@ export class ReportGraphDataUserObjectiveProgressByTime{
         public yAxesLabel: String
     ){}
 }
+
+export class ReportGraphDataUserObjectivesSumByObjective{
+    constructor(
+        public objective_id: string,
+        public cumulative_sum: string
+    ){}
+}
+
+export class ReportGraphDataUserObjectiveProgressByObjective{
+    constructor(
+        public labels: string[],
+        public data: number[],
+        public xAxesLabel: string,
+        public yAxesLabel: String
+    ){}
+}
