@@ -14,8 +14,8 @@ import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, crea
  * tell Luxon to NOT remove +0530 from the provided times.
  */
 export function processUsage(session: GameSession, input: GameSessionUserUsageGroupedByNonce[]): Promise<ReportGraphDataUserUsage>{
-    const yAxes = 'Seconds';
-    const xAxes = 'Cumulative Sessions';
+    const yAxes = 'Cumulative Sessions';
+    const xAxes = 'Seconds';
     const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
     let data = new ReportGraphDataUserUsage([], [], xAxes, yAxes);
 

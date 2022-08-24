@@ -65,6 +65,10 @@ export class GroupReportsObjectiveComponent{
       },
       tooltip: {
         enabled: false
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
       }
     },
     yaxis: {
@@ -75,6 +79,10 @@ export class GroupReportsObjectiveComponent{
         formatter: (value, opts) => {
           return value.toPrecision(2);
         }
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
       }
     },
     dataLabels: { enabled: false },
@@ -87,6 +95,11 @@ export class GroupReportsObjectiveComponent{
           const minutes = date.getMinutes().toString().padStart(2, '0');
           const seconds = date.getSeconds().toString().padStart(2, '0');
           return `${day} - ${hours}:${minutes}:${seconds}`
+        }
+      },
+      y: {
+        formatter: (val, opts) => {
+          return val.toString() + ' sessions';
         }
       },
       marker: {
@@ -118,6 +131,10 @@ export class GroupReportsObjectiveComponent{
       },
       tooltip: {
         enabled: false
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
       }
     },
     yaxis: {
@@ -131,6 +148,10 @@ export class GroupReportsObjectiveComponent{
         formatter: (value, opts) => {
           return value.toPrecision(2);
         }
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
       }
     },
     dataLabels: { enabled: false },
@@ -229,7 +250,7 @@ export class GroupReportsObjectiveComponent{
         this.progressByTimeLoaded = true;
         this.timeChart.xaxis.categories = res.data.labels;
         this.timeChart.series[0].data = res.data.data;
-        this.timeChart.series[0].name = res.data.xAxesLabel;
+        this.timeChart.series[0].name = res.data.yAxesLabel;
       }
       else{
         this.handleReportLoadError(res.description);

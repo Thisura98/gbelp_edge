@@ -9,8 +9,8 @@ import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, crea
  * @param input Must be sorted in ascending last_updated order
  */
 export function processObjectivesByTime(input: GameSessionUserObjective[]){
-    const yAxes = 'Seconds';
-    const xAxes = 'Cumulative Progress';
+    const yAxes = 'Cumulative Sessions';
+    const xAxes = 'Seconds';
     const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
     let data = new ReportGraphDataUserObjectiveProgressByTime([], [], xAxes, yAxes);
 
@@ -62,8 +62,8 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
  * @param input Must be sorted in ascending last_updated order
  */
  export function processObjectivesByCompletion(input: ReportIntermediateObjectiveCompletionProgress[]){
-    const yAxes = 'Objective';
-    const xAxes = 'Cumulative Progress';
+    const yAxes = 'Progress';
+    const xAxes = 'Objective';
     const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
     let data = new ReportGraphDataUserObjectiveCompletionProgress([], [], xAxes, yAxes);
 

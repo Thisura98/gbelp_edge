@@ -3,7 +3,7 @@ export class ReportGraphDataUserObjectiveProgressByTime{
         public labels: number[],
         public data: number[],
         public xAxesLabel: string,
-        public yAxesLabel: String
+        public yAxesLabel: string
     ){}
 }
 
@@ -23,6 +23,6 @@ export class ReportGraphDataUserObjectiveCompletionProgress{
         public labels: string[],
         public data: number[],
         public xAxesLabel: string,
-        public yAxesLabel: String
+        public yAxesLabel: string
     ){}
 }
