@@ -48,16 +48,23 @@
                 <div id="progressbyobjective">
                     <h2>Progress by Objective</h2>
                     <div class="chart-container chart-container-progress-by-objective">
-                        <!-- <canvas baseChart id="chart-overview"
-                            [data]="usageData"
-                            [options]="chartOptions"
-                            [type]="'line'"
-                            *ngIf="usageDataLoaded"
-                            class="dyn-fade">
-                        </canvas> -->
+                        <apx-chart
+                            [series]="completionChart.series"
+                            [chart]="completionChart.chart"
+                            [xaxis]="completionChart.xaxis"
+                            [yaxis]="completionChart.yaxis"
+                            [dataLabels]="completionChart.dataLabels"
+                            [title]="completionChart.title"
+                            [tooltip]="completionChart.tooltip"
+                            [grid]="completionChart.grid"
+                            [fill]="timeChart.fill"
+                            *ngIf="progressByCompletionLoaded"
+                            
+                            class="dyn-fade"
+                        ></apx-chart>
                         
                         <loading-reports text="Loading progress..."
-                            *ngIf="!progressByObjectiveLoaded"
+                            *ngIf="!progressByCompletionLoaded"
                             class="dyn-fade">
                         </loading-reports>
                     </div>

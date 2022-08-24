@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseReportObjectivesByTimeGraph, ServerResponseReportUsageBreakdown, ServerResponseReportUsageGraph } from "src/app/models/reports";
+import { ServerResponseReportObjectivesByCompletion, ServerResponseReportObjectivesByTimeGraph, ServerResponseReportUsageBreakdown, ServerResponseReportUsageGraph } from "src/app/models/reports";
 import { APIBase } from "./base.api";
 
 export class ReportsAPIs implements APIBase {
@@ -39,6 +39,14 @@ export class ReportsAPIs implements APIBase {
     usageObjectivesByTimeGraph(sessionId: string): Observable<ServerResponseReportObjectivesByTimeGraph>{
       const data = { sessionId: sessionId };
       return this.http.get<ServerResponseReportObjectivesByTimeGraph>(this.aurl('reports/objective/timegraph'), {
+        params: data,
+        headers: this.getHeaders()
+      })
+    }
+
+    usageObjectivesByProgressGraph(sessionId: string): Observable<ServerResponseReportObjectivesByCompletion>{
+      const data = { sessionId: sessionId };
+      return this.http.get<ServerResponseReportObjectivesByCompletion>(this.aurl('reports/objective/completiongraph'), {
         params: data,
         headers: this.getHeaders()
       })

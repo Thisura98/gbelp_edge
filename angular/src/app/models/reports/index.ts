@@ -1,4 +1,4 @@
-import { ReportGraphDataUserObjectives } from "../../../../../commons/src/models/reports/user.objective";
+import { ReportGraphDataUserObjectiveCompletionProgress, ReportGraphDataUserObjectiveProgressByTime } from "../../../../../commons/src/models/reports/user.objective";
 import { GameSessionUserUsageBreakdown, ReportGraphDataUserUsage } from "../../../../../commons/src/models/reports/user.usage";
 import { ServerResponse } from "../common-models";
 
@@ -6,4 +6,6 @@ export interface ServerResponseReportUsageGraph extends ServerResponse<ReportGra
 
 export interface ServerResponseReportUsageBreakdown extends ServerResponse<GameSessionUserUsageBreakdown[]>{}
 
-export interface ServerResponseReportObjectivesByTimeGraph extends ServerResponse<ReportGraphDataUserObjectives>{}
+export interface ServerResponseReportObjectivesByTimeGraph extends ServerResponse<ReportGraphDataUserObjectiveProgressByTime>{}
+
+export interface ServerResponseReportObjectivesByCompletion extends ServerResponse<ReportGraphDataUserObjectiveCompletionProgress>{};

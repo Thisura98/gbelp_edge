@@ -78,7 +78,7 @@ export function handlerReports(app: Express){
         })
     });
 
-    // Objective Projectss by Time
+    // Objective Progress by Time
     app.get(aurl('reports/objective/timegraph'), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
@@ -94,8 +94,8 @@ export function handlerReports(app: Express){
         })
     });
 
-    // Objective Projectss by each objective
-    app.get(aurl('reports/objective/objectivegraph'), (req, res) => {
+    // Objective Progress by Completion %
+    app.get(aurl('reports/objective/completiongraph'), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
         objectiveReportDAO.getUserObjectiveProgressByCompletion(sessionId)

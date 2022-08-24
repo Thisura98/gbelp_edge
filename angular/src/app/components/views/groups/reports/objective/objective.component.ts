@@ -30,7 +30,7 @@ export class GroupReportsObjectiveComponent{
   gameListing: GameListing | undefined;
 
   progressByTimeLoaded = false;
-  progressByObjectiveLoaded = false;
+  progressByCompletionLoaded = false;
   breakdownDataLoaded = false;
 
   public timeChart: ApexChartOptions = {
@@ -87,6 +87,57 @@ export class GroupReportsObjectiveComponent{
           const minutes = date.getMinutes().toString().padStart(2, '0');
           const seconds = date.getSeconds().toString().padStart(2, '0');
           return `${day} - ${hours}:${minutes}:${seconds}`
+        }
+      },
+      marker: {
+        show: false
+      }
+    },
+    grid: {
+      borderColor: '#AEAEAE',
+      strokeDashArray: 3
+    },
+    fill: {
+    }
+  }
+
+  public completionChart: ApexChartOptions = {
+    title: {
+      text: ''
+    },
+    series: [{ name:' test', data: [] }],
+    chart: {
+      type: 'bar',
+      height: '200px',
+    },
+    xaxis: {
+      type: 'category',
+      categories: [],
+      crosshairs: {
+        show: true
+      },
+      tooltip: {
+        enabled: false
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Completion %'
+      },
+      max: 1.0,
+      min: 0.0,
+      tickAmount: 4,
+      labels: {
+        formatter: (value, opts) => {
+          return value.toPrecision(2);
+        }
+      }
+    },
+    dataLabels: { enabled: false },
+    tooltip: {
+      y: {
+        formatter: (progress, opts) => {
+          return Math.round(progress * 100).toString() + '%';
         }
       },
       marker: {
@@ -185,7 +236,19 @@ export class GroupReportsObjectiveComponent{
       }
     }, (err) => this.handleReportLoadError(err))
 
-    // Todo: Progress chart
+    // Completion % chart
+    this.progressByCompletionLoaded = false;
+    this.apiService.reports.usageObjectivesByProgressGraph(this.sessionId!).subscribe(res => {
+      if (res.success){
+        this.progressByCompletionLoaded = true;
+        this.completionChart.xaxis.categories = res.data.labels;
+        this.completionChart.series[0].data = res.data.data;
+        this.completionChart.series[0].name = res.data.xAxesLabel;
+      }
+      else{
+        this.handleReportLoadError(res.description);
+      }
+    }, (err) => this.handleReportLoadError(err));
   }
 
   private showGameLoadError(err: string){

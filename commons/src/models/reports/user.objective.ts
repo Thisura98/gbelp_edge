@@ -1,12 +1,3 @@
-export class ReportGraphDataUserObjectives{
-    constructor(
-        public labels: number[],
-        public data: number[],
-        public xAxesLabel: string,
-        public yAxesLabel: String
-    ){}
-}
-
 export class ReportGraphDataUserObjectiveProgressByTime{
     constructor(
         public labels: number[],
@@ -19,7 +10,7 @@ export class ReportGraphDataUserObjectiveProgressByTime{
 /**
  * Not a real table. Returned query result.
  */
-export class ReportGraphDataUserObjectiveCompletionProgress{
+export class ReportIntermediateObjectiveCompletionProgress{
     constructor(
         public objective_id: string,
         public objective_name: string,
@@ -27,7 +18,7 @@ export class ReportGraphDataUserObjectiveCompletionProgress{
     ){}
 }
 
-export class ReportGraphDataUserObjectiveProgressByCompletion{
+export class ReportGraphDataUserObjectiveCompletionProgress{
     constructor(
         public labels: string[],
         public data: number[],

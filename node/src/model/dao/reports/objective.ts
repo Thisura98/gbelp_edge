@@ -1,4 +1,4 @@
-import { ReportGraphDataUserObjectiveCompletionProgress } from '../../../../../commons/src/models/reports/user.objective';
+import { ReportIntermediateObjectiveCompletionProgress } from '../../../../../commons/src/models/reports/user.objective';
 import { GameSessionUserObjective } from '../../../../../commons/src/models/session/user.objective';
 import * as sql from '../../../util/connections/sql/sql_connection';
 import * as l from '../../../util/logger';
@@ -30,7 +30,7 @@ export function getUserObjectiveProgress(sessionId: string): Promise<GameSession
 
 }
 
-export function getUserObjectiveProgressByCompletion(sessionId: string): Promise<ReportGraphDataUserObjectiveCompletionProgress[]>{
+export function getUserObjectiveProgressByCompletion(sessionId: string): Promise<ReportIntermediateObjectiveCompletionProgress[]>{
     
     const fn = 'getUserObjectiveProgressByObjective';
     const userObjectives = sql.tables.gameSessionUserObjective;
@@ -99,7 +99,7 @@ export function getUserObjectiveProgressByCompletion(sessionId: string): Promise
 
     const values: string[] = [sessionId];
 
-    return new Promise<ReportGraphDataUserObjectiveCompletionProgress[]>((resolve, reject) => {
+    return new Promise<ReportIntermediateObjectiveCompletionProgress[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (err, result) => {
             if (err){
                 l.logc(err.message, fn)
