@@ -4,6 +4,7 @@ import { ChartComponent } from "ng-apexcharts";
 import { forkJoin } from "rxjs";
 import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
+import { TimeConstants } from "src/app/constants/constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
@@ -178,8 +179,8 @@ export class GroupReportsObjectiveComponent{
    columns: [
      { name: 'Student Name', property: 'user_name', type: 'static' },
      { name: 'Objectives Completed', property: 'completed_objective_count', type: 'static' },
-     { name: 'Progress', property: 'total_progress', type: 'static' },
-     { name: 'Play Duration', property: 'total_play_duration', type: 'static' },
+     { name: 'Progress', property: 'total_progress', type: 'static', staticFormatter: this.progressFormat },
+     { name: 'Play Duration', property: 'total_play_duration', type: 'static', staticFormatter: this.timeFormat },
      { name: 'Velocity', property: 'velocity', type: 'static' },
    ],
    textAlign: 'center'
@@ -304,6 +305,34 @@ export class GroupReportsObjectiveComponent{
   private handleReportLoadError(err: any){
     const msg = typeof err == 'string' ? (err as string) : JSON.stringify(err);
     this.dialogService.showDismissable('Error loading Data', msg);
+  }
+
+  private timeFormat(seconds: string): string{
+    const sec = Number.parseInt(seconds);
+
+    if (isNaN(sec))
+      return seconds;
+
+    if (sec > TimeConstants.oneHourInSeconds){
+      const val = Math.floor(sec / TimeConstants.oneHourInSeconds)
+      return val == 1 ? '1 hour' : (val + ' hours')
+    }
+
+    if (sec > TimeConstants.oneMinuteInSeconds){
+      const val = Math.round((sec / TimeConstants.oneMinuteInSeconds) * 100) / 100;
+      return val == 1 ? '1 minute' : (val + ' minutes')
+    }
+
+    return sec + ' seconds';
+  }
+
+  private progressFormat(progress: string): string{
+    const nProgress = Number.parseFloat(progress);
+
+    if (isNaN(nProgress))
+      return progress;
+
+    return (nProgress * 100).toString() + '%';
   }
 
 }
