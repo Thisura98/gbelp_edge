@@ -178,7 +178,7 @@ INNER JOIN \`${users}\` U ON M.${j.userId} = U.${u.userId}
 
 GROUP BY M.${j.userId}`;
 
-    l.logc(query, fn);
+    // l.logc(query, fn);
 
     return new Promise<GameSessionUserObjectiveBreakdown[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (err, result) => {
