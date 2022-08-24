@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { ApiService } from "src/app/services/api.service";
@@ -9,7 +9,6 @@ import { GameListing } from "../../../../../../../../commons/src/models/game/gam
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
 import { forkJoin } from "rxjs";
-// import { ChartConfiguration, ScriptableContext } from 'chart.js';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from "ng-apexcharts";
 import { GameSessionUserUsageBreakdown } from "../../../../../../../../commons/src/models/reports/user.usage";
 import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
@@ -134,32 +133,6 @@ export class GroupReportsUsageComponent implements OnInit {
     }
   }
 
-  /*
-  chartOptions: ChartConfiguration<'line'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-    }
-  };
-
-  usageData: ChartConfiguration<'line'>['data'] = {
-    labels: [],
-    datasets: [{
-      // categoryPercentage: 1.0,
-      // barPercentage: 1.0,
-      pointRadius: 1,
-      borderWidth: 0,
-      data: [],
-      label: '',
-      fill: true,
-      // pointBackgroundColor: '#FF0000',
-      // borderColor: '#00713B',
-      backgroundColor: (context) => this.getGradient(context)
-      // backgroundColor: '#FF0000'
-    }]
-  }*/
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -188,19 +161,6 @@ export class GroupReportsUsageComponent implements OnInit {
       }
     })
   }
-
-  /*
-  private getGradient(context: ScriptableContext<'line'>): any {
-    let { ctx, chartArea } = context.chart;
-    if (!chartArea)
-      return null;
-    const stopColor = '#9EFF63';
-    const startColor = '#57E400';
-    let gradient = ctx!.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-    gradient.addColorStop(0, stopColor);
-    gradient.addColorStop(1, startColor);
-    return gradient;
-  }*/
 
   private loadData() {
     forkJoin([
@@ -251,15 +211,10 @@ export class GroupReportsUsageComponent implements OnInit {
       if (res.success){
         this.usageDataLoaded = true;
 
-        // NG2 Charts (chart.js wrapper)
-        // this.usageData.labels = res.data.labels;
-        // this.usageData.datasets[0].data = res.data.data;
-        // this.usageData.datasets[0].label = res.data.xAxesLabel;
-
         // Apex Charts
         this.apexChartOptions.xaxis.categories = res.data.labels;
         this.apexChartOptions.series[0].data = res.data.data;
-        this.apexChartOptions.series[0].name = res.data.xAxesLabel;
+        this.apexChartOptions.series[0].name = res.data.yAxesLabel;
       }
       else{
         this.handleReportLoadError(res.description);

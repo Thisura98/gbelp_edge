@@ -3,7 +3,7 @@ export class ReportGraphDataUserUsage{
         public labels: number[],
         public data: number[],
         public xAxesLabel: string,
-        public yAxesLabel: String
+        public yAxesLabel: string
     ){}
 }
 
