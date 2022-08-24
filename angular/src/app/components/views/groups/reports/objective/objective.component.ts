@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { forkJoin } from "rxjs";
+import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
@@ -8,6 +9,7 @@ import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
 import { GameListing } from "../../../../../../../../commons/src/models/game/game";
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
+import { GameSessionUserObjectiveBreakdown } from "../../../../../../../../commons/src/models/reports/user.objective";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
 import { ApexChartOptions } from "../usage/usage.component";
 
@@ -31,7 +33,7 @@ export class GroupReportsObjectiveComponent{
 
   progressByTimeLoaded = false;
   progressByCompletionLoaded = false;
-  breakdownDataLoaded = false;
+  breakdownDataLoaded = true;
 
   public timeChart: ApexChartOptions = {
     title: {
@@ -41,12 +43,6 @@ export class GroupReportsObjectiveComponent{
     chart: {
       type: 'area',
       height: '200px',
-      events: {
-        // zoomed: (chart, opts) => {
-        //   console.log('Overview zoomed:', opts);
-        //   this.handleChartZoomed(opts);
-        // }
-      }
     },
     xaxis: {
       type: 'datetime',
@@ -171,6 +167,19 @@ export class GroupReportsObjectiveComponent{
     },
     fill: {
     }
+  }
+
+  public breakdownData: GameSessionUserObjectiveBreakdown[] = [];
+  public breakdownTableConfig: DynBasicTableConfig = {
+   showDelete: false,
+   columns: [
+     { name: 'Student Name', property: 'user_name', type: 'static' },
+     { name: 'Objectives Completed', property: 'count_completed_objectives', type: 'static' },
+     { name: 'Progress', property: 'progress', type: 'static' },
+     { name: 'Play Sessions', property: 'count_sessions', type: 'static' },
+     { name: 'Velocity', property: 'velocity', type: 'static' },
+   ],
+   textAlign: 'center'
   }
 
   constructor(

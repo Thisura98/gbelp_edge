@@ -26,3 +26,13 @@ export class ReportGraphDataUserObjectiveCompletionProgress{
         public yAxesLabel: string
     ){}
 }
+
+export class GameSessionUserObjectiveBreakdown{
+    constructor(
+        public user_name: string,
+        public count_completed_objectives: number,
+        public progress: number,
+        public count_sessions: string,
+        public velocity: string
+    ){}
+}
