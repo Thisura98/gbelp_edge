@@ -6,7 +6,7 @@ import * as sessionDAO from '../../model/dao/session';
 import * as usageReportDAO from '../../model/dao/reports/usage';
 import * as objectiveReportDAO from '../../model/dao/reports/objective';
 import { processUsage } from "../../model/processors/usage.processor";
-import { processObjectivesByObjective, processObjectivesByTime } from "../../model/processors/objectives.processor";
+import { processObjectivesByCompletion, processObjectivesByTime } from "../../model/processors/objectives.processor";
 import { GameSession } from "../../../../commons/src/models/session";
 
 export function handlerReports(app: Express){
@@ -98,9 +98,9 @@ export function handlerReports(app: Express){
     app.get(aurl('reports/objective/objectivegraph'), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
-        objectiveReportDAO.getUserObjectiveProgressByObjective(sessionId)
+        objectiveReportDAO.getUserObjectiveProgressByCompletion(sessionId)
         .then(results => {
-            return processObjectivesByObjective(results);
+            return processObjectivesByCompletion(results);
         })
         .then(data => {
             res.send(new ResponseModel(true, 200, 'Processed objectives data by time', data));

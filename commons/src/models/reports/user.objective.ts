@@ -16,14 +16,18 @@ export class ReportGraphDataUserObjectiveProgressByTime{
     ){}
 }
 
-export class ReportGraphDataUserObjectivesSumByObjective{
+/**
+ * Not a real table. Returned query result.
+ */
+export class ReportGraphDataUserObjectiveCompletionProgress{
     constructor(
         public objective_id: string,
-        public cumulative_sum: string
+        public objective_name: string,
+        public objective_progress: string
     ){}
 }
 
-export class ReportGraphDataUserObjectiveProgressByObjective{
+export class ReportGraphDataUserObjectiveProgressByCompletion{
     constructor(
         public labels: string[],
         public data: number[],
