@@ -95,11 +95,19 @@ export class GroupReportsUsageComponent implements OnInit {
       },
       tooltip: {
         enabled: false
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
       }
     },
     yaxis: {
       title: {
         text: 'Cumulative Sessions'
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
       }
     },
     dataLabels: { enabled: false },
