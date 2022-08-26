@@ -68,7 +68,7 @@ export class AuthInterceptor implements HttpInterceptor{
                 notAuthenticatedShown = true;
                 this.userService.clearCredentials();
                 this.dialogService.showDismissable(
-                    'User not Authenticated', 
+                    'User not Authenticated!', 
                     'Please login a try again', 
                     () => {
                         notAuthenticatedShown = false;
