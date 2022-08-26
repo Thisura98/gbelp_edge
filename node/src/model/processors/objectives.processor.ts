@@ -22,8 +22,11 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
     let lastSessionTime = firstSessionTime;
     let interval = 0;
     let lastProgress = 0;
-    let lastRoundedTime = 0;
-    let map: { [key: number]: number } = {};
+    let lastQuantizedTime = 0;
+    // let map: { [key: number]: number } = {};
+    // let map: { [key: number]: { [key: string] : number } } = {};
+    let map: Map<number, { [key: string] : number }> = new Map();
+    let totalsMap: Map<number, number> = new Map();
 
     if (input.length > 1){
         lastSessionTime = DateTime.fromISO(isofy(input[input.length - 1].last_updated), options).toMillis();
@@ -41,41 +44,51 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
     console.log("quantization =", JSON.stringify(quantization));
     console.log("processObjectivesByTime processing n elements. n =", input.length);
 
-    // Add one time point for each objective progress update
+    // Separate objective progress into quantizedTime and (userId + objectiveId) buckets
     for (let entry of input){
         let time = DateTime.fromISO(isofy(entry.last_updated), options).toMillis();
         const roundedTime = roundedDateToIntervalMS(time, interval);
-        const diff = roundedTime - lastRoundedTime;
-
-        // Fill in gaps between attempts
-        if (lastRoundedTime != 0 && diff > interval){
-            let fillTime = lastRoundedTime;
-            do{
-                fillTime += interval;
-                map[fillTime] = lastProgress;
-                console.log("fillTime", fillTime, "target", roundedTime);
-            }
-            while(fillTime < roundedTime);
+        
+        const userAndObjectiveWiseKey = `${entry.user_id}-${entry.objective_id}`;
+        if (map.get(roundedTime) == null){
+            map.set(roundedTime, {});
         }
 
-        // Count progress made in this quantized time interval
-        if (map[roundedTime] == null){
-            map[roundedTime] = entry.progress
-        }
-        else{
-            map[roundedTime] = map[roundedTime] + entry.progress
-        }
-        lastProgress = map[roundedTime];
-        lastRoundedTime = roundedTime;
-
-        console.log("Consider label with progress", roundedTime, entry.progress, "total =", map[roundedTime]);
+        let tuple: { [key: string] : number } = {};
+        tuple[userAndObjectiveWiseKey] = entry.progress;
+        map.set(roundedTime, tuple);
     }
 
-    // Convert the map into readable format
-    for (let label in map){
-        const timestamp = Number.parseInt(label)
-        data.labels.push(timestamp);
-        data.data.push(map[label]);
+    // Fill and spaces between quantizedTime(s) and count totals for previously separated buckets
+    for (const [quantizedTime, entries] of map.entries()){
+        const diff = quantizedTime - lastQuantizedTime;
+        let totalProgressForQuantizedTime = lastProgress;
+
+        if (lastProgress != 0 && diff > interval){
+            let time = lastQuantizedTime;
+            do{
+                time += interval;
+                totalsMap.set(time, lastProgress);
+            }
+            while(time < quantizedTime);
+        }
+
+        if (entries != null){
+            for (let key in entries){
+                totalProgressForQuantizedTime += entries[key];
+            }
+        }
+
+        totalsMap.set(quantizedTime, totalProgressForQuantizedTime);
+        lastQuantizedTime = quantizedTime;
+        lastProgress = totalProgressForQuantizedTime;
+    }
+
+    // Convert the totalMap into readable format
+    for (const [qTime, total] of totalsMap){
+        // const timestamp = Number.parseInt(label)
+        data.labels.push(qTime);
+        data.data.push(total);
     }
 
     return Promise.resolve(data);
