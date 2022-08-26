@@ -38,6 +38,7 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
     // const intervalMap = createEmptyQuantizedIntervalMap(firstSessionTime, lastSessionTime, interval);
     // map = intervalMap.map;
 
+    console.log("quantization =", JSON.stringify(quantization));
     console.log("processObjectivesByTime processing n elements. n =", input.length);
 
     // Add one time point for each objective progress update
@@ -52,6 +53,7 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
             do{
                 fillTime += interval;
                 map[fillTime] = lastProgress;
+                console.log("fillTime", fillTime, "target", roundedTime);
             }
             while(fillTime < roundedTime);
         }
@@ -65,6 +67,8 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
         }
         lastProgress = map[roundedTime];
         lastRoundedTime = roundedTime;
+
+        console.log("Consider label with progress", roundedTime, entry.progress, "total =", map[roundedTime]);
     }
 
     // Convert the map into readable format

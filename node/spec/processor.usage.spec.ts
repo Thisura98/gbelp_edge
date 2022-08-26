@@ -1,24 +1,14 @@
 import { GameSessionUserUsageGroupedByNonce, ReportGraphDataUserUsage } from "../../commons/src/models/reports/user.usage";
-import { DateTime } from "luxon";
 import { processUsage } from '../src/model/processors/usage.processor';
-import { isofy } from "../src/model/processors/processor.utils";
-
-const oneHour = 1 * 60 * 60 * 1000;
-const tenMinutes = 10 * 60 * 1000;
-const oneSecond = 1 * 1000;
-const luxonOptions = { zone: 'UTC', setZone: true };
+import { toMilliseconds } from "./utils/utils";
 const yAxesLabel = 'Cumulative Sessions';
-
-function toMilliseconds(input: string): number{
-    return DateTime.fromISO(isofy(input), luxonOptions).toMillis()
-}
 
 function createUsage(times: string[], nonce: string = 'a', sessionId: number = 1, userId: number = 1)
     : GameSessionUserUsageGroupedByNonce{
     return { play_nonce: nonce, session_id: sessionId, user_id: userId, start_time: times[0], end_time: times[1] };
 }
 
-describe('User Usage Processor', () => {
+describe('User Usage Processor Tests', () => {
     it('Empty Input Test', async () => {
         const input: GameSessionUserUsageGroupedByNonce[] = [];
         const expectedOutput = new ReportGraphDataUserUsage([], [], 'Seconds', yAxesLabel);

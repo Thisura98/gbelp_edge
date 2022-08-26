@@ -62,6 +62,8 @@ export function determineTimeQuantizationInterval(firstMS: number, lastMS: numbe
 
     const diff = lastMS - firstMS;
 
+    console.log('dtqi: diff =', diff, ' values =', lastMS, firstMS);
+
     if (diff > oneHourInMs){
         return { interval: oneHourInterval, intervalName: 'Hours' };
     }
