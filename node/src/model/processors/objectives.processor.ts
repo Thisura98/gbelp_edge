@@ -22,6 +22,7 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
     let lastSessionTime = firstSessionTime;
     let interval = 0;
     let lastProgress = 0;
+    let lastRoundedTime = 0;
     let map: { [key: number]: number } = {};
 
     if (input.length > 1){
@@ -37,12 +38,33 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
     // const intervalMap = createEmptyQuantizedIntervalMap(firstSessionTime, lastSessionTime, interval);
     // map = intervalMap.map;
 
+    console.log("processObjectivesByTime processing n elements. n =", input.length);
+
     // Add one time point for each objective progress update
     for (let entry of input){
         let time = DateTime.fromISO(isofy(entry.last_updated), options).toMillis();
-        const label = roundedDateToIntervalMS(time, interval);
-        map[label] = lastProgress + entry.progress;
-        lastProgress = map[label];
+        const roundedTime = roundedDateToIntervalMS(time, interval);
+        const diff = roundedTime - lastRoundedTime;
+
+        // Fill in gaps between attempts
+        if (lastRoundedTime != 0 && diff > interval){
+            let fillTime = lastRoundedTime;
+            do{
+                fillTime += interval;
+                map[fillTime] = lastProgress;
+            }
+            while(fillTime < roundedTime);
+        }
+
+        // Count progress made in this quantized time interval
+        if (map[roundedTime] == null){
+            map[roundedTime] = entry.progress
+        }
+        else{
+            map[roundedTime] = map[roundedTime] + entry.progress
+        }
+        lastProgress = map[roundedTime];
+        lastRoundedTime = roundedTime;
     }
 
     // Convert the map into readable format

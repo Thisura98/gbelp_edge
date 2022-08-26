@@ -45,15 +45,10 @@ export function handlerReports(app: Express){
     // Student/User usage report graph
     app.get(aurl('reports/usage/graph'), (req, res) => {
         const sessionId = req.query.sessionId as string;
-        let session: GameSession | undefined;
         
-        sessionDAO.getSession(sessionId)
-        .then(rawSession => {
-            session = rawSession as GameSession;
-            return usageReportDAO.getUserUsageGroupedByNonce(sessionId);
-        })
+        usageReportDAO.getUserUsageGroupedByNonce(sessionId)
         .then(usageData => {
-            return processUsage(session!, usageData);
+            return processUsage(usageData);
         })
         .then(output => {
             res.send(new ResponseModel(true, 200, 'Processed usage data', output));
