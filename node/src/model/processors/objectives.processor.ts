@@ -9,7 +9,7 @@ import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, roun
  * @param input Must be sorted in ascending last_updated order
  */
 export function processObjectivesByTime(input: GameSessionUserObjective[]){
-    const yAxes = 'Cumulative Sessions';
+    const yAxes = 'Objective Points';
     const xAxes = 'Seconds';
     const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
     let data = new ReportGraphDataUserObjectiveProgressByTime([], [], xAxes, yAxes);

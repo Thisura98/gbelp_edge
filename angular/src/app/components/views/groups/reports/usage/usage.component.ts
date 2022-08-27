@@ -9,7 +9,7 @@ import { GameListing } from "../../../../../../../../commons/src/models/game/gam
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
 import { forkJoin } from "rxjs";
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from "ng-apexcharts";
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ApexMarkers } from "ng-apexcharts";
 import { GameSessionUserUsageBreakdown } from "../../../../../../../../commons/src/models/reports/user.usage";
 import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { TimeConstants } from "src/app/constants/constants";
@@ -17,6 +17,7 @@ import { TimeConstants } from "src/app/constants/constants";
 export type ApexChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
+  markers?: ApexMarkers,
   xaxis: ApexXAxis;
   yaxis: ApexYAxis;
   dataLabels: ApexDataLabels;
@@ -75,6 +76,15 @@ export class GroupReportsUsageComponent implements OnInit {
           console.log('Overview zoomed:', opts);
           this.handleChartZoomed(opts);
         }
+      }
+    },
+    markers: {
+      size: 5,
+      colors: ["#FFFFFF"],
+      strokeColors: ["#098FFA"],
+      strokeWidth: 3,
+      hover:{
+        size: 5
       }
     },
     xaxis: {

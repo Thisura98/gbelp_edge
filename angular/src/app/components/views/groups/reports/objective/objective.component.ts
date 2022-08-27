@@ -47,6 +47,15 @@ export class GroupReportsObjectiveComponent{
       height: '200px',
       redrawOnWindowResize: true
     },
+    markers: {
+      size: 5,
+      colors: ["#FFFFFF"],
+      strokeColors: ["#098FFA"],
+      strokeWidth: 3,
+      hover:{
+        size: 5
+      }
+    },
     xaxis: {
       type: 'datetime',
       categories: [],
@@ -72,7 +81,7 @@ export class GroupReportsObjectiveComponent{
     },
     yaxis: {
       title: {
-        text: 'Cumulative Sessions'
+        text: 'Objective Points'
       },
       labels: {
         formatter: (value, opts) => {
@@ -98,7 +107,7 @@ export class GroupReportsObjectiveComponent{
       },
       y: {
         formatter: (val, opts) => {
-          return val.toString() + ' sessions';
+          return val.toString() + ' points';
         }
       },
       marker: {
