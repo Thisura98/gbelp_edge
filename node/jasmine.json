@@ -3,5 +3,6 @@
         "spec/helpers/jasmine-ts-helper.js",
         "spec/helpers/spec-reporter-helper.js"
     ],
-    "spec_files": ["*[sS]pec.ts", "**/*[sS]pec.ts"]
+    "spec_files": ["*[sS]pec.ts", "**/*[sS]pec.ts"],
+    "random": false
 }

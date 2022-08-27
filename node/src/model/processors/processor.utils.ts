@@ -1,5 +1,14 @@
 import { DateTime, LocalZone, Zone} from "luxon";
 
+const ALLOWED_DECIMAL_PRECISION = 100;
+
+/**
+ * EDGE Report Util rounding as defined by `ALLOWED_DECIMAL_PRECISION`
+ */
+export function round(num: number): number{
+    return Math.round(num * ALLOWED_DECIMAL_PRECISION) / ALLOWED_DECIMAL_PRECISION;
+}
+
 /**
  * Replaces the ' ' in dates with 'T'
  */

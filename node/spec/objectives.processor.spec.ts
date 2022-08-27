@@ -32,35 +32,70 @@ describe('Objective Processor Tests', () => {
         expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
     });
 
-    // it('2 progress updates for different objectives', async () => {
-    //     const input: GameSessionUserObjective[] = [
-    //         createObjective(0.5, '2022-01-01 10:00:00', '1'),
-    //         createObjective(1.0, '2022-01-01 10:10:01', '2')
-    //     ];
-    //     const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
-    //         [
-    //             toMilliseconds('2022-01-01 10:00:00'),
-    //             toMilliseconds('2022-01-01 10:10:00')
-    //         ],
-    //         [0.5, 1.5], 'Minutes', yAxesLabel
-    //     );
-    //     expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
-    // });
+    it('2 progress updates for different objectives', async () => {
+        const input: GameSessionUserObjective[] = [
+            createObjective(0.5, '2022-01-01 10:00:00', '1'),
+            createObjective(1.0, '2022-01-01 10:10:01', '2')
+        ];
+        const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
+            [
+                toMilliseconds('2022-01-01 10:00:00'),
+                toMilliseconds('2022-01-01 10:10:00')
+            ],
+            [0.5, 1.5], 'Minutes', yAxesLabel
+        );
+        expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
+    });
 
-    // it('2 progress updates for same objective (with 20 minute break)', async () => {
-    //     const input: GameSessionUserObjective[] = [
-    //         createObjective(0.5, '2022-01-01 10:00:00'),
-    //         createObjective(1.0, '2022-01-01 10:21:00')
-    //     ];
-    //     const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
-    //         [
-    //             toMilliseconds('2022-01-01 10:00:00'),
-    //             toMilliseconds('2022-01-01 10:10:00'),
-    //             toMilliseconds('2022-01-01 10:20:00')
-    //         ],
-    //         [0.5, 0.5, 1.0], 'Minutes', yAxesLabel
-    //     );
-    //     expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
-    // });
+    it('2 progress updates for same objective (with 20 minute break)', async () => {
+        const input: GameSessionUserObjective[] = [
+            createObjective(0.5, '2022-01-01 10:00:00'),
+            createObjective(1.0, '2022-01-01 10:21:00')
+        ];
+        const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
+            [
+                toMilliseconds('2022-01-01 10:00:00'),
+                toMilliseconds('2022-01-01 10:20:00')
+            ],
+            [0.5, 1.0], 'Minutes', yAxesLabel
+        );
+        expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
+    });
+
+    it('3 progress updates (A = 2, B = 1) (with 20 minute break)', async () => {
+        const input: GameSessionUserObjective[] = [
+            createObjective(0.5, '2022-01-01 10:00:00', 'A'),
+            createObjective(0.5, '2022-01-01 10:11:00', 'B'),
+            createObjective(1.0, '2022-01-01 10:21:00', 'A')
+        ];
+        const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
+            [
+                toMilliseconds('2022-01-01 10:00:00'),
+                toMilliseconds('2022-01-01 10:10:00'),
+                toMilliseconds('2022-01-01 10:20:00')
+            ],
+            [0.5, 1.0, 1.5], 'Minutes', yAxesLabel
+        );
+        expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
+    });
+
+    it('4 progress updates for same objective with dipping', async () => {
+        const input: GameSessionUserObjective[] = [
+            createObjective(0.5, '2022-01-01 10:00:00'),
+            createObjective(1.0, '2022-01-01 10:11:00'),
+            createObjective(0.1, '2022-01-01 10:21:00'),
+            createObjective(0.5, '2022-01-01 10:31:00')
+        ];
+        const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
+            [
+                toMilliseconds('2022-01-01 10:00:00'),
+                toMilliseconds('2022-01-01 10:10:00'),
+                toMilliseconds('2022-01-01 10:20:00'),
+                toMilliseconds('2022-01-01 10:30:00'),
+            ],
+            [0.5, 1.0, 0.1, 0.5], 'Minutes', yAxesLabel
+        );
+        expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
+    });
 
 });
