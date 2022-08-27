@@ -21,12 +21,15 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
     const firstSessionTime = DateTime.fromISO(isofy(input[0].last_updated), options).toMillis(); 
     let lastSessionTime = firstSessionTime;
     let interval = 0;
-    let lastProgress = 0;
-    let lastQuantizedTime = 0;
+    // let lastProgress = 0;
+    // let lastQuantizedTime = 0;
     // let map: { [key: number]: number } = {};
     // let map: { [key: number]: { [key: string] : number } } = {};
-    let map: Map<number, { [key: string] : number }> = new Map();
-    let totalsMap: Map<number, number> = new Map();
+    // let map: Map<number, { [key: string] : number }> = new Map();
+    let lastProgress: { [key: string]: number } = {};
+    let lastUpdateTime: { [key: string]: number } = {};
+    let totals: Map<number, number> = new Map();
+    // let totals: { [key: number]: number } = {};
 
     if (input.length > 1){
         lastSessionTime = DateTime.fromISO(isofy(input[input.length - 1].last_updated), options).toMillis();
@@ -44,51 +47,74 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
     console.log("quantization =", JSON.stringify(quantization));
     console.log("processObjectivesByTime processing n elements. n =", input.length);
 
-    // Separate objective progress into quantizedTime and (userId + objectiveId) buckets
     for (let entry of input){
-        let time = DateTime.fromISO(isofy(entry.last_updated), options).toMillis();
-        const roundedTime = roundedDateToIntervalMS(time, interval);
-        
-        const userAndObjectiveWiseKey = `${entry.user_id}-${entry.objective_id}`;
-        if (map.get(roundedTime) == null){
-            map.set(roundedTime, {});
-        }
+        const key = `${entry.user_id}-${entry.objective_id}`;
+        const time = DateTime.fromISO(isofy(entry.last_updated), options).toMillis();;
 
-        let tuple: { [key: string] : number } = {};
-        tuple[userAndObjectiveWiseKey] = entry.progress;
-        map.set(roundedTime, tuple);
-    }
+        /**
+         * Quantized Time
+         */
+        const qt = roundedDateToIntervalMS(time, interval);
+        /**
+         * Last updated time for this userId-objectiveId key
+         */
+        const lastUpdatedTime = lastUpdateTime[key];
+        /**
+         * Last progress for this userId-objectiveId key
+         */
+        const lp = lastProgress[key];
 
-    // Fill and spaces between quantizedTime(s) and count totals for previously separated buckets
-    for (const [quantizedTime, entries] of map.entries()){
-        const diff = quantizedTime - lastQuantizedTime;
-        let totalProgressForQuantizedTime = lastProgress;
+        let newProgress = 0;
 
-        if (lastProgress != 0 && diff > interval){
-            let time = lastQuantizedTime;
-            do{
-                time += interval;
-                totalsMap.set(time, lastProgress);
+        if (lastUpdatedTime != null){
+            const diff = qt - lastUpdatedTime;
+
+            if (diff > interval){
+                // Perform filling in interval gaps
+                let fTime = lastUpdatedTime;
+                do{
+                    fTime += interval;
+                    // totals[fTime] = (totals[fTime] == null) ? lp : (totals[fTime] + lp);
+                    const t = totals.get(fTime);
+                    totals.set(fTime, t == undefined ? lp : (t! + lp));
+                }
+                while(fTime < qt);
             }
-            while(time < quantizedTime);
-        }
 
-        if (entries != null){
-            for (let key in entries){
-                totalProgressForQuantizedTime += entries[key];
+            // Update progress
+            if (lp > entry.progress){
+                newProgress = entry.progress;
+                lastProgress[key] = newProgress;
+            }
+            else if (lp == entry.progress){
+                newProgress = lp;
+            }
+            else{
+                newProgress = entry.progress - lp;
+                lastProgress[key] = entry.progress;
             }
         }
+        else{
+            // First progress for userId-objectiveId combined key
+            newProgress = entry.progress;
+            lastProgress[key] = newProgress;
+        }
 
-        totalsMap.set(quantizedTime, totalProgressForQuantizedTime);
-        lastQuantizedTime = quantizedTime;
-        lastProgress = totalProgressForQuantizedTime;
+        // totals[qt] = (totals[qt] == null) ? newProgress : (totals[qt] + newProgress);
+
+        const t = totals.get(qt);
+        totals.set(qt, t == undefined ? newProgress : (t! + newProgress));
+        lastUpdateTime[key] = qt;
     }
 
     // Convert the totalMap into readable format
-    for (const [qTime, total] of totalsMap){
+    let lastTotalForQuantizedTime = 0;
+    for (const [qTime, total] of totals){
         // const timestamp = Number.parseInt(label)
         data.labels.push(qTime);
-        data.data.push(total);
+        data.data.push(lastTotalForQuantizedTime + total);
+        console.log("\t\t PUSHED", qTime, data.data[data.data.length - 1]);
+        lastTotalForQuantizedTime = data.data[data.data.length - 1];
     }
 
     return Promise.resolve(data);

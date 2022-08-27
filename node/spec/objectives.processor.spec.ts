@@ -32,20 +32,20 @@ describe('Objective Processor Tests', () => {
         expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
     });
 
-    it('2 progress updates for different objectives', async () => {
-        const input: GameSessionUserObjective[] = [
-            createObjective(0.5, '2022-01-01 10:00:00', '1'),
-            createObjective(1.0, '2022-01-01 10:10:01', '2')
-        ];
-        const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
-            [
-                toMilliseconds('2022-01-01 10:00:00'),
-                toMilliseconds('2022-01-01 10:10:00')
-            ],
-            [0.5, 1.5], 'Minutes', yAxesLabel
-        );
-        expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
-    });
+    // it('2 progress updates for different objectives', async () => {
+    //     const input: GameSessionUserObjective[] = [
+    //         createObjective(0.5, '2022-01-01 10:00:00', '1'),
+    //         createObjective(1.0, '2022-01-01 10:10:01', '2')
+    //     ];
+    //     const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime(
+    //         [
+    //             toMilliseconds('2022-01-01 10:00:00'),
+    //             toMilliseconds('2022-01-01 10:10:00')
+    //         ],
+    //         [0.5, 1.5], 'Minutes', yAxesLabel
+    //     );
+    //     expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
+    // });
 
     // it('2 progress updates for same objective (with 20 minute break)', async () => {
     //     const input: GameSessionUserObjective[] = [
