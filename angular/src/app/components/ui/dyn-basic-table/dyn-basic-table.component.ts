@@ -22,12 +22,14 @@ export interface DynBasicTableDeleteEvent{
 
 export class DynBasicTableConfig{
   showDelete: boolean
+  showRightChevron: boolean = false
   columns: DynBasicTableCol[]
   textAlign?: string = 'left';
-  constructor(showDelete: boolean, columns: DynBasicTableCol[], textAlign: string = 'left'){
+  constructor(showDelete: boolean, columns: DynBasicTableCol[], textAlign: string = 'left', rightChevron = false){
     this.showDelete = showDelete
     this.columns = columns;
     this.textAlign = textAlign;
+    this.showRightChevron = rightChevron;
   }
 }
 

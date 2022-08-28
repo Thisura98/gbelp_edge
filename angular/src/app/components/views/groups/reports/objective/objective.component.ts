@@ -5,6 +5,7 @@ import { forkJoin } from "rxjs";
 import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { TimeConstants } from "src/app/constants/constants";
+import { getObjectiveBreakdownTableConfig, getObjectiveProgressByCompletionChartOptions, getObjectiveProgressByTimeChartOptions } from "src/app/constants/reports/objective.report.constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
@@ -13,7 +14,6 @@ import { GameListing } from "../../../../../../../../commons/src/models/game/gam
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSessionUserObjectiveBreakdown } from "../../../../../../../../commons/src/models/reports/user.objective";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
-import { ApexChartOptions } from "../usage/usage.component";
 
 @Component({
   templateUrl: "./objective.component.html",
@@ -37,163 +37,14 @@ export class GroupReportsObjectiveComponent{
   progressByCompletionLoaded = false;
   breakdownDataLoaded = false;
 
-  public timeChart: ApexChartOptions = {
-    title: {
-      text: ''
-    },
-    series: [{ name:' test', data: [] }],
-    chart: {
-      type: 'area',
-      height: '200px',
-      redrawOnWindowResize: true
-    },
-    markers: {
-      size: 5,
-      colors: ["#FFFFFF"],
-      strokeColors: ["#098FFA"],
-      strokeWidth: 3,
-      hover:{
-        size: 5
-      }
-    },
-    xaxis: {
-      type: 'datetime',
-      categories: [],
-      crosshairs: {
-        show: true
-      },
-      labels: {
-        datetimeUTC: false,
-        format: 'MMM dd HH:mm',
-        datetimeFormatter: {
-          day: 'MMM dd',
-          hour: 'dd HH:mm',
-          minute: 'HH:mm:ss'
-        }
-      },
-      tooltip: {
-        enabled: false
-      },
-      axisBorder: {
-        show: true,
-        color: '#8f8f8f'
-      }
-    },
-    yaxis: {
-      title: {
-        text: 'Objective Points'
-      },
-      labels: {
-        formatter: (value, opts) => {
-          return value.toPrecision(2);
-        }
-      },
-      axisBorder: {
-        show: true,
-        color: '#8f8f8f'
-      }
-    },
-    dataLabels: { enabled: false },
-    tooltip: {
-      x: {
-        formatter: (ts, opts) => {
-          const date = new Date(ts);
-          const day = date.toDateString();
-          const hours = date.getHours().toString().padStart(2, '0');
-          const minutes = date.getMinutes().toString().padStart(2, '0');
-          const seconds = date.getSeconds().toString().padStart(2, '0');
-          return `${day} - ${hours}:${minutes}:${seconds}`
-        }
-      },
-      y: {
-        formatter: (val, opts) => {
-          return val.toString() + ' points';
-        }
-      },
-      marker: {
-        show: false
-      }
-    },
-    grid: {
-      borderColor: '#AEAEAE',
-      strokeDashArray: 3
-    },
-    fill: {
-    }
-  }
-
-  public completionChart: ApexChartOptions = {
-    title: {
-      text: ''
-    },
-    series: [{ name:' test', data: [] }],
-    chart: {
-      type: 'bar',
-      height: '200px',
-      redrawOnWindowResize: true
-    },
-    xaxis: {
-      type: 'category',
-      categories: [],
-      crosshairs: {
-        show: true
-      },
-      tooltip: {
-        enabled: false
-      },
-      axisBorder: {
-        show: true,
-        color: '#8f8f8f'
-      }
-    },
-    yaxis: {
-      title: {
-        text: 'Completion %'
-      },
-      max: 1.0,
-      min: 0.0,
-      tickAmount: 4,
-      labels: {
-        formatter: (value, opts) => {
-          return value.toPrecision(2);
-        }
-      },
-      axisBorder: {
-        show: true,
-        color: '#8f8f8f'
-      }
-    },
-    dataLabels: { enabled: false },
-    tooltip: {
-      y: {
-        formatter: (progress, opts) => {
-          return Math.round(progress * 100).toString() + '%';
-        }
-      },
-      marker: {
-        show: false
-      }
-    },
-    grid: {
-      borderColor: '#AEAEAE',
-      strokeDashArray: 3
-    },
-    fill: {
-    }
-  }
+  public readonly timeChart = getObjectiveProgressByTimeChartOptions();
+  public readonly completionChart = getObjectiveProgressByCompletionChartOptions();
+  public readonly breakdownTableConfig = getObjectiveBreakdownTableConfig(
+    (i) => this.progressFormat(i),
+    (i) => this.timeFormat(i)
+  );
 
   public breakdownData: GameSessionUserObjectiveBreakdown[] = [];
-  public breakdownTableConfig: DynBasicTableConfig = {
-   showDelete: false,
-   columns: [
-     { name: 'Student Name', property: 'user_name', type: 'static' },
-     { name: 'Objectives Completed', property: 'completed_objective_count', type: 'static' },
-     { name: 'Progress', property: 'total_progress', type: 'static', staticFormatter: this.progressFormat },
-     { name: 'Play Duration', property: 'total_play_duration', type: 'static', staticFormatter: this.timeFormat },
-     { name: 'Velocity', property: 'velocity', type: 'static' },
-   ],
-   textAlign: 'center'
-  }
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -222,6 +73,10 @@ export class GroupReportsObjectiveComponent{
         sessionId: this.sessionId!
       }
     })
+  }
+
+  printReport(){
+    print();
   }
 
   private loadData() {

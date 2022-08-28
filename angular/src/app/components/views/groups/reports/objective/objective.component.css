@@ -36,7 +36,7 @@
 
 /* Objective by Time Graph */
 #progressbytime{
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
 }
 
@@ -48,4 +48,27 @@
 /* Breakdown */
 #breakdown{
     padding-bottom: 100px;
+}
+
+@media print {
+    .nav, app-dynamicsidebar, .section-pane{
+        display: none;
+        visibility: hidden;
+    }
+
+    .section-reports {
+        background-color: white;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 15px;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .chart-container-progress-by-time, .chart-container-progress-by-objective{
+        width: 100%;
+    }
 }

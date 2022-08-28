@@ -93,8 +93,6 @@
                 <h2>Details</h2>
                 <div class="objective-report-details">
                     <div>Showing objective progress reports for the selected session.</div>
-                    <div><b>Students may have more than one play session.</b></div>
-                    <div>Metrics here, consider sessions with the most progress.</div>
                     <div>Click on a student to view more details.</div>
                 </div>
                 <div class="panel-separator"></div>
@@ -119,6 +117,10 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="panel-separator"></div>
+                <div>
+                    <div class="dyn-btn clickable" (click)="printReport()">Print Report</div>
                 </div>
             </div>
         </div>

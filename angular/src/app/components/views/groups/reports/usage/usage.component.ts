@@ -9,23 +9,9 @@ import { GameListing } from "../../../../../../../../commons/src/models/game/gam
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
 import { forkJoin } from "rxjs";
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ApexMarkers } from "ng-apexcharts";
 import { GameSessionUserUsageBreakdown } from "../../../../../../../../commons/src/models/reports/user.usage";
-import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { TimeConstants } from "src/app/constants/constants";
-
-export type ApexChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  markers?: ApexMarkers,
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  dataLabels: ApexDataLabels;
-  title: ApexTitleSubtitle;
-  tooltip: ApexTooltip;
-  grid: ApexGrid,
-  fill: ApexFill,
-}
+import { getUsageBreakdownTableConfig, getUsageOverviewChartOptions } from "src/app/constants/reports/usage.report.constants";
 
 @Component({
   templateUrl: './usage.component.html',
@@ -51,97 +37,8 @@ export class GroupReportsUsageComponent implements OnInit {
   breakdownDataLoaded = false;
 
   public breakdownData: GameSessionUserUsageBreakdown[] = [];
-  public breakdownTableConfig: DynBasicTableConfig = {
-   showDelete: false,
-   columns: [
-     { name: 'Student Name', property: 'user_name', type: 'static' },
-     { name: 'Average Usage', property: 'avg_usage', type: 'static', staticFormatter: this.timeFormat },
-     { name: '# of Play Sessions', property: 'session_count', type: 'static' },
-     { name: 'Longest Session', property: 'max_usage', type: 'static', staticFormatter: this.timeFormat }
-   ],
-   textAlign: 'center'
-  }
-
-  public apexChartOptions: ApexChartOptions = {
-
-    title: {
-      text: ''
-    },
-    series: [{ name:' test', data: [] }],
-    chart: {
-      type: 'area',
-      height: '200px',
-      events: {
-        zoomed: (chart, opts) => {
-          console.log('Overview zoomed:', opts);
-          this.handleChartZoomed(opts);
-        }
-      }
-    },
-    markers: {
-      size: 5,
-      colors: ["#FFFFFF"],
-      strokeColors: ["#098FFA"],
-      strokeWidth: 3,
-      hover:{
-        size: 5
-      }
-    },
-    xaxis: {
-      type: 'datetime',
-      categories: [],
-      crosshairs: {
-        show: true
-      },
-      labels: {
-        datetimeUTC: false,
-        format: 'MMM dd HH:mm',
-        datetimeFormatter: {
-          day: 'MMM dd',
-          hour: 'dd HH:mm',
-          minute: 'HH:mm:ss'
-        }
-      },
-      tooltip: {
-        enabled: false
-      },
-      axisBorder: {
-        show: true,
-        color: '#8f8f8f'
-      }
-    },
-    yaxis: {
-      title: {
-        text: 'Cumulative Sessions'
-      },
-      axisBorder: {
-        show: true,
-        color: '#8f8f8f'
-      }
-    },
-    dataLabels: { enabled: false },
-    tooltip: {
-      x: {
-        formatter: (ts, opts) => {
-          const date = new Date(ts);
-          const day = date.toDateString();
-          const hours = date.getHours().toString().padStart(2, '0');
-          const minutes = date.getMinutes().toString().padStart(2, '0');
-          const seconds = date.getSeconds().toString().padStart(2, '0');
-          return `${day} - ${hours}:${minutes}:${seconds}`
-        }
-      },
-      marker: {
-        show: false
-      }
-    },
-    grid: {
-      borderColor: '#AEAEAE',
-      strokeDashArray: 3
-    },
-    fill: {
-    }
-  }
+  public readonly breakdownTableConfig = getUsageBreakdownTableConfig((i) => this.timeFormat(i));
+  public readonly apexChartOptions = getUsageOverviewChartOptions((opts) => this.handleChartZoomed(opts));
 
   constructor(
     private activatedRoute: ActivatedRoute,
