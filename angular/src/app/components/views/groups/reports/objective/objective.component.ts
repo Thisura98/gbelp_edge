@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { ChartComponent } from "ng-apexcharts";
 import { forkJoin } from "rxjs";
-import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { TimeConstants } from "src/app/constants/constants";
 import { getObjectiveBreakdownTableConfig, getObjectiveProgressByCompletionChartOptions, getObjectiveProgressByTimeChartOptions } from "src/app/constants/reports/objective.report.constants";

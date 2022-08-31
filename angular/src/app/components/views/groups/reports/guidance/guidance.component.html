@@ -1,1 +1,128 @@
-Guidance Trackers Report
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems" (onBack)="handleBack()">
+    </app-dynamicsidebar>
+
+    <div class="container2 dyn-anim-fadein">
+        <div class="nav">
+            <app-groups-menuselector 
+                    *ngIf="group != undefined"
+                    [title]="group?.name ?? ''" >
+            </app-groups-menuselector>
+            <div class="report-title">
+                <div class="vert-separator"></div>
+                <div class="report-title-content">Guidance Trigger Report</div>
+            </div>
+            <div 
+                class="spacer">
+            </div>
+            <div class="nav-stretch">
+                <app-userstatus></app-userstatus>
+            </div>
+        </div>
+
+        <div class="container3">
+            <div class="section-reports">
+                <div id="progressbytime">
+                    <h2>Progress by Time</h2>
+                    <div class="chart-container chart-container-progress-by-time">
+                        <!-- <apx-chart
+                            [series]="timeChart.series"
+                            [chart]="timeChart.chart"
+                            [markers]="timeChart.markers!"
+                            [xaxis]="timeChart.xaxis"
+                            [yaxis]="timeChart.yaxis"
+                            [dataLabels]="timeChart.dataLabels"
+                            [title]="timeChart.title"
+                            [tooltip]="timeChart.tooltip"
+                            [grid]="timeChart.grid"
+                            [fill]="timeChart.fill"
+                            *ngIf="progressByTimeLoaded"
+                            
+                            class="dyn-fade"
+                        ></apx-chart> -->
+                        
+                        <loading-reports text="Loading progress..."
+                            *ngIf="!progressByTimeLoaded"
+                            class="dyn-fade">
+                        </loading-reports>
+                    </div>
+                </div>
+
+                <div id="progressbyobjective">
+                    <h2>Progress by Objective</h2>
+                    <div class="chart-container chart-container-progress-by-objective">
+                        <!-- <apx-chart
+                            [series]="completionChart.series"
+                            [chart]="completionChart.chart"
+                            [xaxis]="completionChart.xaxis"
+                            [yaxis]="completionChart.yaxis"
+                            [dataLabels]="completionChart.dataLabels"
+                            [title]="completionChart.title"
+                            [tooltip]="completionChart.tooltip"
+                            [grid]="completionChart.grid"
+                            [fill]="timeChart.fill"
+                            *ngIf="progressByCompletionLoaded"
+                            
+                            class="dyn-fade"
+                        ></apx-chart> -->
+                        
+                        <loading-reports text="Loading progress..."
+                            *ngIf="!progressByCompletionLoaded"
+                            class="dyn-fade">
+                        </loading-reports>
+                    </div>
+                </div>
+
+                <div id="breakdown">
+                    <h2>Breakdown</h2>
+                    <div class="breakdown-container">
+                        <loading-reports text="Loading breakdown..."
+                            *ngIf="!breakdownDataLoaded"
+                            class="dyn-fade">
+                        </loading-reports>
+
+                        <!-- <dyn-basic-table 
+                            [config]="breakdownTableConfig"
+                            [data]="breakdownData">
+                        </dyn-basic-table> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-pane">
+                <h2>Details</h2>
+                <div class="objective-report-details">
+                    <div>Showing objective progress reports for the selected session.</div>
+                    <div>Click on a student to view more details.</div>
+                </div>
+                <div class="panel-separator"></div>
+                <div>
+                    <div class="panel-section-title">Game</div>
+                    <div class="panel-section-content">{{gameListing?.entry?.name}}</div>
+                </div>
+                <div class="panel-separator"></div>
+                <div>
+                    <div class="panel-section-title">Session Duration</div>
+                    <div class="panel-section-content">
+                        <div class="session-time">
+                            From:
+                            <span class="session-time-from">{{session?.start_time | date}}</span>
+                        </div>
+                        <div class="session-time">
+                            To:
+                            <span class="session-time-from">
+                                {{
+                                    session?.end_time == undefined ? 'Unspecified' : (session?.end_time | date)
+                                }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-separator"></div>
+                <div>
+                    <div class="dyn-btn clickable" (click)="printReport()">Print Report</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
