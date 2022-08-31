@@ -1,0 +1,28 @@
+.report-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.vert-separator{
+    height: 25px;
+    width: 1px;
+    background-color: #DBDBDB;
+}
+
+.report-title-content, .report-title{
+    margin-left: 10px;
+}
+
+.h2{
+    margin: 0;
+}
+
+.chart-container, .breakdown-container{
+    position: relative;
+}
+
+.section-reports{
+    flex-grow: unset !important;
+    width: calc(100% - 230px);  /* 230 for side pane + scrollbar */
+}
