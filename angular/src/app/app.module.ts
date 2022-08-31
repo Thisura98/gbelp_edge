@@ -90,11 +90,11 @@ import { GroupReportsUsageComponent } from './components/views/groups/reports/us
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { CustomRenderer } from './utils/md-renderer';
-import { NgChartsModule } from 'ng2-charts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LoadingReportsComponent } from './components/views/groups/reports/common/loading/loading.reports.component';
 import { GroupReportsObjectiveComponent } from './components/views/groups/reports/objective/objective.component';
 import { GroupReportsGuidanceComponent } from './components/views/groups/reports/guidance/guidance.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -187,8 +187,8 @@ import { GroupReportsGuidanceComponent } from './components/views/groups/reports
         useFactory: CustomRenderer,
       } 
     }),
-    NgChartsModule,     // Remove this
-    NgApexchartsModule  // or this
+    NgApexchartsModule,  // or this
+    ToastrModule.forRoot()
   ],
   providers: [
     ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService, PlayService,

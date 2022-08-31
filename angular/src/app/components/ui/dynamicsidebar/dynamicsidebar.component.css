@@ -90,10 +90,10 @@
     padding: 11.5px 0;
 }
 
-.dyn-sidebar-subitems-container-internal .dyn-sidebar-subitem:active{
+/* .dyn-sidebar-subitems-container-internal .dyn-sidebar-subitem:active{
     background-color: #0170b4;
     color: #FFFFFF;
-}
+} */
 
 .dyn-sidebar-subitem:hover, .dyn-sidebar-subitem.selected{
     background-color: #F7F7F722;

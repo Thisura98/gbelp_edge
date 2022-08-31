@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastrService } from 'ngx-toastr';
 import { SimpleDialogComponent } from '../components/ui/dialogs/simple.component';
 import { Simple2DialogComponent } from '../components/ui/dialogs/simple2.component';
 
@@ -11,7 +11,7 @@ export class DialogService{
 
     constructor(
         public dialog: MatDialog,
-        public snackBar: MatSnackBar
+        private toastr: ToastrService
     ){}
 
     showDismissable(title: string, message: string, onOkay: CallableFunction|undefined = undefined){
@@ -36,9 +36,12 @@ export class DialogService{
         });
     }
 
-    showSnackbar(title: string, duration: number | undefined = 1500){
-        this.snackBar.open(title, undefined, {
-            duration: duration
+    async showSnackbar(title: string, duration: number | undefined = 1500){
+        this.toastr.error(title, undefined, {
+            positionClass: 'toast-bottom-center',
+            toastClass: 'dyn-toast-class',
+            
+            timeOut: duration
         });
     }
 

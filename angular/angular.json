@@ -32,7 +32,8 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
               "./src/assets/articles/prism-coy-mod.css",
-              "./node_modules/prismjs/components/prism-javascript.js"
+              "./node_modules/prismjs/components/prism-javascript.js",
+              "./node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "./node_modules/phaser/dist/phaser.js",

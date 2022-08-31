@@ -71,24 +71,24 @@ export function getGameSidebarItems(
                 {
                     name: "Scene",    
                     sel: false, 
-                    n: eprefix+"ico_scene.svg",    
-                    s: eprefix+"ico_scene_sel.svg",    
+                    n: eprefix+"ico_scene.png",    
+                    s: eprefix+"ico_scene_sel.png",    
                     path: `${modePath}/edit/editor/scene`,
                     subItems: [], handler: subHandler
                 },
                 {
                     name: "Properties",    
                     sel: false, 
-                    n: eprefix+"ico_props.svg",    
-                    s: eprefix+"ico_props_sel.svg",    
+                    n: eprefix+"ico_props.png",    
+                    s: eprefix+"ico_props_sel.png",    
                     path: `${modePath}/edit/editor/animation`,
                     subItems: [], handler: subHandler
                 },
                 {
                     name: "Scripts",    
                     sel: false, 
-                    n: eprefix+"ico_scripts.svg",    
-                    s: eprefix+"ico_scripts_sel.svg",    
+                    n: eprefix+"ico_scripts.png",    
+                    s: eprefix+"ico_scripts_sel.png",    
                     path: `${modePath}/edit/editor/logic`,
                     subItems: [], handler: subHandler
                 },
