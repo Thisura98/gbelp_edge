@@ -1,4 +1,4 @@
-import { ReportGraphDataUserGuidacenTrackerTimeGraph } from '../../../../commons/src/models/reports/user.guidancetracker';
+import { ReportGraphDataUserGuidanceTrackerTimeGraph } from '../../../../commons/src/models/reports/user.guidancetracker';
 import { DateTime } from 'luxon';
 import { GameSessionUserGuidanceTracker } from '../../../../commons/src/models/session/user.guidancetracker';
 import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, round } from './processor.utils';
@@ -12,7 +12,7 @@ export function processGuidanceTrackerTimeGraph(input: GameSessionUserGuidanceTr
     const yAxes = 'Total';
     const xAxes = 'Seconds';
     const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
-    let data = new ReportGraphDataUserGuidacenTrackerTimeGraph([], [], xAxes, yAxes);
+    let data = new ReportGraphDataUserGuidanceTrackerTimeGraph([], [], xAxes, yAxes);
 
     if (input.length == 0){
         return Promise.resolve(data);

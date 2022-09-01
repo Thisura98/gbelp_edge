@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseReportObjectivesBreakdown, ServerResponseReportObjectivesByCompletion, ServerResponseReportObjectivesByTimeGraph, ServerResponseReportUsageBreakdown, ServerResponseReportUsageGraph } from "src/app/models/reports";
+import { ServerResponseReportGuidanceTrackerTimeGraph, ServerResponseReportObjectivesBreakdown, ServerResponseReportObjectivesByCompletion, ServerResponseReportObjectivesByTimeGraph, ServerResponseReportUsageBreakdown, ServerResponseReportUsageGraph } from "src/app/models/reports";
 import { APIBase } from "./base.api";
 
 export class ReportsAPIs implements APIBase {
@@ -12,12 +12,16 @@ export class ReportsAPIs implements APIBase {
 
   constructor() { }
 
-  usageReportGraph(sessionId: string): Observable<ServerResponseReportUsageGraph> {
+  private getReport<T>(sessionId: string, endpoint: string): Observable<T> {
     const data = { sessionId: sessionId };
-    return this.http.get<ServerResponseReportUsageGraph>(this.aurl('reports/usage/graph'), {
+    return this.http.get<T>(this.aurl(endpoint), {
       params: data,
       headers: this.getHeaders()
     })
+  }
+
+  usageReportGraph(sessionId: string): Observable<ServerResponseReportUsageGraph> {
+    return this.getReport(sessionId, 'reports/usage/graph');
   }
 
   usageReportBreakdown(
@@ -37,26 +41,18 @@ export class ReportsAPIs implements APIBase {
   }
 
   usageObjectivesByTimeGraph(sessionId: string): Observable<ServerResponseReportObjectivesByTimeGraph> {
-    const data = { sessionId: sessionId };
-    return this.http.get<ServerResponseReportObjectivesByTimeGraph>(this.aurl('reports/objective/timegraph'), {
-      params: data,
-      headers: this.getHeaders()
-    })
+    return this.getReport(sessionId, 'reports/objective/timegraph');
   }
 
   usageObjectivesByProgressGraph(sessionId: string): Observable<ServerResponseReportObjectivesByCompletion> {
-    const data = { sessionId: sessionId };
-    return this.http.get<ServerResponseReportObjectivesByCompletion>(this.aurl('reports/objective/completiongraph'), {
-      params: data,
-      headers: this.getHeaders()
-    })
+    return this.getReport(sessionId, 'reports/objective/completiongraph');
   }
 
   usageObjectivesBreakdown(sessionId: string): Observable<ServerResponseReportObjectivesBreakdown> {
-    const data = { sessionId: sessionId };
-    return this.http.get<ServerResponseReportObjectivesBreakdown>(this.aurl('reports/objective/breakdown'), {
-      params: data,
-      headers: this.getHeaders()
-    })
+    return this.getReport(sessionId, 'reports/objective/breakdown');
+  }
+
+  usageGuidanceTrackerTimeGraph(sessionId: string): Observable<ServerResponseReportGuidanceTrackerTimeGraph>{
+    return this.getReport(sessionId, 'reports/guidance/timegraph');
   }
 }

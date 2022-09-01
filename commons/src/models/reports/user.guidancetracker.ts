@@ -1,4 +1,4 @@
-export class ReportGraphDataUserGuidacenTrackerTimeGraph{
+export class ReportGraphDataUserGuidanceTrackerTimeGraph{
     constructor(
         public labels: number[],
         public data: number[],
