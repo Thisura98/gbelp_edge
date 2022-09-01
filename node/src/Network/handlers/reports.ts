@@ -5,9 +5,10 @@ import { ResponseModel } from '../../model/models/common';
 import * as sessionDAO from '../../model/dao/session';
 import * as usageReportDAO from '../../model/dao/reports/usage';
 import * as objectiveReportDAO from '../../model/dao/reports/objective';
+import * as guidanceTrackerReportDAO from '../../model/dao/reports/guidancetracker';
 import { processUsage } from "../../model/processors/usage.processor";
 import { processObjectivesByCompletion, processObjectivesByTime } from "../../model/processors/objectives.processor";
-import { GameSession } from "../../../../commons/src/models/session";
+import { processGuidanceTrackerTimeGraph } from "../../model/processors/guidancetracker.processor";
 
 export function handlerReports(app: Express){
 
@@ -112,6 +113,22 @@ export function handlerReports(app: Express){
         objectiveReportDAO.getUserObjectiveBreakdown(sessionId)
         .then(data => {
             res.send(new ResponseModel(true, 200, 'Processed objective breakdown', data));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
+
+    // Guidance Tracker value by Time
+    app.get(aurl('reports/guidance/timegraph'), (req, res) => {
+        const sessionId = req.query.sessionId as string;
+
+        guidanceTrackerReportDAO.getUserGuidanceValues(sessionId)
+        .then(results => {
+            return processGuidanceTrackerTimeGraph(results);
+        })
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'Processed guidance tracker value over time', data));
         })
         .catch(err => {
             res.send(new ResponseModel(false, 200, err));

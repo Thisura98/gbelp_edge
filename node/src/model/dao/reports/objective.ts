@@ -3,7 +3,6 @@ import { GameSessionUserObjective } from '../../../../../commons/src/models/sess
 import * as sql from '../../../util/connections/sql/sql_connection';
 import * as l from '../../../util/logger';
 
-
 export function getUserObjectiveProgress(sessionId: string): Promise<GameSessionUserObjective[]> {
 
     const fn = 'getUserObjectiveProgress';
