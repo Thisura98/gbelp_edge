@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { TimeConstants } from "src/app/constants/constants";
+import { getGuidanceTrackerTimeChartOptions } from "src/app/constants/reports/guidancetracker.report.constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
@@ -33,7 +34,7 @@ export class GroupReportsGuidanceComponent{
   progressByCompletionLoaded = false;
   breakdownDataLoaded = false;
 
-  // public readonly timeChart = getObjectiveProgressByTimeChartOptions();
+  public readonly timeChart = getGuidanceTrackerTimeChartOptions();
   // public readonly completionChart = getObjectiveProgressByCompletionChartOptions();
   // public readonly breakdownTableConfig = getObjectiveBreakdownTableConfig(
   //   (i) => this.progressFormat(i),
@@ -116,19 +117,19 @@ export class GroupReportsGuidanceComponent{
   }
 
   private loadReportData(){
-    // // Time chart
-    // this.progressByTimeLoaded = false;
-    // this.apiService.reports.usageObjectivesByTimeGraph(this.sessionId!).subscribe(res => {
-    //   if (res.success){
-    //     this.progressByTimeLoaded = true;
-    //     this.timeChart.xaxis.categories = res.data.labels;
-    //     this.timeChart.series[0].data = res.data.data;
-    //     this.timeChart.series[0].name = res.data.yAxesLabel;
-    //   }
-    //   else{
-    //     this.handleReportLoadError(res.description);
-    //   }
-    // }, (err) => this.handleReportLoadError(err))
+    // Time chart
+    this.progressByTimeLoaded = false;
+    this.apiService.reports.usageGuidanceTrackerTimeGraph(this.sessionId!).subscribe(res => {
+      if (res.success){
+        this.progressByTimeLoaded = true;
+        this.timeChart.xaxis.categories = res.data.labels;
+        this.timeChart.series[0].data = res.data.data;
+        this.timeChart.series[0].name = res.data.yAxesLabel;
+      }
+      else{
+        this.handleReportLoadError(res.description);
+      }
+    }, (err) => this.handleReportLoadError(err))
 
     // // Completion % chart
     // this.progressByCompletionLoaded = false;
