@@ -137,9 +137,9 @@ export class GroupReportsGuidanceComponent{
     this.apiService.reports.usageGuidanceTrackerTriggerRates(this.sessionId!).subscribe(res => {
       if (res.success){
         this.progressByHitCountLoaded = true;
-        // this.hitCountChart.xaxis.categories = res.data.labels;
-        // this.hitCountChart.series[0].data = res.data.data;
-        // this.hitCountChart.series[0].name = res.data.xAxesLabel;
+        this.hitCountChart.xaxis.categories = res.data.labels;
+        this.hitCountChart.series[0].data = res.data.data;
+        this.hitCountChart.series[0].name = res.data.xAxesLabel;
       }
       else{
         this.handleReportLoadError(res.description);
