@@ -148,7 +148,7 @@ export function getObjectiveProgressByCompletionChartOptions(): ApexChartOptions
     fill: {
     }
   }
-}
+};
 
 export function getObjectiveBreakdownTableConfig(
   progressFormatter: (input: string) => string,

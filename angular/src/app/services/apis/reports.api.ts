@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseReportGuidanceTrackerTimeGraph, ServerResponseReportObjectivesBreakdown, ServerResponseReportObjectivesByCompletion, ServerResponseReportObjectivesByTimeGraph, ServerResponseReportUsageBreakdown, ServerResponseReportUsageGraph } from "src/app/models/reports";
+import { ServerResponseReportGuidanceTrackerHitCounts, ServerResponseReportGuidanceTrackerTimeGraph, ServerResponseReportObjectivesBreakdown, ServerResponseReportObjectivesByCompletion, ServerResponseReportObjectivesByTimeGraph, ServerResponseReportUsageBreakdown, ServerResponseReportUsageGraph } from "src/app/models/reports";
 import { APIBase } from "./base.api";
 
 export class ReportsAPIs implements APIBase {
@@ -54,5 +54,9 @@ export class ReportsAPIs implements APIBase {
 
   usageGuidanceTrackerTimeGraph(sessionId: string): Observable<ServerResponseReportGuidanceTrackerTimeGraph>{
     return this.getReport(sessionId, 'reports/guidance/timegraph');
+  }
+
+  usageGuidanceTrackerTriggerRates(sessionId: string): Observable<ServerResponseReportGuidanceTrackerHitCounts>{
+    return this.getReport(sessionId, 'reports/guidance/tracker_hits_graph');
   }
 }

@@ -42,6 +42,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     objective1 = 'Objective 1: Collect 10 gold coins';
     objective2 = 'Objective 2: Collect 50 gold coins';
     tracker1 = 'Trigger 1: Interact with coins timeout';
+    tracker2 = 'Trigger 2: Interact with game timeout';
 
     t = 0;
 
@@ -53,6 +54,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         this.btnObjective = null;
         this.btnObjective2 = null;
         this.btnGuidance = null;
+        this.btnGuidance2 = null;
         
         /**
          * All sprites loaded in the create() method
@@ -80,6 +82,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		this.load.image('btn_objective', 'fs/res_upload/image/1660211080337.png');
 		this.load.image('btn_guidance', 'fs/res_upload/image/1660211080337.png');
 		this.load.image('btn_objective_2', 'fs/res_upload/image/1660211080337.png');
+		this.load.image('btn_guidance_2', 'fs/res_upload/image/1660211080337.png');
         this.levelData = {
     "objects": [
         {
@@ -195,6 +198,25 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "spawnBehavior": "1",
             "spriteStretch": "1",
             "hidden": false
+        },
+        {
+            "_id": "temp_1662058495267",
+            "spriteResourceId": "62f4cf88ca6ee9ad4bd59690",
+            "type": "sprite",
+            "name": "btn_guidance_2",
+            "frame": {
+                "x": 491.5,
+                "y": 332,
+                "w": 50,
+                "h": 50
+            },
+            "rotation": 0,
+            "physicsBehavior": "0",
+            "physicsCollision": "0",
+            "opacity": 0,
+            "spawnBehavior": "1",
+            "spriteStretch": "1",
+            "hidden": false
         }
     ]
 }
@@ -254,6 +276,15 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		this.spriteReferences['btn_objective_2'] = sprite_5;
 
 
+		// --- scene object btn_guidance_2 ---
+		const sprite_6 = this.add.sprite(516.5, 357, 'btn_guidance_2').setInteractive();
+		sprite_6.name = "btn_guidance_2";
+		scaleX = 50 / sprite_6.displayWidth;
+		scaleY = 50 / sprite_6.displayHeight;
+		sprite_6.setScale(scaleX, scaleY);
+		this.spriteReferences['btn_guidance_2'] = sprite_6;
+
+
         		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
 		console.log("Camera width & height", camera.frame.w, camera.frame.h);
@@ -266,8 +297,9 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         this.star = this.spriteReferences['sprite_png_1'];
         this.star2 = this.spriteReferences['sprite_png_2'];
         this.btnObjective = this.spriteReferences['btn_objective'];
-        this.btnGuidance = this.spriteReferences['btn_guidance'];
         this.btnObjective2 = this.spriteReferences['btn_objective_2'];
+        this.btnGuidance = this.spriteReferences['btn_guidance'];
+        this.btnGuidance2 = this.spriteReferences['btn_guidance_2'];
 
         if (this.levelProperties['Character Color'] != null){
             const tints = [0xFF0000, 0x00FF00, 0x0000EE, 0x00FFFF];
@@ -279,20 +311,25 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         // Add Mouse events to the joystick buttons
 
         this.btnObjective.on('pointerdown', () => this.btnObjective.setTint(0xFF3333));
-        this.btnGuidance.on('pointerdown', () => this.btnGuidance.setTint(0x33FF33));
         this.btnObjective2.on('pointerdown', () => this.btnObjective2.setTint(0xFFFF00));
+        this.btnGuidance.on('pointerdown', () => this.btnGuidance.setTint(0x33FF33));
+        this.btnGuidance2.on('pointerdown', () => this.btnGuidance2.setTint(0xFFFF22));
 
         this.btnObjective.on('pointerup', () => {
             this.btnObjective.setTint(0xFFFFFF);
             EdgeProxy.increaseObjectiveProgress(this.objective1, 0.1);
         });
+        this.btnObjective2.on('pointerup', () => {
+            this.btnObjective2.setTint(0xFFFFFF);
+            EdgeProxy.increaseObjectiveProgress(this.objective2, 1);
+        });
         this.btnGuidance.on('pointerup', () => {
             this.btnGuidance.setTint(0xFFFFFF)
             EdgeProxy.increaseGuidanceProgress(this.tracker1, 0.05);
         });
-        this.btnObjective2.on('pointerup', () => {
-            this.btnObjective2.setTint(0xFFFFFF);
-            EdgeProxy.increaseObjectiveProgress(this.objective2, 1);
+        this.btnGuidance2.on('pointerup', () => {
+            this.btnGuidance2.setTint(0xFFFFFF)
+            EdgeProxy.increaseGuidanceProgress(this.tracker2, 0.025);
         });
 
         this.input.keyboard.on('keyup', (event) => {

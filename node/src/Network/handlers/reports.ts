@@ -8,7 +8,7 @@ import * as objectiveReportDAO from '../../model/dao/reports/objective';
 import * as guidanceTrackerReportDAO from '../../model/dao/reports/guidancetracker';
 import { processUsage } from "../../model/processors/usage.processor";
 import { processObjectivesByCompletion, processObjectivesByTime } from "../../model/processors/objectives.processor";
-import { processGuidanceTrackerTimeGraph } from "../../model/processors/guidancetracker.processor";
+import { processGuidanceTrackerHitCountsGraph, processGuidanceTrackerTimeGraph } from "../../model/processors/guidancetracker.processor";
 
 export function handlerReports(app: Express){
 
@@ -129,6 +129,22 @@ export function handlerReports(app: Express){
         })
         .then(data => {
             res.send(new ResponseModel(true, 200, 'Processed guidance tracker value over time', data));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
+
+    // Guidance Tracker trigger hits (no. of times triggered) graph
+    app.get(aurl('reports/guidance/tracker_hits_graph'), (req, res) => {
+        const sessionId = req.query.sessionId as string;
+
+        guidanceTrackerReportDAO.getTrackerTriggerHits(sessionId)
+        .then(results => {
+            return processGuidanceTrackerHitCountsGraph(results);
+        })
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'Processed guidance tracker hit counts (no. of times triggered)', data));
         })
         .catch(err => {
             res.send(new ResponseModel(false, 200, err));

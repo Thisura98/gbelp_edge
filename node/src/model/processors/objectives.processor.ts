@@ -74,12 +74,11 @@ export function processObjectivesByTime(input: GameSessionUserObjective[]){
  export function processObjectivesByCompletion(input: ReportIntermediateObjectiveCompletionProgress[]){
     const yAxes = 'Progress';
     const xAxes = 'Objective';
-    const options = { zone: 'UTC', setZone: true }; // Stop luxon from thinking our timestamps are already in +0530
     let data = new ReportGraphDataUserObjectiveCompletionProgress([], [], xAxes, yAxes);
 
-    if (input.length == 0){
-        return Promise.resolve(data);
-    }
+    // if (input.length == 0){
+    //     return Promise.resolve(data);
+    // }
     
     for (let entry of input){
         // data.labels.push(i.toString());

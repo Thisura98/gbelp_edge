@@ -87,3 +87,65 @@ export function getGuidanceTrackerTimeChartOptions(): ApexChartOptions{
     }
   }
 }
+
+export function getGuidanceTrackerHitCountChartOptions(): ApexChartOptions{
+  return {
+    title: {
+      text: ''
+    },
+    series: [{ name:' test', data: [] }],
+    chart: {
+      type: 'bar',
+      height: '200px',
+      redrawOnWindowResize: true
+    },
+    xaxis: {
+      type: 'category',
+      categories: [],
+      crosshairs: {
+        show: true
+      },
+      tooltip: {
+        enabled: false
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Hit Count'
+      },
+      max: 1.0,
+      min: 0.0,
+      tickAmount: 4,
+      labels: {
+        formatter: (value, opts) => {
+          return value.toPrecision(2);
+        }
+      },
+      axisBorder: {
+        show: true,
+        color: '#8f8f8f'
+      }
+    },
+    dataLabels: { enabled: false },
+    tooltip: {
+      y: {
+        formatter: (progress, opts) => {
+          return Math.round(progress * 100).toString() + '%';
+        }
+      },
+      marker: {
+        show: false
+      }
+    },
+    grid: {
+      borderColor: '#AEAEAE',
+      strokeDashArray: 3
+    },
+    fill: {
+    }
+  }
+}

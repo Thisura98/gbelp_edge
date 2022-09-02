@@ -49,25 +49,25 @@
                 </div>
 
                 <div id="progressbyobjective">
-                    <h2>Trigger rates</h2>
+                    <h2>Trigger Hits</h2>
                     <div class="chart-container chart-container-progress-by-objective">
-                        <!-- <apx-chart
-                            [series]="completionChart.series"
-                            [chart]="completionChart.chart"
-                            [xaxis]="completionChart.xaxis"
-                            [yaxis]="completionChart.yaxis"
-                            [dataLabels]="completionChart.dataLabels"
-                            [title]="completionChart.title"
-                            [tooltip]="completionChart.tooltip"
-                            [grid]="completionChart.grid"
+                        <apx-chart
+                            [series]="hitCountChart.series"
+                            [chart]="hitCountChart.chart"
+                            [xaxis]="hitCountChart.xaxis"
+                            [yaxis]="hitCountChart.yaxis"
+                            [dataLabels]="hitCountChart.dataLabels"
+                            [title]="hitCountChart.title"
+                            [tooltip]="hitCountChart.tooltip"
+                            [grid]="hitCountChart.grid"
                             [fill]="timeChart.fill"
-                            *ngIf="progressByCompletionLoaded"
+                            *ngIf="progressByHitCountLoaded"
                             
                             class="dyn-fade"
-                        ></apx-chart> -->
+                        ></apx-chart>
                         
-                        <loading-reports text="Loading progress..."
-                            *ngIf="!progressByCompletionLoaded"
+                        <loading-reports text="Loading hit counts..."
+                            *ngIf="!progressByHitCountLoaded"
                             class="dyn-fade">
                         </loading-reports>
                     </div>

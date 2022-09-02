@@ -1,4 +1,4 @@
-import { ReportGraphDataUserGuidanceTrackerTimeGraph } from '../../../../commons/src/models/reports/user.guidancetracker';
+import { ReportGraphDataUserGuidanceTrackerHitCounts, ReportGraphDataUserGuidanceTrackerTimeGraph, ReportIntermediateGuidanceTrackerHitCounts } from '../../../../commons/src/models/reports/user.guidancetracker';
 import { DateTime } from 'luxon';
 import { GameSessionUserGuidanceTracker } from '../../../../commons/src/models/session/user.guidancetracker';
 import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, round } from './processor.utils';
@@ -60,4 +60,18 @@ export function processGuidanceTrackerTimeGraph(input: GameSessionUserGuidanceTr
     }
 
     return Promise.resolve(data);
+}
+
+export function processGuidanceTrackerHitCountsGraph(input: ReportIntermediateGuidanceTrackerHitCounts[]): ReportGraphDataUserGuidanceTrackerHitCounts{
+    
+    const xAxes = 'Guidance Tracker';
+    const yAxes = '# of users';
+    let data = new ReportGraphDataUserGuidanceTrackerHitCounts([], [], xAxes, yAxes);
+
+    for (let entry of input){
+        data.labels.push(entry.tracker_name);
+        data.data.push(entry.tracker_hits);
+    }
+
+    return data;
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { TimeConstants } from "src/app/constants/constants";
-import { getGuidanceTrackerTimeChartOptions } from "src/app/constants/reports/guidancetracker.report.constants";
+import { getGuidanceTrackerHitCountChartOptions, getGuidanceTrackerTimeChartOptions } from "src/app/constants/reports/guidancetracker.report.constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
@@ -31,11 +31,11 @@ export class GroupReportsGuidanceComponent{
   gameListing: GameListing | undefined;
 
   progressByTimeLoaded = false;
-  progressByCompletionLoaded = false;
+  progressByHitCountLoaded = false;
   breakdownDataLoaded = false;
 
   public readonly timeChart = getGuidanceTrackerTimeChartOptions();
-  // public readonly completionChart = getObjectiveProgressByCompletionChartOptions();
+  public readonly hitCountChart = getGuidanceTrackerHitCountChartOptions();
   // public readonly breakdownTableConfig = getObjectiveBreakdownTableConfig(
   //   (i) => this.progressFormat(i),
   //   (i) => this.timeFormat(i)
@@ -131,19 +131,20 @@ export class GroupReportsGuidanceComponent{
       }
     }, (err) => this.handleReportLoadError(err))
 
-    // // Completion % chart
-    // this.progressByCompletionLoaded = false;
-    // this.apiService.reports.usageObjectivesByProgressGraph(this.sessionId!).subscribe(res => {
-    //   if (res.success){
-    //     this.progressByCompletionLoaded = true;
-    //     this.completionChart.xaxis.categories = res.data.labels;
-    //     this.completionChart.series[0].data = res.data.data;
-    //     this.completionChart.series[0].name = res.data.xAxesLabel;
-    //   }
-    //   else{
-    //     this.handleReportLoadError(res.description);
-    //   }
-    // }, (err) => this.handleReportLoadError(err));
+    // Hit Count chart
+    this.progressByHitCountLoaded = false;
+    console.log('Calling usageGuidanceTrackerTriggerRates');
+    this.apiService.reports.usageGuidanceTrackerTriggerRates(this.sessionId!).subscribe(res => {
+      if (res.success){
+        this.progressByHitCountLoaded = true;
+        // this.hitCountChart.xaxis.categories = res.data.labels;
+        // this.hitCountChart.series[0].data = res.data.data;
+        // this.hitCountChart.series[0].name = res.data.xAxesLabel;
+      }
+      else{
+        this.handleReportLoadError(res.description);
+      }
+    }, (err) => this.handleReportLoadError(err));
 
     // // Breakdown
     // this.breakdownDataLoaded = false;

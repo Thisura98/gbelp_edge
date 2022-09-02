@@ -26,3 +26,10 @@
     flex-grow: unset !important;
     width: calc(100% - 230px);  /* 230 for side pane + scrollbar */
 }
+
+/* Side Panel */
+.objective-report-details{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
