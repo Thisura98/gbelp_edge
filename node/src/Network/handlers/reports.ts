@@ -149,7 +149,7 @@ export function handlerReports(app: Express){
     app.get(aurl(urlGuidanceTrackerHitsGraph), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
-        guidanceTrackerReportDAO.getTrackerTriggerHits(sessionId)
+        guidanceTrackerReportDAO.getTrackerHitCounts(sessionId)
         .then(results => {
             return processGuidanceTrackerHitCountsGraph(results);
         })
@@ -165,15 +165,12 @@ export function handlerReports(app: Express){
     app.get(aurl(urlGuidanceBreakdown), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
-        // guidanceTrackerReportDAO.getTrackerTriggerHits(sessionId)
-        // .then(results => {
-        //     return processGuidanceTrackerHitCountsGraph(results);
-        // })
-        // .then(data => {
-        //     res.send(new ResponseModel(true, 200, 'Processed guidance tracker hit counts (no. of times triggered)', data));
-        // })
-        // .catch(err => {
-        //     res.send(new ResponseModel(false, 200, err));
-        // })
+        guidanceTrackerReportDAO.getTrackerBreakdown(sessionId)
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'Processed guidance tracker hit counts (no. of times triggered)', data));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
     });
 }

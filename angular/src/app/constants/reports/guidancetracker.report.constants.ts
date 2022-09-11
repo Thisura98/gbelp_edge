@@ -1,3 +1,4 @@
+import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
 import { ApexChartOptions, reportTimeFormat } from "./report.constants";
 
 export function getGuidanceTrackerTimeChartOptions(): ApexChartOptions{
@@ -140,4 +141,24 @@ export function getGuidanceTrackerHitCountChartOptions(): ApexChartOptions{
     fill: {
     }
   }
+}
+
+export function getGuidanceTrackerBreakdownTableConfig(
+  progressFormatter: (input: string) => string,
+  timeFormatter: (input: string) => string
+): DynBasicTableConfig{
+  return {
+    showDelete: false,
+    showRightChevron: true,
+    columns: [
+      { name: 'Student Name', property: 'user_name', type: 'static' },
+      { name: 'Trackers Triggered', property: 'tracker_hit_count', type: 'static' },
+      { name: 'Progress', property: 'total_progress', type: 'static', 
+        staticFormatter: progressFormatter },
+      { name: 'Play Duration', property: 'total_play_duration', type: 'static', 
+        staticFormatter: timeFormatter },
+      { name: 'Velocity', property: 'velocity', type: 'static' },
+    ],
+    textAlign: 'center'
+   }
 }

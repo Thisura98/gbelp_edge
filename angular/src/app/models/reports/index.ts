@@ -1,4 +1,4 @@
-import { ReportGraphDataUserGuidanceTrackerHitCounts, ReportGraphDataUserGuidanceTrackerTimeGraph } from "../../../../../commons/src/models/reports/user.guidancetracker";
+import { GameSessionGuidanceBreakdown, ReportGraphDataUserGuidanceTrackerHitCounts, ReportGraphDataUserGuidanceTrackerTimeGraph } from "../../../../../commons/src/models/reports/user.guidancetracker";
 import { GameSessionUserObjectiveBreakdown, ReportGraphDataUserObjectiveCompletionProgress, ReportGraphDataUserObjectiveProgressByTime } from "../../../../../commons/src/models/reports/user.objective";
 import { GameSessionUserUsageBreakdown, ReportGraphDataUserUsage } from "../../../../../commons/src/models/reports/user.usage";
 import { ServerResponse } from "../common-models";
@@ -16,3 +16,5 @@ export interface ServerResponseReportObjectivesBreakdown extends ServerResponse<
 export interface ServerResponseReportGuidanceTrackerTimeGraph extends ServerResponse<ReportGraphDataUserGuidanceTrackerTimeGraph>{};
 
 export interface ServerResponseReportGuidanceTrackerHitCounts extends ServerResponse<ReportGraphDataUserGuidanceTrackerHitCounts>{};
+
+export interface ServerResponseReportGuidanceTrackerBreakdown extends ServerResponse<GameSessionGuidanceBreakdown[]>{};

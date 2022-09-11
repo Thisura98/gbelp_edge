@@ -3,13 +3,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { TimeConstants } from "src/app/constants/constants";
-import { getGuidanceTrackerHitCountChartOptions, getGuidanceTrackerTimeChartOptions } from "src/app/constants/reports/guidancetracker.report.constants";
+import { getGuidanceTrackerBreakdownTableConfig, getGuidanceTrackerHitCountChartOptions, getGuidanceTrackerTimeChartOptions } from "src/app/constants/reports/guidancetracker.report.constants";
 import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
 import { GameListing } from "../../../../../../../../commons/src/models/game/game";
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
+import { GameSessionGuidanceBreakdown } from "../../../../../../../../commons/src/models/reports/user.guidancetracker";
 import { GameSession } from "../../../../../../../../commons/src/models/session";
 
 @Component({
@@ -36,12 +37,12 @@ export class GroupReportsGuidanceComponent{
 
   public readonly timeChart = getGuidanceTrackerTimeChartOptions();
   public readonly hitCountChart = getGuidanceTrackerHitCountChartOptions();
-  // public readonly breakdownTableConfig = getObjectiveBreakdownTableConfig(
-  //   (i) => this.progressFormat(i),
-  //   (i) => this.timeFormat(i)
-  // );
+  public readonly breakdownTableConfig = getGuidanceTrackerBreakdownTableConfig(
+    (i) => this.progressFormat(i),
+    (i) => this.timeFormat(i)
+  );
 
-  // public breakdownData: GameSessionUserObjectiveBreakdown[] = [];
+  public breakdownData: GameSessionGuidanceBreakdown[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -146,18 +147,17 @@ export class GroupReportsGuidanceComponent{
       }
     }, (err) => this.handleReportLoadError(err));
 
-    // // Breakdown
-    // this.breakdownDataLoaded = false;
-    // this.apiService.reports.usageObjectivesBreakdown(this.sessionId!).subscribe(res => {
-    //   if (res.success){
-    //     this.breakdownDataLoaded = true;
-    //     this.breakdownData = res.data;
-        
-    //   }
-    //   else{
-    //     this.handleReportLoadError(res.description);
-    //   }
-    // }, (err) => this.handleReportLoadError(err));
+    // Breakdown
+    this.breakdownDataLoaded = false;
+    this.apiService.reports.usageGuidanceTrackerBreakdown(this.sessionId!).subscribe(res => {
+      if (res.success){
+        this.breakdownDataLoaded = true;
+        this.breakdownData = res.data;
+      }
+      else{
+        this.handleReportLoadError(res.description);
+      }
+    }, (err) => this.handleReportLoadError(err));
   }
 
   private showGameLoadError(err: string){

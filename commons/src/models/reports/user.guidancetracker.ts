@@ -25,3 +25,13 @@ export class ReportGraphDataUserGuidanceTrackerHitCounts{
         public yAxesLabel: string
     ){}
 }
+
+export class GameSessionGuidanceBreakdown{
+    constructor(
+        public user_name: string,
+        public total_progress: string,
+        public total_play_duration: string,
+        public tracker_hit_count: string,
+        public velocity: string
+    ){}
+}
