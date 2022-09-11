@@ -12,9 +12,19 @@ import { processGuidanceTrackerHitCountsGraph, processGuidanceTrackerTimeGraph }
 
 export function handlerReports(app: Express){
 
+    const urlReportsAny                 = 'reports/*';
+    const urlUsageReportGraph           = 'reports/usage/graph';
+    const urlUsageReportBrakdown        = 'reports/usage/breakdown';
+    const urlObjectiveTimeGraph         = 'reports/objective/timegraph';
+    const urlObjectiveCompletionGraph   = 'reports/objective/completiongraph';
+    const urlObjectiveBreakdown         = 'reports/objective/breakdown';
+    const urlGuidanceTimeGraph          = 'reports/guidance/timegraph';
+    const urlGuidanceTrackerHitsGraph   = 'reports/guidance/tracker_hits_graph';
+    const urlGuidanceBreakdown          = 'reports/guidance/breakdown';
+
     // Check for missing sessionId, userId, then
     // Check user permission in session
-    app.use(aurl('reports/*'), async (req, res, next) => {
+    app.use(aurl(urlReportsAny), async (req, res, next) => {
         const sessionId = req.query.sessionId as string;
         const userId = req.header('uid')!;
 
@@ -44,7 +54,7 @@ export function handlerReports(app: Express){
     })
 
     // Student/User usage report graph
-    app.get(aurl('reports/usage/graph'), (req, res) => {
+    app.get(aurl(urlUsageReportGraph), (req, res) => {
         const sessionId = req.query.sessionId as string;
         
         usageReportDAO.getUserUsageGroupedByNonce(sessionId)
@@ -60,7 +70,7 @@ export function handlerReports(app: Express){
     });
 
     // Student/User usage breakdown
-    app.get(aurl('reports/usage/breakdown'), (req, res) => {
+    app.get(aurl(urlUsageReportBrakdown), (req, res) => {
         const sessionId = req.query.sessionId as string;
         const startTimestamp = req.query.startTimestamp as string || '';
         const endTimestamp = req.query.endTimestamp as string || '';
@@ -75,7 +85,7 @@ export function handlerReports(app: Express){
     });
 
     // Objective Progress by Time
-    app.get(aurl('reports/objective/timegraph'), (req, res) => {
+    app.get(aurl(urlObjectiveTimeGraph), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
         objectiveReportDAO.getUserObjectiveProgress(sessionId)
@@ -91,7 +101,7 @@ export function handlerReports(app: Express){
     });
 
     // Objective Progress by Completion %
-    app.get(aurl('reports/objective/completiongraph'), (req, res) => {
+    app.get(aurl(urlObjectiveCompletionGraph), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
         objectiveReportDAO.getUserObjectiveProgressByCompletion(sessionId)
@@ -107,7 +117,7 @@ export function handlerReports(app: Express){
     });
 
     // Objective Breakdown
-    app.get(aurl('reports/objective/breakdown'), (req, res) => {
+    app.get(aurl(urlObjectiveBreakdown), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
         objectiveReportDAO.getUserObjectiveBreakdown(sessionId)
@@ -120,7 +130,7 @@ export function handlerReports(app: Express){
     });
 
     // Guidance Tracker value by Time
-    app.get(aurl('reports/guidance/timegraph'), (req, res) => {
+    app.get(aurl(urlGuidanceTimeGraph), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
         guidanceTrackerReportDAO.getUserGuidanceValues(sessionId)
@@ -136,7 +146,7 @@ export function handlerReports(app: Express){
     });
 
     // Guidance Tracker trigger hits (no. of times triggered) graph
-    app.get(aurl('reports/guidance/tracker_hits_graph'), (req, res) => {
+    app.get(aurl(urlGuidanceTrackerHitsGraph), (req, res) => {
         const sessionId = req.query.sessionId as string;
 
         guidanceTrackerReportDAO.getTrackerTriggerHits(sessionId)
@@ -149,5 +159,21 @@ export function handlerReports(app: Express){
         .catch(err => {
             res.send(new ResponseModel(false, 200, err));
         })
+    });
+
+    // Guidance Tracker trigger hits (no. of times triggered) graph
+    app.get(aurl(urlGuidanceBreakdown), (req, res) => {
+        const sessionId = req.query.sessionId as string;
+
+        // guidanceTrackerReportDAO.getTrackerTriggerHits(sessionId)
+        // .then(results => {
+        //     return processGuidanceTrackerHitCountsGraph(results);
+        // })
+        // .then(data => {
+        //     res.send(new ResponseModel(true, 200, 'Processed guidance tracker hit counts (no. of times triggered)', data));
+        // })
+        // .catch(err => {
+        //     res.send(new ResponseModel(false, 200, err));
+        // })
     });
 }

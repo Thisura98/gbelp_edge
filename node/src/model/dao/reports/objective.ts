@@ -128,9 +128,9 @@ export function getUserObjectiveBreakdown(sessionId: string): Promise<GameSessio
     U.user_name,
     ROUND( SUM(M.progress) / COUNT(M.progress), 4) as total_progress, 
     M2.total_play_duration, 
-    COALESCE(0, M3.completed_objective_count) as completed_objective_count,
+    COALESCE(M3.completed_objective_count, 0) as completed_objective_count,
     ROUND (
-        COALESCE(0, M3.completed_objective_count) / ROUND( SUM(M.progress) / COUNT(M.progress), 4),
+        COALESCE(M3.completed_objective_count, 0) / ROUND( SUM(M.progress) / COUNT(M.progress), 4),
         4
     ) as velocity
 
