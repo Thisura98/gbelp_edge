@@ -42,7 +42,7 @@ export function getTrackerTriggerHits(sessionId: string)
     const S = sql.columns.gameSessions;
 
     // Attempt 1:
-    const query = `SELECT G.${G.name} as tracker_name, COALESCE(0, P.tracker_hit_count) as tracker_hits
+    const query = `SELECT G.${G.name} as tracker_name, COALESCE(P.tracker_hit_count, 0) as tracker_hits
 FROM \`${gameGuidanceTracker}\` G 
 LEFT JOIN (
     SELECT M.${T.trackerId}, COUNT(M.${T.trackerId}) as tracker_hit_count

@@ -1,5 +1,5 @@
 import { DynBasicTableConfig } from "src/app/components/ui/dyn-basic-table/dyn-basic-table.component";
-import { ApexChartOptions } from "./report.constants";
+import { ApexChartOptions, reportTimeFormat } from "./report.constants";
 
 export function getObjectiveProgressByTimeChartOptions(): ApexChartOptions{
   return {
@@ -61,14 +61,7 @@ export function getObjectiveProgressByTimeChartOptions(): ApexChartOptions{
     dataLabels: { enabled: false },
     tooltip: {
       x: {
-        formatter: (ts, opts) => {
-          const date = new Date(ts);
-          const day = date.toDateString();
-          const hours = date.getHours().toString().padStart(2, '0');
-          const minutes = date.getMinutes().toString().padStart(2, '0');
-          const seconds = date.getSeconds().toString().padStart(2, '0');
-          return `${day} - ${hours}:${minutes}:${seconds}`
-        }
+        formatter: (ts, opts) => reportTimeFormat(ts)
       },
       y: {
         formatter: (val, opts) => {

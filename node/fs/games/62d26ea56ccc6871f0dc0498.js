@@ -325,7 +325,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         });
         this.btnGuidance.on('pointerup', () => {
             this.btnGuidance.setTint(0xFFFFFF)
-            EdgeProxy.increaseGuidanceProgress(this.tracker1, 0.05);
+            EdgeProxy.increaseGuidanceProgress(this.tracker1, 10);
         });
         this.btnGuidance2.on('pointerup', () => {
             this.btnGuidance2.setTint(0xFFFFFF)

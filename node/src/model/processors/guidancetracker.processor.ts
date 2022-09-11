@@ -2,6 +2,7 @@ import { ReportGraphDataUserGuidanceTrackerHitCounts, ReportGraphDataUserGuidanc
 import { DateTime } from 'luxon';
 import { GameSessionUserGuidanceTracker } from '../../../../commons/src/models/session/user.guidancetracker';
 import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, round } from './processor.utils';
+import * as l from '../../util/logger';
 
 /**
  * Generates Graph Data for User Objectives progress by Time.
@@ -67,6 +68,8 @@ export function processGuidanceTrackerHitCountsGraph(input: ReportIntermediateGu
     const xAxes = 'Guidance Tracker';
     const yAxes = '# of users';
     let data = new ReportGraphDataUserGuidanceTrackerHitCounts([], [], xAxes, yAxes);
+
+    // l.logc(JSON.stringify(input), 'processGuidanceTrackerHitCountsGraph input')
 
     for (let entry of input){
         data.labels.push(entry.tracker_name);

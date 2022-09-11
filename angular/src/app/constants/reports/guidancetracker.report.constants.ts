@@ -1,4 +1,4 @@
-import { ApexChartOptions } from "./report.constants";
+import { ApexChartOptions, reportTimeFormat } from "./report.constants";
 
 export function getGuidanceTrackerTimeChartOptions(): ApexChartOptions{
   return {
@@ -45,12 +45,13 @@ export function getGuidanceTrackerTimeChartOptions(): ApexChartOptions{
     },
     yaxis: {
       title: {
-        text: 'Objective Points'
+        text: 'Value'
       },
       min: 0,
+      tickAmount: 6,
       labels: {
         formatter: (value, opts) => {
-          return value.toPrecision(2);
+          return Math.floor(value).toString();
         }
       },
       axisBorder: {
@@ -61,14 +62,7 @@ export function getGuidanceTrackerTimeChartOptions(): ApexChartOptions{
     dataLabels: { enabled: false },
     tooltip: {
       x: {
-        formatter: (ts, opts) => {
-          const date = new Date(ts);
-          const day = date.toDateString();
-          const hours = date.getHours().toString().padStart(2, '0');
-          const minutes = date.getMinutes().toString().padStart(2, '0');
-          const seconds = date.getSeconds().toString().padStart(2, '0');
-          return `${day} - ${hours}:${minutes}:${seconds}`
-        }
+        formatter: (ts, opts) => reportTimeFormat(ts)
       },
       y: {
         formatter: (val, opts) => {
@@ -117,9 +111,7 @@ export function getGuidanceTrackerHitCountChartOptions(): ApexChartOptions{
       title: {
         text: 'Hit Count'
       },
-      max: 1.0,
       min: 0.0,
-      tickAmount: 4,
       labels: {
         formatter: (value, opts) => {
           return value.toPrecision(2);
