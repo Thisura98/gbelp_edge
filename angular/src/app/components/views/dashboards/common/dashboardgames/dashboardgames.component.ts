@@ -22,6 +22,10 @@ export class DashboardgamesComponent implements OnInit {
   displayedData: GameEntry[] = []
   searchTerm: string = '';
   isSearching: boolean = false;
+
+  /**
+   * Displaying Games or Templates?
+   */
   mode: string = '';
 
   constructor(

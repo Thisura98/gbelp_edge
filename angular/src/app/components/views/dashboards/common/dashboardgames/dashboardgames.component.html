@@ -50,7 +50,7 @@
         </div>
 
         <ng-container *ngFor="let entry of displayedData">
-            <div class="entry-row dyn-anim-fadein">
+            <div class="entry-row dyn-anim-fadein clickable" (click)="editGameClicked(entry.id)">
                 <div class="entry-row-data">{{entry.name}}</div>
                 <div class="entry-row-data">{{['', 'Single Player', 'Multi Player'][entry.type]}}</div>
                 <div class="entry-row-data">{{'N/A'}}</div>

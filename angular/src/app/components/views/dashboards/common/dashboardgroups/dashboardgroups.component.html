@@ -43,7 +43,7 @@
         </div>
 
         <ng-container *ngFor="let entry of displayedData">
-            <div class="entry-row dyn-anim-fadein">
+            <div class="entry-row dyn-anim-fadein clickable" (click)="viewGroup(entry)">
                 <div class="entry-row-data">{{entry.name}}</div>
                 <div class="entry-row-data data-member-count">
                     {{entry.member_count}} User{{entry.member_count == 1 ? '' : 's'}}
@@ -55,9 +55,7 @@
                     <img src="assets/dashboard/ico_meeting_link.png">
                 </div>
                 <div class="entry-row-icon" 
-                    [routerLink]="['/groups/overview']"
-                    [queryParams]="{groupId: entry.group_id}"
-                >
+                    (click)="viewGroup(entry)">
                     <img src="assets/dashboard/ico_eye.png">
                 </div>
             </div>

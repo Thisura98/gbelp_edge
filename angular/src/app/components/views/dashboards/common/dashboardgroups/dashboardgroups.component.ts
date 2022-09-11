@@ -70,6 +70,14 @@ export class DashboardgroupsComponent implements OnInit {
     this.router.navigate(['groups/create']);
   }
 
+  viewGroup(group: IGroupDetailsRow){
+    this.router.navigate(['/groups/overview'], {
+      queryParams: {
+        groupId: group.group_id
+      }
+    })
+  };
+
   /* Private Methods */
 
   private loadData(){
