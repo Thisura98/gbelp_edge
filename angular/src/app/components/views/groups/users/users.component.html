@@ -1,1 +1,44 @@
-users component works!
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <app-groups-menuselector 
+                    *ngIf="group != undefined"
+                    class="dyn-anim-fadein-delayed"
+                    [title]="group?.name ?? ''" >
+            </app-groups-menuselector>
+            <div 
+                *ngIf="group == undefined"
+                class="spacer">
+            </div>
+            <div class="nav-stretch">
+                <app-userstatus></app-userstatus>
+            </div>
+        </div>
+
+        <div class="container3">
+            <div class="section-sessions">
+                <!-- <app-groups-sessiontable class="session-table" [allowSelection]="false">
+                </app-groups-sessiontable> -->
+
+                <div class="empty-space"></div>
+            </div>
+            <div class="section-pane">
+                <h2>Details</h2>
+                <div class="panel panel-today">
+                    <div class="panel-section-title">No Title</div>
+                    <div class="panel-section-content">No Content</div>
+                </div>
+                <div class="panel-separator"></div>
+                <div class="panel panel-buttons">
+                    <div class="dyn-btn">
+                        <span>Create Game</span><img class="dyn-btn-image" src="assets/common/pluswhite.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

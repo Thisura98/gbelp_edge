@@ -9,9 +9,10 @@ import { handlerAuth } from './handlers/auth';
 import { handlerGameEntry } from './handlers/game_entry';
 import { handlerGameEditing } from './handlers/game_editing';
 import { handlerSession } from './handlers/session';
-import { handlerGroups } from './handlers/groups';
+import { handlerGroups } from './handlers/group/index';
 import { handlerPlay } from './handlers/play';
-import { handlerReports } from './handlers/reports';
+import { handlerReports } from './handlers/group/reports';
+import { handlerGroupUsers } from './handlers/group/users';
 
 const apiPrefix = 'api'
 
@@ -31,6 +32,7 @@ export function handle(app: express.Express){
     handlerGroups(app);
     handlerPlay(app);
     handlerReports(app);
+    handlerGroupUsers(app);
 
     // Tests
 

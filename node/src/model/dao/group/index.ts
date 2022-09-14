@@ -1,9 +1,9 @@
-import { UserGroup, UserGroupComposition } from '../../../../commons/src/models/groups';
-import * as sql from '../../util/connections/sql/sql_connection';
-import * as userDAO from './users';
-import * as crypto from '../../util/crypto';
-import * as l from '../../util/logger';
-import { UserType } from '../../../../commons/src/models/user';
+import { UserGroup, UserGroupComposition } from '../../../../../commons/src/models/groups';
+import * as sql from '../../../util/connections/sql/sql_connection';
+import * as userDAO from '../users';
+import * as crypto from '../../../util/crypto';
+import * as l from '../../../util/logger';
+import { UserType } from '../../../../../commons/src/models/user';
 
 /**
  * Creates a new group with the details. Optionally 
@@ -320,12 +320,21 @@ export function removeUserFromGroup(
     AND ${cGID} = ${se(groupId)}`;
 
     // TEACHERs and ADMINs
-    let privilegedUserTypes = ['1', '2'];
+    let privilegedUserTypes = [
+        UserType.admin, 
+        UserType.teacher
+    ];
 
     // IF the user is self-leaving a group,
     // we must allow the action regardless of their type.
     if (callingUser == userId){
-        privilegedUserTypes = ['1', '2', '3', '4'];
+        privilegedUserTypes = [
+            UserType.admin, 
+            UserType.teacher,
+            UserType.student, 
+            UserType.parent,
+            UserType.creator
+        ];
     }
 
     return userDAO.checkUserType(

@@ -7,6 +7,7 @@ import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
+import { StatusCodes } from "../../../../../../../commons/src/constants";
 import { UserGroup } from "../../../../../../../commons/src/models/groups";
 import { GameSessionWithExtensions } from "../../../../../../../commons/src/models/session";
 
@@ -71,7 +72,7 @@ export class GroupReportsComponent implements OnInit{
         this.dialogService.showDismissable("Data Load Error", msg);
 
         // Membership error in API.
-        if (response.code == 201)
+        if (response.code == StatusCodes.membershipError)
           this.router.navigate(['/dashboard/f/groups']);
         return;
       }

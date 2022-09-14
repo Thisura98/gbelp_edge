@@ -1,7 +1,7 @@
-import { GameSessionGuidanceBreakdown, ReportIntermediateGuidanceTrackerHitCounts } from '../../../../../commons/src/models/reports/user.guidancetracker';
-import { GameSessionUserGuidanceTracker } from '../../../../../commons/src/models/session/user.guidancetracker';
-import * as sql from '../../../util/connections/sql/sql_connection';
-import * as l from '../../../util/logger';
+import { GameSessionGuidanceBreakdown, ReportIntermediateGuidanceTrackerHitCounts } from '../../../../../../commons/src/models/reports/user.guidancetracker';
+import { GameSessionUserGuidanceTracker } from '../../../../../../commons/src/models/session/user.guidancetracker';
+import * as sql from '../../../../util/connections/sql/sql_connection';
+import * as l from '../../../../util/logger';
 
 export function getUserGuidanceValues(sessionId: string): Promise<GameSessionUserGuidanceTracker[]> {
 

@@ -1,14 +1,14 @@
 import { Express } from "express";
-import { aurl } from '../api_handler';
-import { isEmptyParam } from '../../util/utils';
-import { ResponseModel } from '../../model/models/common';
-import * as sessionDAO from '../../model/dao/session';
-import * as usageReportDAO from '../../model/dao/reports/usage';
-import * as objectiveReportDAO from '../../model/dao/reports/objective';
-import * as guidanceTrackerReportDAO from '../../model/dao/reports/guidancetracker';
-import { processUsage } from "../../model/processors/usage.processor";
-import { processObjectivesByCompletion, processObjectivesByTime } from "../../model/processors/objectives.processor";
-import { processGuidanceTrackerHitCountsGraph, processGuidanceTrackerTimeGraph } from "../../model/processors/guidancetracker.processor";
+import { aurl } from '../../api_handler';
+import { isEmptyParam } from '../../../util/utils';
+import { ResponseModel } from '../../../model/models/common';
+import * as sessionDAO from '../../../model/dao/session';
+import * as usageReportDAO from '../../../model/dao/group/reports/usage';
+import * as objectiveReportDAO from '../../../model/dao/group/reports/objective';
+import * as guidanceTrackerReportDAO from '../../../model/dao/group/reports/guidancetracker';
+import { processUsage } from "../../../model/processors/usage.processor";
+import { processObjectivesByCompletion, processObjectivesByTime } from "../../../model/processors/objectives.processor";
+import { processGuidanceTrackerHitCountsGraph, processGuidanceTrackerTimeGraph } from "../../../model/processors/guidancetracker.processor";
 
 export function handlerReports(app: Express){
 

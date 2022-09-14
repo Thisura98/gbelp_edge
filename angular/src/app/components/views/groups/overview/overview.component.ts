@@ -7,6 +7,7 @@ import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
+import { StatusCodes } from "../../../../../../../commons/src/constants";
 import { UserGroup, UserGroupComposition } from "../../../../../../../commons/src/models/groups";
 
 @Component({
@@ -101,7 +102,7 @@ export class GroupOverviewComponent implements OnInit{
         this.dialogService.showDismissable("Data Load Error", msg);
 
         // Membership error in API.
-        if (response.code == 201)
+        if (response.code == StatusCodes.membershipError)
           this.router.navigate(['/dashboard']);
         return;
       }
@@ -109,7 +110,7 @@ export class GroupOverviewComponent implements OnInit{
       this.apiService.group.getGroupComposition(this.groupId!).subscribe(composition => {
 
         // Membership error in API.
-        if (response.code == 201)
+        if (response.code == StatusCodes.membershipError)
           this.router.navigate(['/dashboard']);
 
         this.setData(response.data, composition.data);

@@ -8,6 +8,7 @@ import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { UtilsService } from "src/app/services/utils.service";
+import { StatusCodes } from "../../../../../../../../commons/src/constants";
 import { GameListing } from "../../../../../../../../commons/src/models/game/game";
 import { UserGroup } from "../../../../../../../../commons/src/models/groups";
 import { GameSessionGuidanceBreakdown } from "../../../../../../../../commons/src/models/reports/user.guidancetracker";
@@ -90,7 +91,7 @@ export class GroupReportsGuidanceComponent{
       if (!groupResponse.success) {
         const msg = groupResponse.description;
         this.dialogService.showDismissable("Data Load Error", msg);
-        if (groupResponse.code == 201)
+        if (groupResponse.code == StatusCodes.membershipError)
           this.router.navigate(['/dashboard/f/groups']);
         return;
       }

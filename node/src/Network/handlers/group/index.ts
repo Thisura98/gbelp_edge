@@ -1,9 +1,10 @@
 import { Express } from 'express';
-import { aurl } from '../api_handler';
-import * as groupsDAO from '../../model/dao/group';
-import * as playDAO from '../../model/dao/play';
-import * as l from '../../util/logger';
-import { ResponseModel } from '../../model/models/common';
+import { aurl } from '../../api_handler';
+import * as groupsDAO from '../../../model/dao/group';
+import * as playDAO from '../../../model/dao/play';
+import * as l from '../../../util/logger';
+import { StatusCodes } from '../../../../../commons/src/constants';
+import { ResponseModel } from '../../../model/models/common';
 
 export function handlerGroups(app: Express){
 
@@ -55,7 +56,7 @@ export function handlerGroups(app: Express){
             res.send(new ResponseModel(true, 200, msg, composition));
         })
         .catch(err => {
-            const code = membershipCheck ? 200 : 201;
+            const code = membershipCheck ? 200 : StatusCodes.membershipError;
             l.logc(err, 'get-group-composition');
             res.send(new ResponseModel(false, code, err));
         })
@@ -78,7 +79,7 @@ export function handlerGroups(app: Express){
             // OK!
             res.send(new ResponseModel(true, 200, `Successfully retrieved group id ${groupId}`, group));
         }).catch(err => {
-            const code = membershipCheck ? 200 : 201;
+            const code = membershipCheck ? 200 : StatusCodes.membershipError;
             res.send(new ResponseModel(false, code, err));
         })
     });
