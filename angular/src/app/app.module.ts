@@ -95,6 +95,7 @@ import { LoadingReportsComponent } from './components/views/groups/reports/commo
 import { GroupReportsObjectiveComponent } from './components/views/groups/reports/objective/objective.component';
 import { GroupReportsGuidanceComponent } from './components/views/groups/reports/guidance/guidance.component';
 import { ToastrModule } from 'ngx-toastr';
+import { GroupUsersComponent } from './components/views/groups/users/users.component';
 
 @NgModule({
   declarations: [
@@ -153,6 +154,7 @@ import { ToastrModule } from 'ngx-toastr';
     GroupReportsUsageComponent,
     GroupReportsObjectiveComponent,
     GroupReportsGuidanceComponent,
+    GroupUsersComponent,
     StatefulButton,
     PlayerChatPanelComponent,
     PlayerObjectivesPanelComponent,

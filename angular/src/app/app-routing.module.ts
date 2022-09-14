@@ -36,6 +36,7 @@ import { ViewMode } from './constants/constants';
 import { PropertiesArticleComponent } from './components/views/docs/articles/pages/properties';
 import { GroupReportsObjectiveComponent } from './components/views/groups/reports/objective/objective.component';
 import { GroupReportsGuidanceComponent } from './components/views/groups/reports/guidance/guidance.component';
+import { GroupUsersComponent } from './components/views/groups/users/users.component';
 
 
 
@@ -65,6 +66,7 @@ const routes: Routes = [
   {path: "groups/reports/usage", component: GroupReportsUsageComponent},
   {path: "groups/reports/objective", component: GroupReportsObjectiveComponent},
   {path: "groups/reports/guidancetracker", component: GroupReportsGuidanceComponent},
+  {path: "groups/users", component: GroupUsersComponent},
   {path: "dashboard/parent", component: ParentDashboardComponent},
   {path: "game/create", component: GameCreateComponent, data: {editMode: false, mode: ViewMode.GAME }},
   {path: "game/edit", component: GameCreateComponent, data: {editMode: true, mode: ViewMode.GAME }},
