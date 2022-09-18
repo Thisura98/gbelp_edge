@@ -1,6 +1,9 @@
 import * as l from './logger';
 import fs from 'fs';
 
+/**
+ * NOTE: Make sure this interface is upto date with the config.json file
+ */
 export interface IConfig{
     environment: string;
     port_express: number;

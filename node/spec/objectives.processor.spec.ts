@@ -3,7 +3,7 @@ import { ReportGraphDataUserObjectiveProgressByTime } from '../../commons/src/mo
 import { processObjectivesByTime } from '../src/model/processors/objectives.processor';
 import { toMilliseconds } from './utils/utils';
 
-const yAxesLabel = 'Cumulative Sessions';
+const yAxesLabel = 'Objective Points';
 
 function createObjective(progress: number, time: string, objectiveId: string = '1', userId: string = '1', id: string = '1', sessionId: string = '1', nonce: string = 'a'): GameSessionUserObjective{
     return new GameSessionUserObjective(id, sessionId, objectiveId, userId, progress, nonce, time);

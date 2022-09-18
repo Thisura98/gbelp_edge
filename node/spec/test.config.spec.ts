@@ -1,4 +1,5 @@
 import * as fs from 'fs/promises';
+import { IConfig } from '../src/Util/parseconfig';
 
 const configFileLocation = 'config.json';
 
@@ -15,21 +16,28 @@ describe('Config File Tests', () => {
 
     it('Config File has properties', async () => {
         try{
+            const dummy: IConfig = {
+                environment: '',
+                port_express: 0,
+                port_socketio: 0,
+                angular_directory: '',
+                allow_cors_on: '',
+                fs_res_path: '',
+                fs_res_path_sound: '',
+                fs_res_path_image: '',
+                fs_compiled_games: '',
+                fs_articles: '',
+                server_base_url: '',
+                production_database: '',
+                test_database: ''
+            };
+
             const file = await fs.readFile(configFileLocation, 'utf-8');
             const config = JSON.parse(file);
+            const requiredKeys = Object.keys(dummy);
             const keys = Object.keys(config);
-            const requiredProperties = [
-                'environment',
-                'port_express', 'port_socketio',
-                'fs_res_path', 'fs_res_path_sound', 'fs_res_path_image', 'fs_compiled_games', 'fs_articles',
-                'server_base_url',
-                'allow_cors_on'
-            ];
 
-            for (let prop of requiredProperties){
-                const found = keys.find((v) => v == prop);
-                expect(found).not.toBeUndefined();
-            }
+            expect(keys).toEqual(jasmine.arrayContaining(requiredKeys));
         }
         catch(error){
             fail(error);
