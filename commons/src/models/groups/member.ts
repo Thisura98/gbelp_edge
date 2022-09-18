@@ -1,17 +1,40 @@
+import { UserType } from "../user";
+
 export class UserGroupMemberAssociation{
   constructor(
-    public self_type: string,
-    public associated_user_type: string,
-    public associated_user_id: string
+    public relationship: string,
+    public users: UserGroupMemberRaw[] | undefined
   ){}
 }
 
-export class UserGroupMember{
+export class UserGroupMemberRaw{
+  constructor(
+    public user_id: string,
+    public user_name: string
+  ){}
+}
+
+export class UserGroupMember extends UserGroupMemberRaw{
   constructor(
     public user_id: string,
     public user_name: string,
-    public association: UserGroupMemberAssociation
-  ){}
+    public associations: UserGroupMemberAssociation[]
+  ){
+    super(user_id, user_name);
+  }
+}
+
+export class UserGroupMemberHelper{
+  static fromRaw(
+    raw: UserGroupMemberRaw, 
+    associations: UserGroupMemberAssociation[]
+  ): UserGroupMember{
+    return new UserGroupMember(
+      raw.user_id,
+      raw.user_name,
+      associations
+    );
+  }
 }
 
 export class UserGroupMemberData{
