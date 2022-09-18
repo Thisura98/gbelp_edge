@@ -51,7 +51,7 @@ WHERE U.${u.userType} = ? AND M.${m.groupId} = ?;`;
 /**
  * Returns associations to the "target user", of a particular relationshipTypeId.
  */
-export function getUserAssocations(target: string, relationshipTypeIds: string[]): Promise<UserGroupMemberAssociation[]>{
+export function getUserAssocations(target: string, relationshipTypeIds: string[]): Promise<UserGroupMemberRaw[]>{
     const users = sql.tables.users;
     const userRelationship = sql.tables.userRelationship;
 
@@ -78,7 +78,7 @@ INNER JOIN \`${users}\` U ON U.${u.userId} = M.association
 
     l.logc(query, "getUserAssocation");
 
-    return new Promise<UserGroupMemberAssociation[]>((resolve, reject) => {
+    return new Promise<UserGroupMemberRaw[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {
             if (error == null){
                 resolve(result);
@@ -91,11 +91,19 @@ INNER JOIN \`${users}\` U ON U.${u.userId} = M.association
 }
 
 export function getStudentAssociations(userId: string): Promise<UserGroupMemberAssociation[]>{
-    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild]);
+    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild])
+    .then(associations => {
+        let parents = new UserGroupMemberAssociation('Child of', associations);
+        return [parents];
+    });
 }
 
 export function getParentAssociations(userId: string): Promise<UserGroupMemberAssociation[]>{
-    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild]);
+    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild])
+    .then(associations => {
+        let children = new UserGroupMemberAssociation('Parent of', associations);
+        return [children];
+    });
 }
 
 /**
