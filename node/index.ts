@@ -30,7 +30,7 @@ utils.setRootPath(__dirname);
 /**
  * Initialize DBs
  */
-sql.initialize();
+sql.initialize(config);
 mongo.initialize();
 
 /**

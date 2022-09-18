@@ -5,6 +5,13 @@ import * as pc from './parseconfig';
 
 let app_root_path = '';
 let server_base_url = '';
+let is_test_mode = false;
+
+export function setTestMode(isTestMode: boolean){
+    is_test_mode = isTestMode;
+}
+
+export function getIsTestMode(): boolean { return is_test_mode };
 
 export function setRootPath(path: string){
     app_root_path = path;

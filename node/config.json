@@ -9,5 +9,7 @@
     "fs_res_path_image": "fs/res_upload/image",
     "fs_compiled_games": "fs/games",
     "fs_articles": "fs/articles",
-    "server_base_url": "http://localhost/"
+    "server_base_url": "http://localhost/",
+    "production_database": "edge_gbelp",
+    "test_database": "edge_gbelp_test"
 }

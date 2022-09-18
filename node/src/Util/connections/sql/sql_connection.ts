@@ -1,9 +1,12 @@
 import * as l from '../../logger';
+import * as migrations from './sql_migrate';
+import * as utils from '../../utils';
+
 import mysql, { FieldInfo } from 'mysql';
 import { DateTime } from 'luxon';
 import { tables, columns } from './sql_schema';
-import * as migrations from './sql_migrate';
 import { assert } from 'console';
+import { IConfig } from '../../parseconfig';
 
 /**
  * Log Tag
@@ -53,7 +56,9 @@ export const smartEscape = (value: any | null | undefined) => {
 /**
  * Initialize SQL connections
  */
-export function initialize(){
+export function initialize(config: IConfig){
+    const dbName = utils.getIsTestMode() ? config.test_database : config.production_database;
+
     // Init DB Connection Pool
     pool = mysql.createPool({
         connectionLimit: 10,
@@ -61,7 +66,7 @@ export function initialize(){
         port: 9000,
         user: 'root',
         password: 'root',
-        database: 'edge_gbelp',
+        database: dbName,
         dateStrings: true
     });
 
