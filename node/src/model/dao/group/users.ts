@@ -45,8 +45,8 @@ FROM \`${userGroupMembership}\` M
 INNER JOIN \`${users}\` U ON M.${m.userId} = U.${u.userId}
 WHERE U.${u.userType} IN ${userTypeIds} AND M.${m.groupId} = ?;`;
 
-    l.logc(JSON.stringify(values), 'getUserTypeInGroup');
-    l.logc(query + '\n', 'getUserTypeInGroup');
+    // l.logc(JSON.stringify(values), 'getUserTypeInGroup');
+    // l.logc(query + '\n', 'getUserTypeInGroup');
 
     return new Promise<UserGroupMember[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {
@@ -88,7 +88,7 @@ FROM (
 INNER JOIN \`${users}\` U ON U.${u.userId} = M.association
 `;
 
-    l.logc(query, "getUserAssocation");
+    // l.logc(query, "getUserAssocation");
 
     return new Promise<UserGroupMemberRaw[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {

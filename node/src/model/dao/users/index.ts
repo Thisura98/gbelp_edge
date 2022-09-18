@@ -1,7 +1,15 @@
-import * as l from '../../util/logger';
-import * as db from '../../util/connections/sql/sql_connection';
+import * as l from '../../../util/logger';
+import * as db from '../../../util/connections/sql/sql_connection';
 import { v4 as uuid } from 'uuid';
 import { DateTime } from 'luxon';
+
+export interface ICreateUserResult{
+    user_id: string
+    user_name: string
+    user_type_name: string
+    user_type_id: string
+    token: string | null
+}
 
 /**
  * Returns the list of user types as an object array
@@ -78,13 +86,19 @@ export function getUserType(userId: string, callback: (status: boolean, desc: st
  * @param {String} email 
  * @param {String} passwordHash 
  * @param {String} typeId 
- * @param {function(Boolean, string|null, object|null):void} callback 
+ * @param {function(Boolean, string|null, ICreateUserResult|null):void} callback 
  */
 export function createUser(
     username: string, email: string, typeId: string, passwordHash: string, 
-    callback: (status: boolean, message: string | null, result: object | null) => void
+    callback: (status: boolean, message: string | null, result: ICreateUserResult | null) => void
 ){
     db.getPool()!.getConnection((err, conn) => {
+
+        let invokeCallback: (st: boolean, msg: string | null, res: ICreateUserResult | null) => void = (st, msg, res) => { 
+            conn.release();
+            callback(st, msg, res);
+        }
+
         // Check existing emails
         conn.query(
             'SELECT COUNT(*) AS count FROM ?? WHERE ?? = "??";',
@@ -92,7 +106,7 @@ export function createUser(
             (err, res, fields) => {
                 if (err){
                     l.logc(err.message, 'users:createUser:checkExistingEmail');
-                    callback(false, null, null);
+                    invokeCallback(false, null, null);
                 }
                 else{
                     if (res[0].count == 0){
@@ -102,7 +116,7 @@ export function createUser(
                             (err, res, fields) => {
                                 if (err){
                                     l.logc(err.message, 'users:createUser');
-                                    callback(false, "Unexpected error occured", null);
+                                    invokeCallback(false, "Unexpected error occured", null);
                                 }
                                 else{
                                     const newUserId = res.insertId;
@@ -113,7 +127,7 @@ export function createUser(
 
                                         createToken(newUserId, (status, token) => {
 
-                                            const userAndToken = {
+                                            const userAndToken: ICreateUserResult = {
                                                 user_id: newUserId,
                                                 user_name: username,
                                                 user_type_name: res[0][db.columns.userType.name],
@@ -122,11 +136,11 @@ export function createUser(
                                             };
 
                                             if (status){
-                                                callback(true, "", userAndToken);
+                                                invokeCallback(true, "", userAndToken);
                                             }
                                             else{
                                                 l.logc("retrieve token for new user failed", 'users:creatUser:getToken')
-                                                callback(false, "Could not retrieve token", null);
+                                                invokeCallback(false, "Could not retrieve token", null);
                                             }
                                         });
 
@@ -137,7 +151,7 @@ export function createUser(
                         );
                     }
                     else{
-                        callback(false, "User already exists!", null)
+                        invokeCallback(false, "User already exists!", null)
                     }
                 }
             }
@@ -223,7 +237,7 @@ export function createToken(userId: string, callback: (status: boolean, desc: st
                 callback(false, null)
             }
             else{
-                l.logc(res, 'users:createToken');
+                l.logc('insert ID = ' + res.insertId, 'users:createToken');
                 callback(true, randomToken);
             }
         }

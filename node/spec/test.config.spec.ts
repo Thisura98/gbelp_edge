@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises';
-import { IConfig } from '../src/Util/parseconfig';
+import { IConfig } from '../src/util/parseconfig';
 
 const configFileLocation = 'config.json';
 
