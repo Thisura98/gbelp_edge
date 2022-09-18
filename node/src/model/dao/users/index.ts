@@ -237,7 +237,7 @@ export function createToken(userId: string, callback: (status: boolean, desc: st
                 callback(false, null)
             }
             else{
-                l.logc('insert ID = ' + res.insertId, 'users:createToken');
+                // l.logc('insert ID = ' + res.insertId, 'users:createToken');
                 callback(true, randomToken);
             }
         }

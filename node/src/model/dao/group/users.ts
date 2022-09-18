@@ -147,12 +147,8 @@ function getStudents(groupId: string): Promise<UserGroupMember[]>{
         let members: UserGroupMember[] = [];
 
         for (let rawMember of raw){
-            l.logc(`Query associations for student: ${rawMember.user_id}`, 'getStudents');
-
             getStudentAssociations(rawMember.user_id)
             .then(associations => {
-                l.logc(`Found assocations for student: ${rawMember.user_id} = ${associations.length}`, 'getStudents');
-
                 members.push(UserGroupMemberHelper.fromRaw(rawMember, associations));
             })
             .catch(err => Promise.reject(err));

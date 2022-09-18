@@ -17,7 +17,6 @@ let groupWithEveryone = '';
 
 function createUser(name: string, type: string): Promise<string>{
     return new Promise<string>((resolve, reject) => {
-        console.log("creating user", name);
         usersDAO.createUser(name, name + '@test.lk', type, '', (status, msg, result) => {
             if (status){
                 if (result == null)
@@ -32,7 +31,6 @@ function createUser(name: string, type: string): Promise<string>{
 }
 
 function createGroup(tag: string, users: string[]): Promise<string>{
-    console.log('Attempting to create group', tag, '...');
     return groupsDAO.createGroup(tag, 'Test Group', '', 'testkey', '10', users);
 }
 
@@ -82,6 +80,8 @@ async function setupData(){
     groupWithOneParentTwoChildren = await createGroup('Single Mother', [t1, p3, s3, s4]);
     groupWithTwoParentsOneChild = await createGroup('Single Child', [t1, p4, p5, s5]);
     groupWithEveryone = await createGroup('Everyone', [t1, p1, p2, p3, p4, p5, s1, s2, s3, s4, s5]);
+
+    console.log('groupWithThreeUsers =', groupWithThreeUsers);
 }
 
 describe('Group Members DAO tests', () => {
@@ -103,13 +103,28 @@ describe('Group Members DAO tests', () => {
         }
     });
 
-    it('Simple Composition', async () => {
+    it('Three Users - Composition', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
 
-        expect(result.privileged.length).toBe(0);
-        expect(result.teachers.length).toBe(1);
-        expect(result.students.length).toBe(1);
-        expect(result.parents.length).toBe(1);
+        expect(result.privileged.length).withContext('privileged').toBe(0);
+        expect(result.teachers.length).withContext('teachers').toBe(1);
+        expect(result.students.length).withContext('students').toBe(1);
+        expect(result.parents.length).withContext('parents').toBe(1);
+
+    });
+
+    it('Three Users - Association Names', async () => {
+        const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
+
+        const relOfStudent = result.students[0].associations[0];
+        const relOfParent = result.parents[0].associations[0];
+
+        expect(relOfStudent.relationshipName).toBe('Child of');
+        expect(relOfParent.relationshipName).toBe('Parent of');
+    });
+
+    it('Three Users - Association Composition', async () => {
+        const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
 
         const relOfStudent = result.students[0].associations[0];
         const studentRelUsers = relOfStudent.users!;
@@ -117,15 +132,12 @@ describe('Group Members DAO tests', () => {
         const relOfParent = result.parents[0].associations[0];
         const parentRelUsers = relOfParent.users!;
 
-        expect(relOfStudent.relationshipName).toBe('Child of');
         expect(studentRelUsers.length).toEqual(1);
         expect(studentRelUsers[0].user_id).toBe(result.parents[0].user_id);
         expect(studentRelUsers[0].user_name).toBe(result.parents[0].user_name);
 
-        expect(relOfParent.relationshipName).toBe('Parent of');
         expect(parentRelUsers.length).toEqual(1);
         expect(parentRelUsers[0].user_id).toBe(result.students[0].user_id);
         expect(parentRelUsers[0].user_name).toBe(result.students[0].user_name);
-
-    });
+    })
 });
