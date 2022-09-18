@@ -7,8 +7,6 @@ import * as l from '../../../util/logger';
  * Returns membership info about a group
  */
 export async function getGroupUsers(groupId: string): Promise<UserGroupMemberData>{
-    l.logc('reached!', 'getGroupUsers');
-
     let privileged = await getPrivilegedUsers(groupId);
     let teachers = await getTeachers(groupId);
     let students = await getStudents(groupId);
@@ -143,21 +141,18 @@ function getTeachers(groupId: string): Promise<UserGroupMember[]>{
  */
 function getStudents(groupId: string): Promise<UserGroupMember[]>{
     return getUserTypeInGroup(groupId, [UserType.student])
-    .then(raw => {
-        let members: UserGroupMember[] = [];
+    .then(rawMembers => {
+        let promises = rawMembers.map(raw => {
+            let member = UserGroupMemberHelper.fromRaw(raw, []);
 
-        for (let rawMember of raw){
-            let member = UserGroupMemberHelper.fromRaw(rawMember, []);
-            members.push(member);
+            return getStudentAssociations(raw.user_id)
+            .then(assocs => {
+                member.associations = assocs;
+                return member;
+            });
+        });
 
-            getStudentAssociations(rawMember.user_id)
-            .then(associations => {
-                member.associations = associations;
-            })
-            .catch(err => Promise.reject(err));
-        }
-        
-        return members;
+        return Promise.all(promises);
     });
 }
 
@@ -166,20 +161,17 @@ function getStudents(groupId: string): Promise<UserGroupMember[]>{
  */
  function getParents(groupId: string): Promise<UserGroupMember[]>{
     return getUserTypeInGroup(groupId, [UserType.parent])
-    .then(raw => {
-        let members: UserGroupMember[] = [];
+    .then(rawMembers => {
+        let promises = rawMembers.map(raw => {
+            let member = UserGroupMemberHelper.fromRaw(raw, []);
 
-        for (let rawMember of raw){
-            let member = UserGroupMemberHelper.fromRaw(rawMember, []);
-            members.push(member);
+            return getParentAssociations(raw.user_id)
+            .then(assocs => {
+                member.associations = assocs;
+                return member;
+            });
+        });
 
-            getParentAssociations(rawMember.user_id)
-            .then(associations => {
-                member.associations = associations;
-            })
-            .catch(err => Promise.reject(err));
-        }
-        
-        return members;
+        return Promise.all(promises);
     });
 }

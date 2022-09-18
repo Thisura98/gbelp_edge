@@ -1,12 +1,9 @@
-import * as testDAO from '../src/model/dao/test';
 import * as usersDAO from '../src/model/dao/users';
 import * as userRelationshipsDAO from '../src/model/dao/users/relationships';
 import * as groupUsersDAO from '../src/model/dao/group/users';
 import * as groupsDAO from '../src/model/dao/group';
-import * as sql from '../src/util/connections/sql/sql_connection';
-import * as pc from '../src/util/parseconfig';
-import * as utils from '../src/util/utils';
 import { UserRelationshipType, UserType } from '../../commons/src/models/user';
+import { initializeTestDB } from './utils/utils';
 
 let groupWithThreeUsers = '';
 let groupWithFiveUsers = '';
@@ -85,14 +82,8 @@ async function setupData(){
 describe('Group Members DAO tests', () => {
 
     beforeAll(async () => {
-        const config = pc.parseConfig('config.json');
-        utils.setTestMode(true);
-        sql.initialize(config);
-        
-        const clearStatus = await testDAO.clearTestDatabase();
-        expect(clearStatus).toBeTrue();
-
         try{
+            await initializeTestDB();
             await setupData();
         }
         catch(error){
@@ -113,11 +104,13 @@ describe('Group Members DAO tests', () => {
     it('Three Users - Association Names', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
 
+        // console.log('Result =', JSON.stringify(result));
+
         const relOfStudent = result.students[0].associations[0];
         const relOfParent = result.parents[0].associations[0];
 
-        expect(relOfStudent.relationshipName).toBe('Child of');
-        expect(relOfParent.relationshipName).toBe('Parent of');
+        expect(relOfStudent.relationshipName).withContext('relStudent').toBe('Child of');
+        expect(relOfParent.relationshipName).withContext('relParent').toBe('Parent of');
     });
 
     it('Three Users - Association Composition', async () => {
@@ -129,12 +122,13 @@ describe('Group Members DAO tests', () => {
         const relOfParent = result.parents[0].associations[0];
         const parentRelUsers = relOfParent.users!;
 
-        expect(studentRelUsers.length).toEqual(1);
-        expect(studentRelUsers[0].user_id).toBe(result.parents[0].user_id);
-        expect(studentRelUsers[0].user_name).toBe(result.parents[0].user_name);
+        
+        expect(studentRelUsers.length).withContext('sRel').toEqual(1);
+        expect(studentRelUsers[0].user_id).withContext('sRel').toBe(result.parents[0].user_id);
+        expect(studentRelUsers[0].user_name).withContext('sRel').toBe(result.parents[0].user_name);
 
-        expect(parentRelUsers.length).toEqual(1);
-        expect(parentRelUsers[0].user_id).toBe(result.students[0].user_id);
-        expect(parentRelUsers[0].user_name).toBe(result.students[0].user_name);
+        expect(parentRelUsers.length).withContext('pRel').toEqual(1);
+        expect(parentRelUsers[0].user_id).withContext('pRel').toBe(result.students[0].user_id);
+        expect(parentRelUsers[0].user_name).withContext('pRel').toBe(result.students[0].user_name);
     })
 });
