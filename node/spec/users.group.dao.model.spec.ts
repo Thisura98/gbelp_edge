@@ -5,6 +5,13 @@ import * as groupsDAO from '../src/model/dao/group';
 import { UserRelationshipType, UserType } from '../../commons/src/models/user';
 import { initializeTestDB } from './utils/utils';
 
+const kPrivileged = 'privileged';
+const kTeachers = 'teachers';
+const kStudents = 'students';
+const kParents = 'parents';
+const kRStudent = 'relStudent';
+const kRParent = 'relParent';
+
 let groupWithThreeUsers = '';
 let groupWithFiveUsers = '';
 let groupWithOneParentTwoChildren = '';
@@ -92,25 +99,24 @@ describe('Group Members DAO tests', () => {
         }
     });
 
+    // MARK Test: Three Users
+
     it('Three Users - Composition', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
 
-        expect(result.privileged.length).withContext('privileged').toBe(0);
-        expect(result.teachers.length).withContext('teachers').toBe(1);
-        expect(result.students.length).withContext('students').toBe(1);
-        expect(result.parents.length).withContext('parents').toBe(1);
+        expect(result.privileged.length).withContext(kPrivileged).toBe(0);
+        expect(result.teachers.length).withContext(kTeachers).toBe(1);
+        expect(result.students.length).withContext(kStudents).toBe(1);
+        expect(result.parents.length).withContext(kParents).toBe(1);
     });
 
     it('Three Users - Association Names', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
-
-        // console.log('Result =', JSON.stringify(result));
-
         const relOfStudent = result.students[0].associations[0];
         const relOfParent = result.parents[0].associations[0];
 
-        expect(relOfStudent.relationshipName).withContext('relStudent').toBe('Child of');
-        expect(relOfParent.relationshipName).withContext('relParent').toBe('Parent of');
+        expect(relOfStudent.relationshipName).withContext(kRStudent).toBe('Child of');
+        expect(relOfParent.relationshipName).withContext(kRParent).toBe('Parent of');
     });
 
     it('Three Users - Association Composition', async () => {
@@ -122,13 +128,60 @@ describe('Group Members DAO tests', () => {
         const relOfParent = result.parents[0].associations[0];
         const parentRelUsers = relOfParent.users!;
 
-        
-        expect(studentRelUsers.length).withContext('sRel').toEqual(1);
-        expect(studentRelUsers[0].user_id).withContext('sRel').toBe(result.parents[0].user_id);
-        expect(studentRelUsers[0].user_name).withContext('sRel').toBe(result.parents[0].user_name);
+        expect(studentRelUsers.length).withContext('sRel1').toEqual(1);
+        expect(studentRelUsers[0].user_id).withContext('sRel2').toBe(result.parents[0].user_id);
+        expect(studentRelUsers[0].user_name).withContext('sRel3').toBe(result.parents[0].user_name);
 
-        expect(parentRelUsers.length).withContext('pRel').toEqual(1);
-        expect(parentRelUsers[0].user_id).withContext('pRel').toBe(result.students[0].user_id);
-        expect(parentRelUsers[0].user_name).withContext('pRel').toBe(result.students[0].user_name);
-    })
+        expect(parentRelUsers.length).withContext('pRel1').toEqual(1);
+        expect(parentRelUsers[0].user_id).withContext('pRel2').toBe(result.students[0].user_id);
+        expect(parentRelUsers[0].user_name).withContext('pRel3').toBe(result.students[0].user_name);
+    });
+
+    // MARK Test: Single Mother
+
+    it('Single Mother - Composition', async () => {
+        const result = await groupUsersDAO.getGroupUsers(groupWithOneParentTwoChildren);
+
+        expect(result.privileged.length).withContext(kPrivileged).toBe(0);
+        expect(result.teachers.length).withContext(kTeachers).toBe(1);
+        expect(result.students.length).withContext(kStudents).toBe(2);
+        expect(result.parents.length).withContext(kParents).toBe(1);
+    });
+
+    it('Single Mother - Association Count', async () => {
+        const result = await groupUsersDAO.getGroupUsers(groupWithOneParentTwoChildren);
+
+        const student1 = result.students[0];
+        const student2 = result.students[1];
+        const parent = result.parents[0];
+
+        expect(student1.associations.length).withContext('s1Rels').toEqual(1);
+        expect(student2.associations.length).withContext('s2Rels').toEqual(1);
+        expect(parent.associations.length).withContext('pRels').toEqual(1);
+        expect(parent.associations[0].users!.length).withContext('pRelUsers').toEqual(2);
+    });
+
+    it('Single Mother - Association Composition', async () => {
+        const result = await groupUsersDAO.getGroupUsers(groupWithOneParentTwoChildren);
+
+        const student1 = result.students[0];
+        const student2 = result.students[1];
+        const parent = result.parents[0];
+
+        const student1Rel = result.students[0].associations[0].users!;
+        const student2Rel = result.students[1].associations[0].users!;
+        const parentRel1 = result.parents[0].associations[0].users!;
+
+        expect(student1Rel[0].user_id).withContext('s1ParentId').toBe(parent.user_id);
+        expect(student2Rel[0].user_id).withContext('s2ParentId').toBe(parent.user_id);
+
+        expect(student1Rel[0].user_name).withContext('s1ParentName').toBe(parent.user_name);
+        expect(student2Rel[0].user_name).withContext('s2ParentName').toBe(parent.user_name);
+
+        expect(parentRel1[0].user_id).withContext('pRel1Id').toBe(student1.user_id);
+        expect(parentRel1[1].user_id).withContext('pRel2Id').toBe(student2.user_id);
+        
+        expect(parentRel1[0].user_name).withContext('pRel1Name').toBe(student1.user_name);
+        expect(parentRel1[1].user_name).withContext('pRel2Name').toBe(student2.user_name);
+    });
 });
