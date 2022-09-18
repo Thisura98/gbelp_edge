@@ -39,6 +39,7 @@ export class UserGroupMemberHelper{
 
 export class UserGroupMemberData{
   constructor(
+    public privileged: UserGroupMember[],
     public teachers: UserGroupMember[],
     public students: UserGroupMember[],
     public parents: UserGroupMember[]

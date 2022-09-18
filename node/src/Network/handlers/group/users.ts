@@ -26,7 +26,6 @@ export function handlerGroupUsers(app: Express){
             return Promise.resolve();
         })
         .then(() => {
-
             l.logc("getGroupUsers", "handlerGroupUsers");
             return groupUsersDAO.getGroupUsers(groupId);
         })

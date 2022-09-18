@@ -7,10 +7,18 @@ import * as l from '../../../util/logger';
  * Returns membership info about a group
  */
 export async function getGroupUsers(groupId: string): Promise<UserGroupMemberData>{
+    l.logc('reached!', 'getGroupUsers');
+
+    let privileged = await getPrivilegedUsers(groupId);
+    let teachers = await getTeachers(groupId);
+    let students = await getStudents(groupId);
+    let parents = await getParents(groupId);
+
     return new UserGroupMemberData(
-        await getTeachers(groupId),
-        await getStudents(groupId),
-        await getParents(groupId)
+        privileged,
+        teachers,
+        students,
+        parents
     );
 }
 
@@ -22,19 +30,23 @@ export async function getGroupUsers(groupId: string): Promise<UserGroupMemberDat
  * @param userTypeId Enum of `UserType`
  * @returns 
  */
-export function getUserTypeInGroup(groupId: string, userTypeId: string): Promise<UserGroupMemberRaw[]>{
+export function getUserTypeInGroup(groupId: string, userTypeId: string[]): Promise<UserGroupMemberRaw[]>{
     const users = sql.tables.users;
     const userGroupMembership = sql.tables.userGroupMembership;
 
     const u = sql.columns.users;
     const m = sql.columns.userGroupMembership;
 
-    const values = [userTypeId, groupId];
+    const userTypeIds = "(" + userTypeId.map(sql.smartEscape).join(", ") + ")";
+    const values = [groupId];
     const query = `
 SELECT U.${u.userId}, U.${u.userName} 
 FROM \`${userGroupMembership}\` M
 INNER JOIN \`${users}\` U ON M.${m.userId} = U.${u.userId}
-WHERE U.${u.userType} = ? AND M.${m.groupId} = ?;`;
+WHERE U.${u.userType} IN ${userTypeIds} AND M.${m.groupId} = ?;`;
+
+    l.logc(JSON.stringify(values), 'getUserTypeInGroup');
+    l.logc(query + '\n', 'getUserTypeInGroup');
 
     return new Promise<UserGroupMember[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {
@@ -107,10 +119,20 @@ export function getParentAssociations(userId: string): Promise<UserGroupMemberAs
 }
 
 /**
+ * Privileged users in a group
+ */
+function getPrivilegedUsers(groupId: string): Promise<UserGroupMember[]>{
+    return getUserTypeInGroup(groupId, [UserType.admin, UserType.creator])
+    .then(raw => {
+        return raw.map(m => UserGroupMemberHelper.fromRaw(m, []));
+    });
+}
+
+/**
  * Teachers in a group
  */
 function getTeachers(groupId: string): Promise<UserGroupMember[]>{
-    return getUserTypeInGroup(groupId, UserType.teacher)
+    return getUserTypeInGroup(groupId, [UserType.teacher])
     .then(raw => {
         return raw.map(m => UserGroupMemberHelper.fromRaw(m, []));
     });
@@ -120,14 +142,18 @@ function getTeachers(groupId: string): Promise<UserGroupMember[]>{
  * Students in a group
  */
 function getStudents(groupId: string): Promise<UserGroupMember[]>{
-    return getUserTypeInGroup(groupId, UserType.student)
+    return getUserTypeInGroup(groupId, [UserType.student])
     .then(raw => {
         let members: UserGroupMember[] = [];
 
         for (let rawMember of raw){
+            l.logc(`Query associations for student: ${rawMember.user_id}`, 'getStudents');
+
             getStudentAssociations(rawMember.user_id)
-            .then(association => {
-                members.push(UserGroupMemberHelper.fromRaw(rawMember, association));
+            .then(associations => {
+                l.logc(`Found assocations for student: ${rawMember.user_id} = ${associations.length}`, 'getStudents');
+
+                members.push(UserGroupMemberHelper.fromRaw(rawMember, associations));
             })
             .catch(err => Promise.reject(err));
         }
@@ -140,14 +166,14 @@ function getStudents(groupId: string): Promise<UserGroupMember[]>{
  * Parents in a group
  */
  function getParents(groupId: string): Promise<UserGroupMember[]>{
-    return getUserTypeInGroup(groupId, UserType.parent)
+    return getUserTypeInGroup(groupId, [UserType.parent])
     .then(raw => {
         let members: UserGroupMember[] = [];
 
         for (let rawMember of raw){
             getParentAssociations(rawMember.user_id)
-            .then(association => {
-                members.push(UserGroupMemberHelper.fromRaw(rawMember, association));
+            .then(associations => {
+                members.push(UserGroupMemberHelper.fromRaw(rawMember, associations));
             })
             .catch(err => Promise.reject(err));
         }
