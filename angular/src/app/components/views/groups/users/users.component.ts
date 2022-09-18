@@ -8,6 +8,7 @@ import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { StatusCodes } from "../../../../../../../commons/src/constants";
 import { UserGroup } from "../../../../../../../commons/src/models/groups";
+import { UserGroupMemberData } from "../../../../../../../commons/src/models/groups/member";
 
 @Component({
   templateUrl: './users.component.html',
@@ -27,6 +28,9 @@ export class GroupUsersComponent implements OnInit{
   
   private groupId: string | undefined;
   group: UserGroup | undefined;
+  loadingUserData: boolean = false;
+  searchTerm: string | undefined = undefined;
+  data: UserGroupMemberData | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -58,9 +62,27 @@ export class GroupUsersComponent implements OnInit{
       }
       
       this.group = response.data;
-
-      // this.loadSessions();
+      this.loadUsers();
     });
+  }
+
+  private loadUsers(){
+    this.loadingUserData = true;
+    this.apiService.group.getGroupMembers(this.groupId!, this.searchTerm).subscribe(response => {
+      this.loadingUserData = false;
+
+      if (response.success){
+        this.data = response.data;
+      }
+      else{
+        this.handleLoadError(response.description);
+      }
+    }, (err) => this.handleLoadError(err))
+  }
+
+  private handleLoadError(msg: any){
+    let cMsg = (typeof msg == 'string') ? msg : JSON.stringify(msg);
+    this.dialogService.showDismissable('Data Load Error', cMsg);
   }
   
 }

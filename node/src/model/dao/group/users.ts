@@ -6,11 +6,11 @@ import * as l from '../../../util/logger';
 /**
  * Returns membership info about a group
  */
-export async function getGroupUsers(groupId: string): Promise<UserGroupMemberData>{
-    let privileged = await getPrivilegedUsers(groupId);
-    let teachers = await getTeachers(groupId);
-    let students = await getStudents(groupId);
-    let parents = await getParents(groupId);
+export async function getGroupUsers(groupId: string, searchName: string | undefined = undefined): Promise<UserGroupMemberData>{
+    let privileged = await getPrivilegedUsers(groupId, searchName);
+    let teachers = await getTeachers(groupId, searchName);
+    let students = await getStudents(groupId, searchName);
+    let parents = await getParents(groupId, searchName);
 
     return new UserGroupMemberData(
         privileged,
@@ -28,7 +28,7 @@ export async function getGroupUsers(groupId: string): Promise<UserGroupMemberDat
  * @param userTypeId Enum of `UserType`
  * @returns 
  */
-export function getUserTypeInGroup(groupId: string, userTypeId: string[]): Promise<UserGroupMemberRaw[]>{
+export function getUserTypeInGroup(groupId: string, userTypeId: string[], searchName: string | undefined): Promise<UserGroupMemberRaw[]>{
     const users = sql.tables.users;
     const userGroupMembership = sql.tables.userGroupMembership;
 
@@ -37,11 +37,19 @@ export function getUserTypeInGroup(groupId: string, userTypeId: string[]): Promi
 
     const userTypeIds = "(" + userTypeId.map(sql.smartEscape).join(", ") + ")";
     const values = [groupId];
-    const query = `
+    let query = `
 SELECT U.${u.userId}, U.${u.userName} 
 FROM \`${userGroupMembership}\` M
 INNER JOIN \`${users}\` U ON M.${m.userId} = U.${u.userId}
-WHERE U.${u.userType} IN ${userTypeIds} AND M.${m.groupId} = ?;`;
+WHERE U.${u.userType} IN ${userTypeIds} AND M.${m.groupId} = ?`;
+
+    // Search
+    if (searchName != undefined && searchName.trim().length > 0){
+        query += ` AND U.${u.userName} LIKE '%${sql.smartEscape(searchName.trim())}%';`;
+    }
+    else{
+        query += ';';
+    }
 
     // l.logc(JSON.stringify(values), 'getUserTypeInGroup');
     // l.logc(query + '\n', 'getUserTypeInGroup');
@@ -119,8 +127,8 @@ export function getParentAssociations(userId: string): Promise<UserGroupMemberAs
 /**
  * Privileged users in a group
  */
-function getPrivilegedUsers(groupId: string): Promise<UserGroupMember[]>{
-    return getUserTypeInGroup(groupId, [UserType.admin, UserType.creator])
+function getPrivilegedUsers(groupId: string, searchName: string | undefined): Promise<UserGroupMember[]>{
+    return getUserTypeInGroup(groupId, [UserType.admin, UserType.creator], searchName)
     .then(raw => {
         return raw.map(m => UserGroupMemberHelper.fromRaw(m, []));
     });
@@ -129,8 +137,8 @@ function getPrivilegedUsers(groupId: string): Promise<UserGroupMember[]>{
 /**
  * Teachers in a group
  */
-function getTeachers(groupId: string): Promise<UserGroupMember[]>{
-    return getUserTypeInGroup(groupId, [UserType.teacher])
+function getTeachers(groupId: string, searchName: string | undefined): Promise<UserGroupMember[]>{
+    return getUserTypeInGroup(groupId, [UserType.teacher], searchName)
     .then(raw => {
         return raw.map(m => UserGroupMemberHelper.fromRaw(m, []));
     });
@@ -139,8 +147,8 @@ function getTeachers(groupId: string): Promise<UserGroupMember[]>{
 /**
  * Students in a group
  */
-function getStudents(groupId: string): Promise<UserGroupMember[]>{
-    return getUserTypeInGroup(groupId, [UserType.student])
+function getStudents(groupId: string, searchName: string | undefined): Promise<UserGroupMember[]>{
+    return getUserTypeInGroup(groupId, [UserType.student], searchName)
     .then(rawMembers => {
         let promises = rawMembers.map(raw => {
             let member = UserGroupMemberHelper.fromRaw(raw, []);
@@ -159,8 +167,8 @@ function getStudents(groupId: string): Promise<UserGroupMember[]>{
 /**
  * Parents in a group
  */
- function getParents(groupId: string): Promise<UserGroupMember[]>{
-    return getUserTypeInGroup(groupId, [UserType.parent])
+ function getParents(groupId: string, searchName: string | undefined): Promise<UserGroupMember[]>{
+    return getUserTypeInGroup(groupId, [UserType.parent], searchName)
     .then(rawMembers => {
         let promises = rawMembers.map(raw => {
             let member = UserGroupMemberHelper.fromRaw(raw, []);

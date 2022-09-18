@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { ServerResponse, ServerResponsePlain } from "src/app/models/common-models";
 import { IGroupJoinEncryptedResult } from "src/app/models/group/group";
 import { UserGroup, UserGroupComposition } from "../../../../../commons/src/models/groups";
+import { UserGroupMemberData } from "../../../../../commons/src/models/groups/member";
 import { APIBase } from "./base.api";
 
 export class GroupAPIs implements APIBase {
@@ -97,6 +98,15 @@ export class GroupAPIs implements APIBase {
       userId: userId
     };
     return this.http.delete<ServerResponsePlain>(url, {
+      params: query,
+      headers: this.getHeaders()
+    });
+  }
+
+  getGroupMembers(groupId: string, searchName: string | undefined): Observable<ServerResponse<UserGroupMemberData>>{
+    const url = this.aurl('group-users');
+    const query = { groupId: groupId, search: searchName ?? '' };
+    return this.http.get<ServerResponse<UserGroupMemberData>>(url, {
       params: query,
       headers: this.getHeaders()
     });

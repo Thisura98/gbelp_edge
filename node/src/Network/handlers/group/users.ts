@@ -14,6 +14,7 @@ export function handlerGroupUsers(app: Express){
         const fn = 'group-users';
         const groupId = req.query.groupId as string;
         const userId = req.header('uid') as string;
+        const search = req.query.search as string;
         let statusCode = StatusCodes.success;
 
         groupsDAO.checkUserMembership(groupId, userId)
@@ -27,7 +28,7 @@ export function handlerGroupUsers(app: Express){
         })
         .then(() => {
             l.logc("getGroupUsers", "handlerGroupUsers");
-            return groupUsersDAO.getGroupUsers(groupId);
+            return groupUsersDAO.getGroupUsers(groupId, search);
         })
         .then(memberData => {
             res.send(new ResponseModel(
