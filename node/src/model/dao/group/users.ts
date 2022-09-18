@@ -147,9 +147,12 @@ function getStudents(groupId: string): Promise<UserGroupMember[]>{
         let members: UserGroupMember[] = [];
 
         for (let rawMember of raw){
+            let member = UserGroupMemberHelper.fromRaw(rawMember, []);
+            members.push(member);
+
             getStudentAssociations(rawMember.user_id)
             .then(associations => {
-                members.push(UserGroupMemberHelper.fromRaw(rawMember, associations));
+                member.associations = associations;
             })
             .catch(err => Promise.reject(err));
         }
@@ -167,9 +170,12 @@ function getStudents(groupId: string): Promise<UserGroupMember[]>{
         let members: UserGroupMember[] = [];
 
         for (let rawMember of raw){
+            let member = UserGroupMemberHelper.fromRaw(rawMember, []);
+            members.push(member);
+
             getParentAssociations(rawMember.user_id)
             .then(associations => {
-                members.push(UserGroupMemberHelper.fromRaw(rawMember, associations));
+                member.associations = associations;
             })
             .catch(err => Promise.reject(err));
         }

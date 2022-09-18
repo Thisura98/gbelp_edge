@@ -80,8 +80,6 @@ async function setupData(){
     groupWithOneParentTwoChildren = await createGroup('Single Mother', [t1, p3, s3, s4]);
     groupWithTwoParentsOneChild = await createGroup('Single Child', [t1, p4, p5, s5]);
     groupWithEveryone = await createGroup('Everyone', [t1, p1, p2, p3, p4, p5, s1, s2, s3, s4, s5]);
-
-    console.log('groupWithThreeUsers =', groupWithThreeUsers);
 }
 
 describe('Group Members DAO tests', () => {
@@ -110,7 +108,6 @@ describe('Group Members DAO tests', () => {
         expect(result.teachers.length).withContext('teachers').toBe(1);
         expect(result.students.length).withContext('students').toBe(1);
         expect(result.parents.length).withContext('parents').toBe(1);
-
     });
 
     it('Three Users - Association Names', async () => {
