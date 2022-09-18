@@ -10,6 +10,7 @@ export class UserGroupMemberAssociation{
 export class UserGroupMemberRaw{
   constructor(
     public user_id: string,
+    public user_email: string,
     public user_name: string
   ){}
 }
@@ -17,10 +18,11 @@ export class UserGroupMemberRaw{
 export class UserGroupMember extends UserGroupMemberRaw{
   constructor(
     public user_id: string,
+    public user_email: string,
     public user_name: string,
     public associations: UserGroupMemberAssociation[]
   ){
-    super(user_id, user_name);
+    super(user_id, user_email, user_name);
   }
 }
 
@@ -32,6 +34,7 @@ export class UserGroupMemberHelper{
     return new UserGroupMember(
       raw.user_id,
       raw.user_name,
+      raw.user_email,
       associations
     );
   }

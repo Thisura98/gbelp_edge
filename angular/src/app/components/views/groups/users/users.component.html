@@ -22,9 +22,11 @@
             <div class="section-sessions">
                 <!-- <app-groups-sessiontable class="session-table" [allowSelection]="false">
                 </app-groups-sessiontable> -->
-                <app-groups-sessiontable *ngIf="!loadingUserData">
+                <app-groups-usertable 
+                    *ngIf="!loadingUserData"
+                    [memberData]="data">
 
-                </app-groups-sessiontable>
+                </app-groups-usertable>
 
                 <div *ngIf="loadingUserData">Loading user data...</div>
             </div>

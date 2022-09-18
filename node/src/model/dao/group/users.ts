@@ -38,7 +38,7 @@ export function getUserTypeInGroup(groupId: string, userTypeId: string[], search
     const userTypeIds = "(" + userTypeId.map(sql.smartEscape).join(", ") + ")";
     const values = [groupId];
     let query = `
-SELECT U.${u.userId}, U.${u.userName} 
+SELECT U.${u.userId}, U.${u.userName}, U.${u.userEmail}
 FROM \`${userGroupMembership}\` M
 INNER JOIN \`${users}\` U ON M.${m.userId} = U.${u.userId}
 WHERE U.${u.userType} IN ${userTypeIds} AND M.${m.groupId} = ?`;
@@ -79,7 +79,7 @@ export function getUserAssocations(target: string, relationshipTypeIds: string[]
     const values = [target, target];
     const relationshipIds = "(" + relationshipTypeIds.map(sql.smartEscape).join(", ") + ")";
     const query = `
-SELECT M.target, U.${u.userName} as user_name, U.${u.userId} as user_id
+SELECT M.target, U.${u.userName} as user_name, U.${u.userId} as user_id, U.${u.userEmail} as user_email
 FROM (
     SELECT ${m.userOneId} as target, ${m.userTwoId} as association 
     FROM \`${userRelationship}\` 
