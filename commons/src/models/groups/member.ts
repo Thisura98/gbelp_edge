@@ -2,7 +2,7 @@ import { UserType } from "../user";
 
 export class UserGroupMemberAssociation{
   constructor(
-    public relationship: string,
+    public relationshipName: string,
     public users: UserGroupMemberRaw[] | undefined
   ){}
 }

@@ -1,27 +1,17 @@
 import { UserGroupMemberData, UserGroupMember, UserGroupMemberRaw, UserGroupMemberHelper, UserGroupMemberAssociation} from '../../../../../commons/src/models/groups/member';
-import { UserType } from '../../../../../commons/src/models/user';
+import { UserType, UserRelationshipType } from '../../../../../commons/src/models/user';
 import * as sql from '../../../util/connections/sql/sql_connection';
+import * as l from '../../../util/logger';
 
 /**
  * Returns membership info about a group
  */
-export function getGroupUsers(groupId: string): Promise<UserGroupMemberData>{
-    // const teachers = await getTeachers(groupId);
-    // return new UserGroupMemberData(teachers, [], []);
-    let data = new UserGroupMemberData([], [], []);
-
-    return getTeachers(groupId)
-    .then(teachers => {
-        data.teachers = teachers;
-        return getStudents(groupId);
-    })
-    .then(students => {
-        data.students = students;
-        // todo get parents
-    })
-    .then(() => {
-        return data;
-    })
+export async function getGroupUsers(groupId: string): Promise<UserGroupMemberData>{
+    return new UserGroupMemberData(
+        await getTeachers(groupId),
+        await getStudents(groupId),
+        await getParents(groupId)
+    );
 }
 
 /**
@@ -58,9 +48,54 @@ WHERE U.${u.userType} = ? AND M.${m.groupId} = ?;`;
     });
 }
 
-export function getUserAssociations(userId: string): Promise<UserGroupMemberAssociation[]>{
-    // todo: implement retrieve associations for user.
-    return Promise.resolve([]);
+/**
+ * Returns associations to the "target user", of a particular relationshipTypeId.
+ */
+export function getUserAssocations(target: string, relationshipTypeIds: string[]): Promise<UserGroupMemberAssociation[]>{
+    const users = sql.tables.users;
+    const userRelationship = sql.tables.userRelationship;
+
+    const m = sql.columns.userRelationship;
+    const u = sql.columns.users;
+
+    const values = [target, target];
+    const relationshipIds = "(" + relationshipTypeIds.map(sql.smartEscape).join(", ") + ")";
+    const query = `
+SELECT M.target, U.${u.userName} as user_name, U.${u.userId} as user_id
+FROM (
+    SELECT ${m.userOneId} as target, ${m.userTwoId} as association 
+    FROM \`${userRelationship}\` 
+    WHERE ${m.userOneId} = ? AND ${m.relationshipType} IN ${relationshipIds}
+
+    UNION ALL 
+
+    SELECT ${m.userTwoId} as target, ${m.userOneId} as association 
+    FROM \`${userRelationship}\` 
+    WHERE ${m.userTwoId} = ? AND ${m.relationshipType} IN ${relationshipIds}
+) M
+INNER JOIN \`${users}\` U ON U.${u.userId} = M.association
+`;
+
+    l.logc(query, "getUserAssocation");
+
+    return new Promise<UserGroupMemberAssociation[]>((resolve, reject) => {
+        sql.getPool()!.query(query, values, (error, result) => {
+            if (error == null){
+                resolve(result);
+            }
+            else{
+                reject(error);
+            }
+        });
+    });
+}
+
+export function getStudentAssociations(userId: string): Promise<UserGroupMemberAssociation[]>{
+    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild]);
+}
+
+export function getParentAssociations(userId: string): Promise<UserGroupMemberAssociation[]>{
+    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild]);
 }
 
 /**
@@ -81,13 +116,34 @@ function getStudents(groupId: string): Promise<UserGroupMember[]>{
     .then(raw => {
         let members: UserGroupMember[] = [];
 
-        for (let member of members){
-            const associations = getUserAssociations(member.user_id)
-            .then(a => member.associations = a)
+        for (let rawMember of raw){
+            getStudentAssociations(rawMember.user_id)
+            .then(association => {
+                members.push(UserGroupMemberHelper.fromRaw(rawMember, association));
+            })
             .catch(err => Promise.reject(err));
         }
         
         return members;
     });
+}
 
+/**
+ * Parents in a group
+ */
+ function getParents(groupId: string): Promise<UserGroupMember[]>{
+    return getUserTypeInGroup(groupId, UserType.parent)
+    .then(raw => {
+        let members: UserGroupMember[] = [];
+
+        for (let rawMember of raw){
+            getParentAssociations(rawMember.user_id)
+            .then(association => {
+                members.push(UserGroupMemberHelper.fromRaw(rawMember, association));
+            })
+            .catch(err => Promise.reject(err));
+        }
+        
+        return members;
+    });
 }

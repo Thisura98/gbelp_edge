@@ -19,6 +19,10 @@ export const UserTypeNames = {
     creator: 'creator'
 }
 
+export const UserRelationshipType = {
+    guardianAndChild: '1'
+}
+
 export class UserTypeHelper{
     
     public static getTypeString(type: UserType): string{
