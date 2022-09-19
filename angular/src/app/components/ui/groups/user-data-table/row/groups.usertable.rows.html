@@ -1,0 +1,13 @@
+<div class="user-row" *ngFor="let member of users"
+    (click)="onSelected.emit(member)">
+    <div class="user-row-selector">
+        <input type="checkbox" 
+            [checked]="selections[member.user_id]"/>
+    </div>
+    <div class="user-row-name">{{member.user_name}}</div>
+    <div class="user-row-email">{{member.user_email}}</div>
+</div>
+
+<div class="user-row-empty" *ngIf="usersEmpty">
+    No users in this category
+</div>

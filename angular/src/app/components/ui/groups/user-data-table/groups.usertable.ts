@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { UserService } from "src/app/services/user.service";
-import { UserGroupMemberData } from "../../../../../../../commons/src/models/groups/member";
+import { UserGroupMember, UserGroupMemberData } from "../../../../../../../commons/src/models/groups/member";
 
 @Component({
   selector: 'app-groups-usertable',
@@ -14,8 +14,15 @@ export class GroupsUserTable{
   @Input()
   memberData: UserGroupMemberData | undefined;
 
+  selection: { [key: string] : boolean } = {};
+
   constructor(
     private userService: UserService
   ){}
+
+  public selectUser(user: UserGroupMember){
+    const id = user.user_id;
+    this.selection[id] = this.selection[id] == null || !this.selection[id];
+  }
 
 }

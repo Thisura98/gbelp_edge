@@ -1,40 +1,40 @@
-<div class="section" *ngIf="memberData!.privileged.length > 0">
+<div class="section" *ngIf="(memberData?.privileged?.length ?? 0) > 0">
     <h2>Privileged Users</h2>
     <div class="rows">
-        <div class="user-row" *ngFor="let member of memberData!.privileged">
-            <div class="user-row-selector"><input type="checkbox"/></div>
-            <div class="user-row-name">{{member.user_name}}</div>
-            <div class="user-row-email">{{member.user_email}}</div>
-        </div>
+        <app-groups-usertable-rows
+            [users]="memberData?.privileged"
+            [selections]="selection"
+            (onSelected)="selectUser($event)">
+        </app-groups-usertable-rows>
     </div>
 </div>
 <div class="section">
     <h2>Teachers</h2>
     <div class="rows">
-        <div class="user-row" *ngFor="let member of memberData!.teachers">
-            <div class="user-row-selector"><input type="checkbox"/></div>
-            <div class="user-row-name">{{member.user_name}}</div>
-            <div class="user-row-email">{{member.user_email}}</div>
-        </div>
+        <app-groups-usertable-rows
+            [users]="memberData?.teachers"
+            [selections]="selection"
+            (onSelected)="selectUser($event)">
+        </app-groups-usertable-rows>
     </div>
 </div>
 <div class="section">
     <h2>Students</h2>
     <div class="rows">
-        <div class="user-row" *ngFor="let member of memberData!.students">
-            <div class="user-row-selector"><input type="checkbox"/></div>
-            <div class="user-row-name">{{member.user_name}}</div>
-            <div class="user-row-email">{{member.user_email}}</div>
-        </div>
+        <app-groups-usertable-rows
+            [users]="memberData?.students"
+            [selections]="selection"
+            (onSelected)="selectUser($event)">
+        </app-groups-usertable-rows>
     </div>
 </div>
 <div class="section">
     <h2>Parents</h2>
     <div class="rows">
-        <div class="user-row" *ngFor="let member of memberData!.parents">
-            <div class="user-row-selector"><input type="checkbox"/></div>
-            <div class="user-row-name">{{member.user_name}}</div>
-            <div class="user-row-email">{{member.user_email}}</div>
-        </div>
+        <app-groups-usertable-rows
+            [users]="memberData?.parents"
+            [selections]="selection"
+            (onSelected)="selectUser($event)">
+        </app-groups-usertable-rows>
     </div>
 </div>
