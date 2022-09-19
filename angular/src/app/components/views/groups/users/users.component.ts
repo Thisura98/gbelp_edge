@@ -25,6 +25,16 @@ export class GroupUsersComponent implements OnInit{
   get sidebarItems(): DynamicSidebarItem[]{
     return getGroupSidebarItems('Users');
   }
+
+  selection: { [key: string] : boolean } = {};
+
+  get selectionCount(): number{
+    let count = 0;
+    for (let key in this.selection){
+      count = this.selection[key] ? (count + 1) : count;
+    }
+    return count;
+  }
   
   private groupId: string | undefined;
   group: UserGroup | undefined;

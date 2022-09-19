@@ -14,6 +14,7 @@ export class GroupsUserTable{
   @Input()
   memberData: UserGroupMemberData | undefined;
 
+  @Input()
   selection: { [key: string] : boolean } = {};
 
   constructor(

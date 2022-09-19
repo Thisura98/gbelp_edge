@@ -5,27 +5,3 @@
 .rows{
     margin-bottom: 15px;
 }
-
-.user-row{
-    padding: 6px 0 3px 0;
-    display: flex;
-    flex-direction: row;
-    border-bottom: 1px solid #BDD5E3;
-}
-
-.user-row:hover{
-    background-color: #0F88D822;
-    cursor: pointer;
-}
-
-.user-row-selector{
-    width: 40px;
-}
-
-.user-row-name{
-    width: 30%;
-}
-
-.user-row-email{
-    width: 30%;
-}

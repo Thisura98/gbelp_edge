@@ -20,11 +20,10 @@
 
         <div class="container3">
             <div class="section-sessions">
-                <!-- <app-groups-sessiontable class="session-table" [allowSelection]="false">
-                </app-groups-sessiontable> -->
                 <app-groups-usertable 
                     *ngIf="!loadingUserData"
-                    [memberData]="data">
+                    [memberData]="data"
+                    [selection]="selection">
 
                 </app-groups-usertable>
 
@@ -33,8 +32,9 @@
             <div class="section-pane">
                 <h2>Details</h2>
                 <div class="panel panel-today">
-                    <div class="panel-section-title">No Title</div>
-                    <div class="panel-section-content">No Content</div>
+                    <div class="panel-section-selection">
+                        {{selectionCount}} user{{selectionCount == 1 ? '' : 's'}} selected
+                    </div>
                 </div>
                 <div class="panel-separator"></div>
                 <div class="panel panel-buttons">
