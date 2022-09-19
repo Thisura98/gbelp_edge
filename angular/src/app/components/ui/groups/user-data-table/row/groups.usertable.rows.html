@@ -6,6 +6,15 @@
     </div>
     <div class="user-row-name">{{member.user_name}}</div>
     <div class="user-row-email">{{member.user_email}}</div>
+    <div class="user-associations">
+        <div class="assoc-type" *ngFor="let assoc of member.associations">
+            <span class="assoc-relationship-name">{{assoc.relationshipName}},</span>
+            <span class="assoc-spacing"></span>
+            <span class="assoc-relationship-user" *ngFor="let user of assoc.users">
+                {{user.user_name}}
+            </span>
+        </div>
+    </div>
 </div>
 
 <div class="user-row-empty" *ngIf="usersEmpty">

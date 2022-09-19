@@ -28,3 +28,26 @@
     color: #aaa;
     border-bottom: 1px solid #ddd;
 }
+
+.user-associations{
+    width: 30%;
+}
+
+.assoc-type{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.assoc-spacing{
+    width: 4px;
+}
+
+.assoc-relationship-user{
+    background: #009EFF;
+    margin-right: 3px;
+    color: white;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 15px;
+}
