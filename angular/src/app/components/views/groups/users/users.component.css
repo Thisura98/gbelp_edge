@@ -17,3 +17,16 @@
     color: #009EFF;
     font-weight: 500;
 }
+
+.panel-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.composition-row{
+    line-height: 25px;
+    color: #878787;
+    
+}

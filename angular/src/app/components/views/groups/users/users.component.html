@@ -31,15 +31,27 @@
             </div>
             <div class="section-pane">
                 <h2>Details</h2>
-                <div class="panel panel-today">
+                <div class="panel panel-summary">
                     <div class="panel-section-selection">
                         {{selectionCount}} user{{selectionCount == 1 ? '' : 's'}} selected
                     </div>
                 </div>
-                <div class="panel-separator"></div>
+                <br/>
                 <div class="panel panel-buttons">
                     <div class="dyn-btn">
-                        <span>Create Game</span><img class="dyn-btn-image" src="assets/common/pluswhite.png">
+                        Remove selected Users
+                    </div>
+                    <div class="dyn-btn">
+                        View selected student reports
+                    </div>
+                    <div class="dyn-btn">
+                        Associate selected users
+                    </div>
+                </div>
+                <div class="panel-separator"></div>
+                <div class="panel panel-composition">
+                    <div class="composition-row" *ngFor="let c of composition">
+                        {{c.count}} {{c.type_name | titlecase }}{{c.count > 1 ? 's' : ''}}
                     </div>
                 </div>
             </div>

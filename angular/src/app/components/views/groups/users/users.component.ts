@@ -7,7 +7,7 @@ import { ApiService } from "src/app/services/api.service";
 import { DialogService } from "src/app/services/dialog.service";
 import { UserService } from "src/app/services/user.service";
 import { StatusCodes } from "../../../../../../../commons/src/constants";
-import { UserGroup } from "../../../../../../../commons/src/models/groups";
+import { UserGroup, UserGroupComposition } from "../../../../../../../commons/src/models/groups";
 import { UserGroupMemberData } from "../../../../../../../commons/src/models/groups/member";
 
 @Component({
@@ -41,6 +41,7 @@ export class GroupUsersComponent implements OnInit{
   loadingUserData: boolean = false;
   searchTerm: string | undefined = undefined;
   data: UserGroupMemberData | undefined;
+  composition: UserGroupComposition[] | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -73,6 +74,7 @@ export class GroupUsersComponent implements OnInit{
       
       this.group = response.data;
       this.loadUsers();
+      this.loadComposition();
     });
   }
 
@@ -88,6 +90,17 @@ export class GroupUsersComponent implements OnInit{
         this.handleLoadError(response.description);
       }
     }, (err) => this.handleLoadError(err))
+  }
+  
+  private loadComposition(){
+    this.apiService.group.getGroupComposition(this.groupId!).subscribe(response => {
+
+      // Membership error in API.
+      if (response.code == StatusCodes.membershipError)
+        this.router.navigate(['/dashboard/f/groups']);
+
+      this.composition = response.data;
+    });
   }
 
   private handleLoadError(msg: any){
