@@ -148,7 +148,7 @@ export class GameCreateComponent implements OnInit {
         if (response.data?.gameId != undefined)
           this.gameCreatedSuccessfully(response.data.gameId);
         else
-          this.notifyGameCreationError("Unknown error")
+          this.notifyGameCreationError(response.description)
       });
     }
   }
