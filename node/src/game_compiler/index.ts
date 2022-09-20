@@ -1,7 +1,7 @@
 import { GameEntry } from '../../../commons/src/models/game/game';
 import { GameProject } from '../../../commons/src/models/game/project';
 import * as fs from 'fs';
-import * as gamesDAO from './../model/dao/games';
+import * as gamesDAO from '../model/dao/games';
 import * as l from '../util/logger';
 import * as pc from '../util/parseconfig';
 import { GenerateGame } from './generators/game';

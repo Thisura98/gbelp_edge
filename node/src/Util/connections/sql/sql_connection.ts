@@ -79,6 +79,7 @@ export function initialize(config: IConfig){
             migrations.runMigrations(db);
             l.logc('MySQL Connected', tag);
         }
+        db.release();
     })
 }
 

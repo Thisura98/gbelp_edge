@@ -1,18 +1,19 @@
-import * as l from '../../util/logger';
-import * as sql from '../../util/connections/sql/sql_connection';
-import * as mongo from '../../util/connections/mongo/mongo_connection';
-import * as utils from '../../util/utils';
+import * as l from '../../../util/logger';
+import * as sql from '../../../util/connections/sql/sql_connection';
+import * as mongo from '../../../util/connections/mongo/mongo_connection';
+import * as utils from '../../../util/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTime, ToSQLOptions } from 'luxon';
-import * as mimeParse from '../../util/mime_parse';
+import * as mimeParse from '../../../util/mime_parse';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-import { GameListing, GameType, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../commons/src/models/game/game';
-import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
+import { GameListing, GameType, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../../commons/src/models/game/game';
+import * as LevelInitData from '../../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
-import DAOCallback, { DAOTypedCallback } from './commons';
-import * as metricsDAO from './metrics'
-import { GameProject } from '../../../../commons/src/models/game/project';
+import DAOCallback, { DAOTypedCallback } from '../commons';
+import * as metricsDAO from '../metrics'
+import { GameProject } from '../../../../../commons/src/models/game/project';
+import { createTemplate } from './template.helper';
 
 /**
  * Create a game entry
@@ -51,61 +52,77 @@ export function createGame(data: any, callback: DAOCallback){
     // create game entry in sql,
     // then create games document in mongo
 
-    let sampleLevels: Object[] = []
-
-    if (data.type == GameType.Singleplayer){
-        sampleLevels = LevelInitData.getSinglePlayerLevelInitData(data.level_switch, null);
-    }
-    else if (data.type == GameType.Multiplayer){
-        sampleLevels = LevelInitData.getMultiPlayerLevelInitData(data.level_switch, null);
+    if (data.is_template){
+        createTemplate(data, m)
+        .then(gameId => {
+            let response = {
+                gameId: gameId
+            };
+            callback(true, 'Successfully Inserted', response);
+        })
+        .catch(err => {
+            callback(false, err, null);
+        })
     }
     else{
-        callback(false, `Unknown game type: "${data.type}"`, null);
+        callback(false, 'Not implemented yet', null);
     }
 
-    const proj = { resources: [], levels: sampleLevels };
-    mongo.Collections.getGameProjects().insertOne(proj, (mongo_error, result) => {
-        if (mongo_error != null){
-            callback(false, 'Error creating Game Project', null);
-            return;
-        }
+    // let sampleLevels: Object[] = []
+
+    // if (data.type == GameType.Singleplayer){
+    //     sampleLevels = LevelInitData.getSinglePlayerLevelInitData(data.level_switch, null);
+    // }
+    // else if (data.type == GameType.Multiplayer){
+    //     sampleLevels = LevelInitData.getMultiPlayerLevelInitData(data.level_switch, null);
+    // }
+    // else{
+    //     callback(false, `Unknown game type: "${data.type}"`, null);
+    // }
+
+    // const proj = { resources: [], levels: sampleLevels };
+    // mongo.Collections.getGameProjects().insertOne(proj, (mongo_error, result) => {
+    //     if (mongo_error != null){
+    //         callback(false, 'Error creating Game Project', null);
+    //         return;
+    //     }
     
-        /**
-         * .toString() is IMPORTANT. document._id are ObjectIDs
-         * and not strings. Trying to pass it to MySQL with throw
-         * head scratching errors where, the 'INSERT INTO'
-         * contains values such as '_bsonType'.
-         * 
-         * Had to learn this the hard way. DO NOT FORGET!
-         */
-        const projectId = result!.insertedId.toHexString();
-        m[c.projectId] = projectId;
+    //     /**
+    //      * .toString() is IMPORTANT. document._id are ObjectIDs
+    //      * and not strings. Trying to pass it to MySQL with throw
+    //      * head scratching errors where, the 'INSERT INTO'
+    //      * contains values such as '_bsonType'.
+    //      * 
+    //      * Had to learn this the hard way. DO NOT FORGET!
+    //      */
+    //     const projectId = result!.insertedId.toHexString();
+    //     m[c.projectId] = projectId;
 
-        const dictKeys = Object.keys(m);
-        const dictValues = Object.values(m);
-        const noEntries = dictValues.length;
-        const template = `${Array(noEntries).fill('?')}`
-        const columns = dictKeys.join(', ');
+    //     const dictKeys = Object.keys(m);
+    //     const dictValues = Object.values(m);
+    //     const noEntries = dictValues.length;
+    //     const template = `${Array(noEntries).fill('?')}`
+    //     const columns = dictKeys.join(', ');
 
-        const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
+    //     const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
 
-        sql.getPool()!.query({
-            sql: query,
-            values: dictValues
-        }, (err, results, fields) => {
+    //     sql.getPool()!.query({
+    //         sql: query,
+    //         values: dictValues
+    //     }, (err, results, fields) => {
 
-            if (err == null){
-                const response = {
-                    gameId: results.insertId
-                };
-                callback(true, "Successfully inserted", response);
-            }
-            else{
-                console.log("Create Game Error", err);
-                callback(false, "Server Error occured", null);
-            }
-        });
-    });
+    //         if (err == null){
+    //             const response = {
+    //                 gameId: results.insertId
+    //             };
+    //             callback(true, "Successfully inserted", response);
+    //         }
+    //         else{
+    //             console.log("Create Game Error", err);
+    //             callback(false, "Server Error occured", null);
+    //         }
+    //     });
+    // });
 }
 
 /**
