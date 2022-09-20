@@ -200,7 +200,10 @@ export class GameEditLevelsComponent implements OnInit {
   }
 
   editLevelPressed(){
-    this.router.navigate(['/game/edit/editor/scene'], {
+    let route = '/edit/editor/scene';
+    route = ((this.viewMode == ViewMode.GAME) ? '/game' : '/template') + route;
+    
+    this.router.navigate([route], {
       queryParams: {
         gameId: this.editingGameId,
         levelId: this.selectedLevel!._id

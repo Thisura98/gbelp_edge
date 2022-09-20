@@ -132,7 +132,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     ]
 }
         this.levelProperties = {
-    "Difficulty": "200"
+    "Difficulty": "10"
 }
         		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
@@ -228,10 +228,10 @@ class LevelScene_Level_1 extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 0,
-                "y": 0,
-                "w": 1366,
-                "h": 768
+                "x": 10,
+                "y": 10,
+                "w": 800,
+                "h": 600
             },
             "rotation": 0,
             "physicsBehavior": "1",
@@ -310,10 +310,10 @@ class LevelScene_Level_2 extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 0,
-                "y": 0,
-                "w": 1366,
-                "h": 768
+                "x": 50,
+                "y": 50,
+                "w": 640,
+                "h": 480
             },
             "rotation": 0,
             "physicsBehavior": "1",
@@ -392,10 +392,10 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
             "type": "camera",
             "name": "Camera",
             "frame": {
-                "x": 0,
-                "y": 0,
-                "w": 1366,
-                "h": 768
+                "x": 60,
+                "y": 60,
+                "w": 700,
+                "h": 400
             },
             "rotation": 0,
             "physicsBehavior": "1",
