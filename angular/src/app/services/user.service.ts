@@ -2,6 +2,13 @@ import { isDevMode, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserType, UserTypeNames } from '../../../../commons/src/models/user';
 
+export interface IUserData{
+    user_id: string;
+    user_name: string;
+    user_type_name: string;
+    token: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -11,7 +18,7 @@ export class UserService{
         private router: Router
     ){}
 
-    setLoggedIn(data: any){
+    setLoggedIn(data: IUserData){
         localStorage.setItem('uid', data.user_id);
         localStorage.setItem('uname', data.user_name);
         localStorage.setItem('utypename', data.user_type_name);

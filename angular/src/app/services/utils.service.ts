@@ -32,7 +32,7 @@ export class UtilsService{
      * @param domain optional custom domain. if null will be picked from location.
      * @param port optional custom port. if null will be picked from location.
      */
-    urlFromPath(text: string, domain: string | null = null, port: string | null = null){
+    urlFromPath(text: string, domain: string | null = null, port: string | null = null): string{
         const actualDomain = domain ?? location.hostname
         const actualPort = port ?? location.port;
         const protocol = location.protocol;

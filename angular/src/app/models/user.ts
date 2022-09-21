@@ -7,6 +7,8 @@ interface UserType{
 
 interface UserAuth{
     user_id: string,
+    user_name: string,
+    user_type_name: string,
     token: string
 }
 
