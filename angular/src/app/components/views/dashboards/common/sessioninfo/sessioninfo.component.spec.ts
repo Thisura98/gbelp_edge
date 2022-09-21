@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { APP_IMPORTS } from 'src/app/constants/modules.imports';
 
 import { SessioninfoComponent } from './sessioninfo.component';
 
@@ -8,7 +10,8 @@ describe('SessioninfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SessioninfoComponent ]
+      declarations: [ SessioninfoComponent ],
+      imports: [ ...APP_IMPORTS ]
     })
     .compileComponents();
   });
