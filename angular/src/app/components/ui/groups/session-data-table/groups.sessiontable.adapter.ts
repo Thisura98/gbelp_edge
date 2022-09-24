@@ -44,7 +44,7 @@ export class GroupsSessionDataAdapter{
       const d1 = this.getDateFromTime(a.start_time);
       const d2 = this.getDateFromTime(b.start_time);
       return d2.getTime() - d1.getTime();
-    })
+    });
 
     // Step 3: Group models according to yyyy-MM-dd
 
