@@ -36,7 +36,7 @@ export class DialogService{
         });
     }
 
-    async showSnackbar(title: string, duration: number | undefined = 1500){
+    showSnackbar(title: string, duration: number | undefined = 1500){
         this.toastr.error(title, undefined, {
             positionClass: 'toast-bottom-center',
             toastClass: 'dyn-toast-class',

@@ -62,13 +62,14 @@ class MockAPIService{
   game = { 
     getGame: (gameId: string | number): Observable<ServerResponseGameListing> => {
       return new Observable<ServerResponseGameListing>(s => {
-        s.next();
+        s.next(createResponse(createGameListing('test')));
       });
     }
   };
 
   editor = {
     uploadGameResource: (data: FormData, progressCallback: (progress: number) => void): Observable<ServerResponseGameProject> => {
+      progressCallback(1.0);
       return new Observable<ServerResponseGameProject>(s => {
         s.next(createResponse(createGameProject()))
       });
@@ -79,11 +80,13 @@ class MockAPIService{
 describe('GameEditResourcesComponent', () => {
   let component: GameEditResourcesComponent;
   let fixture: ComponentFixture<GameEditResourcesComponent>;
-  let dialogServiceSpy: jasmine.SpyObj<DialogService>
+  let dialogServiceSpy: jasmine.SpyObj<DialogService>;
+  let toastrServiceSpy: jasmine.SpyObj<ToastrService>;
   let apiService: ApiService;
 
   beforeEach(async () => {
-    dialogServiceSpy = jasmine.createSpyObj<DialogService>('DialogService', ['showDismissable']);
+    dialogServiceSpy = jasmine.createSpyObj<DialogService>('DialogService', ['showSnackbar']);
+    toastrServiceSpy = jasmine.createSpyObj('ToastrService', ['error']);
 
     let activatedRoute = {
       queryParams: new Observable<Params>(s => s.next({ gameId: 1 })),
@@ -100,7 +103,7 @@ describe('GameEditResourcesComponent', () => {
         { provide: ApiService, useClass: MockAPIService },
         { provide: DialogService, dialogServiceSpy },
         { provide: MatDialog, useValue: jasmine.createSpyObj('MatDialog', ['open']) },
-        { provide: ToastrService, useValue: jasmine.createSpyObj('ToastrService', ['error']) }
+        { provide: ToastrService, useValue: toastrServiceSpy }
       ],
     })
     .compileComponents();
@@ -141,5 +144,35 @@ describe('GameEditResourcesComponent', () => {
     expect(imageElements).toEqual(2);
     expect(soundElements).toEqual(3);
 
+  }));
+
+  it('should upload data', fakeAsync(() => {
+
+    let uploadInputFileChangedSpy = spyOn(component, 'uploadInputFileChanged');
+    let uploadAPIMethodSpy = spyOn(apiService.editor, 'uploadGameResource');
+
+    const dt = new DataTransfer();
+    dt.items.add(new File([], 'file1.png'));
+
+    tick();
+    fixture.detectChanges();
+
+    uploadInputFileChangedSpy.and.callThrough();
+    uploadAPIMethodSpy.and.callThrough();
+
+    component.uploadInputFileChanged({
+      target: {
+        files: dt.files
+      }
+    });
+
+    tick();
+
+    fixture.detectChanges();
+
+    expect(uploadInputFileChangedSpy).toHaveBeenCalledTimes(1);
+    expect(uploadAPIMethodSpy).toHaveBeenCalledTimes(1);
+    expect(component.uploadProgress).toEqual(1.0);
+    expect(toastrServiceSpy.error).toHaveBeenCalled();
   }));
 });
