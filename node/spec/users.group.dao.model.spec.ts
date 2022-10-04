@@ -81,12 +81,12 @@ async function setupData(){
     
     groupWithThreeUsers = await createGroup('Three Users', [t1, p1, s1]);
     groupWithFiveUsers = await createGroup('Five Users', [t1, p1, s1, p2, s2]);
-    groupWithOneParentTwoChildren = await createGroup('Single Mother', [t1, p3, s3, s4]);
+    groupWithOneParentTwoChildren = await createGroup('Single Parent', [t1, p3, s3, s4]);
     groupWithTwoParentsOneChild = await createGroup('Single Child', [t1, p4, p5, s5]);
     groupWithEveryone = await createGroup('Everyone', [t1, p1, p2, p3, p4, p5, s1, s2, s3, s4, s5]);
 }
 
-describe('Group Members DAO tests', () => {
+describe('ES-18: Group Members DAO tests', () => {
 
     beforeAll(async () => {
         try{
@@ -101,7 +101,7 @@ describe('Group Members DAO tests', () => {
 
     // MARK Test: Three Users
 
-    it('Three Users - Composition', async () => {
+    it('ES-19 (1): Three Users - Composition', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
 
         expect(result.privileged.length).withContext(kPrivileged).toBe(0);
@@ -110,7 +110,7 @@ describe('Group Members DAO tests', () => {
         expect(result.parents.length).withContext(kParents).toBe(1);
     });
 
-    it('Three Users - Association Names', async () => {
+    it('ES-19 (2): Three Users - Association Names', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
         const relOfStudent = result.students[0].associations[0];
         const relOfParent = result.parents[0].associations[0];
@@ -119,7 +119,7 @@ describe('Group Members DAO tests', () => {
         expect(relOfParent.relationshipName).withContext(kRParent).toBe('Parent of');
     });
 
-    it('Three Users - Association Composition', async () => {
+    it('ES-19 (3): Three Users - Association Composition', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithThreeUsers);
 
         const relOfStudent = result.students[0].associations[0];
@@ -137,9 +137,9 @@ describe('Group Members DAO tests', () => {
         expect(parentRelUsers[0].user_name).withContext('pRel3').toBe(result.students[0].user_name);
     });
 
-    // MARK Test: Single Mother
+    // MARK Test: Single Parent
 
-    it('Single Mother - Composition', async () => {
+    it('ES-20 (1): Single Parent - Composition', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithOneParentTwoChildren);
 
         expect(result.privileged.length).withContext(kPrivileged).toBe(0);
@@ -148,7 +148,7 @@ describe('Group Members DAO tests', () => {
         expect(result.parents.length).withContext(kParents).toBe(1);
     });
 
-    it('Single Mother - Association Count', async () => {
+    it('ES-20 (2): Single Parent - Association Count', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithOneParentTwoChildren);
 
         const student1 = result.students[0];
@@ -161,7 +161,7 @@ describe('Group Members DAO tests', () => {
         expect(parent.associations[0].users!.length).withContext('pRelUsers').toEqual(2);
     });
 
-    it('Single Mother - Association Composition', async () => {
+    it('ES-20 (3): Single Parent - Association Composition', async () => {
         const result = await groupUsersDAO.getGroupUsers(groupWithOneParentTwoChildren);
 
         const student1 = result.students[0];

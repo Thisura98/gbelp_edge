@@ -33,8 +33,8 @@ export class UserGroupMemberHelper{
   ): UserGroupMember{
     return new UserGroupMember(
       raw.user_id,
-      raw.user_name,
       raw.user_email,
+      raw.user_name,
       associations
     );
   }
