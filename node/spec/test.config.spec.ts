@@ -3,7 +3,7 @@ import { IConfig } from '../src/util/parseconfig';
 
 const configFileLocation = 'config.json';
 
-describe('Config File Tests', () => {
+describe('ES-16: Config File Tests', () => {
     it('Config File exists', async () => {
         try{
             const file = await fs.readFile(configFileLocation, 'utf-8');

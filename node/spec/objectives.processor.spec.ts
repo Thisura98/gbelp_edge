@@ -5,19 +5,27 @@ import { toMilliseconds } from './utils/utils';
 
 const yAxesLabel = 'Objective Points';
 
-function createObjective(progress: number, time: string, objectiveId: string = '1', userId: string = '1', id: string = '1', sessionId: string = '1', nonce: string = 'a'): GameSessionUserObjective{
+function createObjective(
+    progress: number, 
+    time: string, 
+    objectiveId: string = '1', 
+    userId: string = '1', 
+    id: string = '1', 
+    sessionId: string = '1', 
+    nonce: string = 'a'
+): GameSessionUserObjective{
     return new GameSessionUserObjective(id, sessionId, objectiveId, userId, progress, nonce, time);
 }
 
-describe('Objective Processor Tests', () => {
+describe('ES-17: Objective Processor Tests', () => {
 
-    it('Empty Input Test', async () => {
+    it('Test A: Empty Input Test', async () => {
         const input: GameSessionUserObjective[] = [];
         const expectedOutput = new ReportGraphDataUserObjectiveProgressByTime([], [], 'Seconds', yAxesLabel)
         expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
     });
 
-    it('2 progress updates for same objective', async () => {
+    it('Test B: 2 progress updates for same objective', async () => {
         const input: GameSessionUserObjective[] = [
             createObjective(0.5, '2022-01-01 10:00:00', '1'),
             createObjective(1.0, '2022-01-01 10:10:01', '1')
@@ -32,7 +40,7 @@ describe('Objective Processor Tests', () => {
         expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
     });
 
-    it('2 progress updates for different objectives', async () => {
+    it('Test C: 2 progress updates for different objectives', async () => {
         const input: GameSessionUserObjective[] = [
             createObjective(0.5, '2022-01-01 10:00:00', '1'),
             createObjective(1.0, '2022-01-01 10:10:01', '2')
@@ -47,7 +55,7 @@ describe('Objective Processor Tests', () => {
         expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
     });
 
-    it('2 progress updates for same objective (with 20 minute break)', async () => {
+    it('Test D: 2 progress updates for same objective (with 20 minute break)', async () => {
         const input: GameSessionUserObjective[] = [
             createObjective(0.5, '2022-01-01 10:00:00'),
             createObjective(1.0, '2022-01-01 10:21:00')
@@ -62,7 +70,7 @@ describe('Objective Processor Tests', () => {
         expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
     });
 
-    it('3 progress updates (A = 2, B = 1) (with 20 minute break)', async () => {
+    it('Test E: 3 progress updates (A = 2, B = 1) (with 20 minute break)', async () => {
         const input: GameSessionUserObjective[] = [
             createObjective(0.5, '2022-01-01 10:00:00', 'A'),
             createObjective(0.5, '2022-01-01 10:11:00', 'B'),
@@ -79,7 +87,7 @@ describe('Objective Processor Tests', () => {
         expect(await processObjectivesByTime(input)).toEqual(expectedOutput);
     });
 
-    it('4 progress updates for same objective with dipping', async () => {
+    it('Test F: 4 progress updates for same objective with dipping', async () => {
         const input: GameSessionUserObjective[] = [
             createObjective(0.5, '2022-01-01 10:00:00'),
             createObjective(1.0, '2022-01-01 10:11:00'),

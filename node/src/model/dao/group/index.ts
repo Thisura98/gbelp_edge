@@ -381,6 +381,8 @@ export function deleteGroup(
             }
 
             const dbType = (result! as any).user_type_id as string;
+
+            // possible unit test check
             const isTeacher = dbType == UserType.admin || dbType == UserType.teacher
 
             resolve(isTeacher);
