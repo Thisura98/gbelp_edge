@@ -108,7 +108,7 @@ WHERE B.${b.groupId} = ?
         }
     }
 
-    l.logc(query, "getUserAssocation");
+    // l.logc(query, "getUserAssocation");
 
     return new Promise<UserGroupMemberRaw[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {
