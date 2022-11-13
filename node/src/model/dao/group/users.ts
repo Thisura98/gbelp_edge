@@ -69,16 +69,18 @@ WHERE U.${u.userType} IN ${userTypeIds} AND M.${m.groupId} = ?`;
 /**
  * Returns associations to the "target user", of a particular relationshipTypeId.
  */
-export function getUserAssocations(target: string, relationshipTypeIds: string[]): Promise<UserGroupMemberRaw[]>{
+export function getUserAssocations(target: string, relationshipTypeIds: string[], groupIdFilter: string | null): Promise<UserGroupMemberRaw[]>{
     const users = sql.tables.users;
     const userRelationship = sql.tables.userRelationship;
+    const groupMembership = sql.tables.userGroupMembership;
 
     const m = sql.columns.userRelationship;
     const u = sql.columns.users;
+    const b = sql.columns.userGroupMembership;
 
-    const values = [target, target];
     const relationshipIds = "(" + relationshipTypeIds.map(sql.smartEscape).join(", ") + ")";
-    const query = `
+    let values = [target, target];
+    let query = `
 SELECT M.target, U.${u.userName} as user_name, U.${u.userId} as user_id, U.${u.userEmail} as user_email
 FROM (
     SELECT ${m.userOneId} as target, ${m.userTwoId} as association 
@@ -94,7 +96,19 @@ FROM (
 INNER JOIN \`${users}\` U ON U.${u.userId} = M.association
 `;
 
-    // l.logc(query, "getUserAssocation");
+    // Select only users members of 'groupIdFilter'
+    if (groupIdFilter != null){
+        const safeGroupId = sql.smartEscape(groupIdFilter.trim());
+        if (safeGroupId.length > 0){
+            values.push(groupIdFilter);
+            query += `
+INNER JOIN \`${groupMembership}\` B ON U.${u.userId} = B.${b.userId}
+WHERE B.${b.groupId} = ?
+`;
+        }
+    }
+
+    l.logc(query, "getUserAssocation");
 
     return new Promise<UserGroupMemberRaw[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {
@@ -108,16 +122,16 @@ INNER JOIN \`${users}\` U ON U.${u.userId} = M.association
     });
 }
 
-export function getStudentAssociations(userId: string): Promise<UserGroupMemberAssociation[]>{
-    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild])
+export function getStudentAssociations(userId: string, groupId: string | null): Promise<UserGroupMemberAssociation[]>{
+    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild], groupId)
     .then(associations => {
         let parents = new UserGroupMemberAssociation('Child of', associations);
         return [parents];
     });
 }
 
-export function getParentAssociations(userId: string): Promise<UserGroupMemberAssociation[]>{
-    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild])
+export function getParentAssociations(userId: string, groupId: string | null): Promise<UserGroupMemberAssociation[]>{
+    return getUserAssocations(userId, [UserRelationshipType.guardianAndChild], groupId)
     .then(associations => {
         let children = new UserGroupMemberAssociation('Parent of', associations);
         return [children];
@@ -153,7 +167,7 @@ function getStudents(groupId: string, searchName: string | undefined): Promise<U
         let promises = rawMembers.map(raw => {
             let member = UserGroupMemberHelper.fromRaw(raw, []);
 
-            return getStudentAssociations(raw.user_id)
+            return getStudentAssociations(raw.user_id, groupId)
             .then(assocs => {
                 member.associations = assocs;
                 return member;
@@ -173,7 +187,7 @@ function getStudents(groupId: string, searchName: string | undefined): Promise<U
         let promises = rawMembers.map(raw => {
             let member = UserGroupMemberHelper.fromRaw(raw, []);
 
-            return getParentAssociations(raw.user_id)
+            return getParentAssociations(raw.user_id, groupId)
             .then(assocs => {
                 member.associations = assocs;
                 return member;
