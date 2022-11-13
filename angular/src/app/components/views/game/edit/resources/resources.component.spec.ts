@@ -77,7 +77,7 @@ class MockAPIService{
   }
 }
 
-describe('GameEditResourcesComponent', () => {
+describe('ES-22: GameEditResourcesComponent', () => {
   let component: GameEditResourcesComponent;
   let fixture: ComponentFixture<GameEditResourcesComponent>;
   let dialogServiceSpy: jasmine.SpyObj<DialogService>;
@@ -113,11 +113,11 @@ describe('GameEditResourcesComponent', () => {
     apiService = TestBed.inject(ApiService);
   })
 
-  it('should create', () => {
+  it('ES-22 (1): should create', () => {
     expect(component).toBeDefined();
   });
 
-  it('should load 2 images and 3 sounds', fakeAsync(() => {
+  it('ES-22 (2): should load 2 images and 3 sounds', fakeAsync(() => {
     let spy = spyOn(apiService.game, 'getGame');
     let resources: GameProjectResource[] = [
       createGameResource(GameResourceType.IMAGE),
@@ -146,7 +146,7 @@ describe('GameEditResourcesComponent', () => {
 
   }));
 
-  it('should upload data', fakeAsync(() => {
+  it('ES-22 (3): should upload data', fakeAsync(() => {
 
     let uploadInputFileChangedSpy = spyOn(component, 'uploadInputFileChanged');
     let uploadAPIMethodSpy = spyOn(apiService.editor, 'uploadGameResource');
