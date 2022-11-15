@@ -13,9 +13,10 @@ export class GenerateGame{
             return GenerateScene.generate(lvl, project.resources);
         })
 
-        const startingLeveIndex = project.levels.findIndex(lvl => {
-            return lvl.type == LevelTypeSingle.titleScreen || lvl.type == LevelTypeMulti.titleScreen;
-        });
+        // Decision: 2022 November 15: Starting level is always index 0
+        // const startingLeveIndex = project.levels.findIndex(lvl => {
+        //     return lvl.type == LevelTypeSingle.titleScreen || lvl.type == LevelTypeMulti.titleScreen;
+        // });
 
         return new Promise<string>((resolve, reject) => {
             Promise.all(promises).then(values => {
@@ -36,10 +37,10 @@ export class GenerateGame{
                 const strSceneNames = sceneNames.join(', ');
                 return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_SCENES', false, false, strSceneNames);
             })
-            .then(t => {
-                const startSceneName = sceneNames[startingLeveIndex!];
-                return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_STARTING_SCENE', false, false, startSceneName);
-            })
+            // .then(t => {
+            //     const startSceneName = sceneNames[startingLeveIndex!];
+            //     return TemplateManager.replacePlaceholder(t, 'EDGTOKEN_STARTING_SCENE', false, false, startSceneName);
+            // })
             .then(final => {
                 resolve(final);
             })

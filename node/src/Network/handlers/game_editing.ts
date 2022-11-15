@@ -22,7 +22,6 @@ const multerDiskWriteConfig = multer.diskStorage({
             callback(null, config.fs_res_path_image);
     },
     filename: (req, file, callback) => {
-        const extension = path.extname(file.originalname);
         const filename = Date.now() + path.extname(file.originalname);
         callback(null, filename);
     }

@@ -24,22 +24,34 @@ const config = {
     width: 1366,
     height: 500,
     title: 'Shock and Awesome',
-    backgroundColor: "#FFFFFF",
+    // backgroundColor: "#FFFFFF",
+    backgroundColor: "#000000",
     fps: {
         target: 30,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,
-    zoom: gameZoom
+    zoom: gameZoom,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false,
+            gravity: { y: 0 }
+        }
+    },
 };
 
 
 /**
  * @type Phaser.Scene
  */
-const startingScene = EDGTOKEN_STARTING_SCENE;
 const edgeGame = new Phaser.Game(config);
-edgeGame.scene.add('scene', startingScene, true, null);
+scenes.forEach((scn, index) => {
+    edgeGame.scene.add('scene', scn, index == 0, null);
+});
+
+// edgeGame.scene.add('scene', startingScene, true, null);
+// edgeGame.scene.scenes = scenes;
 
 /**
  * Proxying methods
