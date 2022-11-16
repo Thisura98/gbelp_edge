@@ -81,7 +81,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "frame": {
                 "x": 0,
                 "y": 0,
-                "w": 900,
+                "w": 899,
                 "h": 480
             },
             "rotation": 0,
@@ -101,7 +101,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
                 "x": 0,
                 "y": 0,
                 "w": 900,
-                "h": 508
+                "h": 490
             },
             "rotation": 0,
             "physicsBehavior": "0",
@@ -118,7 +118,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "name": "title",
             "frame": {
                 "x": 300,
-                "y": 63,
+                "y": 50,
                 "w": 300,
                 "h": 200
             },
@@ -153,16 +153,16 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     create(){
         let scaleX = 0, scaleY = 0;
 		// --- scene object sky ---
-		const sprite_1 = this.add.sprite(450, 254, 'sky').setInteractive();
+		const sprite_1 = this.add.sprite(450, 245, 'sky').setInteractive();
 		sprite_1.name = "sky";
 		scaleX = 900 / sprite_1.displayWidth;
-		scaleY = 508 / sprite_1.displayHeight;
+		scaleY = 490 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences['sky'] = sprite_1;
 
 
 		// --- scene object title ---
-		const sprite_2 = this.add.sprite(450, 163, 'title').setInteractive();
+		const sprite_2 = this.add.sprite(450, 150, 'title').setInteractive();
 		sprite_2.name = "title";
 		scaleX = 300 / sprite_2.displayWidth;
 		scaleY = 200 / sprite_2.displayHeight;
@@ -498,10 +498,10 @@ class LevelScene_Level1 extends Phaser.Scene{
     ]
 }
         this.levelProperties = {
-    "Question": "Shoot all proper fractions",
+    "Question": "Shoot all vegetables",
     "Points Required": 10,
-    "Correct Answers": "1/2, 1/4, 4/5, 10/20, 3/4, 2/8, 9/100, 4/6, 13/19, ⅜",
-    "Wrong Answers": "2/2, 3/2, 10/9, 2 ½, 4 ⅘, 24/14, 9/6, 2, 3/2"
+    "Correct Answers": "Tomato, Carrot",
+    "Wrong Answers": "Mango, Apple"
 }
         		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
@@ -795,7 +795,7 @@ class LevelScene_Level1 extends Phaser.Scene{
         if (this.scoreText == null){
             this.scoreText = this.add.text(10, 10, text, {
                 fontFamily: 'Arial',
-                fontSize: '18px',
+                fontSize: '24px',
                 color: '#ffc800'
             })
         }
@@ -1036,7 +1036,7 @@ class MeteorGroup extends Phaser.Physics.Arcade.Group
 class LevelScene_Game_Over_Screen extends Phaser.Scene{
 
     constructor(){
-        super({key: "LevelScene_Game_Over_Screen", active: true });
+        super({key: "LevelScene_Game_Over_Screen", active: false });
 
         /**
          * All sprites loaded in the create() method

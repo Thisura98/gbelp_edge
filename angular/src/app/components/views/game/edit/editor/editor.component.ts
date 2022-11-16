@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
-import { getGameSidebarItems, QueryKey, ViewMode } from 'src/app/constants/constants';
+import { EditorIdentifier, getGameSidebarItems, QueryKey, ViewMode } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
 import { GameTestSession, ServerResponseGameListing } from 'src/app/models/game/game';
@@ -186,6 +186,19 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       return undefined;
   }
 
+  getTabNavComponentForIndex(index: number | undefined): string | undefined{
+    if (index == undefined)
+      return undefined;
+
+    const tabComponents = [
+      EditorIdentifier.sceneEditor,
+      EditorIdentifier.propertiesEditor,
+      EditorIdentifier.logicEditor
+    ]
+
+    return tabComponents[index];
+  }
+
   /**
    * @param {DynamicSidebarItem} item
    * @param {number} index Index in the subitems array
@@ -204,13 +217,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       levelId: this.selectedLevel!._id
     };
     let command = this.viewMode == ViewMode.GAME ? 'game' : 'template';
+    const editor = this.getTabNavComponentForIndex(index);
 
-    switch(index){
-      case 0: command += '/edit/editor/scene'; break;
-      case 1: command += '/edit/editor/animation'; break;
-      case 2: command += '/edit/editor/logic'; break;
-      default: return;
-    }
+    command = command + "/edit/editor/" + editor;
     
     this.saveGame(true, () => {
       this.router.navigate([command], {
@@ -381,7 +390,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   private navigateToLevelId(levelId: string){
-    const path = this.viewMode == ViewMode.GAME ? '/game/edit/editor/scene' : '/template/edit/editor/scene';
+    const editor = this.getTabNavComponentForIndex(this.getSelectedTabIndex());
+    const path = (this.viewMode == ViewMode.GAME ? '/game/edit/editor/' : '/template/edit/editor/') + editor;
+
     this.editorDataService.setHasUnsavedChanges(false);
     this.router.navigate([path], {
       queryParams: {
