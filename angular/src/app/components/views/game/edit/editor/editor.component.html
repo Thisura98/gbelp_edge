@@ -19,7 +19,7 @@
                 </select>
             </div>
             <!-- End Level Editor -->
-            <!-- Scene, Animation, Logic tabs -->
+            <!-- Scene, Properties, Logic tabs -->
 
             <!--
             <ng-container *ngIf="selectedLevel != undefined">
@@ -36,7 +36,7 @@
                     </div>
                     <div class="editor-tab" [class.selected]="getSelectedTabIndex() == 1"
                         (click)="didSelectedEditorTab(1)">
-                        <a [routerLink]="['/game/edit/editor/animation']" [queryParams]="editorQueryParams">
+                        <a [routerLink]="['/game/edit/editor/properties']" [queryParams]="editorQueryParams">
                             Properties
                         </a>
                     </div>

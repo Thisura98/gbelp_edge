@@ -22,6 +22,12 @@ export enum QueryKey{
     testSession = 'testsession'
 }
 
+export enum EditorIdentifier{
+    sceneEditor = 'scene',
+    propertiesEditor = 'properties',
+    logicEditor = 'logic'
+}
+
 /**
  * @param selected Item currently selected. Leave blank if none is selected.
  * @returns 
@@ -81,7 +87,7 @@ export function getGameSidebarItems(
                     sel: false, 
                     n: eprefix+"ico_props.png",    
                     s: eprefix+"ico_props_sel.png",    
-                    path: `${modePath}/edit/editor/animation`,
+                    path: `${modePath}/edit/editor/properties`,
                     subItems: [], handler: subHandler
                 },
                 {

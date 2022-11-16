@@ -32,7 +32,7 @@ import { GroupReportsComponent } from './components/views/groups/reports/report.
 import { GroupSessionComponent } from './components/views/groups/session/session.component';
 import { GroupReportsAvailableComponent } from './components/views/groups/reports/available/available.component';
 import { GroupReportsUsageComponent } from './components/views/groups/reports/usage/usage.component';
-import { ViewMode } from './constants/constants';
+import { EditorIdentifier, ViewMode } from './constants/constants';
 import { PropertiesArticleComponent } from './components/views/docs/articles/pages/properties';
 import { GroupReportsObjectiveComponent } from './components/views/groups/reports/objective/objective.component';
 import { GroupReportsGuidanceComponent } from './components/views/groups/reports/guidance/guidance.component';
@@ -78,9 +78,9 @@ const routes: Routes = [
     path: "game/edit/editor", component: GameEditorComponents,
     data: { mode: ViewMode.GAME },
     children: [
-      {path: "scene", component: SceneEditorComponent, data: { mode: ViewMode.GAME }},
-      {path: "animation", component: PropertiesEditorComponent, data: { mode: ViewMode.GAME }},
-      {path: "logic", component: LogicEditorComponent, data: { mode: ViewMode.GAME }}
+      {path: EditorIdentifier.sceneEditor, component: SceneEditorComponent, data: { mode: ViewMode.GAME }},
+      {path: EditorIdentifier.propertiesEditor, component: PropertiesEditorComponent, data: { mode: ViewMode.GAME }},
+      {path: EditorIdentifier.logicEditor, component: LogicEditorComponent, data: { mode: ViewMode.GAME }}
     ]
   },
   {path: "template/create", component: GameCreateComponent, data: {editMode: false, mode: ViewMode.TEMPLATE }},

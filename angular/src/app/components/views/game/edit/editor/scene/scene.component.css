@@ -19,7 +19,7 @@
 .section-pane{
     width: 250px;
     margin-right: 0px;
-    max-height: calc(100vh- calc(90px));
+    max-height: calc(100vh - calc(90px));
     overflow-y: auto;
 }
 
