@@ -99,7 +99,9 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
     ngOnDestroy(): void {
         console.log('On Destroy called for scenemap!');
-        this.canvas?.dispose();
+        this.canvas?.on('after:render', () => {
+            this.canvas?.dispose();
+        })
         // TODO
         /**
          * We are currently using FabricJS 4.6.0 (August 28, 2021)
