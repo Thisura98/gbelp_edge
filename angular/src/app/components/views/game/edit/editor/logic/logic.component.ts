@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
@@ -18,7 +18,7 @@ type Editor = monaco.editor.IStandaloneCodeEditor;
     '../editor.component.css'
   ]
 })
-export class LogicEditorComponent implements OnInit {
+export class LogicEditorComponent implements OnInit, OnDestroy {
   // MARK: Editor Properties
   code: string = '// Welcome to EDGE!';
   editorOptions = EDGEMonacoEditorOptions;
@@ -55,6 +55,13 @@ export class LogicEditorComponent implements OnInit {
         destroy: this.b64enc(this.levelScripts[2]),
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    console.log('On Destroy called for properties editor!');
+    this.editorReference.subscribe(editor => {
+      editor?.dispose();
+    })
   }
 
   /**

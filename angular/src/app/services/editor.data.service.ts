@@ -143,7 +143,6 @@ export class EditorDataService{
     // Unsaved changes
 
     setHasUnsavedChanges(hasChanges: boolean = true){
-        console.log("setHasUnsavedChanges called");
         unsavedChanges.next(hasChanges);
     }
 

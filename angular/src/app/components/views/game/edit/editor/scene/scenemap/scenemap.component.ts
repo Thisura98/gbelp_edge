@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { SceneObject, SceneObjectFrame, SceneObjectType } from "../../../../../../../../../../commons/src/models/game/levels/scene";
 import { GameProjectResource } from "../../../../../../../../../../commons/src/models/game/resources";
 import { fabric } from 'fabric';
@@ -60,7 +60,7 @@ class CanvasMovement{
     //     {provide: EditorDataService, useClass: EditorDataService}
     // ]
 })
-export class SceneMapComponent implements OnInit, AfterViewInit{
+export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
     @Input()
     gameListing: GameListing | undefined;
@@ -95,6 +95,22 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         setTimeout(() => {
             this.updateCanvasSize();
         }, 400);
+    }
+
+    ngOnDestroy(): void {
+        console.log('On Destroy called for scenemap!');
+        this.canvas?.dispose();
+        // TODO
+        /**
+         * We are currently using FabricJS 4.6.0 (August 28, 2021)
+         * 
+         * This issue was fixed by PR: https://github.com/fabricjs/fabric.js/pull/7885#event-6451082330
+         * on April 19, 2022.
+         * 
+         * So we should probably update to a release after that.
+         * 
+         * 
+         */
     }
 
     /**
@@ -232,6 +248,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         const element = this.hostRef.nativeElement! as HTMLElement
         const width = element.clientWidth;
         const height = element.clientHeight
+        console.log('Recreating canvas!');
         this.canvas = new fabric.Canvas('scenemap-canvas', {
             backgroundColor: "#FFFFFF",
             selection: true,

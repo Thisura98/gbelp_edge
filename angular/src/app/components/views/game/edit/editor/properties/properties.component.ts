@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, interval } from 'rxjs';
 import { debounce, delay, throttleTime } from 'rxjs/operators';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -22,7 +22,7 @@ type Editor = monaco.editor.IStandaloneCodeEditor;
     '../editor.component.css'
   ]
 })
-export class PropertiesEditorComponent implements OnInit {
+export class PropertiesEditorComponent implements OnInit, OnDestroy {
   // code: string = JSON.stringify(Example, null, 4); // Remove after testing
   code: string = '';
   editorOptions = EDGEMonacoEditorOptions;
@@ -55,6 +55,13 @@ export class PropertiesEditorComponent implements OnInit {
     });
 
     this.editorDataService.addOnSaveListener(project => this.prepareForSave(project))
+  }
+
+  ngOnDestroy(): void {
+    console.log('On Destroy called for properties editor!');
+    this.editorReference.subscribe(editor => {
+      editor?.dispose();
+    })
   }
 
   /**
