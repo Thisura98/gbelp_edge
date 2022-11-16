@@ -479,7 +479,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             this.selectObject(matchedIndex);
         });
         this.canvas!.on('selection:cleared', (opt) => {
-            if (opt.e.type == this.kIgnoreSelectionEvent)
+            if (opt.e != undefined && opt.e.type == this.kIgnoreSelectionEvent)
                 return;
                 
             console.log('selection:cleared', undefined);
