@@ -17,9 +17,9 @@
 } */
 
 .section-pane{
-    width: 240px;
-    margin-right: 10px;
-    max-height: 80vh;
+    width: 250px;
+    margin-right: 0px;
+    max-height: calc(100vh- calc(90px));
     overflow-y: auto;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .section-pane h2:not(:first-of-type){
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 /* Options Panel */
