@@ -108,7 +108,20 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     if (levelId == "-1")
       return;
 
-    this.navigateToLevelId(levelId);
+    var hasUnsavedChanges = this.editorDataService.getHasUnsuavedChanges().getValue();
+
+    if (hasUnsavedChanges){
+      this.dialogService.showYesNo(
+        "Save Changes?",
+        "Your level has unsaved changes. Do you want to save before switching levels? ",
+        () => this.saveAndSwitchLEvels(levelId),
+        () => this.navigateToLevelId(levelId)
+      )
+    }
+    else{
+      this.navigateToLevelId(levelId);
+    }
+
   }
 
   /**
@@ -144,6 +157,8 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       ).subscribe((r) => {
         this.isSavingAPIWorking = false;
         if (r.success){
+          this.editorDataService.setHasUnsavedChanges(false);
+
           if (callback != undefined)
             callback();
 
@@ -367,6 +382,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   private navigateToLevelId(levelId: string){
     const path = this.viewMode == ViewMode.GAME ? '/game/edit/editor/scene' : '/template/edit/editor/scene';
+    this.editorDataService.setHasUnsavedChanges(false);
     this.router.navigate([path], {
       queryParams: {
         gameId: this.editingGameId!,
@@ -374,6 +390,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       },
       replaceUrl: true
     });
+  }
+
+  private saveAndSwitchLEvels(levelId: string){
+    this.saveGame(true, () => this.navigateToLevelId(levelId));
   }
 
 }

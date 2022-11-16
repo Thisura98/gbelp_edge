@@ -18,6 +18,7 @@ let sceneMapData = new BehaviorSubject<SceneMapDataPack>(new SceneMapDataPack([]
 let addSceneObject = new Subject<SceneObject>();
 let sceneObjectSelection = new BehaviorSubject<number | undefined>(undefined);
 let objectState = new Subject<SceneObjectDataPack>();
+let unsavedChanges = new BehaviorSubject<Boolean>(false);
 
 interface OnSaveListener{
     callback: (project: GameProject) => void
@@ -137,6 +138,17 @@ export class EditorDataService{
 
     getSceneObjectState(): Subject<SceneObjectDataPack>{
         return objectState;
+    }
+
+    // Unsaved changes
+
+    setHasUnsavedChanges(hasChanges: boolean = true){
+        console.log("setHasUnsavedChanges called");
+        unsavedChanges.next(hasChanges);
+    }
+
+    getHasUnsuavedChanges(): BehaviorSubject<Boolean> {
+        return unsavedChanges;
     }
 
 }

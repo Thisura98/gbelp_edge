@@ -356,6 +356,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             console.log(sObj.name, 'moved!')
             sObj.frame.x = e.target!.left!;
             sObj.frame.y = e.target!.top!;
+            this.dataService.setHasUnsavedChanges(true);
         });
         obj.on('scaled', (e) => {
             console.log(sObj.name, 'scaled!')
@@ -363,12 +364,14 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             sObj.frame.y = e.target!.top!;
             sObj.frame.w = obj.getOriginalSize()!.width * obj.scaleX!;
             sObj.frame.h = obj.getOriginalSize()!.height * obj.scaleY!;
+            this.dataService.setHasUnsavedChanges(true);
         });
         obj.on('rotated', (e) => {
             console.log(sObj.name, 'rotated!', e.target!.angle)
             sObj.frame.x = e.target!.left!;
             sObj.frame.y = e.target!.top!;
             sObj.rotation = e.target!.angle ?? 0.0;
+            this.dataService.setHasUnsavedChanges(true);
         });
     }
 
@@ -378,11 +381,13 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
             console.log('camera', 'moved!')
             sObj.frame.x = target.left!;
             sObj.frame.y = target.top!;
+            this.dataService.setHasUnsavedChanges(true);
         });
         group.on('scaled', (e) => {
             const target = e.target!;
             console.log('camera', 'scaled!')
 
+            this.dataService.setHasUnsavedChanges(true);
             this.handleCameraTransform(
                 target.left!,
                 target.top!,
@@ -513,6 +518,8 @@ export class SceneMapComponent implements OnInit, AfterViewInit{
         if (!pack.active){
             this.canvas?.discardActiveObject(new Event(this.kIgnoreSelectionEvent));
         }
+
+        this.dataService.setHasUnsavedChanges(true);
         this.canvas?.requestRenderAll();
     }
 
