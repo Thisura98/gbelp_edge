@@ -3,9 +3,20 @@
     height: calc(100vh - 33vh);
     max-height: 50vh;
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
 }
+
+@media only screen and (max-width: 800px){
+    #top-gradient{
+        flex-direction: column;
+    }
+}
+@media only screen and (min-width: 800px){
+    #top-gradient{
+        flex-direction: row;
+    }
+}
+
 
 #grad-left-container{
     display: flex;
@@ -58,7 +69,7 @@
         text-align: center;
     }
 
-    #sub{
+    #sub, #sub-bold{
         font-size: 12px;
         line-height: 12px;
         margin-top: 10px !important;
@@ -75,7 +86,7 @@
         line-height: 96px;
     }
 
-    #sub{
+    #sub, #sub-bold{
         font-size: 19px;
         line-height: 19px;
         margin-top: 20px !important;
@@ -158,11 +169,22 @@
 }
 
 .section-body{
-    font-size: 18px;
     font-family: 'Roboto Light';
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .section-body{
+        font-size: 16px;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .section-body{
+        font-size: 18px;
+    }
 }
 
 .section-body-l{
