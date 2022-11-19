@@ -1,0 +1,32 @@
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 50vw;
+    overflow-x: scroll;
+}
+
+.gallery {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.gallery::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.gallery a{
+    display: flex;
+    width: calc(calc(100% - calc(40px)) / 3);
+    background-color: #ededed;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.gallery a > img{
+    border-radius: 8px;
+    width: 100%;
+}
+
+.gallery-scroll-space{
+    width: 200px;
+}
