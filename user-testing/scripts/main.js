@@ -3,3 +3,9 @@ function register(){
 
     window.open(formUrl, '_blank');
 }
+
+function goTohowToJoin(){
+    let newLocation = window.location.href.split('#')[0];
+    newLocation += '#section-howtojoin';
+    window.location = newLocation;
+}
