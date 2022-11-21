@@ -207,8 +207,8 @@
                 You will be guided by our team, and we will collect feedback at the end of the session.
             </p>
             <p>
-                Afterwards, all testers will be rewarded with a small non-montary gift via the same email your
-                reigstered with.
+                Afterwards, all testers will be rewarded with a small non-montary gift via the same email you
+                registered with.
             </p>
             <br>
             <div id="event-details" class="emphasis-box">
