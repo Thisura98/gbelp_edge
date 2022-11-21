@@ -1,17 +1,9 @@
 import { isDevMode, Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ServerResponseUserTypes, AuthUserResponse, ServerResponseUserAuth, ServerResponseUserTypeInfo, ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
-import { ServerResponseAllGameEntries, ServerResponseGameCreate, ServerResponseGameListing, ServerResponseGameProject, ServerResponseGameTestSession, ServerResponseGetGuidanceTrackers, ServerResponseGetObjectId, ServerResponseGetObjectives } from '../models/game/game';
-import { ServerResponseSessionsByGroup } from '../models/session';
-import { Md5 } from 'ts-md5/dist/md5';
-import { ServerResponse, ServerResponsePlain } from '../models/common-models';
+import { ServerResponseLatestSession, ServerResponseGameObjectiveHistories } from 'src/app/models/user';
+import { ServerResponsePlain } from '../models/common-models';
 import { UserService } from './user.service';
-import { tap, map } from 'rxjs/operators';
-import { GameLevel } from '../../../../commons/src/models/game/levels';
-import { UserGroup, UserGroupComposition, UserGroupMembership } from '../../../../commons/src/models/groups';
-import { IGroupJoinEncryptedResult } from '../models/group/group';
-import { GameSession, GameSessionState } from '../../../../commons/src/models/session';
 import { UserAPIs } from './apis/user.api';
 import { GameEntryAPIs } from './apis/game-entry.api';
 import { GroupAPIs } from './apis/group.api';
@@ -20,6 +12,7 @@ import { GameEditingAPIs } from './apis/game-editing.api';
 import { SessionAPIs } from './apis/session.api';
 import { PlayAPIs } from './apis/play.api';
 import { ReportsAPIs } from './apis/reports.api';
+import { environment } from 'src/environments/environment';
 
 /**
  * TODO: Response Code Handling Interceptor
@@ -32,17 +25,17 @@ import { ReportsAPIs } from './apis/reports.api';
 export class ApiService {
 
   static getBaseURL(): string {
-    if (isDevMode())
+    if (isDevMode() || environment.staging)
       return "http://localhost:80";
     else
-      return "https://edgeelp.lk";
+      return "https://edgeelp.online";
   }
 
   static getSocketURL(): string {
-    if (isDevMode())
+    if (isDevMode() || environment.staging)
       return "http://localhost:100";
     else
-      return "https://edgeelp.lk:100";
+      return "https://edgeelp.online:100";
   }
 
   private get serverBaseUrl(): string {

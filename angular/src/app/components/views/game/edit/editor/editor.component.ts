@@ -188,7 +188,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
   getTabNavComponentForIndex(index: number | undefined): string | undefined{
     if (index == undefined)
-      return undefined;
+      return EditorIdentifier.sceneEditor;
 
     const tabComponents = [
       EditorIdentifier.sceneEditor,
