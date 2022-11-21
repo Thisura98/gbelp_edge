@@ -93,9 +93,9 @@ const routes: Routes = [
     path: "template/edit/editor", component: GameEditorComponents,
     data: { mode: ViewMode.TEMPLATE },
     children: [
-      {path: "scene", component: SceneEditorComponent, data: { mode: ViewMode.TEMPLATE }},
-      {path: "animation", component: PropertiesEditorComponent, data: { mode: ViewMode.TEMPLATE }},
-      {path: "logic", component: LogicEditorComponent, data: { mode: ViewMode.TEMPLATE }}
+      {path: EditorIdentifier.sceneEditor, component: SceneEditorComponent, data: { mode: ViewMode.TEMPLATE }},
+      {path: EditorIdentifier.propertiesEditor, component: PropertiesEditorComponent, data: { mode: ViewMode.TEMPLATE }},
+      {path: EditorIdentifier.logicEditor, component: LogicEditorComponent, data: { mode: ViewMode.TEMPLATE }}
     ]
   },
   {path: "docs", component: DocsComponent},
