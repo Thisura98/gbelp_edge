@@ -3,7 +3,7 @@ import { GameSessionType, GameSessionState, GameSession } from '../../../../comm
 import * as sessionDAO from './session';
 import * as groupsDAO from './group';
 import * as gamesDAO from './games';
-import * as l from '../../util/logger';
+import * as l from '../../Util/logger';
 import { compileAndGetGameURL, getGameURLWithoutCompiling } from '../../game_compiler/index';
 
 export interface TestSessionResult{

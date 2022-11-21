@@ -1,7 +1,7 @@
 import express from 'express';
 import * as statusCodes from './status_codes';
 import * as usersDAO from '../model/dao/users';
-import * as l from '../util/logger';
+import * as l from '../Util/logger';
 import * as utils from '../util/utils';
 import { encrypt, decrypt } from '../util/crypto';
 import { ResponseModel, ResponsePlainModel } from '../model/models/common';
@@ -37,7 +37,7 @@ export function handle(app: express.Express){
     // Tests
 
     app.post(aurl('test'), (req, res) => {
-        res.json(new ResponseModel(true, 200, "", null))
+        res.json(new ResponseModel(true, 200, "EDGE API Online", null))
     });
 
     app.post(aurl('crypto/encrypt'), (req, res) => {
@@ -75,7 +75,7 @@ export function apiAuthorizationMiddleware(req: express.Request, res: express.Re
     const routeURL = req.originalUrl;
     const safeURLs = [
         'create-user', 'user-types', 'login', 'get-objectid', 'crypto/encrypt', 'crypto/decrypt',
-        'get-group/anonymous'
+        'get-group/anonymous', 'test'
     ].map((v, i, m) => {
         const prefixed = aurl(v);
         const regexp = new RegExp(`^${prefixed}`, '');

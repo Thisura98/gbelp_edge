@@ -2,7 +2,7 @@ import { ReportGraphDataUserGuidanceTrackerHitCounts, ReportGraphDataUserGuidanc
 import { DateTime } from 'luxon';
 import { GameSessionUserGuidanceTracker } from '../../../../commons/src/models/session/user.guidancetracker';
 import { isofy, determineTimeQuantizationInterval, roundedDateToIntervalMS, round } from './processor.utils';
-import * as l from '../../util/logger';
+import * as l from '../../Util/logger';
 
 /**
  * Generates Graph Data for User Objectives progress by Time.

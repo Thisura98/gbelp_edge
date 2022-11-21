@@ -1,0 +1,15 @@
+{
+    "environment": "development",
+    "port_express": 80,
+    "port_socketio": 100,
+    "angular_directory": "dist",
+    "allow_cors_on": "http://edgeelp.online",
+    "fs_res_path": "fs/res_upload",
+    "fs_res_path_sound": "fs/res_upload/sound",
+    "fs_res_path_image": "fs/res_upload/image",
+    "fs_compiled_games": "fs/games",
+    "fs_articles": "fs/articles",
+    "server_base_url": "http://edgeelp.online",
+    "production_database": "edge_gbelp",
+    "test_database": "edge_gbelp_test"
+}

@@ -5,7 +5,7 @@ import * as chatDAO from '../../../model/dao/chats';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { DateTime } from 'luxon';
 import * as crypto from '../../crypto';
-import * as l from '../../logger';
+import * as l from '../../../Util/logger';
 import { ChatGroupType, ChatMessage } from '../../../../../commons/src/models/chat';
 
 

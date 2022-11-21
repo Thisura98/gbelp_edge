@@ -3,7 +3,7 @@ import { aurl } from '../api_handler';
 import * as sessionDAO from '../../model/dao/session';
 import * as playDAO from '../../model/dao/play';
 import { ResponseModel } from '../../model/models/common';
-import * as l from '../../util/logger';
+import * as l from '../../Util/logger';
 
 export function handlerSession(app: Express){
 

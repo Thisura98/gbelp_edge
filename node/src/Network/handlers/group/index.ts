@@ -2,7 +2,7 @@ import { Express } from 'express';
 import { aurl } from '../../api_handler';
 import * as groupsDAO from '../../../model/dao/group';
 import * as playDAO from '../../../model/dao/play';
-import * as l from '../../../util/logger';
+import * as l from '../../../Util/logger';
 import { StatusCodes } from '../../../../../commons/src/constants';
 import { ResponseModel } from '../../../model/models/common';
 

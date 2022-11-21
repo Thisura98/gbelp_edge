@@ -3,7 +3,7 @@ import { isofy } from "../../src/model/processors/processor.utils";
 
 import * as testDAO from '../../src/model/dao/test';
 import * as sql from '../../src/util/connections/sql/sql_connection';
-import * as pc from '../../src/util/parseconfig';
+import { getConfig } from '../../src/Util/config';
 import * as utils from '../../src/util/utils';
 
 export const oneHour = 1 * 60 * 60 * 1000;
@@ -24,7 +24,7 @@ export function toMilliseconds(input: string): number{
  * __NOTE:__ This is an `async` function. Use await.
  */
 export async function initializeTestDB(){
-    const config = pc.parseConfig('config.json');
+    const config = getConfig();
     utils.setTestMode(true);
     sql.initialize(config);
     

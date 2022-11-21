@@ -1,4 +1,4 @@
-import * as l from '../../util/logger';
+import * as l from '../../Util/logger';
 import * as sql from '../../util/connections/sql/sql_connection';
 import * as mongo from '../../util/connections/mongo/mongo_connection';
 import * as utils from '../../util/utils';

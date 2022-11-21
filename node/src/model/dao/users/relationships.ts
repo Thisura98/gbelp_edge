@@ -1,4 +1,4 @@
-import * as l from '../../../util/logger';
+import * as l from '../../../Util/logger';
 import * as sql from '../../../util/connections/sql/sql_connection';
 
 /**

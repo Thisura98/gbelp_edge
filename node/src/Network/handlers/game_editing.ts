@@ -1,17 +1,17 @@
 import { Express } from "express";
 import { aurl } from "../api_handler";
 import { ResponseModel } from "../../model/models/common";
-import * as pc from '../../util/parseconfig';
+import { getConfig } from '../../Util/config';
 import * as path from 'path';
 import * as gamesDAO from '../../model/dao/games';
 import * as levelsDAO from '../../model/dao/levels';
 import { getPhaserLibPath, getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
-import * as l from '../../util/logger';
+import * as l from '../../Util/logger';
 import multer from 'multer';
 
 import * as gameEditingHelper from './helpers/game-editing';
 
-const config = pc.parseConfig('config.json');
+const config = getConfig();
 
 const multerDiskWriteConfig = multer.diskStorage({
     destination: (req, file, callback) => {

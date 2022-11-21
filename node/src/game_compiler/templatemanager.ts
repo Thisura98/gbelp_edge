@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import * as l from '../util/logger';
+import * as l from '../Util/logger';
 
 export class TemplateManager{
     /**

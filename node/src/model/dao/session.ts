@@ -1,6 +1,6 @@
 import { GameSessionWithExtensions } from '../../../../commons/src/models/session';
 import * as sql from '../../util/connections/sql/sql_connection';
-import * as l from '../../util/logger';
+import * as l from '../../Util/logger';
 
 /**
  * INSERT a session row. Returns a promise with INSERT ID on success.

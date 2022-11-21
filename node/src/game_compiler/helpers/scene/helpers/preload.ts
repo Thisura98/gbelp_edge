@@ -1,7 +1,7 @@
 import { GameLevel } from "../../../../../../commons/src/models/game/levels";
 import { GameProjectResource } from "../../../../../../commons/src/models/game/resources";
 import { TemplateManager } from "../../../templatemanager";
-import * as pc from '../../../../util/parseconfig';
+import { getConfig } from '../../../../Util/config';
 import { SceneObjectType } from "../../../../../../commons/src/models/game/levels/scene";
 
 const EDGTOKEN_LOADBASEURL = 'EDGTOKEN_LOADBASEURL';
@@ -26,7 +26,7 @@ export function generatePreloadCode(
 
     let resourceMap: Map<string, GameProjectResource> = new Map([]);
     let resourceLoadCommands: string[] = ['\n'];
-    const serverBaseURL = pc.parseConfig('config.json').server_base_url;
+    const serverBaseURL = getConfig().server_base_url;
     const sceneObjects = level.scene.objects.filter(o => {
         return o.type == SceneObjectType.sprite || o.type == SceneObjectType.sound;
     });

@@ -1,4 +1,4 @@
-import * as l from '../../logger';
+import * as l from '../../../Util/logger';
 import * as migrations from './sql_migrate';
 import * as utils from '../../utils';
 
@@ -6,7 +6,7 @@ import mysql, { FieldInfo } from 'mysql';
 import { DateTime } from 'luxon';
 import { tables, columns } from './sql_schema';
 import { assert } from 'console';
-import { IConfig } from '../../parseconfig';
+import { IConfig } from '../../../Util/config';
 
 /**
  * Log Tag

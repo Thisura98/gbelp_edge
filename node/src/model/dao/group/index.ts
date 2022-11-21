@@ -2,7 +2,7 @@ import { UserGroup, UserGroupComposition } from '../../../../../commons/src/mode
 import * as sql from '../../../util/connections/sql/sql_connection';
 import * as userDAO from '../users';
 import * as crypto from '../../../util/crypto';
-import * as l from '../../../util/logger';
+import * as l from '../../../Util/logger';
 import { UserType } from '../../../../../commons/src/models/user';
 
 /**

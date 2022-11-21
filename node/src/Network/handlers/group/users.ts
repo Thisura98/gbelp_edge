@@ -5,7 +5,7 @@ import { ResponseModel } from '../../../model/models/common';
 
 import * as groupsDAO from '../../../model/dao/group';
 import * as groupUsersDAO from '../../../model/dao/group/users';
-import * as l from '../../../util/logger';
+import * as l from '../../../Util/logger';
 import { StatusCodes } from "../../../../../commons/src/constants";
 
 export function handlerGroupUsers(app: Express){

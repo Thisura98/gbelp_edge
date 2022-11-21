@@ -1,7 +1,6 @@
 import cors from 'cors';
-// const pc = require('./src/util/parseconfig');
-import * as pc from './src/util/parseconfig';
-import * as l from './src/util/logger';
+import { getConfig } from './src/Util/config';
+import * as l from './src/Util/logger';
 import * as apiHandler from './src/network/api_handler';
 import { fileHandler } from './src/network/file_handler';
 // import * as gameApiHandler from './src/network/game_api_handler';
@@ -17,7 +16,7 @@ import * as fs from 'fs';
 // import bp from 'body-parser';
 const app = express();
 
-const config = pc.parseConfig('config.json');
+const config = getConfig();
 const constPortExpress = config.port_express;
 const constAngularDirectory = config.angular_directory;
 const constPortSocketIO = config.port_socketio;
@@ -68,7 +67,7 @@ fileHandler(app);
 app.get('*.*', express.static(`${__dirname}/${constAngularDirectory}`, {fallthrough: false}));
 
 // : Fall through option if file is not found
-//   Non-existed GET urls will show the Angular index.html file
+//   Non-existent GET urls will show the Angular index.html file
 app.get('*', (req, res) => {
     res.sendFile(indexFile);
 });

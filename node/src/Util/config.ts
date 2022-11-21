@@ -1,6 +1,8 @@
 import * as l from './logger';
 import fs from 'fs';
 
+let cachedConfig: IConfig | null = null;
+
 /**
  * NOTE: Make sure this interface is upto date with the config.json file
  */
@@ -34,4 +36,14 @@ export function parseConfig(filename: string): IConfig{
     catch(err){
         throw new Error(`parseconfig - Could not find file named ${filename}`);
     }
+}
+
+/**
+ * Synchonously returns the configuration file
+ */
+export function getConfig(): IConfig{
+    if (cachedConfig == null){
+        cachedConfig = parseConfig('config.json');
+    }
+    return cachedConfig!;
 }

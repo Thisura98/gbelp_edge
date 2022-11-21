@@ -1,8 +1,8 @@
 import { GameLevel } from "../../../../../../commons/src/models/game/levels";
 import { GameProjectResource } from "../../../../../../commons/src/models/game/resources";
 import { TemplateManager } from "../../../templatemanager";
-import * as pc from '../../../../util/parseconfig';
-import * as l from '../../../../util/logger';
+import * as pc from '../../../../Util/config';
+import * as l from '../../../../Util/logger';
 import * as util from '../../../../util/utils';
 import { SceneObjectType } from "../../../../../../commons/src/models/game/levels/scene";
 

@@ -1,7 +1,7 @@
 import * as sessionDAO from '../../../../model/dao/session';
 import path from "path";
 import * as utils from '../../../../util/utils';
-import * as l from '../../../../util/logger';
+import * as l from '../../../../Util/logger';
 import * as gameCompiler from '../../../../game_compiler/index';
 
 export function getGameJS(sessionId: string, userId: string): Promise<string>{

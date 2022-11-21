@@ -1,9 +1,9 @@
 import * as fs from 'fs';
-import * as pc from '../util/parseconfig';
 import * as utils from '../util/utils';
+import { getConfig } from '../Util/config';
 import { Express } from 'express-serve-static-core';
 
-const config = pc.parseConfig('config.json');
+const config = getConfig();
 
 export function fileHandler(app: Express){
     // images
