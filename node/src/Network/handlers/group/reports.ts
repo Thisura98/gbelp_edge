@@ -1,6 +1,6 @@
 import { Express } from "express";
 import { aurl } from '../../api_handler';
-import { isEmptyParam } from '../../../util/utils';
+import { isEmptyParam } from '../../../Util/utils';
 import { ResponseModel } from '../../../model/models/common';
 import * as sessionDAO from '../../../model/dao/session';
 import * as usageReportDAO from '../../../model/dao/group/reports/usage';

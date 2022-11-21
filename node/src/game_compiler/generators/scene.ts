@@ -1,7 +1,7 @@
 import { GameLevel } from "../../../../commons/src/models/game/levels";
 import { GameProjectResource } from "../../../../commons/src/models/game/resources";
 import { TemplateManager } from "../templatemanager";
-import * as utils from '../../util/utils';
+import * as utils from '../../Util/utils';
 
 import { generatePreloadCode } from '../helpers/scene/helpers/preload';
 import { generateCreateCode } from '../helpers/scene/helpers/create';

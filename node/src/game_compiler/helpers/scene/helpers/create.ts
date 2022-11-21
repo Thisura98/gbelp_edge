@@ -3,7 +3,7 @@ import { GameProjectResource } from "../../../../../../commons/src/models/game/r
 import { TemplateManager } from "../../../templatemanager";
 import * as pc from '../../../../Util/config';
 import * as l from '../../../../Util/logger';
-import * as util from '../../../../util/utils';
+import * as util from '../../../../Util/utils';
 import { SceneObjectType } from "../../../../../../commons/src/models/game/levels/scene";
 
 const EDGTOKEN_CREATE = 'EDGTOKEN_CREATE';

@@ -1,14 +1,14 @@
 import cors from 'cors';
 import { getConfig } from './src/Util/config';
 import * as l from './src/Util/logger';
-import * as apiHandler from './src/network/api_handler';
-import { fileHandler } from './src/network/file_handler';
-// import * as gameApiHandler from './src/network/game_api_handler';
-import * as sql from './src/util/connections/sql/sql_connection';
-import * as mongo from './src/util/connections/mongo/mongo_connection';
-import * as utils from './src/util/utils';
+import * as apiHandler from './src/Network/api_handler';
+import { fileHandler } from './src/Network/file_handler';
+// import * as gameApiHandler from './src/Network/game_api_handler';
+import * as sql from './src/Util/connections/sql/sql_connection';
+import * as mongo from './src/Util/connections/mongo/mongo_connection';
+import * as utils from './src/Util/utils';
 
-import { SocketHandler } from './src/util/connections/socketio/sockets';
+import { SocketHandler } from './src/Util/connections/socketio/sockets';
 
 import express from 'express';
 import * as fs from 'fs';

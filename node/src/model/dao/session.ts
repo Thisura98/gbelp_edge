@@ -1,5 +1,5 @@
 import { GameSessionWithExtensions } from '../../../../commons/src/models/session';
-import * as sql from '../../util/connections/sql/sql_connection';
+import * as sql from '../../Util/connections/sql/sql_connection';
 import * as l from '../../Util/logger';
 
 /**

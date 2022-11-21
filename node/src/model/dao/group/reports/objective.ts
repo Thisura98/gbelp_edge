@@ -1,6 +1,6 @@
 import { GameSessionUserObjectiveBreakdown, ReportIntermediateObjectiveCompletionProgress } from '../../../../../../commons/src/models/reports/user.objective';
 import { GameSessionUserObjective } from '../../../../../../commons/src/models/session/user.objective';
-import * as sql from '../../../../util/connections/sql/sql_connection';
+import * as sql from '../../../../Util/connections/sql/sql_connection';
 import * as l from '../../../../Util/logger';
 
 export function getUserObjectiveProgress(sessionId: string): Promise<GameSessionUserObjective[]> {

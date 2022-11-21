@@ -1,6 +1,6 @@
 import { getNewObjectId } from "../../../../../../commons/src/models/common";
 import { CompileStatus } from "../../../../../../commons/src/models/game/compile";
-import * as utils from '../../../../util/utils';
+import * as utils from '../../../../Util/utils';
 import * as gamesDAO from '../../../../model/dao/games';
 import { compileAndGetGameURL } from "../../../../game_compiler";
 import { ResponseModel } from "../../../../model/models/common";

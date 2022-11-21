@@ -1,6 +1,6 @@
 import { UserGroupMemberData, UserGroupMember, UserGroupMemberRaw, UserGroupMemberHelper, UserGroupMemberAssociation} from '../../../../../commons/src/models/groups/member';
 import { UserType, UserRelationshipType } from '../../../../../commons/src/models/user';
-import * as sql from '../../../util/connections/sql/sql_connection';
+import * as sql from '../../../Util/connections/sql/sql_connection';
 import * as l from '../../../Util/logger';
 
 /**

@@ -1,6 +1,6 @@
 import { ObjectId } from 'bson';
 import { ChatGroup, ChatGroupType, ChatMessage, IChatGroup } from '../../../../commons/src/models/chat/index'
-import * as mongo from '../../util/connections/mongo/mongo_connection';
+import * as mongo from '../../Util/connections/mongo/mongo_connection';
 import * as l from '../../Util/logger';
 import * as sessionDAO from '../dao/session';
 

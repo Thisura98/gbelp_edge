@@ -2,9 +2,9 @@ import { DateTime } from "luxon";
 import { isofy } from "../../src/model/processors/processor.utils";
 
 import * as testDAO from '../../src/model/dao/test';
-import * as sql from '../../src/util/connections/sql/sql_connection';
+import * as sql from '../../src/Util/connections/sql/sql_connection';
 import { getConfig } from '../../src/Util/config';
-import * as utils from '../../src/util/utils';
+import * as utils from '../../src/Util/utils';
 
 export const oneHour = 1 * 60 * 60 * 1000;
 export const tenMinutes = 10 * 60 * 1000;

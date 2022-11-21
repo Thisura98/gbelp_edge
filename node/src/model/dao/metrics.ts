@@ -1,5 +1,5 @@
 import * as l from '../../Util/logger';
-import * as sql from '../../util/connections/sql/sql_connection';
+import * as sql from '../../Util/connections/sql/sql_connection';
 import DAOCallback, { DAOMergeOperation } from './commons';
 import { IGameObjective } from '../../../../commons/src/models/game/objectives';
 import { IGameGuidanceTracker } from '../../../../commons/src/models/game/trackers';

@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as utils from '../util/utils';
+import * as utils from '../Util/utils';
 import { getConfig } from '../Util/config';
 import { Express } from 'express-serve-static-core';
 

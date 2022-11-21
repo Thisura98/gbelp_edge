@@ -1,6 +1,6 @@
 import { Express } from "express";
 import { aurl } from '../../api_handler';
-import { isEmptyParam } from '../../../util/utils';
+import { isEmptyParam } from '../../../Util/utils';
 import { ResponseModel } from '../../../model/models/common';
 
 import * as groupsDAO from '../../../model/dao/group';

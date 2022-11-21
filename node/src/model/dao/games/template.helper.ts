@@ -1,7 +1,7 @@
-import * as mongo from '../../../util/connections/mongo/mongo_connection';
+import * as mongo from '../../../Util/connections/mongo/mongo_connection';
 import { GameListing, GameType, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../../commons/src/models/game/game';
 import * as LevelInitData from '../../../../../commons/src/models/game/levels/initdata';
-import * as sql from '../../../util/connections/sql/sql_connection';
+import * as sql from '../../../Util/connections/sql/sql_connection';
 
 export function createTemplate(data: any, m: { [key: string]: any }): Promise<string>{
 

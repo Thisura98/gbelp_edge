@@ -1,5 +1,5 @@
 import * as l from '../../../Util/logger';
-import * as sql from '../../../util/connections/sql/sql_connection';
+import * as sql from '../../../Util/connections/sql/sql_connection';
 
 /**
  * @param highRankUserId High ranking user in the relationship

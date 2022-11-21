@@ -1,10 +1,10 @@
 import * as l from '../../../Util/logger';
-import * as sql from '../../../util/connections/sql/sql_connection';
-import * as mongo from '../../../util/connections/mongo/mongo_connection';
-import * as utils from '../../../util/utils';
+import * as sql from '../../../Util/connections/sql/sql_connection';
+import * as mongo from '../../../Util/connections/mongo/mongo_connection';
+import * as utils from '../../../Util/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTime, ToSQLOptions } from 'luxon';
-import * as mimeParse from '../../../util/mime_parse';
+import * as mimeParse from '../../../Util/mime_parse';
 import fs from 'fs';
 import fsPromises from 'fs/promises';
 import { GameListing, GameType, kGameEntryParentEntryIdNone, SaveGameRequestData } from '../../../../../commons/src/models/game/game';

@@ -1,6 +1,6 @@
 import { GameSessionUserUsageBreakdown } from '../../../../../../commons/src/models/reports/user.usage';
 import { GameSessionUserUsageGroupedByNonce } from '../../../../../../commons/src/models/reports/user.usage';
-import * as sql from '../../../../util/connections/sql/sql_connection';
+import * as sql from '../../../../Util/connections/sql/sql_connection';
 import * as l from '../../../../Util/logger';
 
 export function getUserUsageGroupedByNonce(sessionId: string): Promise<GameSessionUserUsageGroupedByNonce[]>{

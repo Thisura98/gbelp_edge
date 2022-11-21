@@ -1,6 +1,6 @@
-import * as utils from '../../util/utils';
+import * as utils from '../../Util/utils';
 import * as l from '../../Util/logger';
-import * as sql from '../../util/connections/sql/sql_connection';
+import * as sql from '../../Util/connections/sql/sql_connection';
 
 export function clearTestDatabase(): Promise<boolean>{
     if (!utils.getIsTestMode()){

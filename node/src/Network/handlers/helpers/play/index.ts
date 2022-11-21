@@ -1,6 +1,6 @@
 import * as sessionDAO from '../../../../model/dao/session';
 import path from "path";
-import * as utils from '../../../../util/utils';
+import * as utils from '../../../../Util/utils';
 import * as l from '../../../../Util/logger';
 import * as gameCompiler from '../../../../game_compiler/index';
 

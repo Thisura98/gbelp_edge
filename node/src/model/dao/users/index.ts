@@ -1,5 +1,5 @@
 import * as l from '../../../Util/logger';
-import * as db from '../../../util/connections/sql/sql_connection';
+import * as db from '../../../Util/connections/sql/sql_connection';
 import { v4 as uuid } from 'uuid';
 import { DateTime } from 'luxon';
 

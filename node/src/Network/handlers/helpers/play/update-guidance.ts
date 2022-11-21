@@ -1,6 +1,6 @@
 import * as sessionDAO from '../../../../model/dao/session';
 import * as metricsDAO from '../../../../model/dao/metrics';
-import { isEmptyParam } from '../../../../util/utils';
+import { isEmptyParam } from '../../../../Util/utils';
 
 export function updateGuidanceTrackerProgress(
     nonce: string | undefined,

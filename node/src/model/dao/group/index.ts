@@ -1,7 +1,7 @@
 import { UserGroup, UserGroupComposition } from '../../../../../commons/src/models/groups';
-import * as sql from '../../../util/connections/sql/sql_connection';
+import * as sql from '../../../Util/connections/sql/sql_connection';
 import * as userDAO from '../users';
-import * as crypto from '../../../util/crypto';
+import * as crypto from '../../../Util/crypto';
 import * as l from '../../../Util/logger';
 import { UserType } from '../../../../../commons/src/models/user';
 
