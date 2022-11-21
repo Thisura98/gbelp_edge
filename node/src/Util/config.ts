@@ -29,6 +29,7 @@ export interface IConfig{
  */
 export function parseConfig(filename: string): IConfig{
     try{
+        l.logc(`Initializing app with config: ${filename}`);
         const data = fs.readFileSync(filename).toString();
         const obj = JSON.parse(data);
         return obj as IConfig;
@@ -43,7 +44,8 @@ export function parseConfig(filename: string): IConfig{
  */
 export function getConfig(): IConfig{
     if (cachedConfig == null){
-        cachedConfig = parseConfig('config.json');
+        // cachedConfig = parseConfig('config.json');
+        cachedConfig = parseConfig('config.staging.json');
     }
     return cachedConfig!;
 }
