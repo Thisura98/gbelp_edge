@@ -44,9 +44,9 @@ export function parseConfig(filename: string): IConfig{
  */
 export function getConfig(): IConfig{
     if (cachedConfig == null){
-        // cachedConfig = parseConfig('config.json');
+        cachedConfig = parseConfig('config.json');
         // cachedConfig = parseConfig('config.staging.json');
-        cachedConfig = parseConfig('config.production.json');
+        // cachedConfig = parseConfig('config.production.json');
     }
     return cachedConfig!;
 }

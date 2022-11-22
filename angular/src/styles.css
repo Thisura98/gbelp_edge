@@ -237,6 +237,10 @@ body .dyn-btn-disabled{
     min-width: 147px;
 }
 
+.dyn-datetime{
+    font-family: 'Roboto';
+}
+
 .dyn-textarea{
     height: 27px;
     border-radius: 11px;
@@ -266,6 +270,14 @@ body .dyn-btn-disabled{
    background-repeat: no-repeat;
    background-size: contain;
    background-position: center right;
+}
+
+.dyn-select-disabled{
+    background-color: #ECECEC;
+    border-color: #CBCBCB;
+    text: #707070;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .dyn-textbox::placeholder{

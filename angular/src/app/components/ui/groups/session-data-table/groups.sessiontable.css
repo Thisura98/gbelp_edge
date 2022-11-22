@@ -3,7 +3,7 @@
 }
 
 .section:not(:last-child){
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .header{
@@ -11,7 +11,13 @@
     flex-direction: row;
     justify-content: space-between;
     color: #C5C5C5;
-    margin-bottom: 15px
+    margin-bottom: 11px
+}
+
+.section-container{
+    flex-direction: column;
+    display: flex;
+    padding: 0 15px 0 15px;
 }
 
 .row{

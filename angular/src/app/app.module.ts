@@ -82,6 +82,7 @@ import { TitleCasePipe } from '@angular/common';
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { AnyToStringPipe } from './pipes/any-to-string.pipe';
 import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
+import { GroupSessionCreateComponent } from './components/views/groups/session/create/create.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
     GroupOverviewComponent,
     GroupJoinComponent,
     GroupSessionComponent,
+    GroupSessionCreateComponent,
     GroupReportsComponent,
     LoadingReportsComponent,
     ReportAvailableCard,

@@ -66,7 +66,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost');
+        this.load.setBaseURL('http://localhost/');
         
 
 		this.load.image('sky', 'fs/res_upload/image/1668460597818.png');
@@ -311,7 +311,7 @@ class LevelScene_Level1 extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost');
+        this.load.setBaseURL('http://localhost/');
         
 
 		this.load.image('sky', 'fs/res_upload/image/1668460597818.png');
@@ -1057,7 +1057,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost');
+        this.load.setBaseURL('http://localhost/');
         
 
 		this.load.image('sky__png', 'fs/res_upload/image/1668460597818.png');

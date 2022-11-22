@@ -1,34 +1,39 @@
 <div *ngFor="let section of data" class="section dyn-anim-fadein-delayed">
     <h2>{{section.title}}</h2>
 
-    <div class="header">
-        <div class="header-item col-start-time">Start Time</div>
-        <div class="header-item col-end-time">End Time</div>
-        <div class="header-item col-state">State</div>
-        <div class="header-item col-game">Game</div>
-        <div class="header-item col-type">Type</div>
-        <div class="header-item col-actions" *ngIf="!hideActions">Actions</div>
-    </div>
+    <div class="section-container">
 
-    <div class="row" *ngFor="let row of section.rows" 
-        [class.selectable]="allowSelection"
-        (click)="rowClicked(row)">
-        <div class="row-item col-start-time">{{row.start_time | date:'yy/MM/dd hh:mma' }}</div>
-        <div class="row-item col-end-time">{{row.end_time}}</div>
-        <div class="row-item col-state">
-            <div class="status-pill" [class]="getStateClass(row.state)">
-                {{getStateName(row.state)}}
+        <div class="header">
+            <div class="header-item col-start-time">Start Time</div>
+            <div class="header-item col-end-time">End Time</div>
+            <div class="header-item col-state">State</div>
+            <div class="header-item col-game">Game</div>
+            <div class="header-item col-type">Type</div>
+            <div class="header-item col-actions" *ngIf="!hideActions">Actions</div>
+        </div>
+
+        <div class="row" *ngFor="let row of section.rows" 
+            [class.selectable]="allowSelection"
+            (click)="rowClicked(row)">
+            <div class="row-item col-start-time">{{row.start_time | date:'hh:mma' }}</div>
+            <div class="row-item col-end-time">{{row.end_time}}</div>
+            <div class="row-item col-state">
+                <div class="status-pill" [class]="getStateClass(row.state)">
+                    {{getStateName(row.state)}}
+                </div>
+            </div>
+            <div class="row-item col-game">{{row.game_name}}</div>
+            <div class="row-item col-type">{{row.type}}</div>
+
+            <div class="row-item-actions col-actions" *ngIf="!hideActions">
+                <div class="action-item" *ngFor="let action of row.actions">
+                    <img class="action-item-img" [src]="getImageForAction(action)">
+                </div>
             </div>
         </div>
-        <div class="row-item col-game">{{row.game_name}}</div>
-        <div class="row-item col-type">{{row.type}}</div>
 
-        <div class="row-item-actions col-actions" *ngIf="!hideActions">
-            <div class="action-item" *ngFor="let action of row.actions">
-                <img class="action-item-img" [src]="getImageForAction(action)">
-            </div>
-        </div>
     </div>
+
 </div>
 <div *ngIf="data.length == 0" class="section dyn-anim-fadein-delayed">
     <h2>No Sessions to Show</h2>

@@ -1,0 +1,60 @@
+<div class="container">
+    <app-dynamicsidebar [items]="sidebarItems" (onBack)="handleBack()">
+    </app-dynamicsidebar>
+
+    <div class="container2">
+        <div class="nav">
+            <h4 class="small-heading">
+                {{ title }}
+            </h4>
+            <app-userstatus></app-userstatus>
+        </div>
+        <div class="buttons">
+            <div class="dyn-btn clickable btn-save" (click)="createButtonClicked()">{{ isEditMode ? 'Save' : 'Create' }}</div>
+            <div class="dyn-btn clickable btn-cancel" (click)="cancelButtonClicked()">Cancel</div>
+        </div>
+
+        <div class="form-container dyn-form">
+
+            <!-- Basic Details -->
+            <div class="dyn-form-col">
+                <div class="section-heading">
+                    <h2 class="heading">Basic Details</h2>
+                </div>
+                <div class="dyn-form-row">
+                    <div class="dyn-form-label">Game</div>
+                    <select class="dyn-select" [(ngModel)]="selectedGame">
+
+                    </select>
+                </div>
+                <div class="dyn-form-row">
+                    <div class="dyn-form-label">State</div>
+                    <select class="dyn-select" [(ngModel)]="selectedState" [class.dyn-select-disabled]="!isEditMode">
+                        
+                    </select>
+                </div>
+            </div>
+    
+            <!-- Schedule -->
+            <div class="dyn-form-col">
+                <div class="section-heading">
+                    <h2 class="heading">Schedule</h2>
+                </div>
+                <div class="dyn-form-row">
+                    <div class="dyn-form-label">Start Date & Time</div>
+                    <input class="dyn-textbox dyn-datetime" [(ngModel)]="startDateAndTime" type="datetime-local" />
+                </div>
+                <div class="dyn-form-row">
+                    <div class="dyn-form-label">End Date & Time</div>
+                    <input class="dyn-textbox dyn-datetime" [(ngModel)]="endDateAndTime" type="datetime-local" />
+                </div>
+                <div class="dyn-form-row">
+                    <p id="schedule-summary">{{sessionScheduleSummary}}</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

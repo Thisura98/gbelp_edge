@@ -57,6 +57,10 @@ export class GroupSessionComponent implements OnInit{
     });
   }
 
+  navigateToSessionCreate(){
+    this.router.navigate(['groups/sessions/create']);
+  }
+
   private loadData(){
     this.apiService.group.getGroup(this.groupId!).subscribe(response => {
       if (!response.success){

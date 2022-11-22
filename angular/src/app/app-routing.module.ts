@@ -37,6 +37,7 @@ import { PropertiesArticleComponent } from './components/views/docs/articles/pag
 import { GroupReportsObjectiveComponent } from './components/views/groups/reports/objective/objective.component';
 import { GroupReportsGuidanceComponent } from './components/views/groups/reports/guidance/guidance.component';
 import { GroupUsersComponent } from './components/views/groups/users/users.component';
+import { GroupSessionCreateComponent } from './components/views/groups/session/create/create.component';
 
 
 
@@ -60,6 +61,7 @@ const routes: Routes = [
   {path: "groups/create", component: GroupCreateComponent},
   {path: "groups/overview", component: GroupOverviewComponent},
   {path: "groups/sessions", component: GroupSessionComponent},
+  {path: "groups/sessions/create", component: GroupSessionCreateComponent},
   {path: "groups/reports", component: GroupReportsComponent},
   {path: "groups/join/:groupId", component: GroupJoinComponent},
   {path: "groups/reports/available", component: GroupReportsAvailableComponent},

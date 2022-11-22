@@ -1,0 +1,23 @@
+.section-heading{
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    align-items: baseline;
+    vertical-align: baseline;
+}
+
+.section-heading > h2{
+    margin-bottom: 30px;
+}
+
+.form-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 88px;
+}   
+
+#schedule-summary{
+    font-style: italic;
+    color: #8F8F8F;
+}
