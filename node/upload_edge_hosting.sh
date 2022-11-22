@@ -17,7 +17,7 @@ echo "(0/3) Will be uploaded to (@remote): $location"
 
 echo '(1/3) Zipping contents...'
 
-(cd .. && zip -q -r $filename ./node ./commons -x *node_modules*)
+(cd .. && zip -q -r $filename ./node ./commons ./db -x *node_modules*)
 
 echo "(2/3) Moving to $folder folder"
 

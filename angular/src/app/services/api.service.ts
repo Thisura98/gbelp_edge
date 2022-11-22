@@ -28,14 +28,14 @@ export class ApiService {
     if (isDevMode() || environment.staging)
       return "http://localhost:80";
     else
-      return "https://edgeelp.online";
+      return "http://edgeelp.online";
   }
 
   static getSocketURL(): string {
     if (isDevMode() || environment.staging)
       return "http://localhost:100";
     else
-      return "https://edgeelp.online:100";
+      return "http://edgeelp.online:100";
   }
 
   private get serverBaseUrl(): string {
