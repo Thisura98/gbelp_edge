@@ -24,13 +24,13 @@
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Game</div>
                     <select class="dyn-select" [(ngModel)]="selectedGame">
-
+                        <option *ngFor="let game of games" value="{{game.id}}">{{game.name}}</option>
+                        <option selected value="">No games to show</option>
                     </select>
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">State</div>
                     <select class="dyn-select" [(ngModel)]="selectedState" [class.dyn-select-disabled]="!isEditMode">
-                        
                     </select>
                 </div>
             </div>
