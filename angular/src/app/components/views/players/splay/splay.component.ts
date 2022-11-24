@@ -58,7 +58,6 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private session: GameSession | undefined;
   private destroyableSockets: Socket[] = [];
-  private levelIndex: number = 0;
   private chatSocket: EdgeSocket | undefined;
 
   constructor(
@@ -72,13 +71,6 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialogService: DialogService,
     private playService: PlayService,
   ) { }
-
-  get currentLevelName(): string{
-    if (this.game == undefined)
-      return '';
-
-    return this.game.project.levels[this.levelIndex].name;
-  }
 
   ngOnInit(): void {
     if (!this.userService.getIsLoggedIn()){

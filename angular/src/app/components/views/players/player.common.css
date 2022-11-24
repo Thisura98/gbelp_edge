@@ -17,6 +17,7 @@ h4{
 .nav{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .back-btn{
@@ -62,19 +63,22 @@ app-userstatus{
     height: 100px;
 }
 
-.primary-container > .titles{
-    color: #D6D7D8;
-    margin-left: 12px;
+.titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.primary-container > .titles > .game-title{
+.titles > .game-title{
     font-weight: 500;
-    font-size: 20px;
+    font-size: 17px;
+    color: white;
 }
-.primary-container > .titles > .game-level{
+
+.titles > .game-timer{
     font-weight: 300;
-    font-size: 16px;
-    margin-left: 10px;
+    font-size: 12px;
+    color: #b0b0b0;
 }
 
 .canvas-container{

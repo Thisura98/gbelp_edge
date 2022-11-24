@@ -5,15 +5,14 @@
             <img class="dashboard-icon" src="assets/splay/graydashboard.png"/>
             <div class="back-text">Back</div>
         </div>
+        <div class="titles">
+            <span class="game-title">{{game?.entry?.name ?? ""}}</span>
+        </div>
         <app-userstatus [darkMode]="true" ></app-userstatus>
     </div>
     <div class="panels-container">
         
         <div class="primary-container">
-            <div class="titles">
-                <span class="game-title">{{game?.entry?.name ?? ""}}</span>
-                <span class="game-level">{{currentLevelName}}</span>
-            </div>
             <!-- Check the game.js template (in game compiler) to find where this is used -->
             <div class="canvas-container" id="canvas-container">
                 <div class="loading-indicator">Loading game...</div>
