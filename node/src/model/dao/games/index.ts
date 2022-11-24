@@ -198,7 +198,7 @@ export function saveGame(data: SaveGameRequestData, callback: DAOCallback){
 
 
 /**
- * Retrieve game entry from the DB
+ * Retrieve game entry & project from the DB in one call
  * @param {string | number} id 
  * @param {function(boolean, string, GameListing | null)} callback success?, desc, result
  */

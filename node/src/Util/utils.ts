@@ -58,6 +58,11 @@ export function checkUserCanModifyGame(
             return;
         }
 
+        if (res.length == 0){
+            callback(false, 'User does not own provided game');
+            return;
+        }
+
         // csv of author ids - checked allowed to modify
         const authors = String(res[0][c.authorId]).split(',');
         if (authors.find(a => a == userId) == undefined){

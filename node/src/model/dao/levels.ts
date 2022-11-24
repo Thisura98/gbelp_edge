@@ -17,28 +17,33 @@ import { ObjectId } from 'mongodb';
 import DAOCallback from './commons';
 import { GameLevel } from '../../../../commons/src/models/game/levels';
 
-export function saveLevel(gameId: string, projectId: string, userId: string, levels: GameLevel[], callback: DAOCallback){
+export function saveLevels(gameId: string, projectId: string, userId: string, levels: GameLevel[], callback: DAOCallback){
 
-    // console.log('projectId', projectId, `levels: ${JSON.stringify(levels)}`, "saveLevel");
-    let finalLevels: any[] = [];
+    utils.checkUserCanModifyGame(gameId, userId, (canModify, projectId) => {
 
-    for (const lvl of levels){
-        const item: any = lvl;
-        if (lvl._id == null){
-            item._id = (new ObjectId()).toHexString();
-        }
-        finalLevels.push(item);
-    }
-
-    // console.log('New Levels:', JSON.stringify(finalLevels));
-
-    mongo.Collections.getGameProjects().updateOne({_id: mongo.toObjectId(projectId)}, {$set: {levels: finalLevels}}, (err, result) => {
-        if (err){
-            callback(false, 'Failed to save levels', err!.message);
+        if (!canModify){
+            callback(false, 'User not allowed to modify levels', null);
             return;
         }
 
-        callback(true, 'Saving successful!', null);
-    })
+        let finalLevels: GameLevel[] = [];
+
+        for (const lvl of levels){
+            if (lvl._id == null){
+                lvl._id = (new ObjectId()).toHexString();
+            }
+            finalLevels.push(lvl);
+        }
+
+        mongo.Collections.getGameProjects().updateOne({_id: mongo.toObjectId(projectId)}, {$set: {levels: finalLevels}}, (err, result) => {
+            if (err){
+                callback(false, 'Failed to save levels', err!.message);
+                return;
+            }
+    
+            callback(true, 'Saving successful!', null);
+        })
+
+    });
 
 }

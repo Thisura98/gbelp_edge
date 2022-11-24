@@ -59,7 +59,7 @@ export function handlerGameEditing(app: Express){
         const gameId = req.body.gameId! as string;
         const projectId = req.body.projectId! as string;
         const levels = req.body.levels! as any;
-        levelsDAO.saveLevel(gameId, projectId, userId, levels, (status, msg, result) => {
+        levelsDAO.saveLevels(gameId, projectId, userId, levels, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result))
         });
     })
