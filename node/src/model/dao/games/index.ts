@@ -66,7 +66,7 @@ export function createGame(data: any, callback: DAOCallback){
         })
     }
     else{
-        cloneTemplateAndCreateGame(data)
+        cloneTemplateAndCreateGame(data, m)
         .then(gameId => {
             let res = { gameId: gameId };
             callback(true, 'Successfully created Game!', res);
