@@ -7,6 +7,7 @@ import * as gamesDAO from '../../model/dao/games';
 import * as levelsDAO from '../../model/dao/levels';
 import { getPhaserLibPath, getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
 import * as l from '../../Util/logger';
+import * as utils from '../../Util/utils';
 import multer from 'multer';
 
 import * as gameEditingHelper from './helpers/game-editing';
@@ -22,7 +23,7 @@ const multerDiskWriteConfig = multer.diskStorage({
             callback(null, config.fs_res_path_image);
     },
     filename: (req, file, callback) => {
-        const filename = Date.now() + path.extname(file.originalname);
+        const filename = utils.generateUploadResourceName(file.originalname);
         callback(null, filename);
     }
 })

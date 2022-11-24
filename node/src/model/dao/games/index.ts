@@ -14,6 +14,7 @@ import DAOCallback, { DAOTypedCallback } from '../commons';
 import * as metricsDAO from '../metrics'
 import { GameProject } from '../../../../../commons/src/models/game/project';
 import { createTemplate } from './template.helper';
+import { cloneTemplateAndCreateGame } from './games.helper';
 
 /**
  * Create a game entry
@@ -54,18 +55,25 @@ export function createGame(data: any, callback: DAOCallback){
 
     if (data.is_template){
         createTemplate(data, m)
-        .then(gameId => {
+        .then(templateId => {
             let response = {
-                gameId: gameId
+                gameId: templateId
             };
-            callback(true, 'Successfully Inserted', response);
+            callback(true, 'Successfully created Template!', response);
         })
         .catch(err => {
             callback(false, err, null);
         })
     }
     else{
-        callback(false, 'Not implemented yet', null);
+        cloneTemplateAndCreateGame(data)
+        .then(gameId => {
+            let res = { gameId: gameId };
+            callback(true, 'Successfully created Game!', res);
+        })
+        .catch(err => {
+            callback(false, err, null);
+        })
     }
 
     // let sampleLevels: Object[] = []
