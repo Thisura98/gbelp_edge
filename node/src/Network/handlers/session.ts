@@ -24,6 +24,39 @@ export function handlerSession(app: Express){
         });
     });
 
+    app.put(aurl('save-session'), async (req, res) => {
+        const sessionId = req.body.sessionId;
+        const typeId = req.body.typeId;
+        const state = req.body.state;
+        const gameId = req.body.gameEntryId;
+        const groupId = req.body.groupId;
+        const startTime = req.body.startTime;
+        const endTime = req.body.endTime;
+        const userId = req.header('uid')!;
+
+        const belongs = await sessionDAO.checkUserBelongsToSession(userId, sessionId);
+        if (belongs){
+            sessionDAO.modifySession(
+                sessionId,
+                typeId,
+                state,
+                gameId,
+                groupId,
+                startTime, 
+                endTime
+            )
+            .then(_ => {
+                res.send(new ResponseModel(true, 200, 'Saved successfully!', null));
+            })
+            .catch(err => {
+                res.send(new ResponseModel(false, 200, err, null));
+            })
+        }
+        else{
+            return Promise.reject("User does not belong to session");
+        }
+    })
+
     app.post(aurl('create-test-session'), (req, res) => {
         const userId = req.header('uid')!;
         const gameId = req.body.gameId;

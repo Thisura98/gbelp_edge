@@ -58,5 +58,31 @@ export class SessionAPIs implements APIBase{
     });
   }
 
+  saveSession(
+    sessionId: string,
+    sessionTypeId: string,
+    state: string,
+    gameId: string,
+    groupId: string,
+    startTime: string,
+    endTime: string,
+    userIds: string[]
+  ): Observable<ServerResponsePlain>{
+    const url = this.aurl('save-session');
+    const data = {
+      sessionId: sessionId,
+      typeId: sessionTypeId,
+      state: state,
+      gameEntryId: gameId,
+      groupId: groupId,
+      startTime: startTime,
+      endTime: endTime,
+      insertUsers: userIds
+    };
+    return this.http.put<ServerResponsePlain>(url, data, {
+      headers: this.getHeaders()
+    });
+  }
+
   
 }

@@ -36,6 +36,7 @@
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">State</div>
                     <select class="dyn-select" [(ngModel)]="selectedState" [class.dyn-select-disabled]="!isEditMode">
+                        <option *ngFor="let state of states | keyvalue" value="{{ state.key }}">{{ state.value }}</option>
                     </select>
                 </div>
             </div>

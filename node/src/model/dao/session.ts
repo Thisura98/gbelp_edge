@@ -235,3 +235,48 @@ export function getSessionsInGroup(
         });
     });
 }
+
+export function modifySession(
+    sessionId: number,
+    typeId: number,
+    state: number,
+    gameEntryId: number,
+    groupId: number,
+    startTime: string,
+    endTime: string | undefined
+): Promise<void>{
+
+    const c = sql.columns.gameSessions;
+    const se = sql.smartEscape;
+    const columns = [
+        c.sessionId, c.typeId, c.state, c.gameEntryId, 
+        c.groupId, c.startTime, c.endTime
+    ];
+    const values = [
+        se(sessionId), se(typeId), se(state), se(gameEntryId), 
+        se(groupId), se(startTime), se(endTime)
+    ];
+
+    const assignments = columns.map((column, i) => {
+        return `${column} = ${values[i]}`
+    });
+    const strAssignments = assignments.join(', ');
+    
+    const query = 
+`UPDATE ${sql.tables.gameSessions} 
+SET ${strAssignments} 
+WHERE ${c.sessionId} = ${values[0]}`;
+
+    return new Promise((resolve, reject) => {
+        sql.getPool()!.query(query, (err, result) => {
+            if (err){
+                l.logc(String(err), 'modifySession()');
+                reject('Could not modify session');
+            }
+            else{
+                resolve();
+            }
+        })
+    });
+
+}

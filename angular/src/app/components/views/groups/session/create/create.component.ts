@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { combineLatest } from "rxjs";
 import { DynamicSidebarItem } from "src/app/components/ui/dynamicsidebar/dynamicsidebar.component";
 import { TimeConstants } from "src/app/constants/constants";
-import { ServerResponse } from "src/app/models/common-models";
+import { ServerResponse, ServerResponsePlain } from "src/app/models/common-models";
 import { ServerResponseAllGameEntries } from "src/app/models/game/game";
 import { ServerResponseSessionCreate } from "src/app/models/session";
 import { ApiService } from "src/app/services/api.service";
@@ -38,6 +38,7 @@ export class GroupSessionCreateComponent implements OnInit{
   sessionScheduleSummary = "Select start and end time to create a session...";
 
   games: GameEntry[] | undefined;
+  states: { [key: number] : string } | undefined;
 
   private editSessionId = "";
   private editingSession: GameSession | undefined;
@@ -57,6 +58,7 @@ export class GroupSessionCreateComponent implements OnInit{
   ){}
 
   ngOnInit(){
+    this.setStates();
     this.loadData();
   }
 
@@ -75,7 +77,7 @@ export class GroupSessionCreateComponent implements OnInit{
       }
 
       if (this.isEditMode){
-        this.dialogService.showDismissable("Not implemented yet", "");
+        this.saveSession();
       }
       else{
         this.createSession();
@@ -106,6 +108,24 @@ export class GroupSessionCreateComponent implements OnInit{
     }
   }
 
+  /**
+   * Session States Dropdown values
+   */
+  private setStates(){
+      var states: { [key: number] : string } = {};
+      states[GameSessionState.canceled] = 'Canceled';
+      states[GameSessionState.complete] = 'Complete';
+      states[GameSessionState.live] = 'Live';
+      states[GameSessionState.multiplayerReady] = 'Multiplayer Ready';
+      states[GameSessionState.multiplayerStaging] = 'Multiplayer Staging';
+      states[GameSessionState.scheduled] = 'Scheduled';
+
+      this.states = states;
+  }
+
+  /**
+   * Get the duration of the session as text
+   */
   private getSessionDurationString(): string{
     let startDate = new Date(this.startDateAndTime!);
     let endDate = new Date(this.endDateAndTime!);
@@ -139,11 +159,6 @@ export class GroupSessionCreateComponent implements OnInit{
 
   private loadData(){
     this.userService.routeOutIfLoggedOut();
-    let userId = this.userService.getUserAndToken().user?.userId
-
-    if (userId == null){
-      return;
-    }
 
     // Get isEditMode & GroupID 
     combineLatest([
@@ -155,36 +170,45 @@ export class GroupSessionCreateComponent implements OnInit{
 
       if (this.isEditMode){
         this.editSessionId = params.sessionId;
-        this.loadSession();
+        this.loadSession(); // calls getMembersAndGames();
       }
       else{
         this.groupId = params.groupId
+        this.getMembersAndGames();
       }
-
-      // Get Group Members
-      this.apiService.group.getGroupMembers(this.groupId, undefined).subscribe(
-        response => {
-          this.groupUsers = response.data;
-
-          // Get Games List
-          this.apiService.game.getAllGames(false, userId!).subscribe(
-            res => this.handleGamesResponse(res), 
-            error => this.handleError(error)
-          );
-        },
-        error => this.handleError(error)
-      )
     });
   }
 
   private loadSession(){
     this.apiService.session.getSession(this.editSessionId).subscribe(
-      response => this.handleSessionResponse(response),
+      response => this.handleSessionLoadResponse(response),
       err => this.handleError(err)
     )
   }
 
-  private handleSessionResponse(response: ServerResponse<GameSession>){
+  private getMembersAndGames(){
+    let userId = this.userService.getUserAndToken().user?.userId
+
+    if (userId == null){
+      return;
+    }
+
+    // Get Group Members
+    this.apiService.group.getGroupMembers(this.groupId, undefined).subscribe(
+      response => {
+        this.groupUsers = response.data;
+
+        // Get Games List
+        this.apiService.game.getAllGames(false, userId!).subscribe(
+          res => this.handleGamesResponse(res), 
+          error => this.handleError(error)
+        );
+      },
+      error => this.handleError(error)
+    )
+  }
+
+  private handleSessionLoadResponse(response: ServerResponse<GameSession>){
     if (response == null){
       this.handleError('Session response was null');
       return;
@@ -196,10 +220,13 @@ export class GroupSessionCreateComponent implements OnInit{
       const session = response.data;
       this.editingSession = session;
       this.groupId = session.group_id.toString();
+      this.selectedState = session.state.toString();
       this.selectedGame = session.game_entry_id.toString();
       this.startDateAndTime = session.start_time;
       this.endDateAndTime = session.end_time;
       this.validateDates();
+
+      this.getMembersAndGames();
     }
   }
 
@@ -219,6 +246,9 @@ export class GroupSessionCreateComponent implements OnInit{
     this.dialogService.showDismissable(title, msg);
   }
 
+  /**
+   * Returns UserIDs of all members in this session's group
+   */
   private getSessionUsers(): string[]{
     let users: UserGroupMember[] = this.groupUsers!.parents;
     users = users.concat(this.groupUsers!.privileged);
@@ -227,9 +257,10 @@ export class GroupSessionCreateComponent implements OnInit{
     return users.map(u => u.user_id);
   }
 
+  /**
+   * Create new session (isEditeMode = false)
+   */
   private createSession(){
-    console.log('create session selected game =', this.selectedGame);
-
     this.apiService.session.createSession(
       GameSessionType.single.toString(),
       GameSessionState.scheduled.toString(),
@@ -250,6 +281,7 @@ export class GroupSessionCreateComponent implements OnInit{
       this.handleCreateSessionError('Response was null');
     }
     else{
+      this.dialogService.showSnackbar('Session created!');
       this.router.navigate([`groups/sessions/edit/${response.data.session_id}`], {
         replaceUrl: true
       })
@@ -258,6 +290,41 @@ export class GroupSessionCreateComponent implements OnInit{
 
   private handleCreateSessionError(err: any){
     this.dialogService.showDismissable('Error creating session', String(err));
+  }
+
+  /**
+   * Save new session (isEditeMode = true)
+   */
+  private saveSession(){
+    this.apiService.session.saveSession(
+      this.editSessionId,
+      GameSessionType.single.toString(),
+      GameSessionState.scheduled.toString(),
+      this.selectedGame,
+      this.groupId!,
+      this.startDateAndTime!,
+      this.endDateAndTime!,
+      this.getSessionUsers()
+    )
+    .subscribe(
+      res => this.handleSaveSessionResponse(res),
+      err => this.handleError(err)
+    )
+  }
+
+  private handleSaveSessionResponse(response: ServerResponsePlain){
+    if (response == null){
+      this.handleCreateSessionError('Response was null');
+    }
+    else{
+      this.dialogService.showSnackbar('Session saved!');
+      this.router.navigate(['groups/sessions'], {
+        queryParams: {
+          groupId: this.groupId
+        },
+        replaceUrl: true
+      })
+    }
   }
 
 }
