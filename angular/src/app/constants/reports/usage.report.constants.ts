@@ -15,16 +15,10 @@ export function getUsageOverviewChartOptions(onChartZoomed: (params: any) => voi
           console.log('Overview zoomed:', opts);
           onChartZoomed(opts);
         }
-      }
+      },
     },
-    markers: {
-      size: 5,
-      colors: ["#FFFFFF"],
-      strokeColors: ["#098FFA"],
-      strokeWidth: 3,
-      hover:{
-        size: 5
-      }
+    stroke: {
+      width: 1
     },
     xaxis: {
       type: 'datetime',

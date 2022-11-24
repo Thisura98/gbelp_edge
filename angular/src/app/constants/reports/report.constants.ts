@@ -1,4 +1,4 @@
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ApexMarkers } from "ng-apexcharts";
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, ApexMarkers, ApexStroke } from "ng-apexcharts";
 
 export type ApexChartOptions = {
   series: ApexAxisChartSeries;
@@ -11,6 +11,7 @@ export type ApexChartOptions = {
   tooltip: ApexTooltip;
   grid: ApexGrid,
   fill: ApexFill,
+  stroke?: ApexStroke,
 }
 
 export function reportTimeFormat(ts: number | string): string{
