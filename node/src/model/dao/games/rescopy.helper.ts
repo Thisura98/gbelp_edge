@@ -5,8 +5,7 @@ import * as l from '../../../Util/logger';
 import * as utils from '../../../Util/utils';
 
 /**
- * Clones the resources in the project projectID and 
- * returns their old vs new filenames in a map.
+ * Clones the resources and returns their old vs new filenames in a map.
  * @param projectId MongoDB Game Project ID
  */
 export async function cloneTemplateResources(resources: GameProjectResource[]): Promise<Map<string, string>>{
@@ -17,9 +16,6 @@ export async function cloneTemplateResources(resources: GameProjectResource[]): 
     l.logc('Starting rescopy process for (' + resLength + ') resources...', tag);
 
     let map: Map<string, string> = new Map();
-
-    // test
-    let i = 0;
 
     for (let oldRes of resources){
         
