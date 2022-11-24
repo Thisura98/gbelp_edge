@@ -3,7 +3,7 @@ import { SceneObject, SceneObjectFrame, SceneObjectType } from "../../../../../.
 import { GameProjectResource } from "../../../../../../../../../../commons/src/models/game/resources";
 import { fabric } from 'fabric';
 import { ResourceUrlTransformPipe } from "src/app/pipes/resource-url-transform.pipe";
-import { EditorDataService } from "src/app/services/editor.data.service";
+import { EditorDataService, ReorderPack } from "src/app/services/editor.data.service";
 import { debounceTime } from "rxjs/operators";
 import { CameraBoundingBox } from "./cameragroup.scenemap";
 import { GameListing } from "../../../../../../../../../../commons/src/models/game/game";
@@ -242,6 +242,14 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
         this.dataService.getSceneObjectState().subscribe((obj) => {
             this.handleObjectState(obj);
         });
+
+        // Listen to re-order
+        this.dataService.getReorder().subscribe(pack => {
+            if (pack == undefined){
+                return;
+            }
+            this.handleReorder(pack);
+        })
     }
 
     // MARK: Canvas Methods
@@ -540,6 +548,20 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
         this.dataService.setHasUnsavedChanges(true);
         this.canvas?.requestRenderAll();
+    }
+
+    private handleReorder(pack: ReorderPack){
+        const objectId = pack.object._id;
+        const object = this.canvas?._objects.find((obj) => obj.data! == objectId);
+
+        if (object){
+            if (pack.toFront){
+                object.bringForward();
+            }
+            else{
+                object.sendBackwards();
+            }
+        }
     }
 
 }

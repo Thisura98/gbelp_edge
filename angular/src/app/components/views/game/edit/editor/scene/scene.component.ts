@@ -143,6 +143,42 @@ export class SceneEditorComponent implements OnInit {
     );
   }
 
+  moveItemToBack(){
+    const i = this.selectedSceneObjIndex;
+
+    if (i == undefined || i < 2){
+      return;
+    }
+
+    this.swapItems(i, i-1);
+  }
+
+  moveItemToFront(){
+    const i = this.selectedSceneObjIndex;
+
+    if (i == undefined || i == 0){
+      return;
+    }
+
+    if (i == this.sceneObjects.length - 1){
+      return;
+    }
+
+    this.swapItems(i, i+1);
+  }
+
+  private swapItems(sourceIndex: number, destIndex: number){
+    const destItem = this.sceneObjects[destIndex];
+    const thisItem = this.sceneObjects[sourceIndex];
+    const toFront = destIndex > sourceIndex;
+    this.sceneObjects.splice(destIndex, 1, thisItem);
+    this.sceneObjects.splice(sourceIndex, 1, destItem);
+    this.selectedSceneObjIndex = destIndex;
+
+    this.editorDataService.setReorder(thisItem, toFront);
+    this.editorDataService.setSceneObjectSelection(this.selectedSceneObjIndex);
+  }
+
   private deleteSceneObjectConfirmed(index: number){
     this.selectedSceneObjIndex = undefined;
     this.editorDataService.setSceneObjectSelection(undefined);

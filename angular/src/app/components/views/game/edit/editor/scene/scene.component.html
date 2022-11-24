@@ -2,7 +2,8 @@
     <div class="section-hierarchy">
         <h2>Hierarchy</h2>
         <div class="object-list">
-            <div class="hierarchy-item"
+            <div class="hierarchy-items">
+                <div class="hierarchy-item"
                 *ngFor="let obj of sceneObjects"
                 [class.hierarchy-selected]="obj._id == getSelectedSceneObj()?._id"
                 (click)="hierarchyItemClicked(obj)">
@@ -15,6 +16,15 @@
                             (click)="cameraActiveStateClicked(obj, $event)"
                         >
                     </ng-container>
+                </div>
+            </div>
+            </div>
+            <div class="hierarchy-controls">
+                <div class="hierarchy-control move-up" (click)="moveItemToBack()">
+                    🔼 To Back
+                </div>
+                <div class="hierarchy-control move-up" (click)="moveItemToFront()">
+                    🔽 To Front
                 </div>
             </div>
         </div>

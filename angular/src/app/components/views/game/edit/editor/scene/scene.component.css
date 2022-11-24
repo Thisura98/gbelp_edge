@@ -50,6 +50,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    justify-content: space-between;
 }
 
 .hierarchy-item{
@@ -71,6 +72,31 @@
     background-color: #E0F3FF;
     color: #009EFF;
     font-weight: bold;
+}
+
+.hierarchy-controls{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.hierarchy-control{
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    align-items: center;
+    background: ghostwhite;
+    margin: 0 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 28px;
+}
+
+.hierarchy-control > img{
+    width: 20px;
+    height: 20px;
+    opacity: 70%;
 }
 
 /* Scene Map (map-container + ...) [CANVAS] */

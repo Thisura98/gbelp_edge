@@ -13,12 +13,18 @@ export class EditorChildDataPack{
     ){}
 }
 
+export interface ReorderPack{
+    object: SceneObject,
+    toFront: boolean
+}
+
 let sceneData = new BehaviorSubject<EditorChildDataPack>(new EditorChildDataPack(undefined, undefined, undefined));
 let sceneMapData = new BehaviorSubject<SceneMapDataPack>(new SceneMapDataPack([], undefined));
 let addSceneObject = new Subject<SceneObject>();
 let sceneObjectSelection = new BehaviorSubject<number | undefined>(undefined);
 let objectState = new Subject<SceneObjectDataPack>();
 let unsavedChanges = new BehaviorSubject<Boolean>(false);
+let reOrderEvent = new BehaviorSubject<ReorderPack | undefined>(undefined);
 
 interface OnSaveListener{
     callback: (project: GameProject) => void
@@ -148,6 +154,16 @@ export class EditorDataService{
 
     getHasUnsuavedChanges(): BehaviorSubject<Boolean> {
         return unsavedChanges;
+    }
+
+    // Reorder
+
+    setReorder(object: SceneObject, toFront: boolean){
+        reOrderEvent.next({ object: object, toFront: toFront });
+    }
+
+    getReorder(): BehaviorSubject<ReorderPack | undefined>{
+        return reOrderEvent;
     }
 
 }
