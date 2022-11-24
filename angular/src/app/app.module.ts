@@ -83,6 +83,7 @@ import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { AnyToStringPipe } from './pipes/any-to-string.pipe';
 import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
 import { GroupSessionCreateComponent } from './components/views/groups/session/create/create.component';
+import { ParentDashboardComponent } from './components/views/dashboards/parent-dashboard/parent-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { GroupSessionCreateComponent } from './components/views/groups/session/c
     LoginComponent,
     StudentDashboardComponent,
     TeacherDashboardComponent,
+    ParentDashboardComponent,
     DashboardComponent,
     DashboardoverviewComponent,
     DashboardgamesComponent,

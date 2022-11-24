@@ -15,8 +15,8 @@ import { UserTypeNames } from '../../../../../../../../commons/src/models/user';
 
   <div *ngIf="expanded" class="ds-selector-menu" #dsMenuSelectorMenu>
     <div class="ds-ms-mitem" (click)="overviewClicked()">Overview</div>
-    <div class="ds-ms-mitem" (click)="gamesClicked()">Games</div>
-    <div *ngIf="showTemplatesView" class="ds-ms-mitem" (click)="templatesClicked()">Templates</div>
+    <div *ngIf="canEditGames" class="ds-ms-mitem" (click)="gamesClicked()">Games</div>
+    <div *ngIf="canEditGames" class="ds-ms-mitem" (click)="templatesClicked()">Templates</div>
     <div class="ds-ms-mitem" (click)="groupsClicked()">Groups</div>
   </div>
   `,
@@ -29,7 +29,7 @@ export class MenuselectorComponent implements OnInit {
   menuName: string = "";
   menuIcon: string = "";
   private userType: String = "";
-  showTemplatesView = false;
+  canEditGames = false;
 
   @ViewChild('dsMenuSelector')
   menuSelector: ElementRef | undefined;
@@ -47,7 +47,7 @@ export class MenuselectorComponent implements OnInit {
     });
 
     const userTypeName = this.userService.getUserAndToken().user.userTypeName;
-    this.showTemplatesView = userTypeName == UserTypeNames.creator || userTypeName == UserTypeNames.admin;
+    this.canEditGames = userTypeName == UserTypeNames.creator || userTypeName == UserTypeNames.admin;
   }
 
   ngOnInit(): void {

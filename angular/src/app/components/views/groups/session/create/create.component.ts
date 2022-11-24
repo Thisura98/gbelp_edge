@@ -271,21 +271,9 @@ export class GroupSessionCreateComponent implements OnInit{
       this.getSessionUsers()
     )
     .subscribe(
-      res => this.handleCreateSessionResponse(res),
+      res => this.handleSessionSavedResponse(res, false),
       err => this.handleCreateSessionError(err)
     )
-  }
-
-  private handleCreateSessionResponse(response: ServerResponseSessionCreate){
-    if (response == null){
-      this.handleCreateSessionError('Response was null');
-    }
-    else{
-      this.dialogService.showSnackbar('Session created!');
-      this.router.navigate([`groups/sessions/edit/${response.data.session_id}`], {
-        replaceUrl: true
-      })
-    }
   }
 
   private handleCreateSessionError(err: any){
@@ -299,7 +287,7 @@ export class GroupSessionCreateComponent implements OnInit{
     this.apiService.session.saveSession(
       this.editSessionId,
       GameSessionType.single.toString(),
-      GameSessionState.scheduled.toString(),
+      this.selectedState,
       this.selectedGame,
       this.groupId!,
       this.startDateAndTime!,
@@ -307,17 +295,23 @@ export class GroupSessionCreateComponent implements OnInit{
       this.getSessionUsers()
     )
     .subscribe(
-      res => this.handleSaveSessionResponse(res),
+      res => this.handleSessionSavedResponse(res, true),
       err => this.handleError(err)
     )
   }
 
-  private handleSaveSessionResponse(response: ServerResponsePlain){
+  private handleSessionSavedResponse(response: ServerResponsePlain, isSave: boolean){
     if (response == null){
       this.handleCreateSessionError('Response was null');
     }
     else{
-      this.dialogService.showSnackbar('Session saved!');
+      if (isSave){
+        this.dialogService.showSnackbar('Session saved!');
+      }
+      else{
+        this.dialogService.showSnackbar('Session created!');
+      }
+
       this.router.navigate(['groups/sessions'], {
         queryParams: {
           groupId: this.groupId

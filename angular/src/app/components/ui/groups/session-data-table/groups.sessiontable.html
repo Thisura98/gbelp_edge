@@ -26,7 +26,7 @@
             <div class="row-item col-type">{{row.type}}</div>
 
             <div class="row-item-actions col-actions" *ngIf="!hideActions">
-                <div class="action-item" *ngFor="let action of row.actions">
+                <div class="action-item" *ngFor="let action of row.actions" (click)="actionClicked(action, row)">
                     <img class="action-item-img" [src]="getImageForAction(action)">
                 </div>
             </div>

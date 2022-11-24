@@ -28,6 +28,11 @@ export interface GroupsSessionTableSection{
   rows: GroupsSessionTableRow[]
 }
 
+export interface GameSessionTableActionEvent{
+  action: Actions,
+  row: GroupsSessionTableRow
+}
+
 @Component({
   selector: 'app-groups-sessiontable',
   templateUrl: './groups.sessiontable.html',
@@ -45,6 +50,9 @@ export class GroupsSessionTable{
 
   @Output()
   select = new EventEmitter<GameSessionWithExtensions>();
+
+  @Output()
+  actionSelect = new EventEmitter<GameSessionTableActionEvent>();
 
   setRawData(rawData: GameSessionWithExtensions[], hideActions: boolean){
     this.processData(rawData, hideActions).subscribe(data => {
@@ -87,6 +95,10 @@ export class GroupsSessionTable{
       return;
 
     this.select.emit(row.obj);
+  }
+
+  actionClicked(action: Actions, row: GroupsSessionTableRow){
+    this.actionSelect.emit({ action: action, row: row });
   }
 
   private processData(

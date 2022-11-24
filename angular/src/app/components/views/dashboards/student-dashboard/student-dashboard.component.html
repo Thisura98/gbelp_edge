@@ -1,11 +1,8 @@
 <div class="dashboard-nav">
-    <div></div>
+    <app-dashboard-menuselector></app-dashboard-menuselector>
     <app-userstatus></app-userstatus>
 </div>
-<div class="dashboard-container">
 
-    <!-- <dashboard-sessioninfo></dashboard-sessioninfo>
-    <dashboard-objectivehistory></dashboard-objectivehistory> -->
-    <!-- <dashboard-progresstracker></dashboard-progresstracker> -->
-
+<div class="dashboard-content">
+    <router-outlet></router-outlet>
 </div>

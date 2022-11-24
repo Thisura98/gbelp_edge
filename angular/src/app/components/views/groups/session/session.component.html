@@ -20,7 +20,7 @@
 
         <div class="container3">
             <div class="section-sessions">
-                <app-groups-sessiontable class="session-table" [allowSelection]="false">
+                <app-groups-sessiontable class="session-table" [allowSelection]="false" (actionSelect)="sessionActionSelected($event)">
 
                 </app-groups-sessiontable>
 

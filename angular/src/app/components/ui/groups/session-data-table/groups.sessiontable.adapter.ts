@@ -96,16 +96,20 @@ export class GroupsSessionDataAdapter{
     const actionsForStates: Map<number, Actions[]> = new Map();
 
     actionsForStates.set(GameSessionState.scheduled, [
-      Actions.duplicate,
+      Actions.join,
       Actions.edit,
-      Actions.delete
+      Actions.reports,
+      // Actions.duplicate,
+      // Actions.delete
     ]);
 
     actionsForStates.set(GameSessionState.live, [
-      Actions.duplicate,
-      Actions.stop,
-      Actions.delete,
-      Actions.reports
+      Actions.join,
+      Actions.edit,
+      Actions.reports,
+      // Actions.duplicate,
+      // Actions.stop,
+      // Actions.delete,
     ]);
 
     actionsForStates.set(
@@ -119,9 +123,10 @@ export class GroupsSessionDataAdapter{
     );
 
     actionsForStates.set(GameSessionState.complete, [
-      Actions.duplicate,
-      Actions.delete,
-      Actions.reports
+      Actions.edit,
+      Actions.reports,
+      // Actions.duplicate,
+      // Actions.delete,
     ]);
 
     actionsForStates.set(

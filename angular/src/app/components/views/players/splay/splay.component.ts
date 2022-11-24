@@ -98,14 +98,15 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   goBack(){
     this.manualDestroyGameSession();
+    window.close();
 
-    if (this.isTestSession)
-      window.close();
+    // if (this.isTestSession)
+    //   window.close();
 
-    if (this.router.navigated)
-      this.location.back()
-    else
-      this.router.navigate(['dashboard']);
+    // if (this.router.navigated)
+    //   this.location.back()
+    // else
+    //   this.router.navigate(['dashboard']);
   }
 
   chatButtonPressed(){

@@ -46,7 +46,13 @@ const routes: Routes = [
   {path: "register", component: RegisterComponent},
   {path: "login", component: LoginComponent},
   {path: "dashboard", component: DashboardComponent},
-  {path: "dashboard/student", component: StudentDashboardComponent},
+  {
+    path: "dashboard/student", component: StudentDashboardComponent,
+    children: [
+      {path: "overview", component: DashboardoverviewComponent},
+      {path: "groups", component: DashboardgroupsComponent},
+    ]
+  },
   {
     path: "dashboard/teacher", component: TeacherDashboardComponent,
     children: [
@@ -56,7 +62,13 @@ const routes: Routes = [
       {path: "templates", component: DashboardgamesComponent, data: { mode: ViewMode.TEMPLATE } },
     ]
   },
-  {path: "dashboard/parent", component: ParentDashboardComponent},
+  {
+    path: "dashboard/parent", component: ParentDashboardComponent,
+    children: [
+      {path: "overview", component: DashboardoverviewComponent},
+      {path: "groups", component: DashboardgroupsComponent},
+    ]
+  },
   {path: "dashboard/f/:page", component: DashboardComponent, data: { mode: 'forward'} },
   {path: "groups/create", component: GroupCreateComponent},
   {path: "groups/overview", component: GroupOverviewComponent},
