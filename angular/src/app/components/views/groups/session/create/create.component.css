@@ -21,3 +21,7 @@
     font-style: italic;
     color: #8F8F8F;
 }
+
+p#schedule-summary.summary-error{
+    color: red;
+}

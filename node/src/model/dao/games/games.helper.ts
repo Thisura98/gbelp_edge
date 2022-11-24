@@ -19,6 +19,7 @@ import { GameGuidanceTracker } from "../../../../../commons/src/models/game/trac
  * fully concrete game ID
  * 
  * @param data Parameters sent from client's game create component
+ * @param m Columns and Values prepared for GameEntry table insert
  */
 export async function cloneTemplateAndCreateGame(data: any, m: { [key: string]: string }): Promise<string> {
     const templateId = data.parent_entry_id;
@@ -54,7 +55,7 @@ export async function cloneTemplateAndCreateGame(data: any, m: { [key: string]: 
                 await cloneObjectives(oldGameId, newGameId);
                 await cloneGuidanceTracker(oldGameId, newGameId);
 
-                reject('Implementation not complete!');
+                resolve(newGameId);
             }
             catch(error){
                 if (clonedResources != undefined){

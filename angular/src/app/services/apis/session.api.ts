@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponse, ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseSessionsByGroup } from "src/app/models/session";
+import { ServerResponseSessionCreate, ServerResponseSessionsByGroup } from "src/app/models/session";
 import { GameSession, GameSessionState } from "../../../../../commons/src/models/session";
 import { APIBase } from "./base.api";
 
@@ -32,6 +32,30 @@ export class SessionAPIs implements APIBase{
       },
       headers: this.getHeaders()
     })
+  }
+
+  createSession(
+    sessionTypeId: string,
+    state: string,
+    gameId: string,
+    groupId: string,
+    startTime: string,
+    endTime: string,
+    userIds: string[]
+  ): Observable<ServerResponseSessionCreate>{
+    const url = this.aurl('create-session');
+    const data = {
+      typeId: sessionTypeId,
+      state: state,
+      gameEntryId: gameId,
+      groupId: groupId,
+      startTime: startTime,
+      endTime: endTime,
+      insertUsers: userIds
+    };
+    return this.http.post<ServerResponseSessionCreate>(url, data, {
+      headers: this.getHeaders()
+    });
   }
 
   

@@ -58,7 +58,7 @@ export class GroupSessionComponent implements OnInit{
   }
 
   navigateToSessionCreate(){
-    this.router.navigate(['groups/sessions/create']);
+    this.router.navigate([`groups/sessions/create/${this.groupId}`]);
   }
 
   private loadData(){

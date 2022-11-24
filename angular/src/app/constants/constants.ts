@@ -2,6 +2,7 @@ import { DynBasicTableConfig } from "../components/ui/dyn-basic-table/dyn-basic-
 import { DynamicSidebarItem } from "../components/ui/dynamicsidebar/dynamicsidebar.component";
 
 export class TimeConstants{
+    static oneDayInSeconds = 86400;
     static oneHourInSeconds = 3600;
     static oneMinuteInSeconds = 60;
 }

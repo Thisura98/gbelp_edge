@@ -1,4 +1,6 @@
 import { ServerResponse } from "../common-models";
-import { GameSessionWithExtensions } from "../../../../../commons/src/models/session"
+import { GameSession, GameSessionWithExtensions } from "../../../../../commons/src/models/session"
 
 export interface ServerResponseSessionsByGroup extends ServerResponse<GameSessionWithExtensions[]>{}
+
+export interface ServerResponseSessionCreate extends ServerResponse<GameSession>{}

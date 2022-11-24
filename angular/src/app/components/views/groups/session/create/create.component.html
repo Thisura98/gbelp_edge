@@ -24,8 +24,13 @@
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Game</div>
                     <select class="dyn-select" [(ngModel)]="selectedGame">
+                        <option *ngIf="games == undefined || games.length == 0" selected value="">
+                            No games to show
+                        </option>
+                        <option *ngIf="games != undefined && games.length > 0" selected value="">
+                            Select a game
+                        </option>
                         <option *ngFor="let game of games" value="{{game.id}}">{{game.name}}</option>
-                        <option selected value="">No games to show</option>
                     </select>
                 </div>
                 <div class="dyn-form-row">
@@ -42,14 +47,20 @@
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Start Date & Time</div>
-                    <input class="dyn-textbox dyn-datetime" [(ngModel)]="startDateAndTime" type="datetime-local" />
+                    <input class="dyn-textbox dyn-datetime" 
+                        [(ngModel)]="startDateAndTime" 
+                        (change)="validateDates()"
+                        type="datetime-local" />
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">End Date & Time</div>
-                    <input class="dyn-textbox dyn-datetime" [(ngModel)]="endDateAndTime" type="datetime-local" />
+                    <input class="dyn-textbox dyn-datetime" 
+                        [(ngModel)]="endDateAndTime" 
+                        (change)="validateDates()"
+                        type="datetime-local" />
                 </div>
                 <div class="dyn-form-row">
-                    <p id="schedule-summary">{{sessionScheduleSummary}}</p>
+                    <p id="schedule-summary" [class.summary-error]="hasDateError">{{sessionScheduleSummary}}</p>
                 </div>
             </div>
 
