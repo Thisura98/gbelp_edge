@@ -204,8 +204,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
    * @param {number} index Index in the subitems array
    */
   didSelectedEditorTab(item: DynamicSidebarItem, index: number){
-    if(this.getSelectedTabIndex() == index)
+    if(this.getSelectedTabIndex() == index){
+      console.log('Early return - 1')
       return;
+    }
 
     if (this.selectedLevelIndex == undefined){
       this.dialogService.showSnackbar('Select a level first');
@@ -221,7 +223,9 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
 
     command = command + "/edit/editor/" + editor;
     
+    console.log('Saving game...')
     this.saveGame(true, () => {
+      console.log('Saved game now navigating...')
       this.router.navigate([command], {
         queryParams: queryParams
       });

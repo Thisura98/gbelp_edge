@@ -57,7 +57,7 @@
             </div>
         </div>
         <h2>Options</h2>
-        <ng-container *ngIf="selectedSceneObjIndex != undefined">
+        <ng-container *ngIf="selectedSceneObjIndex != undefined && (sceneObjects[selectedSceneObjIndex!] != null)">
             <div class="options-selected-name">"{{sceneObjects[selectedSceneObjIndex!].name}}"sprite selected</div>
             <div class="options-sprite-name">
                 <div class="dyn-form-row">

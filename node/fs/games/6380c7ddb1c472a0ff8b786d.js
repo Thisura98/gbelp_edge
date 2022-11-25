@@ -222,7 +222,368 @@ class Cell{
     }
 }
 
+class FillHelper{
+    /**
+     * @param grid {Cell[][]} The grid with null spaces to fill in
+     * @param nClasses {number} The number of classes
+     * @param boardX {number}
+     * @param boardY {number}
+     * @param boardWidth {number}
+     * @param spriteClasses {string[][]} Array of array of sprites for each class
+     * @param cell {Cell} The cell to assign texture to based on cell.type
+     * @param scene {Phaser.Scene}
+     * @returns {Cell[]} The newly added cells
+     */
+    static fillInNull(
+        grid, 
+        nClasses,
+        boardX,
+        boardY,
+        boardWidth,
+        spriteClasses,
+        scene
+    ){
+        const gridSize = grid.length;
+        const spacing = Helper.getSpacing();
+        const cellSize = (boardWidth - (spacing * (gridSize + 1))) / gridSize;
+
+        /**
+         * @type {Cell[]}
+         */
+        let newCells = [];
+        let stableGridFound = false;
+
+        const shallowCopy = FillHelper.getGridFilledShallowCopy(grid, nClasses, newCells);
+        let generationIterations = 0;
+        
+        while(!stableGridFound || (generationIterations < 20)){
+            const matches = MatchHelper.getAllMatches(shallowCopy);
+
+            if (matches.length == 0){
+                stableGridFound = true;
+            }
+            else{
+                for (let newCell of newCells){
+                    const newClassIndex = Helper.getRandomClass(nClasses);
+                    newCell.type = newClassIndex;
+                }
+            }
+
+            console.log('fillInNull generation: iteration =', generationIterations, 'stable? =', stableGridFound);
+            generationIterations += 1;
+        }
+
+        // Add the new cells to the actual grid
+        for (let newCell of newCells){
+            grid[newCell.y][newCell.x] = newCell;
+            Helper.addSpriteToCell(
+                spacing,
+                cellSize,
+                boardX,
+                boardY,
+                spriteClasses,
+                newCell, 
+                scene
+            );
+        }
+
+        return newCells;
+    }
+
+    /**
+     * @param originalGrid {Cell[][]} The original grid
+     * @param nClasses {number} number of classes
+     * @param newCells {array} The out array for the new cells
+     * @returns with no sprites
+     */
+    static getGridFilledShallowCopy(originalGrid, nClasses, newCells){
+        /**
+         * @type {Cell[][]}
+         */
+        let newGrid = [];
+        const gridSize = originalGrid.length;
+
+        for(let i = 0; i < gridSize; i++){
+            /**
+             * @type {Cell[]}
+             */
+            let row = []
+
+            for(let j = 0; j < gridSize; j++){
+                const cell = originalGrid[i][j];
+                if (cell == null){
+                    // Create the new cells
+                    const sClassIndex = Helper.getRandomClass(nClasses);
+                    const newCell = new Cell(j, i, sClassIndex, null);
+                    row.push(newCell);
+                    newCells.push(newCell);
+                }
+                else{
+                    const newCell = new Cell(cell.x, cell.y, cell.type, null);
+                    row.push(newCell);
+                }
+            }
+            newGrid.push(row);
+        }
+        return newGrid;
+    }
+
+    /**
+     * @param grid {Cell[][]} The grid with null spaces to fill in
+     * @param targetX {number} The X of the null
+     * @param targetY {number} The Y of the null
+     */
+    static bestClassForCell(grid, targetX, targetY){
+        const gridSize = grid.length;
+        let c = new Map();
+        let smallestFrequentClass = '';
+        let smallestClassFrequency = -1;
+
+        /**
+         * @type { (cell: Cell | null) => void }
+         */
+        const addClass = (cell) => {
+            if (cell != undefined && cell != null){
+                const str = cell.type;
+                c.set(str, c.has(str) ? (c.get(str) + 1) : 1 );
+            }
+        }
+
+        if (targetY > 0){
+            addClass(grid[targetY - 1][targetX]);
+        }
+        if (targetX < (gridSize - 1)){
+            addClass(grid[targetY][targetX + 1]);
+        }
+        if (targetY < (gridSize - 1)){
+            addClass(grid[targetY + 1][targetX]);
+        }
+        if (targetX > 0){
+            addClass(grid[targetY][targetX - 1]);
+        }
+
+        c.forEach((freq, type) => {
+            if (smallestClassFrequency == -1 || freq < smallestClassFrequency){
+                smallestClassFrequency = freq;
+                smallestFrequentClass = type;
+            }
+        });
+
+        return smallestFrequentClass;
+    }
+}
+
+class ShuffleHelper{
+
+    /**
+     * @param grid {Cell[][]} The grid to shuffle
+     * @param nClasses {number} The number of classes in the grid
+     * @returns {Cell[][] | false} The shuffled grid with no matches, or false if shuffle fails
+     */
+    static shuffleUntilNoMatches(grid, nClasses){
+        let matchesFound = true;
+        let shuffleTries = 0;
+        let shuffleTryLimit = 4;
+
+        while(matchesFound){
+            matchesFound = false;
+            if (shuffleTries > shuffleTryLimit){
+                return false;
+            }
+
+            console.log('Shuffling: Try =', shuffleTries);
+
+            const horizontalMatches = MatchHelper.search(grid, true);
+            if (horizontalMatches.length > 0){
+                ShuffleHelper.computeShuffle(grid, horizontalMatches, nClasses, true);
+                matchesFound = true;
+            }
+
+            const verticalMatches = MatchHelper.search(grid, false);
+            if (verticalMatches.length > 0){
+                ShuffleHelper.computeShuffle(grid, verticalMatches, nClasses, false);
+                matchesFound = true;
+            }
+
+            shuffleTries += 1;
+        }
+
+        console.log('Found state with no matches!');
+
+        return grid;
+    }
+
+    /**
+     * @param grid {Cell[][]} The grid to shuffle
+     * @param matches {Cell[][]} The matches
+     * @param nClasses {number} The number of classes
+     * @param horizontal {boolean} Are we shuffling horizontally?
+     */
+    static computeShuffle(grid, matches, nClasses, horizontal){
+        for(let m of matches){
+            if(m.length == 3){
+                // !horizontal because:
+                // Horizontal groups need to be shuffled vertically
+                // vertical groups need to be shuffled horizontally.
+                const index = Math.floor(Math.random() * 3) % 3;
+                ShuffleHelper.swap(grid, m[index], !horizontal);
+            }
+            else if(m.length < 6){
+                const randPosition = Math.round(Math.random() * m.length);
+                const randClass = Math.round(Math.random() * nClasses);
+                m[randPosition] = randClass;
+            }
+            else{
+                const randPosition1 = Math.round(Math.random() * m.length);
+                const randPosition2 = Math.round(Math.random() * m.length);
+                const randClass = Math.round(Math.random() * nClasses);
+                m[randPosition1] = randClass;
+                m[randPosition2] = randClass;
+            }
+        }
+    }
+
+    /**
+     * Swaps a cell with a randmon adjacent cell
+     * @param grid {Cell[][]} The grid to shuffle
+     * @param cell {Cell} The source cell to consider for swapping
+     * @param horizontallySwap {boolean} If true horizontally, if false vertical
+     */
+    static swap(grid, cell, horizontallySwap){
+        const gridSize = (grid.length - 1);
+        const sourceX = cell.x;
+        const sourceY = cell.y;
+        let targetX = sourceX;
+        let targetY = sourceY;
+
+        const newValue = (source) => {
+            return source == 0 ? (Math.round(Math.random() * gridSize)) : (source - 1);
+        }
+
+        if (horizontallySwap){
+            targetX = newValue(sourceX);
+        }
+        else{
+            targetY = newValue(sourceY);
+        }
+
+        console.log(`Swapping (h? = ${horizontallySwap}) (${sourceX}, ${sourceY}) with (${targetX}, ${targetY})`);
+
+        ShuffleHelper.swapWith(grid, cell, targetY, targetY);
+    }
+
+    /**
+     * @param grid {Cell[][]} The initial grid
+     * @param cell {Cell} The source cell
+     * @param targetX {number} The x index of the cell to swap with
+     * @param targetY {number} The y index of the cell to swap with
+     */
+    static swapWith(grid, cell, targetX, targetY){
+
+        const targetItem = grid[targetY][targetX];
+
+        const sourceX = cell.x;
+        const sourceY = cell.y;
+        targetItem.x = sourceX;
+        targetItem.y = sourceY;
+        cell.x = targetX;
+        cell.y = targetY;
+
+        grid[targetY][targetX] = cell;
+        grid[sourceY][sourceX] = targetItem;
+
+        if (targetItem.sprite != undefined && cell.sprite != undefined){
+            const targetPosX = targetItem.sprite.x;
+            const targetPosY = targetItem.sprite.y;
+            targetItem.sprite.x = cell.sprite.x;
+            targetItem.sprite.y = cell.sprite.y;
+            cell.sprite.x = targetPosX;
+            cell.sprite.y = targetPosY;
+        }
+    }
+
+}
+
+class MatchHelper{
+    /**
+     * @param grid {Cell[][]} The grid to search
+     * @returns {Cell[][]} All the matches as an array of matches
+     */
+    static getAllMatches(grid){
+        let searches = [];
+        searches = searches.concat(MatchHelper.search(grid, true));
+        searches = searches.concat(MatchHelper.search(grid, false));
+        return searches;
+    }
+
+    /**
+     * @param grid {Cell[][]} The grid to search
+     * @param horizontal {boolean} Searching horizontally or vertically?
+     * @returns {Cell[][]} Array of groups of cells
+     */
+    static search(grid, horizontal){
+        const size = grid.length;
+        const sizeLimit = 3;
+        let result = [];
+
+        for(let i = 0; i < size; i++){
+            let lastChar = '-1';
+            let setsOfItemsInLine = [];
+            let sameIndices = [];
+            let sameCount = 0;
+
+            for(let j = 0; j < size; j++){
+                let x = horizontal ? j : i;
+                let y = horizontal ? i : j;
+
+                let cell = grid[y][x];
+                let item = cell.type;
+
+                if (lastChar == '-1' || lastChar != item){
+                    if (sameCount >= sizeLimit){
+                        setsOfItemsInLine.push(sameIndices);
+                    }
+
+                    sameIndices = [];
+                    sameCount = 1;
+                    sameIndices.push(cell);
+                }
+                else if(lastChar == item){
+                    sameCount += 1;
+                    sameIndices.push(cell);
+
+                    if (j == size - 1 && sameCount >= sizeLimit){
+                        setsOfItemsInLine.push(sameIndices);
+                    }
+                }
+
+                // console.log(i, '::', lastChar, 'v', item, ':', sameCount, 'arr =', sameIndices);
+
+                lastChar = item;
+            }
+            result = result.concat(setsOfItemsInLine);
+        }
+
+        console.log('Final Matches h =', horizontal, '=', result);
+
+        return result;
+    }
+}
+
 class Helper{
+
+    static getSpacing(){
+        return 10;
+    }
+
+    /**
+     * @param nClasses {number} Number of random classes
+     * @returns a random class index
+     */
+    static getRandomClass(nClasses){
+        return Math.round(Math.random() * 10) % nClasses;
+    }
+
     /**
      * @param size {number}
      * @param boardX {number}
@@ -242,7 +603,7 @@ class Helper{
         spriteClasses,
         scene
     ){
-        const spacing = 10;
+        const spacing = Helper.getSpacing();
         const cellSize = (boardWidth - (spacing * (size + 1))) / size;
 
         /**
@@ -250,27 +611,14 @@ class Helper{
          */
         let grid = [];
 
-        // rows x columns
+        // : Step 1: Create the initial grid with random classes
+        // (rows x columns)
         for(let i = 0; i < size; i++){
             let colSprites = [];
             for(let j = 0; j < size; j++){
-                const sClassIndex = Math.round(Math.random() * 10) % nClasses;
-                const sClassItemsArr = spriteClasses[sClassIndex];
-                const nItems = sClassItemsArr.length;
-                const itemIndex = Math.round(Math.random() * 10) % nItems;
-                const itemTextureName = sClassItemsArr[itemIndex];
-
-                const sprite = scene.add.sprite(0, 0, itemTextureName);
-                const x = boardX + (j * cellSize) + (spacing * (j + 1));
-                const y = boardY + (i * cellSize) + (spacing * (i + 1));
-                sprite.x = x;
-                sprite.y = y;
-                sprite.setOrigin(0, 0);
-                sprite.setDisplaySize(cellSize, cellSize);
-                
-                scene.add.sprite(sprite);
-                
-                const cell = new Cell(x, y, sClassIndex, sprite);
+                const sClassIndex = Helper.getRandomClass(nClasses);
+                // const cell = new Cell(j, i, sClassIndex, sprite);
+                const cell = new Cell(j, i, sClassIndex, undefined);
                 colSprites.push(cell);
             }
             grid.push(colSprites);
@@ -278,7 +626,72 @@ class Helper{
 
         console.log('Finalized Grid =', grid);
 
+        // Test Code
+        // const matches = MatchHelper.getAllMatches(grid);
+        // console.log('Obvious Matches:');
+        // console.log(matches);
+
+        // : Step 2: Shuffle the board until the initial state doesn't have any matches
+        const noMatchesOrFalse = ShuffleHelper.shuffleUntilNoMatches(grid);
+        if (noMatchesOrFalse == false){
+            // retry with a different board.
+            return Helper.createGrid(size, boardX, boardY, boardWidth, nClasses, spriteClasses, scene);
+        }
+
+        // : Step3: Create the sprites with the finalized board
+        for (let row of grid){
+            for (let cell of row){
+                Helper.addSpriteToCell(
+                    spacing,
+                    cellSize,
+                    boardX,
+                    boardY,
+                    spriteClasses,
+                    cell,
+                    scene
+                );
+            }
+        }
+
         return grid;
+    }
+
+    /**
+     * @param spacing {number}
+     * @param cellSize {number}
+     * @param boardX {number}
+     * @param boardY {number}
+     * @param spriteClasses {string[][]} Array of array of sprites for each class
+     * @param cell {Cell} The cell to assign texture to based on cell.type
+     * @param scene {Phaser.Scene}
+     */
+    static addSpriteToCell(
+        spacing,
+        cellSize,
+        boardX,
+        boardY,
+        spriteClasses,
+        cell, 
+        scene
+    ){
+        const sClassItemsArr = spriteClasses[cell.type];
+        const nItems = sClassItemsArr.length;
+        const itemIndex = Math.round(Math.random() * 10) % nItems;
+        const itemTextureName = sClassItemsArr[itemIndex];
+
+        // console.log(i, j, 'texture =', itemTextureName);
+
+        const sprite = scene.add.sprite(0, 0, itemTextureName);
+        const i = cell.y;
+        const j = cell.x;
+        const x = boardX + (j * cellSize) + (spacing * (j + 1));
+        const y = boardY + (i * cellSize) + (spacing * (i + 1));
+        sprite.x = x;
+        sprite.y = y;
+        sprite.setOrigin(0, 0);
+        sprite.setDisplaySize(cellSize, cellSize);
+        
+        cell.sprite = sprite;
     }
 }
 
@@ -375,6 +788,11 @@ class LevelScene_Level1 extends Phaser.Scene{
          */
         this.grid = [];
 
+        this.points = 0;
+
+        // Properties
+
+        this.gridSize = 7;
         this.nClasses = 0;
         this.prompt = "";
         /**
@@ -394,10 +812,30 @@ class LevelScene_Level1 extends Phaser.Scene{
          */
         this.class4Sprites = [];
 
+        // END: Properties
+
         /**
          * @type {Phaser.GameObjects.Sprite}
          */
         this.containerSprite;
+
+        /**
+         * @type {Cell}
+         */
+        this.firstSelectedCell;
+        /**
+         * @type {Cell}
+         */
+        this.secondSelectedCell;
+        
+        /**
+         * @type {Phaser.GameObjects.Text}
+         */
+        this.pointsText;
+        /**
+         * @type {Phaser.GameObjects.Text}
+         */
+        this.promptText;
 
         // MARK: Built in properties
 
@@ -651,10 +1089,10 @@ class LevelScene_Level1 extends Phaser.Scene{
             "type": "sprite",
             "name": "board",
             "frame": {
-                "x": 225,
-                "y": 25,
-                "w": 450,
-                "h": 450
+                "x": 205.00000000000003,
+                "y": 5,
+                "w": 490.49999999999994,
+                "h": 490.5
             },
             "rotation": 0,
             "physicsBehavior": "0",
@@ -670,10 +1108,10 @@ class LevelScene_Level1 extends Phaser.Scene{
             "type": "sprite",
             "name": "container",
             "frame": {
-                "x": 234,
-                "y": 34,
-                "w": 432.5,
-                "h": 432.50000000000006
+                "x": 211.99999999999997,
+                "y": 12.000000000000057,
+                "w": 476.00000000000006,
+                "h": 476.00000000000006
             },
             "rotation": 0,
             "physicsBehavior": "0",
@@ -687,10 +1125,11 @@ class LevelScene_Level1 extends Phaser.Scene{
 }
         this.levelProperties = {
     "Prompt": "Match pictures with similar states of matter",
+    "Grid Size": 7,
     "No. of Classes": 3,
-    "Class 1 sprites": "gas1, gas2, gas3",
-    "Class 2 sprites": "plasma1, plasma2, plasm3",
-    "Class 3 sprites": "solid1, solid2, solid3",
+    "Class 1 sprites": "gas1",
+    "Class 2 sprites": "plasma1",
+    "Class 3 sprites": "solid1",
     "Class 4 sprites": ""
 }
         		const objects = this.levelData.objects;
@@ -798,19 +1237,19 @@ class LevelScene_Level1 extends Phaser.Scene{
 
 
 		// --- scene object board ---
-		const sprite_11 = this.add.sprite(450, 250, 'board').setInteractive();
+		const sprite_11 = this.add.sprite(450.25, 250.25, 'board').setInteractive();
 		sprite_11.name = "board";
-		scaleX = 450 / sprite_11.displayWidth;
-		scaleY = 450 / sprite_11.displayHeight;
+		scaleX = 490.49999999999994 / sprite_11.displayWidth;
+		scaleY = 490.5 / sprite_11.displayHeight;
 		sprite_11.setScale(scaleX, scaleY);
 		this.spriteReferences['board'] = sprite_11;
 
 
 		// --- scene object container ---
-		const sprite_12 = this.add.sprite(450.25, 250.25000000000003, 'container').setInteractive();
+		const sprite_12 = this.add.sprite(450, 250.00000000000009, 'container').setInteractive();
 		sprite_12.name = "container";
-		scaleX = 432.5 / sprite_12.displayWidth;
-		scaleY = 432.50000000000006 / sprite_12.displayHeight;
+		scaleX = 476.00000000000006 / sprite_12.displayWidth;
+		scaleY = 476.00000000000006 / sprite_12.displayHeight;
 		sprite_12.setScale(scaleX, scaleY);
 		this.spriteReferences['container'] = sprite_12;
 
@@ -820,6 +1259,8 @@ class LevelScene_Level1 extends Phaser.Scene{
         this.containerSprite = this.spriteReferences['container'];
         this.readProperties();
         this.createGrid();
+        this.updatePoints();
+        this.updatePrompt();
     }
     update(){
 
@@ -838,6 +1279,7 @@ class LevelScene_Level1 extends Phaser.Scene{
             return String(str).split(',').map(s => s.trim());
         }
 
+        this.gridSize = Number.parseInt(this.levelProperties['Grid Size']);
         this.nClasses = Number.parseInt(this.levelProperties['No. of Classes']);
         this.prompt = this.levelProperties['Prompt'];
         this.class1Sprites = readCSV(this.levelProperties['Class 1 sprites']);
@@ -846,16 +1288,63 @@ class LevelScene_Level1 extends Phaser.Scene{
         this.class4Sprites = readCSV(this.levelProperties['Class 4 sprites']);
     }
 
-    createGrid(){
-        const size = 8;
-        const board = this.containerSprite;
-        const boardTopLeft = board.getTopLeft();
-        const spriteClasses = [
+    updatePoints(){
+        const scoreText = `Score: ${this.points}`;
+        if (this.pointsText == undefined){
+            this.pointsText = this.add.text(10, 10, scoreText, {
+                fontFamily: 'Arial',
+                fontSize: '30px',
+                color: '#FFFFFF'
+            })
+        }
+        else{
+            this.pointsText.setText(scoreText);
+        }
+    }
+
+    updatePrompt(){
+        if (this.promptText == undefined){
+            const cameraWidth = this.cameras.main.displayWidth;
+            const cameraHeight = this.cameras.main.displayHeight;
+            const spacing = 10;
+            const width = cameraWidth - this.spriteReferences['board'].getBottomRight().x - 30;
+
+            this.promptText = this.add.text(
+                cameraWidth - spacing, 
+                cameraHeight - spacing, 
+                this.prompt, 
+                {
+                    fontFamily: 'Arial',
+                    fontSize: '15px',
+                    color: '#FFFFFF',
+                    // fixedWidth: width,
+                    align: 'right',
+                    wordWrap: {
+                        width: width
+                    }
+                }
+            );
+            this.promptText.setOrigin(1.0, 1.0);
+        }
+    }
+
+    /**
+     * @returns {string[][]}
+     */
+    getSpriteClasses(){
+        return [
             this.class1Sprites,
             this.class2Sprites,
             this.class3Sprites,
             this.class4Sprites
         ];
+    }
+
+    createGrid(){
+        const size = this.gridSize;
+        const board = this.containerSprite;
+        const boardTopLeft = board.getTopLeft();
+        const spriteClasses = this.getSpriteClasses();
 
         this.grid = Helper.createGrid(
             size,
@@ -866,6 +1355,181 @@ class LevelScene_Level1 extends Phaser.Scene{
             spriteClasses,
             this
         );
+
+        for (let cellRow of this.grid){
+            for(let cell of cellRow){
+                this.attachSpriteActions(cell);
+            }
+        }
+    }
+
+    /**
+     * @param cell {Cell}
+     */
+    attachSpriteActions(cell){
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        const sprite = cell.sprite;
+        sprite.setInteractive();
+        sprite.on('pointerup', () => {
+            sprite.setTint(0xFFA500);
+            console.log('Setting tint!');
+
+            if (this.firstSelectedCell == undefined){
+                this.firstSelectedCell = cell;
+            }
+            else if (this.firstSelectedCell === cell){
+                sprite.clearTint();
+                this.firstSelectedCell = undefined;
+            }
+            else{
+                this.secondSelectedCell = cell;
+                this.evaluateMatches();
+            }
+        });
+    }
+
+    fadeIn(cell){
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        const sprite = cell.sprite;
+        sprite.alpha = 0;
+
+        this.tweens.add({
+            targets: sprite,
+            alpha: { value: 1, duration: 1000, ease: 'Power 1' }
+        });
+    }
+
+    /**
+     * Check for any matches between the two selected cells;
+     */
+    evaluateMatches(){
+        console.log(this.firstSelectedCell);
+        console.log(this.secondSelectedCell);
+
+        const cell1 = this.firstSelectedCell;
+        const cell2 = this.secondSelectedCell;
+
+        const originalX = cell1.x;
+        const originalY = cell1.y;
+        const targetX = cell2.x;
+        const targetY = cell2.y;
+
+        ShuffleHelper.swapWith(this.grid, cell1, targetX, targetY);
+
+        /**
+         * @type {Array[]}
+         */
+        let matches = MatchHelper.getAllMatches(this.grid);
+        // let matchContainingCell = matches.find(arr => arr.find(mCell => mCell === cell1));
+
+        // Important Note:
+        // This logic does not check if the cells are contained
+        // in the returned matches.
+        //
+        // So if previous matches are not discarded properly, then
+        // you can potentially swap any cell.
+        //
+        // Maybe change this in future version?
+
+        if (matches.length > 0){
+            // TODO:
+            // Remove the sprites (done)
+            // Add the points (done)
+            // Move the rest of the sprites down
+            // Add new sprites
+
+            cell2.sprite.clearTint();
+            this.firstSelectedCell = undefined;
+            this.secondSelectedCell = undefined;
+
+            this.removeGridCells(matches);
+            this.addPoints(matches);
+            this.fillNullSprites();
+
+            // demo code
+
+            // cell1.sprite.clearTint();
+            // cell2.sprite.clearTint();
+
+            // this.firstSelectedCell = undefined;
+            // this.secondSelectedCell = undefined;
+        }
+        else{
+            ShuffleHelper.swapWith(this.grid, cell1, originalX, originalY);
+            cell1.sprite.clearTint();
+            cell2.sprite.clearTint();
+
+            this.firstSelectedCell = undefined;
+            this.secondSelectedCell = undefined;
+        }
+    }
+
+    /**
+     * @param matches {Cell[][]} The array of groups of cells that matched
+     */
+    removeGridCells(matches){
+        for (let group of matches){
+            for (let cell of group){
+                /**
+                 * @type {Phaser.GameObjects.Sprite}
+                 */
+                const sprite = cell.sprite;
+                // sprite.removeFromDisplayList();
+                sprite.destroy();
+
+                this.grid[cell.y][cell.x] = null;
+            }
+        }
+
+        console.log(this.grid);
+    }
+
+    /**
+     * @param matches {Cell[][]} The array of groups of cells that matched
+     */
+    addPoints(matches){
+        const multiplier = 10;
+        let matchCombo = 0;
+        for (let group of matches){
+            for (let cell of group){
+                matchCombo += 1;
+            }
+        }
+
+        this.points += matchCombo * multiplier;
+        this.updatePoints();
+    }
+
+    /**
+     * Fill in the null sprites
+     */
+    fillNullSprites(){
+        const size = this.gridSize;
+        const board = this.containerSprite;
+        const boardTopLeft = board.getTopLeft();
+        const spriteClasses = this.getSpriteClasses();
+
+        /**
+         * @type {Cell[]}
+         */
+        const newCells = FillHelper.fillInNull(
+            this.grid,
+            this.nClasses,
+            boardTopLeft.x,
+            boardTopLeft.y,
+            board.displayWidth,
+            spriteClasses,
+            this
+        );
+
+        newCells.forEach(cell => {
+            this.attachSpriteActions(cell);
+            this.fadeIn(cell);
+        });
     }
 }
 

@@ -247,6 +247,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log("Received game JS!");
       console.log("Game JS length: ", gameJS.length, "character(s)");
 
+      this.handleErrors();
       this.runOutside(() => {
         eval(gameJS);
       });
@@ -260,6 +261,18 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.zone.runOutsideAngular(() => {
       fn();
     });
+  }
+
+  private handleErrors(){
+    window.onerror = (event, source, linno, colno, error) => {
+      this.dialogService.showDismissable(
+        "Error occurred in game",
+        error!.stack!,
+        () => {
+          window.location = window.location;
+        }
+      );
+    };
   }
 
   private manualDestroyGameSession(){
