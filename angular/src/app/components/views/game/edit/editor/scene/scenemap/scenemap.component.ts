@@ -65,7 +65,9 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
     @Input()
     gameListing: GameListing | undefined;
 
-    private selectedSceneObjIndex: number | undefined;
+    // private selectedSceneObjIndex: number | undefined;
+    private selectedObjectId: string | undefined;
+
     private canvasMovement = new CanvasMovement(false, 0, 0);
     private canvas: fabric.Canvas | undefined;
     private cameraBoxElements: CameraBoxElements | undefined;
@@ -134,20 +136,22 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
     getSelectedObject(): SceneObject | undefined{
-        if (this.selectedSceneObjIndex == undefined)
-            return undefined;
+        // if (this.selectedSceneObjIndex == undefined)
+        //     return undefined;
 
-        return this.sceneObjects[this.selectedSceneObjIndex!];
+        // return this.sceneObjects[this.selectedSceneObjIndex!];
+
+        return this.getSceneObjectWithId(this.selectedObjectId);
     }
 
-    selectObject(index: number | undefined){
-        if (typeof index == 'undefined'){
-            this.selectedSceneObjIndex = undefined;
+    selectObject(objectId: string | undefined){
+        if (typeof objectId == 'undefined'){
+            this.selectedObjectId = undefined;
             this.dataService.setSceneObjectSelection(undefined);
         }
         else{
-            this.selectedSceneObjIndex = index;
-            this.dataService.setSceneObjectSelection(index);
+            this.selectedObjectId = objectId;
+            this.dataService.setSceneObjectSelection(objectId);
         }
     }
 
@@ -170,11 +174,11 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
      * Returns the index of this object in the sceneObjects array
      * @param obj An object inthe scenemap
      */
-    private getIndexOfObject(obj: SceneObject): number{
-        return this.sceneObjects.findIndex((v) => {
-            return v._id == obj._id
-        });
-    }
+    // private getIndexOfObject(obj: SceneObject): number{
+    //     return this.sceneObjects.findIndex((v) => {
+    //         return v._id == obj._id
+    //     });
+    // }
 
 
     // private logScene(){
@@ -187,32 +191,52 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
      * Returns true if (x,y) is inside frame
      * @returns boolean
      */
-    private checkFrameContains(frame: SceneObjectFrame, x: number, y: number): boolean{
-        const c1 = frame.x <= x && frame.y <= y;
-        const c2 = (frame.x + frame.w) >= x;
-        const c3 = (frame.y + frame.h) >= y;
+    // private checkFrameContains(frame: SceneObjectFrame, x: number, y: number): boolean{
+    //     const c1 = frame.x <= x && frame.y <= y;
+    //     const c2 = (frame.x + frame.w) >= x;
+    //     const c3 = (frame.y + frame.h) >= y;
 
-        return c1 && c2 && c3;
-    }
+    //     return c1 && c2 && c3;
+    // }
 
     /**
      * Returns the DOM rect for the scene map
      * @returns DOMRect
      */
-    private getSceneMapDOMRect(): DOMRect{
-        const host = this.hostRef.nativeElement as HTMLElement;
-        return host.getBoundingClientRect()
-    }
+    // private getSceneMapDOMRect(): DOMRect{
+    //     const host = this.hostRef.nativeElement as HTMLElement;
+    //     return host.getBoundingClientRect()
+    // }
 
     /**
      * Return DOMRect only containing the widht and height
      * and origin is (0,0)
      */
-    private moveRectToOrigin(rect: DOMRect): DOMRect{
-        return new DOMRect(
-            0, 0,
-            rect.width, rect.height
-        );
+    // private moveRectToOrigin(rect: DOMRect): DOMRect{
+    //     return new DOMRect(
+    //         0, 0,
+    //         rect.width, rect.height
+    //     );
+    // }
+
+    /**
+     * Get objects from the Fabric Canvas
+     */
+    private getCanvasObjectWithId(objectId: string | null | undefined): fabric.Object | undefined{
+        if (objectId == undefined || objectId == null){
+            return undefined;
+        }
+        return this.canvas?._objects.find((obj) => obj.data! == objectId);
+    }
+
+    /**
+     * Get objects from the SceneObjects Array
+     */
+    private getSceneObjectWithId(objectId: string | null | undefined): SceneObject | undefined{
+        if (objectId == undefined || objectId == null){
+            return undefined;
+        }
+        return this.sceneObjects.find(obj => obj._id == objectId);
     }
 
     private setupData(){
@@ -234,7 +258,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
         // Listen to selection changes
         this.dataService.getSceneObjectSelection().subscribe((sel) => {
-            this.selectedSceneObjIndex = sel;
+            this.selectedObjectId = sel;
             this.updateCanvasSelection()
         });
 
@@ -283,10 +307,11 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
     private updateCanvasSelection(){
         console.log("SceneMap: updateCanvasSelection");
         const ignoreEvent = new Event(this.kIgnoreSelectionEvent);
-        if (this.selectedSceneObjIndex == undefined)
+        if (this.selectedObjectId == undefined)
             this.canvas?.discardActiveObject(ignoreEvent);
         else{
-            const nextActiveObj = this.canvas!._objects[this.selectedSceneObjIndex!];
+            // const nextActiveObj = this.canvas!._objects[this.selectedSceneObjIndex!];
+            const nextActiveObj = this.getCanvasObjectWithId(this.selectedObjectId)!;
             this.canvas?.setActiveObject(nextActiveObj, ignoreEvent);
         }
         this.canvas?.requestRenderAll();
@@ -493,22 +518,16 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
                 return;
 
             const objId = opt.target!.data!;
-            const matchedIndex = this.sceneObjects.findIndex((o) => {
-                return o._id == objId;
-            });
-            console.log('selection:created', objId, matchedIndex);
-            this.selectObject(matchedIndex);
+            console.log('selection:created', objId);
+            this.selectObject(objId);
         });
         this.canvas!.on('selection:updated', (opt) => {
             if (opt.e.type == this.kIgnoreSelectionEvent)
                 return;
 
             const objId = opt.target!.data!;
-            const matchedIndex = this.sceneObjects.findIndex((o) => {
-                return o._id == objId;
-            });
-            console.log('selection:updated', objId, matchedIndex, opt.e);
-            this.selectObject(matchedIndex);
+            console.log('selection:updated', objId, opt.e);
+            this.selectObject(objId);
         });
         this.canvas!.on('selection:cleared', (opt) => {
             if (opt.e != undefined && opt.e.type == this.kIgnoreSelectionEvent)
@@ -521,7 +540,8 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
     private handleObjectState(pack: SceneObjectDataPack){
         const objectId = pack.object._id;
-        const object = this.canvas?._objects.find((obj) => obj.data! == objectId);
+        // const object = this.canvas?._objects.find((obj) => obj.data! == objectId);
+        const object = this.getCanvasObjectWithId(objectId);
         if (object == undefined){
             console.log("Could not change active state of object", JSON.stringify(pack.object));
             return;
@@ -552,7 +572,8 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
     private handleReorder(pack: ReorderPack){
         const objectId = pack.object._id;
-        const object = this.canvas?._objects.find((obj) => obj.data! == objectId);
+        // const object = this.canvas?._objects.find((obj) => obj.data! == objectId);
+        const object = this.getCanvasObjectWithId(objectId);
 
         if (object){
             if (pack.toFront){

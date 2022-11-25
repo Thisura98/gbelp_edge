@@ -21,7 +21,7 @@ export interface ReorderPack{
 let sceneData = new BehaviorSubject<EditorChildDataPack>(new EditorChildDataPack(undefined, undefined, undefined));
 let sceneMapData = new BehaviorSubject<SceneMapDataPack>(new SceneMapDataPack([], undefined));
 let addSceneObject = new Subject<SceneObject>();
-let sceneObjectSelection = new BehaviorSubject<number | undefined>(undefined);
+let sceneObjectSelection = new BehaviorSubject<string | undefined>(undefined);
 let objectState = new Subject<SceneObjectDataPack>();
 let unsavedChanges = new BehaviorSubject<Boolean>(false);
 let reOrderEvent = new BehaviorSubject<ReorderPack | undefined>(undefined);
@@ -128,11 +128,11 @@ export class EditorDataService{
 
     // Selection
 
-    setSceneObjectSelection(index: number | undefined){
-        sceneObjectSelection.next(index);
+    setSceneObjectSelection(objectId: string | undefined){
+        sceneObjectSelection.next(objectId);
     }
 
-    getSceneObjectSelection(): BehaviorSubject<number | undefined>{
+    getSceneObjectSelection(): BehaviorSubject<string | undefined>{
         return sceneObjectSelection;
     }
 

@@ -56,7 +56,8 @@ export class SceneEditorComponent implements OnInit {
       this.editorDataService.setSceneMapData(this.sceneObjects, value.selectedLevelIndex);
     });
     // Get from Child Scene Map Component
-    this.editorDataService.getSceneObjectSelection().subscribe(index => {
+    this.editorDataService.getSceneObjectSelection().subscribe(objectId => {
+      const index = this.sceneObjects.findIndex(obj => obj._id == objectId);
       this.selectedSceneObjIndex = index;
       console.log('getSceneObjectSelection', index)
     });
@@ -98,21 +99,27 @@ export class SceneEditorComponent implements OnInit {
   }
 
   hierarchyItemClicked(item: SceneObject){
-    const index = this.sceneObjects.findIndex((obj) => { 
-      if (obj._id == item._id){
-        if (obj.type == SceneObjectType.camera && !this.cameraActive){
-          this.dialogService.showSnackbar("Camera inactive. Click the cursor icon to re-active it.");
-          return false;
-        }
-        return true;
-      }
+    if (item.type == SceneObjectType.camera && !this.cameraActive){
+      this.dialogService.showSnackbar("Camera inactive. Click the cursor icon to re-active it.");
       return false;
-    });
+    }
 
-    if (index == -1)
-      return;
+    // const index = this.sceneObjects.findIndex((obj) => { 
+    //   if (obj._id == item._id){
+    //     if (obj.type == SceneObjectType.camera && !this.cameraActive){
+    //       this.dialogService.showSnackbar("Camera inactive. Click the cursor icon to re-active it.");
+    //       return false;
+    //     }
+    //     return true;
+    //   }
+    //   return false;
+    // });
 
-    this.editorDataService.setSceneObjectSelection(index);
+    // if (index == -1)
+    //   return;
+
+    this.editorDataService.setSceneObjectSelection(item._id!);
+    return true;
   }
 
   cameraActiveStateClicked(camera: SceneObject, event: Event){
@@ -176,7 +183,7 @@ export class SceneEditorComponent implements OnInit {
     this.selectedSceneObjIndex = destIndex;
 
     this.editorDataService.setReorder(thisItem, toFront);
-    this.editorDataService.setSceneObjectSelection(this.selectedSceneObjIndex);
+    // this.editorDataService.setSceneObjectSelection(this.selectedSceneObjIndex);
   }
 
   private deleteSceneObjectConfirmed(index: number){

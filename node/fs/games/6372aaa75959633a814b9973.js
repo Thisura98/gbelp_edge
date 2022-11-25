@@ -132,12 +132,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {
-    "Question": "Shoot all proper fractions",
-    "Points Required": 10,
-    "Correct Answers": "1",
-    "Incorrect Answers": "1"
-}
+        this.levelProperties = {}
         		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
 		console.log("Camera width & height", camera.frame.w, camera.frame.h);
@@ -505,7 +500,7 @@ class LevelScene_Level1 extends Phaser.Scene{
     ]
 }
         this.levelProperties = {
-    "Question": "Shot all prime numbers",
+    "Question": "Shoot all prime numbers",
     "Points Required": 10,
     "Meteor Velocity": 80,
     "Correct Answers": "1, 3, 5, 7, 11, 13, 17",
@@ -1194,7 +1189,7 @@ class LevelScene_Level2 extends Phaser.Scene{
     ]
 }
         this.levelProperties = {
-    "Question": "Shot all square numbers",
+    "Question": "Shoot all square numbers",
     "Points Required": 15,
     "Meteor Velocity": 130,
     "Correct Answers": "1, 4, 9, 16, 25, 36, 49",
