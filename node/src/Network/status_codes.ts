@@ -3,5 +3,6 @@ export const errorCodes = {
     missingAuth: 400,
     authIdNoMatch: 406,
     missingCapabilities: 403,
-    tokenExpired: 401
+    tokenExpired: 401,
+    tokenRenewFailed: 409,
 };

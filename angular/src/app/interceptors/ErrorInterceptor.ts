@@ -12,6 +12,7 @@ const AuthErrorCodes = [
     AuthInterceptorStatusCodes.missingAuth,
     AuthInterceptorStatusCodes.missingCapabilities,
     AuthInterceptorStatusCodes.tokenExpired,
+    AuthInterceptorStatusCodes.tokenRenewFailed
 ]
 
 @Injectable()

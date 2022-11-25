@@ -222,6 +222,66 @@ class Cell{
     }
 }
 
+class Helper{
+    /**
+     * @param size {number}
+     * @param boardX {number}
+     * @param boardY {number}
+     * @param boardWidth {number}
+     * @param nClasses {number}
+     * @param spriteClasses {string[][]}
+     * @param scene {Phaser.Scene}
+     * @returns The Grid (rows x columns)
+     */
+    static createGrid(
+        size,
+        boardX,
+        boardY,
+        boardWidth,
+        nClasses,
+        spriteClasses,
+        scene
+    ){
+        const spacing = 10;
+        const cellSize = (boardWidth - (spacing * (size + 1))) / size;
+
+        /**
+         * @type {Cell[][]}
+         */
+        let grid = [];
+
+        // rows x columns
+        for(let i = 0; i < size; i++){
+            let colSprites = [];
+            for(let j = 0; j < size; j++){
+                const sClassIndex = Math.round(Math.random() * 10) % nClasses;
+                const sClassItemsArr = spriteClasses[sClassIndex];
+                const nItems = sClassItemsArr.length;
+                const itemIndex = Math.round(Math.random() * 10) % nItems;
+                const itemTextureName = sClassItemsArr[itemIndex];
+
+                const sprite = scene.add.sprite(0, 0, itemTextureName);
+                const x = boardX + (j * cellSize) + (spacing * (j + 1));
+                const y = boardY + (i * cellSize) + (spacing * (i + 1));
+                sprite.x = x;
+                sprite.y = y;
+                sprite.setOrigin(0, 0);
+                sprite.setDisplaySize(cellSize, cellSize);
+                
+                scene.add.sprite(sprite);
+                
+                const cell = new Cell(x, y, sClassIndex, sprite);
+                colSprites.push(cell);
+            }
+            grid.push(colSprites);
+        }
+
+        console.log('Finalized Grid =', grid);
+
+        return grid;
+    }
+}
+
 class LevelScene_DataLevel extends Phaser.Scene{
 
     constructor(){
@@ -334,6 +394,11 @@ class LevelScene_Level1 extends Phaser.Scene{
          */
         this.class4Sprites = [];
 
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        this.containerSprite;
+
         // MARK: Built in properties
 
         /**
@@ -367,8 +432,8 @@ class LevelScene_Level1 extends Phaser.Scene{
 		this.load.image('solid1', 'fs/res_upload/image/9a89029f-f5e6-411c-b2db-8b978c3c7af3.png');
 		this.load.image('solid2', 'fs/res_upload/image/060d475d-e44c-4ecc-a72e-f51928c24c4b.png');
 		this.load.image('solid3', 'fs/res_upload/image/d2ef70d9-cec7-42be-b7cf-358c84c3705b.png');
-		this.load.image('board_png', 'fs/res_upload/image/3d93c48b-71a4-487b-9163-4c558c40e163.png');
-		this.load.image('container_png', 'fs/res_upload/image/a6b6e23d-1734-4dd5-8a28-d9749eae5037.png');
+		this.load.image('board', 'fs/res_upload/image/3d93c48b-71a4-487b-9163-4c558c40e163.png');
+		this.load.image('container', 'fs/res_upload/image/a6b6e23d-1734-4dd5-8a28-d9749eae5037.png');
         this.levelData = {
     "objects": [
         {
@@ -584,7 +649,7 @@ class LevelScene_Level1 extends Phaser.Scene{
             "_id": "temp_1669387469562",
             "spriteResourceId": "6380c8ffb1c472a0ff8b786f",
             "type": "sprite",
-            "name": "board_png",
+            "name": "board",
             "frame": {
                 "x": 225,
                 "y": 25,
@@ -603,7 +668,7 @@ class LevelScene_Level1 extends Phaser.Scene{
             "_id": "temp_1669387510632",
             "spriteResourceId": "6380c902b1c472a0ff8b7870",
             "type": "sprite",
-            "name": "container_png",
+            "name": "container",
             "frame": {
                 "x": 234,
                 "y": 34,
@@ -732,27 +797,29 @@ class LevelScene_Level1 extends Phaser.Scene{
 		this.spriteReferences['solid3'] = sprite_10;
 
 
-		// --- scene object board_png ---
-		const sprite_11 = this.add.sprite(450, 250, 'board_png').setInteractive();
-		sprite_11.name = "board_png";
+		// --- scene object board ---
+		const sprite_11 = this.add.sprite(450, 250, 'board').setInteractive();
+		sprite_11.name = "board";
 		scaleX = 450 / sprite_11.displayWidth;
 		scaleY = 450 / sprite_11.displayHeight;
 		sprite_11.setScale(scaleX, scaleY);
-		this.spriteReferences['board_png'] = sprite_11;
+		this.spriteReferences['board'] = sprite_11;
 
 
-		// --- scene object container_png ---
-		const sprite_12 = this.add.sprite(450.25, 250.25000000000003, 'container_png').setInteractive();
-		sprite_12.name = "container_png";
+		// --- scene object container ---
+		const sprite_12 = this.add.sprite(450.25, 250.25000000000003, 'container').setInteractive();
+		sprite_12.name = "container";
 		scaleX = 432.5 / sprite_12.displayWidth;
 		scaleY = 432.50000000000006 / sprite_12.displayHeight;
 		sprite_12.setScale(scaleX, scaleY);
-		this.spriteReferences['container_png'] = sprite_12;
+		this.spriteReferences['container'] = sprite_12;
 
 
 
         // Add your code below this line
+        this.containerSprite = this.spriteReferences['container'];
         this.readProperties();
+        this.createGrid();
     }
     update(){
 
@@ -777,6 +844,28 @@ class LevelScene_Level1 extends Phaser.Scene{
         this.class2Sprites = readCSV(this.levelProperties['Class 2 sprites']);
         this.class3Sprites = readCSV(this.levelProperties['Class 3 sprites']);
         this.class4Sprites = readCSV(this.levelProperties['Class 4 sprites']);
+    }
+
+    createGrid(){
+        const size = 8;
+        const board = this.containerSprite;
+        const boardTopLeft = board.getTopLeft();
+        const spriteClasses = [
+            this.class1Sprites,
+            this.class2Sprites,
+            this.class3Sprites,
+            this.class4Sprites
+        ];
+
+        this.grid = Helper.createGrid(
+            size,
+            boardTopLeft.x,
+            boardTopLeft.y,
+            board.displayWidth,
+            this.nClasses,
+            spriteClasses,
+            this
+        );
     }
 }
 

@@ -1,7 +1,12 @@
 import * as l from './logger';
 import fs from 'fs';
+import { DurationInput } from 'luxon';
 
 let cachedConfig: IConfig | null = null;
+
+export const userExpiryDuration: DurationInput = {
+    minutes: 30
+};
 
 /**
  * NOTE: Make sure this interface is upto date with the config.json file

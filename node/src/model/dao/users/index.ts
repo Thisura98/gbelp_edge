@@ -2,6 +2,7 @@ import * as l from '../../../Util/logger';
 import * as db from '../../../Util/connections/sql/sql_connection';
 import { v4 as uuid } from 'uuid';
 import { DateTime } from 'luxon';
+import { userExpiryDuration } from '../../../Util/config';
 
 export interface ICreateUserResult{
     user_id: string
@@ -225,7 +226,7 @@ export function loginUser(
  */
 export function createToken(userId: string, callback: (status: boolean, desc: string | null) => void){
     const randomToken = uuid();
-    const date = DateTime.now().plus({hours: 2});
+    const date = DateTime.now().plus(userExpiryDuration);
     const dateFormatted = db.formatDate(date);
 
     db.getPool()!.query(
@@ -244,23 +245,49 @@ export function createToken(userId: string, callback: (status: boolean, desc: st
     );
 }
 
+export function renewToken(userId: string): Promise<void>{
+    const date = db.formatDate(DateTime.now().plus(userExpiryDuration));
+
+    const table = db.tables.userAuth;
+    const colDate = db.columns.userAuth.expiryDate;
+    const colUserId = db.columns.userAuth.userId;
+
+    const values = [date, userId];
+    const query = 
+`UPDATE ${table} SET ${colDate} = ? WHERE ${colUserId} = ?`;
+
+    return new Promise<void>((resolve, reject) => {
+        db.getPool()?.query(query, values, (err, res) => {
+            if (err){
+                l.logc(String(err), 'renewToken');
+                reject('Could not renew user token');
+            }
+            else{
+                l.logc('Successfully renewed user token! uid = ' + userId);
+                resolve();
+            }
+        });
+    });
+}
+
 /**
  * Checks whether a user & token match exists and is not expired.
  * 
  * @param {String} userId 
  * @param {String} token 
- * @param {function(Number):void} callback (-1: InvalidMissing, -2: InvalidExpired, 2: OK)
+ * @param {function(Number):void} callback (-1: InvalidMissing, -2: InvalidExpired, -3: RenewFailed, 2: OK)
  */
 export function isTokenValidForUser(userId: string, token: string, callback: (status: number) => void){
     const credentialsOk = 2;
     const noMatch = -1;
     const expired = -2;
+    const renewFailed = -3;
 
     const fromAndWhere = `FROM ${db.tables.userAuth}
      WHERE ${db.columns.userAuth.userId} = '${userId}' 
      AND ${db.columns.userAuth.authKey} = '${token}'`;
     
-    db.getPool()!.query(`SELECT * ${fromAndWhere}`, (err, res, fields) => {
+    db.getPool()!.query(`SELECT * ${fromAndWhere}`, async (err, res, fields) => {
         if (err){
             l.logc(err.message, 'users:isTokenValidForUser');
             callback(-1);
@@ -277,7 +304,13 @@ export function isTokenValidForUser(userId: string, token: string, callback: (st
                 });
             }
             else{
-                callback(credentialsOk);
+                try{
+                    await renewToken(userId);
+                    callback(credentialsOk);
+                }
+                catch(error){
+                    callback(renewFailed);
+                }
             }
         }
         else{

@@ -12,7 +12,8 @@ export const AuthInterceptorStatusCodes = {
     missingAuth: 400,
     authIdNoMatch: 406,
     missingCapabilities: 403,
-    tokenExpired: 401
+    tokenExpired: 401,
+    tokenRenewFailed: 409
 };
 
 @Injectable()
@@ -74,6 +75,21 @@ export class AuthInterceptor implements HttpInterceptor{
                         notAuthenticatedShown = false;
                         this.router.navigate([''], {replaceUrl: true});
                 })
+            }
+            else if (
+                response.status == code.tokenRenewFailed
+            ){
+                if (!notAuthenticatedShown){
+                    notAuthenticatedShown = true;
+                    this.userService.clearCredentials();
+                    this.dialogService.showDismissable(
+                        'User token renew failed!', 
+                        'Please login a try again', 
+                        () => {
+                            notAuthenticatedShown = false;
+                            this.router.navigate([''], {replaceUrl: true});
+                    });
+                }
             }
         }
     }
