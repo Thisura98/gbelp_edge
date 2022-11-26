@@ -53,3 +53,18 @@ Now it is possible to debug the application just as you would debug a Javascript
 
 Happy Debugging!
 -Dodangoda 5/9/2021.
+
+### Special Commands
+
+docker ps
+docker exec -it <mongo container> /bin/sh
+mongosh mongodb://root:root@127.0.0.1:27017/edge_gbelp?authSource=admin
+db.getCollectionNames()
+
+
+f = db.gameprojects.findOne({_id: '636fb7402fdac37412723cf6'})
+f._id = ObjectId('636fb7402fdac37412723cf6')
+db.gameprojects.remove({_id: '636fb7402fdac37412723cf6'})
+db.gameprojects.insert(f)
+
+nohup npx ts-node index.ts
