@@ -1,10 +1,12 @@
-import { Injectable } from "@angular/core";
+import { ChangeDetectorRef, Injectable } from "@angular/core";
 import { ProgressfulGameObjective } from "../../../../commons/src/models/game/objectives";
 import { ProgressfulGameGuidanceTracker } from "../../../../commons/src/models/game/trackers";
 import { IEdgeInternals } from "../../../../commons/src/models/play/edgeinternals.interface";
 import { ApiService } from "./api.service";
 import { DialogService } from "./dialog.service";
 import { UserService } from "./user.service";
+
+export type PlayChangeListener = () => void;
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,7 @@ export class PlayService{
   private sessionId: string = '';
   private nonce: string = '';
   private userId: string = '';
+  private changeListener: PlayChangeListener | undefined;
 
   public constructor(
     private apiService: ApiService,
@@ -36,7 +39,8 @@ export class PlayService{
   /**
    * Set the window properties for the Edge Game library
    */
-  public injectWindowEdgeInternals(){
+  public injectWindowEdgeInternals(changeListener: PlayChangeListener){
+    this.changeListener = changeListener;
     (window as any).EdgeInternals = this.getEdgeInternalsObject();
   }
 
@@ -88,7 +92,8 @@ export class PlayService{
 
     const objectiveStr = (objective.objective_id ?? 0).toString();
     const progressStr = objective.progress.toString();
-
+    
+    this.changeListener!();
     this.apiService.play.updateObjective(
       this.nonce,
       this.sessionId,

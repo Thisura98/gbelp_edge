@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as phaser from 'phaser';
@@ -62,6 +62,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private elementRef: ElementRef,
+    private changeDetectionRef: ChangeDetectorRef,
     private zone: NgZone,
     private location: Location,
     private router: Router,
@@ -165,7 +166,11 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           }
   
           this.game = gameResponse.data;
-          this.playService.injectWindowEdgeInternals();
+          this.playService.injectWindowEdgeInternals(() => {
+            this.zone.run(() => {
+              this.changeDetectionRef.markForCheck();
+            })
+          });
           this.loadCompiledGame();
         }, err => this.handleLoadServerError(err, 'Games'))
       });

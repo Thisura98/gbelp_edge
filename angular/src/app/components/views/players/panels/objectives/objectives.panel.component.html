@@ -1,4 +1,14 @@
 <div *ngFor="let objective of objectives">
-    <div>{{objective.description}}</div>
-    <div>{{objective.progress}}</div>
+    <div class="objective-container">
+        <div class="header">
+            <div class="description">{{objective.description}}</div>
+            <div class="percentage">{{getPercentage(objective)}}</div>
+        </div>
+        <div class="progress">
+            <div class="track">
+                <div class="fill" [style.width]="getPercentage(objective)">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

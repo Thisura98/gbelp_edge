@@ -612,7 +612,7 @@ class LevelScene_Level1 extends Phaser.Scene{
         // this.add.existing(this.meteor1);
 
         // Test
-        EdgeProxy.increaseObjectiveProgress(this.objective2, 3);
+        // EdgeProxy.increaseObjectiveProgress(this.objective2, 3);
 
         
 
@@ -805,7 +805,7 @@ class LevelScene_Level1 extends Phaser.Scene{
             }
         }
 
-        const text = `Score: ${this.points}`;
+        const text = `Score: ${this.points}/${this.requiredPoints}`;
 
         if (this.scoreText == null){
             this.scoreText = this.add.text(10, 10, text, {
@@ -1491,7 +1491,7 @@ class LevelScene_Level2 extends Phaser.Scene{
             }
         }
 
-        const text = `Score: ${this.points}`;
+        const text = `Score: ${this.points}/${this.requiredPoints}`;
 
         if (this.scoreText == null){
             this.scoreText = this.add.text(10, 10, text, {
@@ -2177,7 +2177,7 @@ class LevelScene_Level3 extends Phaser.Scene{
             }
         }
 
-        const text = `Score: ${this.points}`;
+        const text = `Score: ${this.points}/${this.requiredPoints}`;
 
         if (this.scoreText == null){
             this.scoreText = this.add.text(10, 10, text, {

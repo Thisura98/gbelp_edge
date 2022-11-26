@@ -17,4 +17,9 @@ export class PlayerObjectivesPanelComponent implements OnInit{
   
   ngOnInit(){
   }
+
+  getPercentage(objective: ProgressfulGameObjective): string{
+    const progress = Math.min(objective.progress / objective.max_value) * 100;
+    return Math.round(progress).toFixed() + "%";
+  }
 }

@@ -1,3 +1,38 @@
 :host{
     color: white;
+    margin-top: 10px;
+}
+
+.objective-container{
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    background: #272727;
+    gap: 3px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.header {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.progress{
+    display: flex;
+    flex-direction: column;
+}
+
+.track{
+    height: 25px;
+    background: #1d1d1d;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fill{
+    background: #00fd00;
+    width: 50%;
+    height: 100%;
 }

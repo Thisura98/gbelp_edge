@@ -116,7 +116,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "name": "title",
             "frame": {
                 "x": 250,
-                "y": 100,
+                "y": 134,
                 "w": 400,
                 "h": 100
             },
@@ -174,7 +174,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		// --- scene object title ---
-		const sprite_2 = this.add.sprite(450, 150, 'title').setInteractive();
+		const sprite_2 = this.add.sprite(450, 184, 'title').setInteractive();
 		sprite_2.name = "title";
 		scaleX = 400 / sprite_2.displayWidth;
 		scaleY = 100 / sprite_2.displayHeight;
@@ -1125,7 +1125,7 @@ class LevelScene_Level1 extends Phaser.Scene{
 }
         this.levelProperties = {
     "Prompt": "Match pictures with similar states of matter",
-    "Grid Size": 7,
+    "Grid Size": 5,
     "No. of Classes": 3,
     "Class 1 sprites": "gas1",
     "Class 2 sprites": "plasma1",
