@@ -294,6 +294,14 @@ class LevelScene_Level1 extends Phaser.Scene{
         this.requiredPoints = 0;
 
         /**
+         * Asteroid Direction
+         * (1 = Right, 2 = Down, 3 = Left, 4 = Top)
+         * 
+         * @type {number}
+         */
+        this.asteroidDirection = 1;
+
+        /**
          * Correct answer array
          * @type {string[]}
          */
@@ -500,11 +508,12 @@ class LevelScene_Level1 extends Phaser.Scene{
     ]
 }
         this.levelProperties = {
-    "Question": "Shoot all prime numbers",
+    "Question": "Shoot all even numbers",
     "Points Required": 10,
     "Meteor Velocity": 80,
-    "Correct Answers": "1, 3, 5, 7, 11, 13, 17",
-    "Wrong Answers": "0, -1, 2, 4, 6, 9, 12, 14"
+    "Asteroid Direction": "2",
+    "Correct Answers": "2, 4, 6, 8, 10, 12",
+    "Wrong Answers": "1, 3, 5, 7, 9, 11"
 }
         		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
@@ -606,6 +615,17 @@ class LevelScene_Level1 extends Phaser.Scene{
         this.updatePoints(0);
         this.setupGuidanceTriggers();
 
+        // NEW:
+
+        let angle = 0;
+        switch(this.asteroidDirection){
+            case 1: angle = 0; break;
+            case 2: angle = 90; break;
+            case 3: angle = 180; break;
+            case 4: angle = 270; break;
+        }
+        this.rocket.setAngle(angle);
+
         // Test Meteor Text Container - works!
         // this.meteor1 = new MeteorTextContainer(this);
         // this.meteor1.setPosition(200, 50);
@@ -687,7 +707,40 @@ class LevelScene_Level1 extends Phaser.Scene{
 
     fireRocketBullet(){
         let rocket = this.rocket;
-        this.bullets.fireBullet(rocket.x, rocket.y);
+        const bulletVelocity = 430;
+        let velocityX = 0;
+        let velocityY = 0;
+
+        /**
+         * 1 = Right
+         * 2 = Down
+         * 3 = Left
+         * 4 = Top
+         */
+        switch(this.asteroidDirection){
+            case 1: 
+                velocityX = bulletVelocity;
+                velocityY = 0;
+                break;
+
+            case 2:
+                velocityX = 0;
+                velocityY = bulletVelocity;
+                break;
+
+            case 3: 
+                velocityX = -bulletVelocity;
+                velocityY = 0;
+                break;
+
+            case 4:
+                velocityX = 0;
+                velocityY = -bulletVelocity;
+                break;
+        }
+
+
+        this.bullets.fireBullet(rocket.x, rocket.y, velocityX, velocityY);
     }
 
     setupBulletAndMeteorCollision(){
@@ -750,10 +803,63 @@ class LevelScene_Level1 extends Phaser.Scene{
         }
 
         const panelHeight = this.spriteReferences['panel'].displayHeight;
+        const meteorWidth = this.spriteReferences['meteor'].frame.width;
         const meteorHeight = this.spriteReferences['meteor'].frame.height;
         const topOffset = 30;
-        const meteorY = topOffset + (this.cameras.main.height - panelHeight - meteorHeight - topOffset) * Math.random();
-        this.meteors.addMeteor(this.cameras.main.width, meteorY, this.meteorVelocity, isCorrectAnswer, value);
+        const leftOffset = 30;
+        const widthArea = (this.cameras.main.width - meteorWidth - leftOffset);
+        const heightArea = (this.cameras.main.height - panelHeight - meteorHeight - topOffset);
+        let meteorX = 0;
+        let meteorY = 0;
+        // const meteorY = topOffset + heightArea * Math.random();
+
+        // NEW: Change the appearing position of the asteroids
+        let velocityX = 0;
+        let velocityY = 0;
+
+        switch(this.asteroidDirection){
+
+            // Right
+            case 1: 
+            meteorX = this.cameras.main.width;
+            meteorY = topOffset + heightArea * Math.random();
+            velocityX = -this.meteorVelocity;
+            velocityY = 0;
+            break;
+
+            // Down
+            case 2: 
+            meteorX = leftOffset + widthArea * Math.random();
+            meteorY = this.cameras.main.height;
+            velocityX = 0;
+            velocityY = -this.meteorVelocity;
+            break;
+
+            // Left
+            case 3: 
+            meteorX = -meteorWidth;
+            meteorY = topOffset + heightArea * Math.random();
+            velocityX = this.meteorVelocity;
+            velocityY = 0;
+            break;
+
+            // Top
+            case 4: 
+            meteorX = leftOffset + widthArea * Math.random();
+            meteorY = -meteorHeight;
+            velocityX = 0;
+            velocityY = this.meteorVelocity;
+            break;
+        }
+
+        this.meteors.addMeteor(
+            meteorX, 
+            meteorY, 
+            velocityX, 
+            velocityY, 
+            isCorrectAnswer,
+            value
+        );
     }
 
     readProperties(){
@@ -762,6 +868,7 @@ class LevelScene_Level1 extends Phaser.Scene{
         this.correctAnswers = this.splitCSV(this.levelProperties['Correct Answers']);
         this.wrongAnswers = this.splitCSV(this.levelProperties['Wrong Answers']);
         this.meteorVelocity = this.levelProperties['Meteor Velocity'];
+        this.asteroidDirection = Number.parseInt(this.levelProperties['Asteroid Direction']);
     }
 
     /**
@@ -1978,7 +2085,8 @@ class LevelScene_Level3 extends Phaser.Scene{
         this.listenToSpaceBar();
         this.readProperties();
         this.showPrompt();
-        this.updatePoints(0);
+        // this.updatePoints(0);
+        this.updatePoints(10);
         this.setupGuidanceTriggers();
 
         // Test Meteor Text Container - works!
@@ -2504,12 +2612,13 @@ class RocketBullet extends Phaser.Physics.Arcade.Sprite
         this.setName('bullet');
     }
 
-    fire (x, y)
+    fire (x, y, vX, vY)
     {
         this.body.reset(x, y);
         this.setActive(true);
         this.setVisible(true);
-        this.setVelocityX(430);
+        this.setVelocityX(vX);
+        this.setVelocityY(vY);
     }
 
     preUpdate (time, delta)
@@ -2542,11 +2651,11 @@ class RocketBulletsGroup extends Phaser.Physics.Arcade.Group
         });
     }
 
-    fireBullet (x, y)
+    fireBullet (x, y, vX, vY)
     {
         let bullet = this.getFirstDead(true);
         if (bullet)
-            bullet.fire(x, y);
+            bullet.fire(x, y, vX, vY);
     }
 }
 
@@ -2608,18 +2717,20 @@ class MeteorTextContainer extends Phaser.GameObjects.Container{
      * Add a meteor to the scene
      * @param {number} x Origin X
      * @param {number} y Origin Y
-     * @param {number} velocity Y velocity
+     * @param {number} velocityX X velocity
+     * @param {number} velocityY Y velocity
      * @param {boolean} correct Does the meteor represent correct or incorrect state?
      * @param {string} textStr The answer visible on the meteor
      */
-    queue(x, y, velocity, correct, textStr){
+    queue(x, y, velocityX, velocityY, correct, textStr){
         this.text.text = textStr;
         this.isCorrect = correct;
         this.setPosition(x, y);
 
         // Enable physics for this container
         this.scene.physics.world.enableBody(this);
-        this.body.setVelocityX(-1 * Math.abs(Number.parseInt(velocity)));
+        this.body.setVelocityX(Number.parseInt(velocityX))
+        this.body.setVelocityY(Number.parseInt(velocityY));
     }
 
 }
@@ -2639,16 +2750,181 @@ class MeteorGroup extends Phaser.Physics.Arcade.Group
      * Add a meteor to the scene
      * @param {number} x Origin X
      * @param {number} y Origin Y
+     * @param {number} velocity X Velocity
      * @param {number} velocity Y Velocity
      * @param {boolean} correct Does the meteor represent correct or incorrect state?
      * @param {string} text The answer visible on the meteor
      */
-    addMeteor (x, y, velocity, correct, text)
+    addMeteor (x, y, velocityX, velocityY, correct, text)
     {
         const meteor = new MeteorTextContainer(this.scene);
         this.add(meteor)
         this.scene.add.existing(meteor);
-        meteor.queue(x, y, velocity, correct, text);
+        meteor.queue(x, y, velocityX, velocityY, correct, text);
+    }
+}
+
+// removed import
+
+class LevelScene_somelevel extends Phaser.Scene{
+
+    constructor(){
+        super({key: "LevelScene_somelevel", active: false });
+
+        /**
+         * All sprites loaded in the create() method
+         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
+         */
+        this.spriteReferences = {};
+        /**
+         * The entire scene object (contains the raw game objects in the 'objects' array)
+         * @type {Array}
+         */
+        this.levelData = null;
+        /**
+         * Properties loaded from the Property Editor
+         * @type {Object.<string, any>}
+         */
+        this.levelProperties = null;
+    }
+
+    preload(){
+        this.load.setBaseURL('http://localhost/');
+        
+
+        this.levelData = {
+    "objects": [
+        {
+            "_id": "6381cea86b2d913b1c5ba99c",
+            "spriteResourceId": "",
+            "type": "camera",
+            "name": "Camera",
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 1366,
+                "h": 768
+            },
+            "rotation": 0,
+            "physicsBehavior": "1",
+            "physicsCollision": "2",
+            "opacity": 0,
+            "spawnBehavior": "1",
+            "spriteStretch": "1",
+            "hidden": false
+        }
+    ]
+}
+        this.levelProperties = {}
+        		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+        // Add your code below this line
+
+
+        
+    }
+    create(){
+        let scaleX = 0, scaleY = 0;
+
+        // Add your code below this line
+
+    }
+    update(){
+
+        // Add your code below this line
+
+    }
+    destroy(){
+        
+        // Add your code below this line
+
+    }
+}
+
+// removed import
+
+class LevelScene_New_Level extends Phaser.Scene{
+
+    constructor(){
+        super({key: "LevelScene_New_Level", active: false });
+
+        /**
+         * All sprites loaded in the create() method
+         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
+         */
+        this.spriteReferences = {};
+        /**
+         * The entire scene object (contains the raw game objects in the 'objects' array)
+         * @type {Array}
+         */
+        this.levelData = null;
+        /**
+         * Properties loaded from the Property Editor
+         * @type {Object.<string, any>}
+         */
+        this.levelProperties = null;
+    }
+
+    preload(){
+        this.load.setBaseURL('http://localhost/');
+        
+
+        this.levelData = {
+    "objects": [
+        {
+            "_id": "6381cea96b2d913b1c5ba99e",
+            "spriteResourceId": "",
+            "type": "camera",
+            "name": "Camera",
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 1366,
+                "h": 768
+            },
+            "rotation": 0,
+            "physicsBehavior": "1",
+            "physicsCollision": "2",
+            "opacity": 0,
+            "spawnBehavior": "1",
+            "spriteStretch": "1",
+            "hidden": false
+        }
+    ]
+}
+        this.levelProperties = {}
+        		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+        // Add your code below this line
+
+
+        
+    }
+    create(){
+        let scaleX = 0, scaleY = 0;
+
+        // Add your code below this line
+
+    }
+    update(){
+
+        // Add your code below this line
+
+    }
+    destroy(){
+        
+        // Add your code below this line
+
     }
 }
 
@@ -2808,7 +3084,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     }
 }
 
-const scenes = [LevelScene_Title_Screen, LevelScene_Level1, LevelScene_Level2, LevelScene_Level3, LevelScene_Win, LevelScene_DataLevel, LevelScene_Game_Over_Screen];
+const scenes = [LevelScene_Title_Screen, LevelScene_Level1, LevelScene_Level2, LevelScene_Level3, LevelScene_Win, LevelScene_DataLevel, LevelScene_somelevel, LevelScene_New_Level, LevelScene_Game_Over_Screen];
 const gameZoom = 1.0;
 
 /**
