@@ -707,6 +707,397 @@ class Helper{
     }
 }
 
+// ***********************************************************************
+// MARK: Common Level Definition!
+// Used by all other levels as the parent class
+
+class CommonLevel extends Phaser.Scene {
+    constructor(object) {
+        super(object);
+
+        /**
+         * The grid of cells (columns x rows)
+         * @type {array[]}
+         */
+        this.grid = [];
+
+        this.points = 0;
+
+        // MARK: Properties
+
+        this.requiredScore = 0;
+        this.scorePerMatch = 0;
+        this.gridSize = 7;
+        this.nClasses = 0;
+        this.prompt = "";
+        /**
+         * @type {string[]}
+         */
+        this.class1Sprites = [];
+        /**
+         * @type {string[]}
+         */
+        this.class2Sprites = [];
+        /**
+         * @type {string[]}
+         */
+        this.class3Sprites = [];
+        /**
+         * @type {string[]}
+         */
+        this.class4Sprites = [];
+
+        // MARK: END: Properties
+
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        this.containerSprite;
+
+        /**
+         * @type {Cell}
+         */
+        this.firstSelectedCell;
+        /**
+         * @type {Cell}
+         */
+        this.secondSelectedCell;
+
+        /**
+         * @type {Phaser.GameObjects.Text}
+         */
+        this.pointsText;
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        this.cupSprite;
+        /**
+         * @type {Phaser.GameObjects.Text}
+         */
+        this.requiredPointsText;
+        /**
+         * @type {Phaser.GameObjects.Text}
+         */
+        this.promptText;
+
+        // MARK: Built in properties
+
+        /**
+         * All sprites loaded in the create() method
+         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
+         */
+        this.spriteReferences = {};
+        /**
+         * The entire scene object (contains the raw game objects in the 'objects' array)
+         * @type {Array}
+         */
+        this.levelData = null;
+        /**
+         * Properties loaded from the Property Editor
+         * @type {Object.<string, any>}
+         */
+        this.levelProperties = null;
+    }
+
+    preload() {
+
+    }
+
+    create() {
+        this.containerSprite = this.spriteReferences['container'];
+        this.readProperties();
+        this.createGrid();
+        this.updatePoints();
+        this.updatePrompt();
+    }
+
+    update() {
+
+    }
+
+    destroy() {
+
+    }
+
+    // MARK: Private methods
+    readProperties() {
+        let readCSV = (str) => {
+            return String(str).split(',').map(s => s.trim());
+        }
+
+        this.requiredScore = Number.parseInt(this.levelProperties['Required Score']);
+        this.scorePerMatch = Number.parseInt(this.levelProperties['Score Per Tile Match']);
+        this.gridSize = Number.parseInt(this.levelProperties['Grid Size']);
+        this.nClasses = Number.parseInt(this.levelProperties['No. of Classes']);
+        this.prompt = this.levelProperties['Prompt'];
+        this.class1Sprites = readCSV(this.levelProperties['Class 1 sprites']);
+        this.class2Sprites = readCSV(this.levelProperties['Class 2 sprites']);
+        this.class3Sprites = readCSV(this.levelProperties['Class 3 sprites']);
+        this.class4Sprites = readCSV(this.levelProperties['Class 4 sprites']);
+    }
+
+    updatePoints() {
+
+        // Player Score
+        const scoreText = `Score: ${this.points}`;
+        if (this.pointsText == undefined) {
+            this.pointsText = this.add.text(10, 10, scoreText, {
+                fontFamily: 'Arial',
+                fontSize: '30px',
+                color: '#FFFFFF'
+            })
+        }
+        else {
+            this.pointsText.setText(scoreText);
+        }
+
+        // Required Score
+        const requiredScoreText = `${this.requiredScore}`;
+        if (this.cupSprite == undefined || this.requiredPointsText == undefined) {
+            this.cupSprite = this.add.sprite(10, 50, 'cup');
+            this.cupSprite.setOrigin(0, 0,);
+            this.cupSprite.setDisplaySize(30, 30);
+
+            this.requiredPointsText = this.add.text(50, 50, requiredScoreText, {
+                fontFamily: 'Arial',
+                fontSize: '20px',
+                color: '#FFFFFF'
+            })
+        }
+
+    }
+
+    updatePrompt() {
+        if (this.promptText == undefined) {
+            const cameraWidth = this.cameras.main.displayWidth;
+            const cameraHeight = this.cameras.main.displayHeight;
+            const spacing = 10;
+            const width = cameraWidth - this.spriteReferences['board'].getBottomRight().x - 30;
+
+            this.promptText = this.add.text(
+                cameraWidth - spacing,
+                cameraHeight - spacing,
+                this.prompt,
+                {
+                    fontFamily: 'Arial',
+                    fontSize: '15px',
+                    color: '#FFFFFF',
+                    // fixedWidth: width,
+                    align: 'right',
+                    wordWrap: {
+                        width: width
+                    }
+                }
+            );
+            this.promptText.setOrigin(1.0, 1.0);
+        }
+    }
+
+    /**
+     * @returns {string[][]}
+     */
+    getSpriteClasses() {
+        return [
+            this.class1Sprites,
+            this.class2Sprites,
+            this.class3Sprites,
+            this.class4Sprites
+        ];
+    }
+
+    createGrid() {
+        const size = this.gridSize;
+        const board = this.containerSprite;
+        const boardTopLeft = board.getTopLeft();
+        const spriteClasses = this.getSpriteClasses();
+
+        this.grid = Helper.createGrid(
+            size,
+            boardTopLeft.x,
+            boardTopLeft.y,
+            board.displayWidth,
+            this.nClasses,
+            spriteClasses,
+            this
+        );
+
+        for (let cellRow of this.grid) {
+            for (let cell of cellRow) {
+                this.attachSpriteActions(cell);
+            }
+        }
+    }
+
+    /**
+     * @param cell {Cell}
+     */
+    attachSpriteActions(cell) {
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        const sprite = cell.sprite;
+        sprite.setInteractive();
+        sprite.on('pointerup', () => {
+            sprite.setTint(0xFFA500);
+            console.log('Setting tint!');
+
+            if (this.firstSelectedCell == undefined) {
+                this.firstSelectedCell = cell;
+            }
+            else if (this.firstSelectedCell === cell) {
+                sprite.clearTint();
+                this.firstSelectedCell = undefined;
+            }
+            else {
+                this.secondSelectedCell = cell;
+                this.evaluateMatches();
+            }
+        });
+    }
+
+    fadeIn(cell) {
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        const sprite = cell.sprite;
+        sprite.alpha = 0;
+
+        this.tweens.add({
+            targets: sprite,
+            alpha: { value: 1, duration: 1000, ease: 'Power 1' }
+        });
+    }
+
+    /**
+     * Check for any matches between the two selected cells;
+     */
+    evaluateMatches() {
+        console.log(this.firstSelectedCell);
+        console.log(this.secondSelectedCell);
+
+        const cell1 = this.firstSelectedCell;
+        const cell2 = this.secondSelectedCell;
+
+        const originalX = cell1.x;
+        const originalY = cell1.y;
+        const targetX = cell2.x;
+        const targetY = cell2.y;
+
+        ShuffleHelper.swapWith(this.grid, cell1, targetX, targetY);
+
+        /**
+         * @type {Array[]}
+         */
+        let matches = MatchHelper.getAllMatches(this.grid);
+        // let matchContainingCell = matches.find(arr => arr.find(mCell => mCell === cell1));
+
+        // Important Note:
+        // This logic does not check if the cells are contained
+        // in the returned matches.
+        //
+        // So if previous matches are not discarded properly, then
+        // you can potentially swap any cell.
+        //
+        // Maybe change this in future version?
+
+        if (matches.length > 0) {
+            // TODO:
+            // Remove the sprites (done)
+            // Add the points (done)
+            // Move the rest of the sprites down
+            // Add new sprites
+
+            cell2.sprite.clearTint();
+            this.firstSelectedCell = undefined;
+            this.secondSelectedCell = undefined;
+
+            this.removeGridCells(matches);
+            this.addPoints(matches);
+            this.fillNullSprites();
+
+            // demo code
+
+            // cell1.sprite.clearTint();
+            // cell2.sprite.clearTint();
+
+            // this.firstSelectedCell = undefined;
+            // this.secondSelectedCell = undefined;
+        }
+        else {
+            ShuffleHelper.swapWith(this.grid, cell1, originalX, originalY);
+            cell1.sprite.clearTint();
+            cell2.sprite.clearTint();
+
+            this.firstSelectedCell = undefined;
+            this.secondSelectedCell = undefined;
+        }
+    }
+
+    /**
+     * @param matches {Cell[][]} The array of groups of cells that matched
+     */
+    removeGridCells(matches) {
+        for (let group of matches) {
+            for (let cell of group) {
+                /**
+                 * @type {Phaser.GameObjects.Sprite}
+                 */
+                const sprite = cell.sprite;
+                // sprite.removeFromDisplayList();
+                sprite.destroy();
+
+                this.grid[cell.y][cell.x] = null;
+            }
+        }
+
+        console.log(this.grid);
+    }
+
+    /**
+     * @param matches {Cell[][]} The array of groups of cells that matched
+     */
+    addPoints(matches) {
+        let matchCombo = 0;
+        for (let group of matches) {
+            for (let cell of group) {
+                matchCombo += 1;
+            }
+        }
+
+        this.points += matchCombo * this.scorePerMatch;
+        this.updatePoints();
+    }
+
+    /**
+     * Fill in the null sprites
+     */
+    fillNullSprites() {
+        const size = this.gridSize;
+        const board = this.containerSprite;
+        const boardTopLeft = board.getTopLeft();
+        const spriteClasses = this.getSpriteClasses();
+
+        /**
+         * @type {Cell[]}
+         */
+        const newCells = FillHelper.fillInNull(
+            this.grid,
+            this.nClasses,
+            boardTopLeft.x,
+            boardTopLeft.y,
+            board.displayWidth,
+            spriteClasses,
+            this
+        );
+
+        newCells.forEach(cell => {
+            this.attachSpriteActions(cell);
+            this.fadeIn(cell);
+        });
+    }
+
+}
+
 class LevelScene_DataLevel extends Phaser.Scene{
 
     constructor(){
@@ -789,93 +1180,10 @@ class LevelScene_DataLevel extends Phaser.Scene{
 
 // removed import
 
-class LevelScene_Level1 extends Phaser.Scene{
+class LevelScene_Level1 extends CommonLevel{
 
     constructor(){
         super({key: "LevelScene_Level1", active: false });
-
-        /**
-         * The grid of cells (columns x rows)
-         * @type {array[]}
-         */
-        this.grid = [];
-
-        this.points = 0;
-
-        // MARK: Properties
-
-        this.requiredScore = 0;
-        this.scorePerMatch = 0;
-        this.gridSize = 7;
-        this.nClasses = 0;
-        this.prompt = "";
-        /**
-         * @type {string[]}
-         */
-        this.class1Sprites = [];
-        /**
-         * @type {string[]}
-         */
-        this.class2Sprites = [];
-        /**
-         * @type {string[]}
-         */
-        this.class3Sprites = [];
-        /**
-         * @type {string[]}
-         */
-        this.class4Sprites = [];
-
-        // MARK: END: Properties
-
-        /**
-         * @type {Phaser.GameObjects.Sprite}
-         */
-        this.containerSprite;
-
-        /**
-         * @type {Cell}
-         */
-        this.firstSelectedCell;
-        /**
-         * @type {Cell}
-         */
-        this.secondSelectedCell;
-        
-        /**
-         * @type {Phaser.GameObjects.Text}
-         */
-        this.pointsText;
-        /**
-         * @type {Phaser.GameObjects.Sprite}
-         */
-        this.cupSprite;
-        /**
-         * @type {Phaser.GameObjects.Text}
-         */
-        this.requiredPointsText;
-        /**
-         * @type {Phaser.GameObjects.Text}
-         */
-        this.promptText;
-
-        // MARK: Built in properties
-
-        /**
-         * All sprites loaded in the create() method
-         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
-         */
-        this.spriteReferences = {};
-        /**
-         * The entire scene object (contains the raw game objects in the 'objects' array)
-         * @type {Array}
-         */
-        this.levelData = null;
-        /**
-         * Properties loaded from the Property Editor
-         * @type {Object.<string, any>}
-         */
-        this.levelProperties = null;
     }
 
     preload(){
@@ -1185,7 +1493,7 @@ class LevelScene_Level1 extends Phaser.Scene{
 
         // Add your code below this line
 
-
+        super.preload();
         
     }
     create(){
@@ -1308,299 +1616,21 @@ class LevelScene_Level1 extends Phaser.Scene{
 
 
 
-        // Add your code below this line
-        this.containerSprite = this.spriteReferences['container'];
-        this.readProperties();
-        this.createGrid();
-        this.updatePoints();
-        this.updatePrompt();
+        super.create();
     }
     update(){
 
         // Add your code below this line
+
+        super.update();
 
     }
     destroy(){
         
         // Add your code below this line
 
-    }
+        super.destroy();
 
-    // MARK: Private methods
-    readProperties(){
-        let readCSV = (str) => {
-            return String(str).split(',').map(s => s.trim());
-        }
-
-        this.requiredScore = Number.parseInt(this.levelProperties['Required Score']);
-        this.scorePerMatch = Number.parseInt(this.levelProperties['Score Per Tile Match']);
-        this.gridSize = Number.parseInt(this.levelProperties['Grid Size']);
-        this.nClasses = Number.parseInt(this.levelProperties['No. of Classes']);
-        this.prompt = this.levelProperties['Prompt'];
-        this.class1Sprites = readCSV(this.levelProperties['Class 1 sprites']);
-        this.class2Sprites = readCSV(this.levelProperties['Class 2 sprites']);
-        this.class3Sprites = readCSV(this.levelProperties['Class 3 sprites']);
-        this.class4Sprites = readCSV(this.levelProperties['Class 4 sprites']);
-    }
-
-    updatePoints(){
-
-        // Player Score
-        const scoreText = `Score: ${this.points}`;
-        if (this.pointsText == undefined){
-            this.pointsText = this.add.text(10, 10, scoreText, {
-                fontFamily: 'Arial',
-                fontSize: '30px',
-                color: '#FFFFFF'
-            })
-        }
-        else{
-            this.pointsText.setText(scoreText);
-        }
-
-        // Required Score
-        const requiredScoreText = `${this.requiredScore}`;
-        if (this.cupSprite == undefined || this.requiredPointsText == undefined){
-            this.cupSprite = this.add.sprite(10, 50, 'cup');
-            this.cupSprite.setOrigin(0, 0,);
-            this.cupSprite.setDisplaySize(30, 30);
-
-            this.requiredPointsText = this.add.text(50, 50, requiredScoreText, {
-                fontFamily: 'Arial',
-                fontSize: '20px',
-                color: '#FFFFFF'
-            })
-        }
-
-    }
-
-    updatePrompt(){
-        if (this.promptText == undefined){
-            const cameraWidth = this.cameras.main.displayWidth;
-            const cameraHeight = this.cameras.main.displayHeight;
-            const spacing = 10;
-            const width = cameraWidth - this.spriteReferences['board'].getBottomRight().x - 30;
-
-            this.promptText = this.add.text(
-                cameraWidth - spacing, 
-                cameraHeight - spacing, 
-                this.prompt, 
-                {
-                    fontFamily: 'Arial',
-                    fontSize: '15px',
-                    color: '#FFFFFF',
-                    // fixedWidth: width,
-                    align: 'right',
-                    wordWrap: {
-                        width: width
-                    }
-                }
-            );
-            this.promptText.setOrigin(1.0, 1.0);
-        }
-    }
-
-    /**
-     * @returns {string[][]}
-     */
-    getSpriteClasses(){
-        return [
-            this.class1Sprites,
-            this.class2Sprites,
-            this.class3Sprites,
-            this.class4Sprites
-        ];
-    }
-
-    createGrid(){
-        const size = this.gridSize;
-        const board = this.containerSprite;
-        const boardTopLeft = board.getTopLeft();
-        const spriteClasses = this.getSpriteClasses();
-
-        this.grid = Helper.createGrid(
-            size,
-            boardTopLeft.x,
-            boardTopLeft.y,
-            board.displayWidth,
-            this.nClasses,
-            spriteClasses,
-            this
-        );
-
-        for (let cellRow of this.grid){
-            for(let cell of cellRow){
-                this.attachSpriteActions(cell);
-            }
-        }
-    }
-
-    /**
-     * @param cell {Cell}
-     */
-    attachSpriteActions(cell){
-        /**
-         * @type {Phaser.GameObjects.Sprite}
-         */
-        const sprite = cell.sprite;
-        sprite.setInteractive();
-        sprite.on('pointerup', () => {
-            sprite.setTint(0xFFA500);
-            console.log('Setting tint!');
-
-            if (this.firstSelectedCell == undefined){
-                this.firstSelectedCell = cell;
-            }
-            else if (this.firstSelectedCell === cell){
-                sprite.clearTint();
-                this.firstSelectedCell = undefined;
-            }
-            else{
-                this.secondSelectedCell = cell;
-                this.evaluateMatches();
-            }
-        });
-    }
-
-    fadeIn(cell){
-        /**
-         * @type {Phaser.GameObjects.Sprite}
-         */
-        const sprite = cell.sprite;
-        sprite.alpha = 0;
-
-        this.tweens.add({
-            targets: sprite,
-            alpha: { value: 1, duration: 1000, ease: 'Power 1' }
-        });
-    }
-
-    /**
-     * Check for any matches between the two selected cells;
-     */
-    evaluateMatches(){
-        console.log(this.firstSelectedCell);
-        console.log(this.secondSelectedCell);
-
-        const cell1 = this.firstSelectedCell;
-        const cell2 = this.secondSelectedCell;
-
-        const originalX = cell1.x;
-        const originalY = cell1.y;
-        const targetX = cell2.x;
-        const targetY = cell2.y;
-
-        ShuffleHelper.swapWith(this.grid, cell1, targetX, targetY);
-
-        /**
-         * @type {Array[]}
-         */
-        let matches = MatchHelper.getAllMatches(this.grid);
-        // let matchContainingCell = matches.find(arr => arr.find(mCell => mCell === cell1));
-
-        // Important Note:
-        // This logic does not check if the cells are contained
-        // in the returned matches.
-        //
-        // So if previous matches are not discarded properly, then
-        // you can potentially swap any cell.
-        //
-        // Maybe change this in future version?
-
-        if (matches.length > 0){
-            // TODO:
-            // Remove the sprites (done)
-            // Add the points (done)
-            // Move the rest of the sprites down
-            // Add new sprites
-
-            cell2.sprite.clearTint();
-            this.firstSelectedCell = undefined;
-            this.secondSelectedCell = undefined;
-
-            this.removeGridCells(matches);
-            this.addPoints(matches);
-            this.fillNullSprites();
-
-            // demo code
-
-            // cell1.sprite.clearTint();
-            // cell2.sprite.clearTint();
-
-            // this.firstSelectedCell = undefined;
-            // this.secondSelectedCell = undefined;
-        }
-        else{
-            ShuffleHelper.swapWith(this.grid, cell1, originalX, originalY);
-            cell1.sprite.clearTint();
-            cell2.sprite.clearTint();
-
-            this.firstSelectedCell = undefined;
-            this.secondSelectedCell = undefined;
-        }
-    }
-
-    /**
-     * @param matches {Cell[][]} The array of groups of cells that matched
-     */
-    removeGridCells(matches){
-        for (let group of matches){
-            for (let cell of group){
-                /**
-                 * @type {Phaser.GameObjects.Sprite}
-                 */
-                const sprite = cell.sprite;
-                // sprite.removeFromDisplayList();
-                sprite.destroy();
-
-                this.grid[cell.y][cell.x] = null;
-            }
-        }
-
-        console.log(this.grid);
-    }
-
-    /**
-     * @param matches {Cell[][]} The array of groups of cells that matched
-     */
-    addPoints(matches){
-        let matchCombo = 0;
-        for (let group of matches){
-            for (let cell of group){
-                matchCombo += 1;
-            }
-        }
-
-        this.points += matchCombo * this.scorePerMatch;
-        this.updatePoints();
-    }
-
-    /**
-     * Fill in the null sprites
-     */
-    fillNullSprites(){
-        const size = this.gridSize;
-        const board = this.containerSprite;
-        const boardTopLeft = board.getTopLeft();
-        const spriteClasses = this.getSpriteClasses();
-
-        /**
-         * @type {Cell[]}
-         */
-        const newCells = FillHelper.fillInNull(
-            this.grid,
-            this.nClasses,
-            boardTopLeft.x,
-            boardTopLeft.y,
-            board.displayWidth,
-            spriteClasses,
-            this
-        );
-
-        newCells.forEach(cell => {
-            this.attachSpriteActions(cell);
-            this.fadeIn(cell);
-        });
     }
 }
 

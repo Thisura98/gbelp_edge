@@ -168,8 +168,8 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           this.game = gameResponse.data;
 
           this.playService.injectWindowEdgeInternals(
-            this.handleChangeDetectionRequest, 
-            this.handleGameCompletedNotification
+            () => this.handleChangeDetectionRequest, 
+            (msg, data) => this.handleGameCompletedNotification(msg, data)
           );
           this.loadCompiledGame();
         }, err => this.handleLoadServerError(err, 'Games'))

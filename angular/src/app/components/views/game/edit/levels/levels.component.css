@@ -74,6 +74,8 @@ app-game-edit-level-item{
 .btn-container{
     display: flex;
     gap: 10px;
+    padding-right: 10px;
+    flex-wrap: wrap;
 }
 
 .btn-save{

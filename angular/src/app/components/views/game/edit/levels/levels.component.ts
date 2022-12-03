@@ -163,6 +163,19 @@ export class GameEditLevelsComponent implements OnInit {
     return this.selectedLevel?.exitCriteriaType == LevelExitCriteria.score
   }
 
+  get canMoveLevelLeft(): boolean{
+    const index = this.selectedLevelIndex
+    const level = this.selectedLevel;
+    return level != undefined && !level.locked && index != undefined && this.gameLevels.length > 0 && index > 1
+  }
+
+  get canMoveLevelRight(): boolean{
+    const index = this.selectedLevelIndex
+    const length = this.gameLevels.length
+    const level = this.selectedLevel;
+    return level != undefined && !level.locked && index != undefined && length > 0 && index < (length - 2);
+  }
+
   getFriendlyLevelName(gameLevel: GameLevel): string{
     return GameLevelHelper.getFriendlyLevelType(gameLevel);
   }
@@ -211,6 +224,16 @@ export class GameEditLevelsComponent implements OnInit {
     })
   }
 
+  moveLevelLeft(){
+    const i = this.selectedLevelIndex!;
+    this.swapLevels(i, i - 1);
+  }
+
+  moveLevelRight(){
+    const i = this.selectedLevelIndex!;
+    this.swapLevels(i, i + 1);
+  }
+
   /* Private Methods */
 
   private loadData(){
@@ -242,9 +265,18 @@ export class GameEditLevelsComponent implements OnInit {
   /**
    * Update view related varaibles.
    */
-   private setGameProject(){
+  private setGameProject(){
     this.selectedLevel = undefined;
     this.gameLevels = this.gameListing!.project.levels;
+  }
+
+  private swapLevels(source: number, destination: number){
+    const i = source;
+    const j = destination;
+    const lvl = this.gameLevels[j];
+    this.gameLevels[j] = this.selectedLevel!;
+    this.gameLevels[i] = lvl;
+    this.selectedLevelIndex = j;
   }
 
 }
