@@ -26,6 +26,18 @@ const EdgeProxy = {
             window.EdgeInternals._on_updateGuidance(name, points);
         else
             console.log("Edge Internal implementation for _on_updateGuidance missing");
+    },
+    /**
+     * Notify the EDGE system that the user finished the game.
+     * For example, when the user is at the last level.
+     * @param {string} message The message to show to the user.
+     * @param {object | null | undefined} data Optional data
+     */
+    notifyGameCompleted: function(message, data){
+        if (window.EdgeInternals._on_gameCompleted != null)
+            window.EdgeInternals._on_gameCompleted(message, data);
+        else
+            console.log("Edge Internal implementation for _on_gameCompleted missing");
     }
 }
 
@@ -790,8 +802,10 @@ class LevelScene_Level1 extends Phaser.Scene{
 
         this.points = 0;
 
-        // Properties
+        // MARK: Properties
 
+        this.requiredScore = 0;
+        this.scorePerMatch = 0;
         this.gridSize = 7;
         this.nClasses = 0;
         this.prompt = "";
@@ -812,7 +826,7 @@ class LevelScene_Level1 extends Phaser.Scene{
          */
         this.class4Sprites = [];
 
-        // END: Properties
+        // MARK: END: Properties
 
         /**
          * @type {Phaser.GameObjects.Sprite}
@@ -832,6 +846,14 @@ class LevelScene_Level1 extends Phaser.Scene{
          * @type {Phaser.GameObjects.Text}
          */
         this.pointsText;
+        /**
+         * @type {Phaser.GameObjects.Sprite}
+         */
+        this.cupSprite;
+        /**
+         * @type {Phaser.GameObjects.Text}
+         */
+        this.requiredPointsText;
         /**
          * @type {Phaser.GameObjects.Text}
          */
@@ -872,6 +894,7 @@ class LevelScene_Level1 extends Phaser.Scene{
 		this.load.image('solid3', 'fs/res_upload/image/d2ef70d9-cec7-42be-b7cf-358c84c3705b.png');
 		this.load.image('board', 'fs/res_upload/image/3d93c48b-71a4-487b-9163-4c558c40e163.png');
 		this.load.image('container', 'fs/res_upload/image/a6b6e23d-1734-4dd5-8a28-d9749eae5037.png');
+		this.load.image('cup', 'fs/res_upload/image/2472f990-7ce0-4cdc-aef9-4eb5ac560dd4.webp');
         this.levelData = {
     "objects": [
         {
@@ -1120,11 +1143,32 @@ class LevelScene_Level1 extends Phaser.Scene{
             "spawnBehavior": "1",
             "spriteStretch": "1",
             "hidden": false
+        },
+        {
+            "_id": "temp_1670093293530",
+            "spriteResourceId": "638b99dacd3e94cf5f20591b",
+            "type": "sprite",
+            "name": "cup",
+            "frame": {
+                "x": 5,
+                "y": 715,
+                "w": 35.5,
+                "h": 35.5
+            },
+            "rotation": 0,
+            "physicsBehavior": "0",
+            "physicsCollision": "0",
+            "opacity": 0,
+            "spawnBehavior": "1",
+            "spriteStretch": "1",
+            "hidden": false
         }
     ]
 }
         this.levelProperties = {
     "Prompt": "Match pictures with similar states of matter",
+    "Score Per Tile Match": 30,
+    "Required Score": 300,
     "Grid Size": 5,
     "No. of Classes": 3,
     "Class 1 sprites": "gas1",
@@ -1254,6 +1298,15 @@ class LevelScene_Level1 extends Phaser.Scene{
 		this.spriteReferences['container'] = sprite_12;
 
 
+		// --- scene object cup ---
+		const sprite_13 = this.add.sprite(22.75, 732.75, 'cup').setInteractive();
+		sprite_13.name = "cup";
+		scaleX = 35.5 / sprite_13.displayWidth;
+		scaleY = 35.5 / sprite_13.displayHeight;
+		sprite_13.setScale(scaleX, scaleY);
+		this.spriteReferences['cup'] = sprite_13;
+
+
 
         // Add your code below this line
         this.containerSprite = this.spriteReferences['container'];
@@ -1279,6 +1332,8 @@ class LevelScene_Level1 extends Phaser.Scene{
             return String(str).split(',').map(s => s.trim());
         }
 
+        this.requiredScore = Number.parseInt(this.levelProperties['Required Score']);
+        this.scorePerMatch = Number.parseInt(this.levelProperties['Score Per Tile Match']);
         this.gridSize = Number.parseInt(this.levelProperties['Grid Size']);
         this.nClasses = Number.parseInt(this.levelProperties['No. of Classes']);
         this.prompt = this.levelProperties['Prompt'];
@@ -1289,6 +1344,8 @@ class LevelScene_Level1 extends Phaser.Scene{
     }
 
     updatePoints(){
+
+        // Player Score
         const scoreText = `Score: ${this.points}`;
         if (this.pointsText == undefined){
             this.pointsText = this.add.text(10, 10, scoreText, {
@@ -1300,6 +1357,21 @@ class LevelScene_Level1 extends Phaser.Scene{
         else{
             this.pointsText.setText(scoreText);
         }
+
+        // Required Score
+        const requiredScoreText = `${this.requiredScore}`;
+        if (this.cupSprite == undefined || this.requiredPointsText == undefined){
+            this.cupSprite = this.add.sprite(10, 50, 'cup');
+            this.cupSprite.setOrigin(0, 0,);
+            this.cupSprite.setDisplaySize(30, 30);
+
+            this.requiredPointsText = this.add.text(50, 50, requiredScoreText, {
+                fontFamily: 'Arial',
+                fontSize: '20px',
+                color: '#FFFFFF'
+            })
+        }
+
     }
 
     updatePrompt(){
@@ -1492,7 +1564,6 @@ class LevelScene_Level1 extends Phaser.Scene{
      * @param matches {Cell[][]} The array of groups of cells that matched
      */
     addPoints(matches){
-        const multiplier = 10;
         let matchCombo = 0;
         for (let group of matches){
             for (let cell of group){
@@ -1500,7 +1571,7 @@ class LevelScene_Level1 extends Phaser.Scene{
             }
         }
 
-        this.points += matchCombo * multiplier;
+        this.points += matchCombo * this.scorePerMatch;
         this.updatePoints();
     }
 

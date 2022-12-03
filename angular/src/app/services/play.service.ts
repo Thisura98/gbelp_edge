@@ -7,6 +7,7 @@ import { DialogService } from "./dialog.service";
 import { UserService } from "./user.service";
 
 export type PlayChangeListener = () => void;
+export type PlayGameCompletedListener = (message: string, data: object | null | undefined) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class PlayService{
   private nonce: string = '';
   private userId: string = '';
   private changeListener: PlayChangeListener | undefined;
+  private onGameCompleted: PlayGameCompletedListener | undefined;
 
   public constructor(
     private apiService: ApiService,
@@ -39,8 +41,9 @@ export class PlayService{
   /**
    * Set the window properties for the Edge Game library
    */
-  public injectWindowEdgeInternals(changeListener: PlayChangeListener){
+  public injectWindowEdgeInternals(changeListener: PlayChangeListener, onGameCompleted: PlayGameCompletedListener){
     this.changeListener = changeListener;
+    this.onGameCompleted = onGameCompleted;
     (window as any).EdgeInternals = this.getEdgeInternalsObject();
   }
 
@@ -60,12 +63,9 @@ export class PlayService{
 
   private getEdgeInternalsObject(): IEdgeInternals{
     return {
-      _on_updateGuidance: (name, hitPoints) => {
-        this.updateGuidanceTracker(name, hitPoints)
-      },
-      _on_updateObjective: (name, progressPoints) => {
-        this.updateObjective(name, progressPoints);
-      }
+      _on_updateGuidance: (name, hitPoints) => this.updateGuidanceTracker(name, hitPoints),
+      _on_updateObjective: (name, progressPoints) => this.updateObjective(name, progressPoints),
+      _on_gameCompleted: (message, data) => this.notifiedGameCompleted(message, data)
     }
   }
 
@@ -119,7 +119,7 @@ export class PlayService{
    * @param trackerName The 'name' of the Guidance Tracker (not ID)
    * @param hits Hit points to add (or subtract) from a guidance tracker
    */
-   private updateGuidanceTracker(trackerName: string, hits: number){
+  private updateGuidanceTracker(trackerName: string, hits: number){
     if (Object.keys(this.guidanceCache).length == 0){
       this.dialogService.showSnackbar("Guidance cache not built");
       return;
@@ -138,6 +138,7 @@ export class PlayService{
     const trackerIdStr = (guidanceTracker.tracker_id ?? 0).toString();
     const progressStr = guidanceTracker.hits.toString();
 
+    this.changeListener!();
     this.apiService.play.updateGuidance(
       this.nonce,
       this.sessionId,
@@ -155,5 +156,14 @@ export class PlayService{
       console.debug('Server level error updating guidance tracker: ', err);
       this.dialogService.showSnackbar('Error while updating guidance tracker (0x1)');
     })
+  }
+
+  /**
+   * Handle when game is completed by user
+   * @param message Message to display
+   * @param data Optional Data passed from game
+   */
+  private notifiedGameCompleted(message: string, data: object | null | undefined){
+    this.onGameCompleted!(message, data);
   }
 }

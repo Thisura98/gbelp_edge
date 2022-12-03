@@ -166,11 +166,11 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           }
   
           this.game = gameResponse.data;
-          this.playService.injectWindowEdgeInternals(() => {
-            this.zone.run(() => {
-              this.changeDetectionRef.markForCheck();
-            })
-          });
+
+          this.playService.injectWindowEdgeInternals(
+            this.handleChangeDetectionRequest, 
+            this.handleGameCompletedNotification
+          );
           this.loadCompiledGame();
         }, err => this.handleLoadServerError(err, 'Games'))
       });
@@ -198,9 +198,9 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           this.guidanceTrackers = guidanceTrackersResponse.data.map(v => ProgressfulGameGuidanceTracker.from(v));
 
           // demo code
-          if (this.guidanceTrackers.length > 0){
-            this.activeGuidance = this.guidanceTrackers[0];
-          }
+          // if (this.guidanceTrackers.length > 0){
+          //   this.activeGuidance = this.guidanceTrackers[0];
+          // }
           // end demo code
 
           this.playService.buildCache(this.objectives, this.guidanceTrackers);
@@ -391,6 +391,35 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
         reject(error);
       })
     })
+  }
+
+  private handleChangeDetectionRequest(){
+    this.zone.run(() => {
+      this.changeDetectionRef.markForCheck();
+    })
+  }
+
+  private handleGameCompletedNotification(message: string, data: object | null | undefined){
+    this.zone.run(() => {
+      this.dialogService.showDismissable(
+        'Game Completed',
+        message,
+        () => this.navigateToReportsAndClose()
+      )
+    });
+  }
+
+  private navigateToReportsAndClose(){
+    const route = this.router.createUrlTree(['groups/reports/available'], {
+      queryParams: {
+        groupId: this.session!.group_id,
+        sessionId: this.session!.session_id
+      }
+    })
+    .toString();
+
+    window.open(route, '_blank');
+    this.goBack();
   }
 
 }

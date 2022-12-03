@@ -26,5 +26,17 @@ const EdgeProxy = {
             window.EdgeInternals._on_updateGuidance(name, points);
         else
             console.log("Edge Internal implementation for _on_updateGuidance missing");
+    },
+    /**
+     * Notify the EDGE system that the user finished the game.
+     * For example, when the user is at the last level.
+     * @param {string} message The message to show to the user.
+     * @param {object | null | undefined} data Optional data
+     */
+    notifyGameCompleted: function(message, data){
+        if (window.EdgeInternals._on_gameCompleted != null)
+            window.EdgeInternals._on_gameCompleted(message, data);
+        else
+            console.log("Edge Internal implementation for _on_gameCompleted missing");
     }
 }

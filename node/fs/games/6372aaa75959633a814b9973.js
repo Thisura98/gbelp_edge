@@ -511,7 +511,7 @@ class LevelScene_Level1 extends Phaser.Scene{
     "Question": "Shoot all even numbers",
     "Points Required": 10,
     "Meteor Velocity": 80,
-    "Asteroid Direction": "2",
+    "Asteroid Direction": "4",
     "Correct Answers": "2, 4, 6, 8, 10, 12",
     "Wrong Answers": "1, 3, 5, 7, 9, 11"
 }
@@ -1299,6 +1299,7 @@ class LevelScene_Level2 extends Phaser.Scene{
     "Question": "Shoot all square numbers",
     "Points Required": 15,
     "Meteor Velocity": 130,
+    "Asteroid Direction": "2",
     "Correct Answers": "1, 4, 9, 16, 25, 36, 49",
     "Wrong Answers": "0, 2, 6, 12, 18, 24, 27, 32"
 }

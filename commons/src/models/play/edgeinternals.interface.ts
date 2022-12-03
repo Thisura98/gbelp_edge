@@ -5,4 +5,5 @@
 export declare interface IEdgeInternals{
     _on_updateObjective: (name: string, progress: number) => void;
     _on_updateGuidance: (name: string, progress: number) => void;
+    _on_gameCompleted: (message: string, data: object | null | undefined) => void;
 }
