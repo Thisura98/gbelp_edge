@@ -13,6 +13,7 @@
             <!-- <div class="dyn-btn clickable btn-save">Save</div> -->
             <div class="dyn-btn clickable btn-upload" (click)="uploadResourceClicked()">Upload Resource</div>
             <input type="file" #resourceUploadInput class="file-uploader hidden-input" (change)="uploadInputFileChanged($event)">
+            <input type="file" #replaceResourceUploadInput class="file-uploader hidden-input" (change)="replaceUploadInputFileChanged($event)">
         </div>
 
         <div class="container3">
@@ -76,14 +77,17 @@
                     <div class="options-selected-type">{{selectedResource!.type + " Resource" | titlecase}}</div>
                     <div class="options-separator"></div>
                     <h4>Management</h4>
-                    <div class="dyn-btn clickable btn-play-sound" 
-                        *ngIf="selectedResource!.type == 'sound'"
-                        (click)="previewSoundBtnPressed()">
-                        {{ isPlayingSound ? "Stop" : "Play" }}
-                        <span *ngIf="isPlayingSound" class="sound-time">{{ audioTimeLabel }}</span>
+                    <div class="actions">
+                        <div class="dyn-btn clickable btn-play-sound" 
+                            *ngIf="selectedResource!.type == 'sound'"
+                            (click)="previewSoundBtnPressed()">
+                            {{ isPlayingSound ? "Stop" : "Play" }}
+                            <span *ngIf="isPlayingSound" class="sound-time">{{ audioTimeLabel }}</span>
+                        </div>
+                        <div class="dyn-btn clickable btn-rename" style="display: none">Rename</div>
+                        <div class="dyn-btn clickable btn-replace" (click)="replaceResourceClicked()">Replace</div>
+                        <div class="dyn-btn clickable btn-delete btn-danger" (click)="resourceDeleteClicked()">Delete</div>
                     </div>
-                    <div class="dyn-btn clickable btn-rename" style="display: none">Rename</div>
-                    <div class="dyn-btn clickable btn-delete btn-danger" (click)="resourceDeleteClicked()">Delete</div>
                 </ng-container>
             </div>
         </div>

@@ -27,6 +27,9 @@ export class GameEditResourcesComponent implements OnInit {
   @ViewChild('resourceUploadInput')
   resourceUploadInput: ElementRef | undefined;
 
+  @ViewChild('replaceResourceUploadInput')
+  replaceResourceUploadInput: ElementRef | undefined;
+
   isUploading: boolean = false;
   uploadProgress: number = 0.0;
 
@@ -84,21 +87,18 @@ export class GameEditResourcesComponent implements OnInit {
     this.resourceUploadInput?.nativeElement.click();
   }
 
+  replaceResourceClicked(){
+    this.replaceResourceUploadInput?.nativeElement.click();
+  }
+
   uploadInputFileChanged(event: any){
-    const files: FileList = event.target.files;
-    
-    if (files.length == 0)
-      return;
+    this.handleUploadButtonClicked(event, this.resourceUploadInput!);
+    this.startUpload();
+  }
 
-    const file = files[0];
-    
-    this.storedUploadFormData = new FormData();
-    this.storedUploadFormData.append('uploaddata', file, file.name);
-    this.storedUploadFormData.append('gameid', this.editingGameId!.toString());
-    this.storedUploadFormData.append('projectid', this.gameListing!.entry.project_id!.toString());
-
-    this.resourceUploadInput!.nativeElement.value = null;
-
+  replaceUploadInputFileChanged(event: any){
+    this.handleUploadButtonClicked(event, this.replaceResourceUploadInput!);
+    this.storedUploadFormData.append('replace', this.selectedResource!._id);
     this.startUpload();
   }
 
@@ -268,6 +268,21 @@ export class GameEditResourcesComponent implements OnInit {
           break;
       }
     })
+  }
+
+  private handleUploadButtonClicked(uploadEvent: Event, element: ElementRef<any>){
+    const files: FileList = (uploadEvent.target! as any).files;
+    
+    if (files.length == 0)
+      return;
+
+    const file = files[0];
+    
+    this.storedUploadFormData = new FormData();
+    this.storedUploadFormData.append('uploaddata', file, file.name);  // Agreed with backend in multer upload.single()
+    this.storedUploadFormData.append('gameid', this.editingGameId!.toString());
+    this.storedUploadFormData.append('projectid', this.gameListing!.entry.project_id!.toString());
+    element.nativeElement.value = null;
   }
 
 }

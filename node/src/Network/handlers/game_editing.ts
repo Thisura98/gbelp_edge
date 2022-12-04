@@ -4,6 +4,8 @@ import { ResponseModel } from "../../model/models/common";
 import { getConfig } from '../../Util/config';
 import * as path from 'path';
 import * as gamesDAO from '../../model/dao/games';
+import { uploadGameResource } from '../../model/dao/games/uploadres.helper';
+import { deleteGameResource } from '../../model/dao/games/delres.helper';
 import * as levelsDAO from '../../model/dao/levels';
 import { getPhaserLibPath, getMultiPlayerLibPath, getSinglePlayerLibPath } from '../../model/gamelib';
 import * as l from '../../Util/logger';
@@ -44,7 +46,8 @@ export function handlerGameEditing(app: Express){
     // README: https://www.npmjs.com/package/multer
     app.post(aurl('upload-resource'), upload.single('uploaddata'), (req, res) => {
         // console.log('upload-resource-body', JSON.stringify(req.file), JSON.stringify(req.body));
-        gamesDAO.uploadGameResource(req.body, req.file!, (status, msg, result) => {
+        const userId = req.header('uid')! as string;
+        uploadGameResource(req.body, req.file!, userId, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         })
     });
@@ -53,7 +56,7 @@ export function handlerGameEditing(app: Express){
         const userId = req.header('uid')! as string;
         const gameId = req.query.gameId! as string;
         const resourceId = req.query.resId! as string;
-        gamesDAO.deleteGameResource(gameId, resourceId, userId, (status, msg, result) => {
+        deleteGameResource(gameId, resourceId, userId, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });

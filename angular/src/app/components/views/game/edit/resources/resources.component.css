@@ -102,6 +102,10 @@ div.asset-container .asset-selected{
     justify-content: center;
 }
 
-.btn-rename, .btn-delete{
-    margin-top: 10px;
+.actions{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-right: 10px;
 }
