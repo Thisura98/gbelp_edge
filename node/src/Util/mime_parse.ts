@@ -7,5 +7,7 @@ export function findResourceTypeFromMimeType(mimeType: string){
         return 'image';
     else if (mimeType.startsWith('audio'))
         return 'sound';
+    else if (mimeType.search('json') || mimeType.search('octet'))
+        return 'other';
     return null;
 }

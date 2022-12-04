@@ -248,6 +248,10 @@ export class GameEditResourcesComponent implements OnInit {
     this.gameListing!.project = project;
     this.selectedResource = undefined;
 
+    this.imageResources = [];
+    this.soundResources = [];
+    this.otherResources = [];
+
     project.resources.forEach(res => {
 
       switch(res.type){
@@ -256,7 +260,7 @@ export class GameEditResourcesComponent implements OnInit {
           break;
 
         case GameResourceType.SOUND:
-          this.imageResources.push(res);
+          this.soundResources.push(res);
           break;
 
         case GameResourceType.OTHER:

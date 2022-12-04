@@ -52,13 +52,13 @@
                 <!-- Others -->
     
                 <div class="section-other" *ngIf="otherResources.length > 0">
-                    <h2>Sound</h2>
+                    <h2>Others</h2>
                     <div class="asset-container">
                         <div class="asset dyn-anim-fadein-delayed" 
-                            *ngFor="let res of soundResources" 
+                            *ngFor="let res of otherResources" 
                             [ngClass]="{'asset-selected': selectedResource?._id == res._id}"
                             (click)="assetSelected(res)">
-                            <div class="asset-snd-container noselect"><img class="asset-snd noselect" src=""></div>
+                            <div class="asset-snd-container noselect"><img class="asset-snd noselect" src="assets/game/gamefile.png"></div>
                             <div class="asset-name">{{res.displayName}}</div>
                         </div>
                     </div>
