@@ -68,7 +68,7 @@ export function createGame(data: SaveGameRequestData, callback: DAOCallback){
         })
     }
     else{
-        cloneTemplateAndCreateNewRecord(data, m)
+        cloneTemplateAndCreateNewRecord(data.parent_entry_id!, m)
         .then(gameId => {
             let res = { gameId: gameId };
             callback(true, 'Successfully created Game!', res);

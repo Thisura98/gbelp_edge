@@ -105,7 +105,7 @@ export class DashboardgamesComponent implements OnInit {
 
   private notifyErrorLoading(err: any){
     this.isLoading = false
-    this.dialogService.showDismissable('Data Loading', err);
+    this.dialogService.showDismissable('Error Occurred', err == undefined ? 'Unknown error occurred' : String(err));
   }
 
   private notifydataLoaded(response: ServerResponseAllGameEntries){
@@ -133,16 +133,21 @@ export class DashboardgamesComponent implements OnInit {
   private handleEntryDuplication(entryId: number){
     const ref = this.dialogService.showInfiniteProgress('Please Wait', 'Duplicting in progress...');
     this.apiService.game.duplicateEntry(entryId).subscribe(
-      newEntryId => {
+      response => {
         ref.close();
-        this.editGameClicked(entryId)
+        if (response.success){
+
+          console.log('Duplicate entry returned response:', JSON.stringify(response));
+
+          this.editGameClicked(Number.parseInt(response.data.gameId));
+        }
+        else{
+          this.notifyErrorLoading( response.description ?? 'Duplicate entry response failed for unknown reason' );
+        }
       },
       error => {
         ref.close();
-        this.dialogService.showDismissable(
-          'Error Occurred',
-          error == undefined ? 'Unknown error while duplicating entry' : String(error)
-        )
+        this.notifyErrorLoading(error);
       }
     )
   }

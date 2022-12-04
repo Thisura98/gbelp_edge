@@ -85,8 +85,8 @@ export function handlerGameEntry(app: Express){
         const entryId = req.body.entryId;
         const userId = req.header('uid') as string;
         gamesDAO.duplicateGameOrTemplateEntry(entryId, userId)
-        .then(newEntryId => {
-            res.json(new ResponseModel(true, 200, 'Duplicated Successfully!', newEntryId));
+        .then(data => {
+            res.json(new ResponseModel(true, 200, 'Duplicated Successfully!', data));
         })
         .catch(err => {
             res.json(new ResponseModel(false, 200, err, null));

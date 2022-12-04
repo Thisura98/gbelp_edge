@@ -19,15 +19,14 @@ import { GameGuidanceTracker } from "../../../../../commons/src/models/game/trac
  * @param data Parameters sent from client's game create component
  * @param m Columns and Values prepared for GameEntry table insert
  */
-export async function cloneTemplateAndCreateNewRecord(data: SaveGameRequestData, m: { [key: string]: string }): Promise<string> {
-    const templateId = data.parent_entry_id;
+export async function cloneTemplateAndCreateNewRecord(entryId: string, m: { [key: string]: string }): Promise<string> {
 
-    if (templateId == null || templateId == kGameEntryParentEntryIdNone) {
+    if (entryId == null || entryId == kGameEntryParentEntryIdNone) {
         return Promise.reject('Game template cannot be empty');
     }
 
     return new Promise((resolve, reject) => {
-        gamesDAO.getGame(templateId, async (status, msg, listing) => {
+        gamesDAO.getGame(entryId, async (status, msg, listing) => {
             if (!status || listing == null){
                 reject(msg);
                 return;

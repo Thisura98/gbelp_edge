@@ -12,6 +12,10 @@ import { getGame, convertGameRequestDataToQueryMap } from './';
 import { SaveGameRequestData } from '../../../../../commons/src/models/game/game';
 import { cloneTemplateAndCreateNewRecord } from './clone.helper';
 
+export interface DuplicateEntryResult{
+    gameId: string
+}
+
 /**
  * Duplicates a game or template
  * @param entryId Game or template ID
@@ -21,9 +25,9 @@ import { cloneTemplateAndCreateNewRecord } from './clone.helper';
 export function duplicateGameOrTemplateEntry(
     entryId: string,
     userId: string,
-): Promise<string> {
+): Promise<DuplicateEntryResult> {
 
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<DuplicateEntryResult>((resolve, reject) => {
         utils.checkUserCanModifyGame(entryId, userId, async (canModify, projectId) => {
             if (!canModify){
                 reject('User does not have permission to modify game');
@@ -32,7 +36,7 @@ export function duplicateGameOrTemplateEntry(
 
             try{
                 const newEntryId = await duplicateEntry(entryId, userId);
-                resolve(newEntryId);
+                resolve({ gameId: newEntryId });
             }
             catch(error){
                 reject(String(error));
@@ -46,7 +50,7 @@ function duplicateEntry(entryId: string, userId: string): Promise<string>{
     return getGamePartiallyDuplicatedEntry(entryId, userId)
     .then(request => {
         const queryMap = convertGameRequestDataToQueryMap(request)
-        return cloneTemplateAndCreateNewRecord(request, queryMap);
+        return cloneTemplateAndCreateNewRecord(entryId, queryMap);
     });
 }
 
