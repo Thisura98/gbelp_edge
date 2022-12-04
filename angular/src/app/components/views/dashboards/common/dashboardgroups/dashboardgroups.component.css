@@ -52,7 +52,7 @@
 }
 
 .entry-row-data, .heading-row-data{
-    width: 40%;
+    width: 30%;
 }
 
 .entry-row-icon, .heading-row-icon{
@@ -74,7 +74,13 @@
 .table-heading-row .header-member-count,
 .entry-row .data-member-count
 {
-    width: 60%;
+    width: 30%;
+}
+
+.table-heading-row .header-description,
+.entry-row .data-description
+{
+    width: 40%;
 }
 
 /* .entry-row td{

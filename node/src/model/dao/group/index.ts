@@ -263,8 +263,10 @@ export function getGroupConsitingOfOneUser(
         SELECT group_id, COUNT(user_id) as user_count FROM \`user_group_membership\` GROUP BY group_id
     ) J1
     ON M.group_id = J1.group_id
+    INNER JOIN user_group G ON G.group_id = J1.group_id
     WHERE J1.user_count = 1 
-    AND M.${cGroupMems.userId} = ${userId}
+    AND M.${cGroupMems.userId} = ${userId} AND G.user_limit = '1'
+    
     ORDER BY M.group_id DESC`;
 
     /*

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ServerResponse, ServerResponsePlain } from "src/app/models/common-models";
-import { ServerResponseSessionCreate, ServerResponseSessionsByGroup } from "src/app/models/session";
+import { ServerResponseSessionCreate, ServerResponseSessionsByGroup, ServerResponseSessionsForUser } from "src/app/models/session";
 import { GameSession, GameSessionState } from "../../../../../commons/src/models/session";
 import { APIBase } from "./base.api";
 
@@ -84,5 +84,11 @@ export class SessionAPIs implements APIBase{
     });
   }
 
+  getSessionsForUser(): Observable<ServerResponseSessionsForUser>{
+    const url = this.aurl('session/user');
+    return this.http.get<ServerResponseSessionsForUser>(url, {
+      headers: this.getHeaders()
+    });
+  }
   
 }

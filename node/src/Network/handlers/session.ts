@@ -108,4 +108,15 @@ export function handlerSession(app: Express){
         })
     })
 
+    app.get(aurl('session/user'), (req, res) => {
+        const userId = req.header('uid') as string;
+        sessionDAO.getAllSessionsForUser(userId)
+        .then(data => {
+            res.send(new ResponseModel(true, 200, 'All sessions for this user', data));
+        })
+        .catch(err => {
+            res.send(new ResponseModel(false, 200, err));
+        })
+    });
+
 }

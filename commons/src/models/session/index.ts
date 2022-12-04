@@ -39,6 +39,7 @@ export class GameSessionWithExtensions extends GameSession{
     public game_entry_name: string,
     public game_type: number,
     public group_id: number,
+    public group_name: number,
     public start_time: string,
     public end_time: string | undefined
   ){

@@ -8,3 +8,9 @@
     .db-ov-section-upcoming{ order: 3; }
     .db-ov-section-notification{ order: 2; }
 }
+
+.db-ov-section-ongoing{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1
+}

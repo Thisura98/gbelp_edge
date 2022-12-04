@@ -1,4 +1,5 @@
-import { GameSessionWithExtensions } from '../../../../commons/src/models/session';
+import { GameSession, GameSessionWithExtensions } from '../../../../commons/src/models/session';
+import * as groupsDAO from './group/index';
 import * as sql from '../../Util/connections/sql/sql_connection';
 import * as l from '../../Util/logger';
 
@@ -208,13 +209,15 @@ export function getSessionsInGroup(
 ): Promise<GameSessionWithExtensions[]>{
     const t = sql.tables.gameSessions;
     const t2 = sql.tables.gameEntry;
+    const t3 = sql.tables.userGroup;
     const c = sql.columns.gameSessions;
     const c2 = sql.columns.gameEntry;
+    const c3 = sql.columns.userGroup;
     const se = sql.smartEscape;
-    let query = `SELECT S.*, E.type as game_type, E.name as game_entry_name
+    let query = `SELECT S.*, E.type as game_type, E.name as game_entry_name, G.${c3.name} as group_name
     FROM \`${t}\` S
-    INNER JOIN \`${t2}\` E
-    ON S.${c.gameEntryId} = E.${c2.id}
+    INNER JOIN \`${t2}\` E ON S.${c.gameEntryId} = E.${c2.id}
+    INNER JOIN \`${t3}\` G ON G.${c3.groupId} = S.${c.groupId}
     WHERE S.${c.groupId} = ${se(groupId)}
     `;
 
@@ -279,4 +282,42 @@ WHERE ${c.sessionId} = ${values[0]}`;
         })
     });
 
+}
+
+export function getAllSessionsForUser(
+    userId: string
+): Promise<GameSessionWithExtensions>{
+
+    const tag = 'getAllSessionsForUser';
+    const sessions = sql.tables.gameSessions;
+    const games = sql.tables.gameEntry;
+    const group = sql.tables.userGroup;
+    const groupMembership = sql.tables.userGroupMembership;
+
+    const s = sql.columns.gameSessions;
+    const ge = sql.columns.gameEntry;
+    const gr = sql.columns.userGroup;
+    const gm = sql.columns.userGroupMembership;
+
+    const values = [userId];
+    const query = 
+`SELECT S.*, GE.${ge.type} as game_type, GE.${ge.name} as game_entry_name, GR.${gr.name} as group_name
+FROM ${sessions} S 
+INNER JOIN ${groupMembership} GM ON GM.${gm.groupId} = S.${s.groupId}
+INNER JOIN ${games} GE ON GE.${ge.id} = S.${s.gameEntryId}
+INNER JOIN ${group} GR ON GR.${gr.groupId} = S.${s.groupId}
+WHERE GM.${gm.userId} = ?
+`;
+
+    return new Promise<GameSessionWithExtensions>((resolve, reject) => {
+        sql.getPool()?.query(query, values, (err, results) => {
+            if (err){
+                l.logc(String(err), tag);
+                reject('Could not get all sessions for user');
+            }
+            else{
+                resolve(results);
+            }
+        });
+    });
 }

@@ -1,5 +1,5 @@
 import { GameType } from "../../../../../../../commons/src/models/game/game";
-import { GameSessionState, GameSessionWithExtensions } from "../../../../../../../commons/src/models/session";
+import { GameSessionState, GameSessionType, GameSessionWithExtensions } from "../../../../../../../commons/src/models/session";
 import { Actions, GroupsSessionTableRow, GroupsSessionTableSection } from "./groups.sessiontable";
 
 /**
@@ -23,6 +23,15 @@ export class GroupsSessionDataAdapter{
       else
         gameType = 'Multi Player';
 
+      let sessionType = '';
+      if (s.type_id == GameSessionType.test){
+        sessionType = 'Test Session';
+      }
+      else{
+        // sessionType = 'Scheduled in, "' + s.group_name + '"';
+        sessionType = 'Real Session';
+      }
+
       if (!hideActions){
         actions = actionsForStates.get(s.state)!;
       }
@@ -33,7 +42,8 @@ export class GroupsSessionDataAdapter{
         end_time: s.end_time ?? 'Unspecified',
         state: s.state,
         game_name: s.game_entry_name,
-        type: gameType,
+        // type: gameType,
+        type: sessionType,
         actions: actions
       }
       return obj;

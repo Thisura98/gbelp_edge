@@ -4,3 +4,5 @@ import { GameSession, GameSessionWithExtensions } from "../../../../../commons/s
 export interface ServerResponseSessionsByGroup extends ServerResponse<GameSessionWithExtensions[]>{}
 
 export interface ServerResponseSessionCreate extends ServerResponse<GameSession>{}
+
+export interface ServerResponseSessionsForUser extends ServerResponse<GameSessionWithExtensions[]>{};

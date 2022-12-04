@@ -26,6 +26,7 @@
     <div class="db-groups-table">
         <div class="table-heading-row">
             <div class="heading-row-data">Group</div>
+            <div class="heading-row-data header-description">Description</div>
             <div class="heading-row-data header-member-count">Members</div>
             <div class="heading-row-data header-member-count">Sessions</div>
             <div class="heading-row-icon">Join Link</div>
@@ -45,6 +46,7 @@
         <ng-container *ngFor="let entry of displayedData">
             <div class="entry-row dyn-anim-fadein clickable" (click)="viewGroup(entry)">
                 <div class="entry-row-data">{{entry.name}}</div>
+                <div class="entry-row-data data-description">{{entry.description}}</div>
                 <div class="entry-row-data data-member-count">
                     {{entry.member_count}} User{{entry.member_count == 1 ? '' : 's'}}
                 </div>
