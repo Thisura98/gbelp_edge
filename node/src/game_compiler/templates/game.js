@@ -27,7 +27,7 @@ const config = {
     // backgroundColor: "#FFFFFF",
     backgroundColor: "#000000",
     fps: {
-        target: 30,
+        target: 60,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,
