@@ -27,10 +27,11 @@ export class GameCreateComponent implements OnInit {
 
   readonly kParentEntryIdNone = kGameEntryParentEntryIdNone;
 
-  gameName: string = ""
-  gameType: number = 1 // single player
+  gameName: string = "";
+  gameType: number = 1; // single player
+  published: boolean = false;
   templateId: string | null = this.kParentEntryIdNone;
-  userLimit: number = 0
+  userLimit: number = 0;
   levelSwitching: number = 1; // time based
   progressBoundType: number = 1;
   repOptObjectiveTracking: boolean = false
@@ -108,7 +109,7 @@ export class GameCreateComponent implements OnInit {
       author_id: userId!,
       type: this.gameType,
       is_template: this.viewMode == ViewMode.TEMPLATE,
-      is_published: false,
+      is_published: this.published,
       parent_entry_id: this.templateId,
       multi_user_limit: this.userLimit,
       level_switch: this.levelSwitching,
@@ -265,7 +266,7 @@ export class GameCreateComponent implements OnInit {
 
   private loadData(){
     // Load Game Template
-    this.apiService.game.getAllGames(true, this.userService.getUserAndToken().user.userId).subscribe((entries) => {
+    this.apiService.game.getAllGames(true, true, this.userService.getUserAndToken().user.userId).subscribe((entries) => {
       this.gameTemplates = entries.data;
     });
 
@@ -330,6 +331,7 @@ export class GameCreateComponent implements OnInit {
 
     this.gameName = data.name;
     this.gameType = data.type;
+    this.published = data.is_published;
     this.templateId = data.parent_entry_id;
     this.userLimit = data.multi_user_limit;
     this.levelSwitching = data.level_switch;

@@ -199,7 +199,7 @@ export class GroupSessionCreateComponent implements OnInit{
         this.groupUsers = response.data;
 
         // Get Games List
-        this.apiService.game.getAllGames(false, userId!).subscribe(
+        this.apiService.game.getAllGames(false, true, userId!).subscribe(
           res => this.handleGamesResponse(res), 
           error => this.handleError(error)
         );

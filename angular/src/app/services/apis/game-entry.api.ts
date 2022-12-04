@@ -41,13 +41,27 @@ export class GameEntryAPIs implements APIBase {
     });
   }
 
-  getAllGames(isTemplates: boolean | null = false, authorId: string | null = null): Observable<ServerResponseAllGameEntries> {
+  getAllGames(
+    isTemplates: boolean | null = false, 
+    isPublished: boolean | null,
+    authorId: string | null = null
+  ): Observable<ServerResponseAllGameEntries> {
     const url = this.aurl('all-games');
     let params = new HttpParams();
-    if (isTemplates == null)
+
+    if (isTemplates == null){
       params = params.set('is_template', '');
-    else
+    }
+    else{
       params = params.set('is_template', isTemplates ? '1' : '0');
+    }
+
+    if (isPublished == null){
+      params = params.set('is_published', '');
+    }
+    else{
+      params = params.set('is_published', isPublished ? '1' : '0');
+    }
 
     if (authorId != null)
       params = params.set('author', authorId);

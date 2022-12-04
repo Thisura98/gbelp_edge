@@ -41,13 +41,16 @@
                         </select>
                     </div>
                 </ng-container>
+                <div class="dyn-form-row">
+                    <dyn-checkbox text="Make publicly available" [(checked)]="published"></dyn-checkbox>
+                </div>
                 <div class="form-row subtitle" *ngIf="!isEditMode">
                     More options will appear when you click, "Create"
                 </div>
             </div>
 
             <!-- Section Options -->
-            <div class="dyn-form-col options-column">
+            <div class="dyn-form-col options-column" *ngIf="false">
                 <h2 class="heading">Game Options</h2>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Concurrent user limit</div>

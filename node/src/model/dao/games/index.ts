@@ -143,6 +143,7 @@ export function saveGame(data: SaveGameRequestData, callback: DAOCallback){
     const columns_arr = [
         c.authorId,
         c.name, c.type, c.levelSwitch, 
+        c.isPublished,
         c.multiUserLimit, c.progressBoundType, 
         c.reportOptObjectives, 
         c.reportOptGuidanceTrg, 
@@ -153,6 +154,7 @@ export function saveGame(data: SaveGameRequestData, callback: DAOCallback){
     const values = [
         data.author_id,
         data.name, data.type, data.level_switch,
+        data.is_published,
         data.multi_user_limit, data.progress_bound_type,
         data.rep_opt_objectives,
         data.rep_opt_guidance_trg,
@@ -248,16 +250,21 @@ export function getGame(id: string | number, callback: DAOTypedCallback<GameList
 /**
  * Returns game entries
  * @param {boolean | null} isTemplate: 1 for templates, 0 for games. null for all.
+ * @param {boolean | null} isPublished: 1 for published, 0 for unpublished, null for all
  * @param {string | null} author user id of the entry owner
  * @param {function(boolean, string, Object} callback success, desc, object containing games
  */
-export function getAllGames(isTemplate: boolean | null, author: string | null, callback: DAOCallback){
+export function getAllGames(isTemplate: boolean | null, isPublished: boolean | null, author: string | null, callback: DAOCallback){
     const c = sql.columns.gameEntry;;
     let query = `SELECT * FROM ${sql.tables.gameEntry}`;
     let filters: string[] = [];
 
     if (isTemplate != null){
         filters.push(`${c.isTemplate} = ${isTemplate ? '1' : '0'}`);
+    }
+
+    if (isPublished != null){
+        filters.push(`${c.isPublished} = ${isPublished ? '1' : '0'}`);
     }
 
     if (author != null && author != ''){

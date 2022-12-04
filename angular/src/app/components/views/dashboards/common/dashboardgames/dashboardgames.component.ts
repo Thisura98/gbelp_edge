@@ -87,7 +87,7 @@ export class DashboardgamesComponent implements OnInit {
     const isTemplate = this.mode == 'template';
 
     this.isLoading = true;
-    this.apiService.game.getAllGames(isTemplate).subscribe((data) => {
+    this.apiService.game.getAllGames(isTemplate, null).subscribe((data) => {
       this.notifydataLoaded(data);
     });
   }

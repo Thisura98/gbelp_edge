@@ -5,22 +5,21 @@ import * as metricsDAO from '../../model/dao/metrics';
 import { ResponseModel } from '../../model/models/common';
 
 /**
- * Returns whether the current request is for a Template.
- * 
- * This is because Games and Templates are both handled by the same 
- * API & UIs.
+ * Returns whether the requested param is true or false
  */
-function checkIsTemplate(params: any): boolean | null{
+function checkBoolParam(params: any, paramName: string): boolean | null{
     if (!params)
         return null;
 
-    if (params.is_template == undefined || params.is_template == '')
+    const param = params[paramName];
+
+    if (param == undefined || param == '' || param == null)
         return null;
 
-    if (params.is_template == 0 || params.is_template == '0' || params.is_template == false)
+    if (param == 0 || param == '0' || param == false)
         return false;
 
-    if (params.is_template == 1 || params.is_template == '1' || params.is_template == true)
+    if (param == 1 || param == '1' || param == true)
         return true;
 
     return false;
@@ -60,9 +59,10 @@ export function handlerGameEntry(app: Express){
     });
 
     app.get(aurl('all-games'), (req, res) => {
-        let isTemplate = checkIsTemplate(req.query);
-        let author = req.query.author as string;
-        gamesDAO.getAllGames(isTemplate, author, (status, msg, result) => {
+        const isTemplate = checkBoolParam(req.query, 'is_template');
+        const isPublished = checkBoolParam(req.query, 'is_published');
+        const author = req.query.author as string;
+        gamesDAO.getAllGames(isTemplate, isPublished, author, (status, msg, result) => {
             res.json(new ResponseModel(status, 200, msg, result));
         });
     });
