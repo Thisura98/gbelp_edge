@@ -114,11 +114,11 @@ export class GameCreateComponent implements OnInit {
       multi_user_limit: this.userLimit,
       level_switch: this.levelSwitching,
       progress_bound_type: this.progressBoundType,
-      rep_opt_objectives: this.repOptObjectiveTracking,
-      rep_opt_guidance_trg: this.repOptGuidanceTrgTracking,
-      rep_opt_student_usg: true,
-      rep_opt_level_score: this.repOptScore,
-      rep_opt_level_time: this.repOptTiming,
+      rep_opt_objectives: Number(this.repOptObjectiveTracking),
+      rep_opt_guidance_trg: Number(this.repOptGuidanceTrgTracking),
+      rep_opt_student_usg: 1,
+      rep_opt_level_score: Number(this.repOptScore),
+      rep_opt_level_time: Number(this.repOptTiming),
       objectives: this.gameObjectives,
       trackers: this.gameGuidanceTrackers
     }

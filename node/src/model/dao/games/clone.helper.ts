@@ -19,7 +19,7 @@ import { GameGuidanceTracker } from "../../../../../commons/src/models/game/trac
  * @param data Parameters sent from client's game create component
  * @param m Columns and Values prepared for GameEntry table insert
  */
-export async function cloneTemplateAndCreateGame(data: any, m: { [key: string]: string }): Promise<string> {
+export async function cloneTemplateAndCreateNewRecord(data: any, m: { [key: string]: string }): Promise<string> {
     const templateId = data.parent_entry_id;
 
     if (templateId == null || templateId == kGameEntryParentEntryIdNone) {

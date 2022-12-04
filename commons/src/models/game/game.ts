@@ -12,7 +12,7 @@ export enum GameType{
 
 export const kGameEntryParentEntryIdNone = '-1';
 
-export class GameEntry{
+export class GameEntry {
     constructor(
         public id: number, 
         public author_id: string, 
@@ -63,18 +63,23 @@ export interface SaveGameReportOptions{
 }
 
 export interface SaveGameRequestData extends SaveGameReportOptions{
-    id: string
+    id: string,
+    name: string,
     author_id: string
-    name: string
-    type: number
-    is_template: boolean
-    is_published: boolean
-    parent_entry_id: string | null
-    level_switch: number
-    multi_user_limit: number
-    progress_bound_type: number
-    objectives: GameObjective[]
-    trackers: GameGuidanceTracker[]
+    type: number,
+    is_template: boolean,
+    is_published: boolean,
+    parent_entry_id: string | null,
+    multi_user_limit: number,
+    level_switch: number,
+    progress_bound_type: number,
+    rep_opt_objectives: number, 
+    rep_opt_guidance_trg: number, 
+    rep_opt_student_usg: number, 
+    rep_opt_level_score: number, 
+    rep_opt_level_time: number
+    objectives: GameObjective[],
+    trackers: GameGuidanceTracker[],
 }
 
 export interface GameListing{

@@ -12,14 +12,14 @@ import DAOCallback, { DAOTypedCallback } from '../commons';
 import * as metricsDAO from '../metrics'
 import { GameProject } from '../../../../../commons/src/models/game/project';
 import { createTemplate } from './template.helper';
-import { cloneTemplateAndCreateGame } from './games.helper';
+import { cloneTemplateAndCreateNewRecord } from './clone.helper';
 
 /**
  * Create a game entry
  * @param {Object} data 
  * @param {function(boolean, string, Object)} callback success, desc, result
  */
-export function createGame(data: any, callback: DAOCallback){
+export function createGame(data: SaveGameRequestData, callback: DAOCallback){
 
     // BIG TODO ///////////
     // todo: For a game, clone & copy the data/resources of the template.
@@ -64,7 +64,7 @@ export function createGame(data: any, callback: DAOCallback){
         })
     }
     else{
-        cloneTemplateAndCreateGame(data, m)
+        cloneTemplateAndCreateNewRecord(data, m)
         .then(gameId => {
             let res = { gameId: gameId };
             callback(true, 'Successfully created Game!', res);
@@ -303,6 +303,14 @@ export function deleteGame(gameId: string, userId: string, callback: DAOCallback
         });
     });
 }
+
+// MARK: Re-exports from helper classes
+
+export { uploadGameResource } from './uploadres.helper';
+
+export { deleteGameResource } from './delres.helper';
+
+// MARK: End re-exports
 
 /**
  * Internal function to delete data related to a game.

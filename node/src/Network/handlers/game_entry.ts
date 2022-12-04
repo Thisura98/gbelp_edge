@@ -80,4 +80,8 @@ export function handlerGameEntry(app: Express){
             res.json(new ResponseModel(status, 200, msg, objects));
         })
     });
+
+    app.post(aurl('duplicate-game'), (req, res) => {
+        
+    })
 }
