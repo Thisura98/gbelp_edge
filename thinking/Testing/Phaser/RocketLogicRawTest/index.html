@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <title>RocketLogic Raw Test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        // add a fallback script to catch an undefined global that Phaser requires.
+        // https://github.com/brsullivan/phaser3-angular8
+        if (global === undefined) {
+            var global = window;
+        }
+    </script>
+</head>
+
+<body>
+    <h2>Rocket Logic Raw Test</h2>
+    <p>
+        Canvas:
+    </p>
+    <div class="canvas-container" id="canvas-container">
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <script src="./mock.edgelib.js"></script>
+    <script src="./game.js"></script>
+</body>
+
+</html>
