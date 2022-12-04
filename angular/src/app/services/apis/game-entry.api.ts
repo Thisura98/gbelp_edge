@@ -91,4 +91,14 @@ export class GameEntryAPIs implements APIBase {
       }
     });
   }
+
+  duplicateEntry(entryId: string | number): Observable<ServerResponseGameCreate> {
+    const url = this.aurl('duplicate-game');
+    const data = {
+      entryId: entryId
+    };
+    return this.http.post<ServerResponseGameCreate>(url, data, {
+      headers: this.getHeaders()
+    });
+  }
 }

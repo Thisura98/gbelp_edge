@@ -83,6 +83,17 @@ export class DashboardgamesComponent implements OnInit {
     this.filterDisplayData();
   }
 
+  duplicateEntry(event: Event, entryId: number){
+    event.preventDefault()
+    event.cancelBubble = true;
+
+    this.dialogService.showYesNo(
+      'Confirm Action',
+      'Are you sure you want to duplicate this ' + this.mode.toString() + "?",
+      () => this.handleEntryDuplication(entryId)
+    );
+  }
+
   private loadData(){
     const isTemplate = this.mode == 'template';
 
@@ -117,6 +128,23 @@ export class DashboardgamesComponent implements OnInit {
 
     this.isSearching = true;
     this.displayedData = filtered;
+  }
+
+  private handleEntryDuplication(entryId: number){
+    const ref = this.dialogService.showInfiniteProgress('Please Wait', 'Duplicting in progress...');
+    this.apiService.game.duplicateEntry(entryId).subscribe(
+      newEntryId => {
+        ref.close();
+        this.editGameClicked(entryId)
+      },
+      error => {
+        ref.close();
+        this.dialogService.showDismissable(
+          'Error Occurred',
+          error == undefined ? 'Unknown error while duplicating entry' : String(error)
+        )
+      }
+    )
   }
 
 }

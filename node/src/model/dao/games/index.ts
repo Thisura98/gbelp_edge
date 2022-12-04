@@ -15,17 +15,9 @@ import { createTemplate } from './template.helper';
 import { cloneTemplateAndCreateNewRecord } from './clone.helper';
 
 /**
- * Create a game entry
- * @param {Object} data 
- * @param {function(boolean, string, Object)} callback success, desc, result
+ * @returns Convert game entry request into columns : values of a SQL query
  */
-export function createGame(data: SaveGameRequestData, callback: DAOCallback){
-
-    // BIG TODO ///////////
-    // todo: For a game, clone & copy the data/resources of the template.
-    //
-    ///////////////
-
+export function convertGameRequestDataToQueryMap(data: SaveGameRequestData): { [key: string]: any } {
     const c = sql.columns.gameEntry;
 
     let m: { [key: string]: any } = {};
@@ -47,6 +39,18 @@ export function createGame(data: SaveGameRequestData, callback: DAOCallback){
 
     if (m[c.parentEntryId] == kGameEntryParentEntryIdNone)
         m[c.parentEntryId] = null;
+
+    return m;
+}
+
+/**
+ * Create a game entry
+ * @param {Object} data 
+ * @param {function(boolean, string, Object)} callback success, desc, result
+ */
+export function createGame(data: SaveGameRequestData, callback: DAOCallback){
+
+    const m = convertGameRequestDataToQueryMap(data);
 
     // create game entry in sql,
     // then create games document in mongo
@@ -73,62 +77,6 @@ export function createGame(data: SaveGameRequestData, callback: DAOCallback){
             callback(false, err, null);
         })
     }
-
-    // let sampleLevels: Object[] = []
-
-    // if (data.type == GameType.Singleplayer){
-    //     sampleLevels = LevelInitData.getSinglePlayerLevelInitData(data.level_switch, null);
-    // }
-    // else if (data.type == GameType.Multiplayer){
-    //     sampleLevels = LevelInitData.getMultiPlayerLevelInitData(data.level_switch, null);
-    // }
-    // else{
-    //     callback(false, `Unknown game type: "${data.type}"`, null);
-    // }
-
-    // const proj = { resources: [], levels: sampleLevels };
-    // mongo.Collections.getGameProjects().insertOne(proj, (mongo_error, result) => {
-    //     if (mongo_error != null){
-    //         callback(false, 'Error creating Game Project', null);
-    //         return;
-    //     }
-    
-    //     /**
-    //      * .toString() is IMPORTANT. document._id are ObjectIDs
-    //      * and not strings. Trying to pass it to MySQL with throw
-    //      * head scratching errors where, the 'INSERT INTO'
-    //      * contains values such as '_bsonType'.
-    //      * 
-    //      * Had to learn this the hard way. DO NOT FORGET!
-    //      */
-    //     const projectId = result!.insertedId.toHexString();
-    //     m[c.projectId] = projectId;
-
-    //     const dictKeys = Object.keys(m);
-    //     const dictValues = Object.values(m);
-    //     const noEntries = dictValues.length;
-    //     const template = `${Array(noEntries).fill('?')}`
-    //     const columns = dictKeys.join(', ');
-
-    //     const query = `INSERT INTO ${sql.tables.gameEntry} (${columns}) VALUES (${template})`;
-
-    //     sql.getPool()!.query({
-    //         sql: query,
-    //         values: dictValues
-    //     }, (err, results, fields) => {
-
-    //         if (err == null){
-    //             const response = {
-    //                 gameId: results.insertId
-    //             };
-    //             callback(true, "Successfully inserted", response);
-    //         }
-    //         else{
-    //             console.log("Create Game Error", err);
-    //             callback(false, "Server Error occured", null);
-    //         }
-    //     });
-    // });
 }
 
 /**
@@ -304,11 +252,13 @@ export function deleteGame(gameId: string, userId: string, callback: DAOCallback
     });
 }
 
-// MARK: Re-exports from helper classes
+// MARK: Reexports (re-exports) from helper classes
 
 export { uploadGameResource } from './uploadres.helper';
 
 export { deleteGameResource } from './delres.helper';
+
+export { duplicateGameOrTemplateEntry } from './duplicate.helper';
 
 // MARK: End re-exports
 

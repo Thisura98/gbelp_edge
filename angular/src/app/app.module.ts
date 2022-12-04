@@ -16,6 +16,10 @@ import { PlayService } from './services/play.service';
 import { UtilsService } from './services/utils.service';
 
 import { SimpleDialogComponent } from './components/ui/dialogs/simple.component';
+import { Simple2DialogComponent } from './components/ui/dialogs/simple2.component';
+import { InfiniteLoadingDialogComponent } from './components/ui/dialogs/infinite.loading.component';
+import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.component';
+
 import { LoginComponent } from './components/views/login/login.component';
 import { DashboardComponent } from './components/views/dashboards/dashboard.component';
 import { SessioninfoComponent } from './components/views/dashboards/common/sessioninfo/sessioninfo.component';
@@ -24,7 +28,6 @@ import { StudentDashboardComponent } from './components/views/dashboards/student
 import { HomeComponent } from './components/views/home/home.component';
 import { httpInterceptorProviders } from './interceptors';
 import { UserstatusComponent } from './components/views/dashboards/common/userstatus/userstatus.component';
-import { Simple2DialogComponent } from './components/ui/dialogs/simple2.component';
 import { TeacherDashboardComponent } from './components/views/dashboards/teacher-dashboard/teacher-dashboard.component';
 import { MenuselectorComponent } from './components/views/dashboards/common/menuselector/menuselector.component';
 import { DashboardoverviewComponent } from './components/views/dashboards/common/dashboardoverview/dashboardoverview.component';
@@ -36,7 +39,6 @@ import { DynCheckboxComponent } from './components/ui/dyn-checkbox/dyn-checkbox.
 import { DynBasicTableComponent } from './components/ui/dyn-basic-table/dyn-basic-table.component';
 import { GameEditResourcesComponent } from './components/views/game/edit/resources/resources.component';
 import { NotFoundComponent } from './components/views/not-found/not-found.component';
-import { FileUploadDialogComponent } from './components/ui/dialogs/fileupload.component';
 import { GameDeleteComponent } from './components/views/game/delete/delete.component';
 import { GameEditLevelsComponent } from './components/views/game/edit/levels/levels.component';
 import { GameEditLevelsAddComponentComponent } from './components/views/game/edit/levels/add/add.component';
@@ -97,6 +99,7 @@ import { ResourceFilterPipe } from './pipes/res-filter.pipe';
     SimpleDialogComponent,
     Simple2DialogComponent,
     FileUploadDialogComponent,
+    InfiniteLoadingDialogComponent,
     LoginComponent,
     StudentDashboardComponent,
     TeacherDashboardComponent,

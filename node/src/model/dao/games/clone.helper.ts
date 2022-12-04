@@ -1,4 +1,4 @@
-import { kGameEntryParentEntryIdNone } from "../../../../../commons/src/models/game/game";
+import { kGameEntryParentEntryIdNone, SaveGameRequestData } from "../../../../../commons/src/models/game/game";
 import { GameProject } from "../../../../../commons/src/models/game/project";
 import { cloneTemplateResources, cleanupGameResources } from './rescopy.helper';
 import { replaceResourcesInTemplate } from './template.resreplace.helper';
@@ -19,7 +19,7 @@ import { GameGuidanceTracker } from "../../../../../commons/src/models/game/trac
  * @param data Parameters sent from client's game create component
  * @param m Columns and Values prepared for GameEntry table insert
  */
-export async function cloneTemplateAndCreateNewRecord(data: any, m: { [key: string]: string }): Promise<string> {
+export async function cloneTemplateAndCreateNewRecord(data: SaveGameRequestData, m: { [key: string]: string }): Promise<string> {
     const templateId = data.parent_entry_id;
 
     if (templateId == null || templateId == kGameEntryParentEntryIdNone) {

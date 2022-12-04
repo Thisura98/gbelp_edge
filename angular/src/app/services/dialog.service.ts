@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { InfiniteLoadingDialogComponent } from '../components/ui/dialogs/infinite.loading.component';
 import { SimpleDialogComponent } from '../components/ui/dialogs/simple.component';
 import { Simple2DialogComponent } from '../components/ui/dialogs/simple2.component';
 
@@ -34,6 +35,16 @@ export class DialogService{
                 onNo: onNo
             }
         });
+    }
+
+    showInfiniteProgress(title: string, message: string): MatDialogRef<InfiniteLoadingDialogComponent, any>{
+        const result = this.dialog.open(InfiniteLoadingDialogComponent, {
+            data: {
+                title: title,
+                message: message
+            }
+        });
+        return result;
     }
 
     showSnackbar(title: string, duration: number | undefined = 1500){

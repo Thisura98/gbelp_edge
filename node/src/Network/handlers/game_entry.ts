@@ -82,6 +82,14 @@ export function handlerGameEntry(app: Express){
     });
 
     app.post(aurl('duplicate-game'), (req, res) => {
-        
+        const entryId = req.body.entryId;
+        const userId = req.header('uid') as string;
+        gamesDAO.duplicateGameOrTemplateEntry(entryId, userId)
+        .then(newEntryId => {
+            res.json(new ResponseModel(true, 200, 'Duplicated Successfully!', newEntryId));
+        })
+        .catch(err => {
+            res.json(new ResponseModel(false, 200, err, null));
+        })
     })
 }

@@ -54,7 +54,7 @@
                 <div class="entry-row-data">{{entry.name}}</div>
                 <div class="entry-row-data">{{['', 'Single Player', 'Multi Player'][entry.type]}}</div>
                 <div class="entry-row-data">{{'N/A'}}</div>
-                <div class="entry-row-icon"><img src="assets/dashboard/ico_clone.png"></div>
+                <div class="entry-row-icon" (click)="duplicateEntry($event, entry.id)"><img src="assets/dashboard/ico_clone.png"></div>
                 <div class="entry-row-icon" (click)="editGameClicked(entry.id)">
                     <img src="assets/dashboard/ico_edit.png">
                 </div>
