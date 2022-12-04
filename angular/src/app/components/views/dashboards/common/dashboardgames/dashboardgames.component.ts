@@ -136,9 +136,7 @@ export class DashboardgamesComponent implements OnInit {
       response => {
         ref.close();
         if (response.success){
-
-          console.log('Duplicate entry returned response:', JSON.stringify(response));
-
+          this.dialogService.showSnackbar('Duplication Successful!');
           this.editGameClicked(Number.parseInt(response.data.gameId));
         }
         else{
