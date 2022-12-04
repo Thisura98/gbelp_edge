@@ -456,7 +456,7 @@ class ShuffleHelper{
     }
 
     /**
-     * Swaps a cell with a randmon adjacent cell
+     * Swaps the provided cell with a random adjacent cell
      * @param grid {Cell[][]} The grid to shuffle
      * @param cell {Cell} The source cell to consider for swapping
      * @param horizontallySwap {boolean} If true horizontally, if false vertical
@@ -481,37 +481,75 @@ class ShuffleHelper{
 
         console.log(`Swapping (h? = ${horizontallySwap}) (${sourceX}, ${sourceY}) with (${targetX}, ${targetY})`);
 
-        ShuffleHelper.swapWith(grid, cell, targetY, targetY);
+        ShuffleHelper.swapWith(null, grid, cell, targetY, targetY, false);
     }
 
     /**
+     * @param scene {Phaser.Scene | null} The scene object (can be null if animate is false)
      * @param grid {Cell[][]} The initial grid
      * @param cell {Cell} The source cell
      * @param targetX {number} The x index of the cell to swap with
      * @param targetY {number} The y index of the cell to swap with
+     * @param animate {boolean} Animate the swap?
      */
-    static swapWith(grid, cell, targetX, targetY){
+    static async swapWith(scene, grid, cell, targetX, targetY, animate = false){
 
-        const targetItem = grid[targetY][targetX];
+        const swapAnimDuration = 500;
 
-        const sourceX = cell.x;
-        const sourceY = cell.y;
-        targetItem.x = sourceX;
-        targetItem.y = sourceY;
-        cell.x = targetX;
-        cell.y = targetY;
+        return new Promise((resolve, reject) => {
 
-        grid[targetY][targetX] = cell;
-        grid[sourceY][sourceX] = targetItem;
+            const targetItem = grid[targetY][targetX];
 
-        if (targetItem.sprite != undefined && cell.sprite != undefined){
-            const targetPosX = targetItem.sprite.x;
-            const targetPosY = targetItem.sprite.y;
-            targetItem.sprite.x = cell.sprite.x;
-            targetItem.sprite.y = cell.sprite.y;
-            cell.sprite.x = targetPosX;
-            cell.sprite.y = targetPosY;
-        }
+            const sourceX = cell.x;
+            const sourceY = cell.y;
+            targetItem.x = sourceX;
+            targetItem.y = sourceY;
+            cell.x = targetX;
+            cell.y = targetY;
+
+            grid[targetY][targetX] = cell;
+            grid[sourceY][sourceX] = targetItem;
+
+            if (targetItem.sprite != undefined && cell.sprite != undefined){
+
+                const targetPosX = targetItem.sprite.x;
+                const targetPosY = targetItem.sprite.y;
+
+                if (scene != null && animate){
+                    scene.tweens.add({
+                        targets: targetItem.sprite,
+                        x: cell.sprite.x,
+                        y: cell.sprite.y,
+                        ease: 'Power1',
+                        duration: swapAnimDuration,
+                        yoyo: false,
+                        repeat: 0,
+                        onComplete: () => { resolve(); }
+                    });
+
+                    scene.tweens.add({
+                        targets: cell.sprite,
+                        x: targetPosX,
+                        y: targetPosY,
+                        ease: 'Power1',
+                        duration: swapAnimDuration,
+                        yoyo: false,
+                        repeat: 0,
+                    });
+                }
+                else{
+                    targetItem.sprite.x = cell.sprite.x;
+                    targetItem.sprite.y = cell.sprite.y;
+                    cell.sprite.x = targetPosX;
+                    cell.sprite.y = targetPosY;
+                    resolve();
+                }
+            }
+            else{
+                resolve();
+            }
+
+        });
     }
 
 }
@@ -929,6 +967,8 @@ class CommonLevel extends Phaser.Scene {
     }
 
     /**
+     * The Main Actions for swapping and cell animations
+     * 
      * @param cell {Cell}
      */
     attachSpriteActions(cell) {
@@ -971,7 +1011,7 @@ class CommonLevel extends Phaser.Scene {
     /**
      * Check for any matches between the two selected cells;
      */
-    evaluateMatches() {
+    async evaluateMatches() {
         console.log(this.firstSelectedCell);
         console.log(this.secondSelectedCell);
 
@@ -983,7 +1023,7 @@ class CommonLevel extends Phaser.Scene {
         const targetX = cell2.x;
         const targetY = cell2.y;
 
-        ShuffleHelper.swapWith(this.grid, cell1, targetX, targetY);
+        await ShuffleHelper.swapWith(this, this.grid, cell1, targetX, targetY, true);
 
         /**
          * @type {Array[]}
@@ -1024,7 +1064,9 @@ class CommonLevel extends Phaser.Scene {
             // this.secondSelectedCell = undefined;
         }
         else {
-            ShuffleHelper.swapWith(this.grid, cell1, originalX, originalY);
+            // Unswap the previously swapped cells
+
+            await ShuffleHelper.swapWith(this, this.grid, cell1, originalX, originalY, true);
             cell1.sprite.clearTint();
             cell2.sprite.clearTint();
 
@@ -1736,7 +1778,7 @@ const config = {
     // backgroundColor: "#FFFFFF",
     backgroundColor: "#000000",
     fps: {
-        target: 30,
+        target: 60,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,
