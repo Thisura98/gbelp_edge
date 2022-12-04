@@ -77,19 +77,21 @@ import { ToastrModule } from 'ngx-toastr';
 import { GroupUsersComponent } from './components/views/groups/users/users.component';
 import { GroupsUserTable } from './components/ui/groups/user-data-table/groups.usertable';
 import { GroupsUserTableRows } from './components/ui/groups/user-data-table/row/groups.usertable.rows';
+import { GroupSessionCreateComponent } from './components/views/groups/session/create/create.component';
+import { ParentDashboardComponent } from './components/views/dashboards/parent-dashboard/parent-dashboard.component';
 
 import { TitleCasePipe } from '@angular/common';
 import { TextWrapPipe } from './pipes/text-wrap-pipe';
 import { AnyToStringPipe } from './pipes/any-to-string.pipe';
 import { ResourceUrlTransformPipe } from './pipes/resource-url-transform.pipe';
-import { GroupSessionCreateComponent } from './components/views/groups/session/create/create.component';
-import { ParentDashboardComponent } from './components/views/dashboards/parent-dashboard/parent-dashboard.component';
+import { ResourceFilterPipe } from './pipes/res-filter.pipe';
 
 @NgModule({
   declarations: [
     ResourceUrlTransformPipe,
     AnyToStringPipe,
     TextWrapPipe,
+    ResourceFilterPipe,
     AppComponent,
     RegisterComponent,
     SimpleDialogComponent,
@@ -159,7 +161,7 @@ import { ParentDashboardComponent } from './components/views/dashboards/parent-d
     HttpClientModule,
     ApiService, UserService, DialogService, GroupsService, UtilsService, NextActionService, MetaKeyService, PlayService,
     ArticlesService,
-    ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, TextWrapPipe,
+    ResourceUrlTransformPipe, TitleCasePipe, AnyToStringPipe, TextWrapPipe, ResourceFilterPipe,
     httpInterceptorProviders
   ],
   bootstrap: [AppComponent]

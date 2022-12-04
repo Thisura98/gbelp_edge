@@ -77,11 +77,12 @@ function generateNewResource(
     resourceId: string | null,
     fileType: string,
     file: Express.Multer.File
-): GameProjectResource{
+): any{
     const filePath = String(file.path);
     const displayNameComponents = file.originalname.split('/');
     const displayName = displayNameComponents[Math.max(displayNameComponents.length - 1, 0)];
-    const objectId = resourceId ?? new ObjectId().toHexString();
+    // const objectId = resourceId ?? new ObjectId().toHexString();
+    const objectId = resourceId == null ? new ObjectId() : new ObjectId(resourceId!);
     const newResource = {
         _id: objectId,
         displayName: displayName,

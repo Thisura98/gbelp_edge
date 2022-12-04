@@ -26,6 +26,18 @@ const EdgeProxy = {
             window.EdgeInternals._on_updateGuidance(name, points);
         else
             console.log("Edge Internal implementation for _on_updateGuidance missing");
+    },
+    /**
+     * Notify the EDGE system that the user finished the game.
+     * For example, when the user is at the last level.
+     * @param {string} message The message to show to the user.
+     * @param {object | null | undefined} data Optional data
+     */
+    notifyGameCompleted: function(message, data){
+        if (window.EdgeInternals._on_gameCompleted != null)
+            window.EdgeInternals._on_gameCompleted(message, data);
+        else
+            console.log("Edge Internal implementation for _on_gameCompleted missing");
     }
 }
 
@@ -69,6 +81,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 		this.load.image('coin', 'fs/res_upload/image/1660628358007.png');
 		this.load.image('coin_png_2', 'fs/res_upload/image/1660628358007.png');
+		this.load.image('cloud_png', 'fs/res_upload/image/4f32664e-49f4-4a2e-a520-1728e14d4fd7.jpeg');
         this.levelData = {
     "objects": [
         {
@@ -127,6 +140,25 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "spawnBehavior": "1",
             "spriteStretch": "1",
             "hidden": false
+        },
+        {
+            "_id": "temp_1670154934216",
+            "spriteResourceId": "62fb2da4a605fe1445c2ed79",
+            "type": "sprite",
+            "name": "cloud_png",
+            "frame": {
+                "x": 397,
+                "y": 329.5,
+                "w": 62.500000000000014,
+                "h": 62.500000000000014
+            },
+            "rotation": 0,
+            "physicsBehavior": "0",
+            "physicsCollision": "0",
+            "opacity": 0,
+            "spawnBehavior": "1",
+            "spriteStretch": "1",
+            "hidden": false
         }
     ]
 }
@@ -163,6 +195,15 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		scaleY = 100 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
 		this.spriteReferences['coin_png_2'] = sprite_2;
+
+
+		// --- scene object cloud_png ---
+		const sprite_3 = this.add.sprite(428.25, 360.75, 'cloud_png').setInteractive();
+		sprite_3.name = "cloud_png";
+		scaleX = 62.500000000000014 / sprite_3.displayWidth;
+		scaleY = 62.500000000000014 / sprite_3.displayHeight;
+		sprite_3.setScale(scaleX, scaleY);
+		this.spriteReferences['cloud_png'] = sprite_3;
 
 
 
@@ -365,22 +406,34 @@ const config = {
     width: 1366,
     height: 500,
     title: 'Shock and Awesome',
-    backgroundColor: "#FFFFFF",
+    // backgroundColor: "#FFFFFF",
+    backgroundColor: "#000000",
     fps: {
-        target: 30,
+        target: 60,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,
-    zoom: gameZoom
+    zoom: gameZoom,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false,
+            gravity: { y: 0 }
+        }
+    },
 };
 
 
 /**
  * @type Phaser.Scene
  */
-const startingScene = LevelScene_Title_Screen;
 const edgeGame = new Phaser.Game(config);
-edgeGame.scene.add('scene', startingScene, true, null);
+scenes.forEach((scn, index) => {
+    edgeGame.scene.add('scene', scn, index == 0, null);
+});
+
+// edgeGame.scene.add('scene', startingScene, true, null);
+// edgeGame.scene.scenes = scenes;
 
 /**
  * Proxying methods
