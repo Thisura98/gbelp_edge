@@ -1,17 +1,5 @@
-import * as l from '../../Util/logger';
-import * as sql from '../../Util/connections/sql/sql_connection';
 import * as mongo from '../../Util/connections/mongo/mongo_connection';
 import * as utils from '../../Util/utils';
-import { v4 as uuidv4 } from 'uuid';
-import { DateTime } from 'luxon';
-import * as mimeParse from '../../Util/mime_parse';
-import express from 'express';
-import multer from 'multer';
-import fs from 'fs';
-import fsPromises from 'fs/promises';
-import { GameResourceType } from '../../../../commons/src/models/game/resources';
-import { GameType } from '../../../../commons/src/models/game/game';
-import * as LevelInitData from '../../../../commons/src/models/game/levels/initdata';
 import { ObjectId } from 'mongodb';
 
 import DAOCallback from './commons';

@@ -72,6 +72,9 @@ function getFileTypeBasePath(resource: GameProjectResource): string{
     else if(resource.type == GameResourceType.SOUND){
         return getConfig().fs_res_path_sound;
     }
+    else if (resource.type == GameResourceType.OTHER){
+        return getConfig().fs_res_path_other;
+    }
 
     throw 'Unsupported game resource type';
 }

@@ -20,6 +20,7 @@ export interface IConfig{
     fs_res_path: string;
     fs_res_path_sound: string;
     fs_res_path_image: string;
+    fs_res_path_other: string;
     fs_compiled_games: string;
     fs_articles: string;
     server_base_url: string;

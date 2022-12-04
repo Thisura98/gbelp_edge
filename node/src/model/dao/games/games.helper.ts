@@ -1,7 +1,5 @@
 import { kGameEntryParentEntryIdNone } from "../../../../../commons/src/models/game/game";
 import { GameProject } from "../../../../../commons/src/models/game/project";
-import { GameProjectResource, GameResourceType } from "../../../../../commons/src/models/game/resources"
-import { getConfig } from "../../../Util/config";
 import { cloneTemplateResources, cleanupGameResources } from './rescopy.helper';
 import { replaceResourcesInTemplate } from './resreplace.helper';
 import * as mongo from '../../../Util/connections/mongo/mongo_connection';

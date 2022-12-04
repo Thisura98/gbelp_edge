@@ -25,6 +25,7 @@ describe('ES-16: Config File Tests', () => {
                 fs_res_path: '',
                 fs_res_path_sound: '',
                 fs_res_path_image: '',
+                fs_res_path_other: '',
                 fs_compiled_games: '',
                 fs_articles: '',
                 server_base_url: '',

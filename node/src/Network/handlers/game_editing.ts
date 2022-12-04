@@ -19,8 +19,11 @@ const multerDiskWriteConfig = multer.diskStorage({
         const mimetype = file.mimetype;
         if (mimetype.includes('audio') || mimetype.includes('sound'))
             callback(null, config.fs_res_path_sound);
-        else
+        else if (mimetype.includes('image'))
             callback(null, config.fs_res_path_image);
+        else
+            callback(null, config.fs_res_path_other);
+        
     },
     filename: (req, file, callback) => {
         const filename = utils.generateUploadResourceName(file.originalname);

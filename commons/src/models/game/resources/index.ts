@@ -5,7 +5,8 @@
  */
  export enum GameResourceType{
     SOUND = "sound",
-    IMAGE = "image"
+    IMAGE = "image",
+    OTHER = "other"
 }
 
 export class GameProjectResource{

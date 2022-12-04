@@ -17,6 +17,9 @@
 
         <div class="container3">
             <div class="sections-container">
+
+                <!-- Images -->
+
                 <div class="section-images" *ngIf="imageResources.length > 0">
                     <h2>Images</h2>
                     <div class="asset-container">
@@ -30,6 +33,8 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Sound -->
     
                 <div class="section-sound" *ngIf="soundResources.length > 0">
                     <h2>Sound</h2>
@@ -43,6 +48,22 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Others -->
+    
+                <div class="section-other" *ngIf="otherResources.length > 0">
+                    <h2>Sound</h2>
+                    <div class="asset-container">
+                        <div class="asset dyn-anim-fadein-delayed" 
+                            *ngFor="let res of soundResources" 
+                            [ngClass]="{'asset-selected': selectedResource?._id == res._id}"
+                            (click)="assetSelected(res)">
+                            <div class="asset-snd-container noselect"><img class="asset-snd noselect" src=""></div>
+                            <div class="asset-name">{{res.displayName}}</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="section-pane">
                 <h2>Options</h2>

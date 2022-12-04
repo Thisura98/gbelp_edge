@@ -56,6 +56,31 @@ export function fileHandler(app: Express){
         });
     });
 
+    // other files (e.g. json)
+    app.get(`/${config.fs_res_path_other}/*`, (req, res) => {
+        // console.log("User Requested other");
+        const filePath = `${utils.getRootPath()}${req.path}`;
+        fs.readFile(filePath, {}, (error, content) => {
+            if (error) {
+                if(error.code == 'ENOENT') {
+                    fs.readFile('./404.html', function(error, content) {
+                        res.writeHead(200, { 'Content-Type': 'audio/ogg' });
+                        res.end(content, 'utf-8');
+                    });
+                }
+                else {
+                    res.writeHead(500);
+                    res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                    res.end();
+                }
+            }
+            else {
+                res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
+                res.end(content, 'utf-8');
+            }
+        });
+    });
+
     // articles
     app.get(`/${config.fs_articles}/*`, (req, res) => {
         const filePath = `${utils.getRootPath()}${req.path}`;

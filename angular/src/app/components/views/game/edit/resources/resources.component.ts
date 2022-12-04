@@ -35,6 +35,7 @@ export class GameEditResourcesComponent implements OnInit {
   audioTimeLabel: string = '';
   imageResources: GameProjectResource[] = [];
   soundResources: GameProjectResource[] = [];
+  otherResources: GameProjectResource[] = [];
 
   viewMode = ViewMode.UNKNOWN;
   private player = new Audio();
@@ -168,6 +169,10 @@ export class GameEditResourcesComponent implements OnInit {
                 case GameResourceType.SOUND:
                   this.soundResources = this.soundResources.filter(v => v._id != resourceId);
                 break;
+
+                case GameResourceType.OTHER:
+                  this.otherResources = this.otherResources.filter(v => v._id != resourceId);
+                break;
               }
             }
             else{
@@ -243,13 +248,22 @@ export class GameEditResourcesComponent implements OnInit {
     this.gameListing!.project = project;
     this.selectedResource = undefined;
 
-    this.imageResources = project.resources.filter(v => {
-      return v.type == GameResourceType.IMAGE;
-    })
+    project.resources.forEach(res => {
 
-    this.soundResources = project.resources.filter(v => {
-      return v.type == GameResourceType.SOUND;
-    });
+      switch(res.type){
+        case GameResourceType.IMAGE:
+          this.imageResources.push(res);
+          break;
+
+        case GameResourceType.SOUND:
+          this.imageResources.push(res);
+          break;
+
+        case GameResourceType.OTHER:
+          this.otherResources.push(res);
+          break;
+      }
+    })
   }
 
 }
