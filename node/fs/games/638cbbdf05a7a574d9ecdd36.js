@@ -129,6 +129,12 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
 		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
@@ -198,7 +204,9 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 }
 
 
-		this.levelProperties = {}
+		this.levelProperties = {
+    "First Level": "LevelScene_Level5"
+}
 	
 
         // Add your code below this line
@@ -255,6 +263,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
 
     setupStartButton(){
+        const firstLevelName = EdgeProxy.getLevelProperty(this, 'First Level');
+
         this.startButton = this.add.text(0, 0, 'Start', {
             fontSize: '30px',
             fontFamily: 'Arial',
@@ -262,7 +272,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         })
         .setInteractive()
         .on('pointerdown', () => {
-            this.scene.start('LevelScene_Level1');
+            this.scene.start(firstLevelName);
         });
 
         this.startButton.setX( this.cameras.main.centerX - (this.startButton.width / 2.0) );
@@ -277,11 +287,47 @@ let meteor_globals = {
     scaleY: 0
 };
 
+class DirectionHelper{
+    /**
+     * @param {number} direction the parsed asteroid direction
+     * @returns {{dx: number, dy: number}} Directional components that can be multiplied by source values
+     */
+    static getComponents(direction){
+        let dx = 1;
+        let dy = 1;
+
+        /**
+         * 1 = Right
+         * 2 = Down
+         * 3 = Left
+         * 4 = Top
+         */
+        if (direction == 1){
+            dx = -1;
+            dy = 0;
+        }
+        if (direction == 2){
+            dx = 0;
+            dy = -1;
+        }
+        else if (direction == 3){
+            dx = 1;
+            dy = 0;
+        }
+        else if (direction == 4){
+            dx = 0;
+            dy = 1;
+        }
+
+        return { dx: dx, dy: dy };
+    }
+
+}
+
 class LevelScene_DataLevel extends Phaser.Scene{
 
     constructor(){
         super({key: "LevelScene_DataLevel", active: false });
-        
     }
 
     preload(){
@@ -303,6 +349,12 @@ class LevelScene_DataLevel extends Phaser.Scene{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
 
@@ -565,6 +617,11 @@ class CommonLevel extends Phaser.Scene{
         this.rocket = null;
 
         /**
+         * @type {Phaser.GameObjects.TileSprite}
+         */
+        this.starCluster1 = null;
+
+        /**
          * @type {Phaser.Types.Input.Keyboard.CursorKeys}
          */
         this.cursors = null;
@@ -649,7 +706,7 @@ class CommonLevel extends Phaser.Scene{
 
     preload(){
         this.preloadExplosionAtlas();
-
+        this.createStarCluster();
     }
 
     create(){
@@ -657,12 +714,11 @@ class CommonLevel extends Phaser.Scene{
         meteor_globals.scaleX = meteor.scaleX;
         meteor_globals.scaleY = meteor.scaleY;
 
+        this.readProperties();
         this.setup();
         this.listenToSpaceBar();
-        this.readProperties();
         this.showPrompt();
         this.updatePoints(0);
-        this.setupGuidanceTriggers();
 
         // NEW:
 
@@ -693,6 +749,14 @@ class CommonLevel extends Phaser.Scene{
         
     }
 
+    createStarCluster(){
+        const res = 'starcluster1.png';
+        const path = EdgeProxy.getLevelRawResourcePath(this, res);
+        this.kTextureStarCluster = 'star-cluster';
+        console.log('Load Star Cluster', path);
+        this.load.image(this.kTextureStarCluster, path);
+    }
+
     preloadExplosionAtlas(){
         const resSheet = 'explosion.png';
         const resAtlast = 'explosion_atlas.json';
@@ -711,10 +775,12 @@ class CommonLevel extends Phaser.Scene{
         this.bullets = new RocketBulletsGroup(this);
         this.meteors = new MeteorGroup(this);
 
+        this.setupGuidanceTriggers();
         this.setupBulletAndMeteorCollision();
         this.setupRocketAndMeteorCollision();
         this.setupMeteorTimer();
         this.setupExplosionAnimation();
+        this.setupStarCluster();
     }
 
     /**
@@ -767,35 +833,9 @@ class CommonLevel extends Phaser.Scene{
         let velocityX = 0;
         let velocityY = 0;
 
-        /**
-         * 1 = Right
-         * 2 = Down
-         * 3 = Left
-         * 4 = Top
-         */
-        switch(this.asteroidDirection){
-            case 1: 
-                velocityX = bulletVelocity;
-                velocityY = 0;
-                break;
-
-            case 2:
-                velocityX = 0;
-                velocityY = bulletVelocity;
-                break;
-
-            case 3: 
-                velocityX = -bulletVelocity;
-                velocityY = 0;
-                break;
-
-            case 4:
-                velocityX = 0;
-                velocityY = -bulletVelocity;
-                break;
-        }
-
-
+        const components = DirectionHelper.getComponents(this.asteroidDirection);
+        velocityX = components.dx * -1 * bulletVelocity;
+        velocityY = components.dy * -1 * bulletVelocity;
         this.bullets.fireBullet(rocket.x, rocket.y, velocityX, velocityY);
     }
 
@@ -852,6 +892,31 @@ class CommonLevel extends Phaser.Scene{
         });
     }
 
+    setupStarCluster(){
+        const camWidth = this.cameras.main.displayWidth;
+        const camHeight = this.cameras.main.displayHeight;
+        const x = camWidth / 2;
+        const y = camHeight / 2;
+        const clusterTexture1 = this.textures.get(this.kTextureStarCluster).getSourceImage();
+        this.starCluster1 = this.add.tileSprite(x, y, camWidth, camHeight, this.kTextureStarCluster);
+
+        let tileXTween = 0;
+        let tileYTween = 0;
+
+        const components = DirectionHelper.getComponents(this.asteroidDirection);
+
+        tileXTween = components.dx * -1 * clusterTexture1.width;
+        tileYTween = components.dy * -1 * clusterTexture1.height;
+
+        this.tweens.add({
+            targets: this.starCluster1,
+            tilePositionX: tileXTween,
+            tilePositionY: tileYTween,
+            repeat: -1,
+            duration: 20000
+        });
+    }
+
     /**
      * When the meteor creation ticker ticks, pick an answer from the 
      * answers pool and add a meteor to the scene.
@@ -887,38 +952,35 @@ class CommonLevel extends Phaser.Scene{
         let velocityX = 0;
         let velocityY = 0;
 
+        const components = DirectionHelper.getComponents(this.asteroidDirection);
+
+        velocityX = components.dx * this.meteorVelocity;
+        velocityY = components.dy * this.meteorVelocity;
+
         switch(this.asteroidDirection){
 
             // Right
             case 1: 
             meteorX = this.cameras.main.width;
             meteorY = topOffset + heightArea * Math.random();
-            velocityX = -this.meteorVelocity;
-            velocityY = 0;
             break;
 
             // Down
             case 2: 
             meteorX = leftOffset + widthArea * Math.random();
             meteorY = this.cameras.main.height;
-            velocityX = 0;
-            velocityY = -this.meteorVelocity;
             break;
 
             // Left
             case 3: 
             meteorX = -meteorWidth;
             meteorY = topOffset + heightArea * Math.random();
-            velocityX = this.meteorVelocity;
-            velocityY = 0;
             break;
 
             // Top
             case 4: 
             meteorX = leftOffset + widthArea * Math.random();
             meteorY = -meteorHeight;
-            velocityX = 0;
-            velocityY = this.meteorVelocity;
             break;
         }
 
@@ -1050,7 +1112,7 @@ class CommonLevel extends Phaser.Scene{
             this.scene.start('LevelScene_Game_Over_Screen');
         }
         else{
-            // this.resetPlayerPosition();
+            this.resetPlayerPosition();
             this.flashRocket();
             this.removeAllMeteors();
         }
@@ -1128,6 +1190,12 @@ class LevelScene_Level1 extends CommonLevel{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
 		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
@@ -1321,7 +1389,7 @@ class LevelScene_Level1 extends CommonLevel{
     "Question": "Shoot all even numbers",
     "Points Required": 10,
     "Meteor Velocity": 80,
-    "Asteroid Direction": "4",
+    "Asteroid Direction": "1",
     "Correct Answers": "2, 4, 6, 8, 10, 12",
     "Wrong Answers": "1, 3, 5, 7, 9, 11"
 }
@@ -1477,9 +1545,15 @@ class LevelScene_Level2 extends CommonLevel{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
+		this.load.image('sky', 'fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png');
 		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
 		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
 		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
@@ -1511,8 +1585,8 @@ class LevelScene_Level2 extends CommonLevel{
             "hidden": false
         },
         {
-            "_id": "temp_1668460633059",
-            "spriteResourceId": "6372b0355959633a814b9974",
+            "_id": "temp_1670218982690",
+            "spriteResourceId": "638d84c16ed0b86069ce862f",
             "type": "sprite",
             "name": "sky",
             "frame": {
@@ -1829,9 +1903,15 @@ class LevelScene_Level3 extends CommonLevel{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
+		this.load.image('sky', 'fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png');
 		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
 		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
 		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
@@ -1863,15 +1943,15 @@ class LevelScene_Level3 extends CommonLevel{
             "hidden": false
         },
         {
-            "_id": "temp_1668460633059",
-            "spriteResourceId": "6372b0355959633a814b9974",
+            "_id": "temp_1670219012475",
+            "spriteResourceId": "638d84c66ed0b86069ce8630",
             "type": "sprite",
             "name": "sky",
             "frame": {
                 "x": 0,
                 "y": 0,
                 "w": 900,
-                "h": 490.50000000000006
+                "h": 490
             },
             "rotation": 0,
             "physicsBehavior": "0",
@@ -2036,10 +2116,10 @@ class LevelScene_Level3 extends CommonLevel{
         let scaleX = 0, scaleY = 0;
 		this.spriteReferences = {}
 		// --- scene object sky ---
-		const sprite_1 = this.add.sprite(450, 245.25000000000003, 'sky').setInteractive();
+		const sprite_1 = this.add.sprite(450, 245, 'sky').setInteractive();
 		sprite_1.name = "sky";
 		scaleX = 900 / sprite_1.displayWidth;
-		scaleY = 490.50000000000006 / sprite_1.displayHeight;
+		scaleY = 490 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences['sky'] = sprite_1;
 
@@ -2175,9 +2255,15 @@ class LevelScene_Level4 extends CommonLevel{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
+		this.load.image('sky', 'fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png');
 		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
 		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
 		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
@@ -2209,15 +2295,15 @@ class LevelScene_Level4 extends CommonLevel{
             "hidden": false
         },
         {
-            "_id": "temp_1668460633059",
-            "spriteResourceId": "6372b0355959633a814b9974",
+            "_id": "temp_1670219075355",
+            "spriteResourceId": "638d84c96ed0b86069ce8631",
             "type": "sprite",
             "name": "sky",
             "frame": {
                 "x": 0,
                 "y": 0,
                 "w": 900,
-                "h": 490.50000000000006
+                "h": 490
             },
             "rotation": 0,
             "physicsBehavior": "0",
@@ -2383,10 +2469,10 @@ class LevelScene_Level4 extends CommonLevel{
         let scaleX = 0, scaleY = 0;
 		this.spriteReferences = {}
 		// --- scene object sky ---
-		const sprite_1 = this.add.sprite(450, 245.25000000000003, 'sky').setInteractive();
+		const sprite_1 = this.add.sprite(450, 245, 'sky').setInteractive();
 		sprite_1.name = "sky";
 		scaleX = 900 / sprite_1.displayWidth;
-		scaleY = 490.50000000000006 / sprite_1.displayHeight;
+		scaleY = 490 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences['sky'] = sprite_1;
 
@@ -2527,9 +2613,15 @@ class LevelScene_Level5 extends CommonLevel{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
+		this.load.image('sky', 'fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png');
 		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
 		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
 		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
@@ -2561,15 +2653,15 @@ class LevelScene_Level5 extends CommonLevel{
             "hidden": false
         },
         {
-            "_id": "temp_1668460633059",
-            "spriteResourceId": "6372b0355959633a814b9974",
+            "_id": "temp_1670219100847",
+            "spriteResourceId": "638d84cc6ed0b86069ce8632",
             "type": "sprite",
             "name": "sky",
             "frame": {
                 "x": 0,
                 "y": 0,
                 "w": 900,
-                "h": 490.50000000000006
+                "h": 490
             },
             "rotation": 0,
             "physicsBehavior": "0",
@@ -2735,10 +2827,10 @@ class LevelScene_Level5 extends CommonLevel{
         let scaleX = 0, scaleY = 0;
 		this.spriteReferences = {}
 		// --- scene object sky ---
-		const sprite_1 = this.add.sprite(450, 245.25000000000003, 'sky').setInteractive();
+		const sprite_1 = this.add.sprite(450, 245, 'sky').setInteractive();
 		sprite_1.name = "sky";
 		scaleX = 900 / sprite_1.displayWidth;
-		scaleY = 490.50000000000006 / sprite_1.displayHeight;
+		scaleY = 490 / sprite_1.displayHeight;
 		sprite_1.setScale(scaleX, scaleY);
 		this.spriteReferences['sky'] = sprite_1;
 
@@ -2896,6 +2988,12 @@ class LevelScene_Win extends Phaser.Scene{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
 		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
@@ -3084,6 +3182,12 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
 		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
 		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
 
 
 		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
