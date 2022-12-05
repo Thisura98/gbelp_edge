@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Injectable } from "@angular/core";
 import { ProgressfulGameObjective } from "../../../../commons/src/models/game/objectives";
 import { ProgressfulGameGuidanceTracker } from "../../../../commons/src/models/game/trackers";
-import { IEdgeInternals } from "../../../../commons/src/models/play/edgeinternals.interface";
+import { IEdgeInternalsFromAngular } from "../../../../commons/src/models/play/edgeinternals.interface";
 import { ApiService } from "./api.service";
 import { DialogService } from "./dialog.service";
 import { UserService } from "./user.service";
@@ -44,7 +44,7 @@ export class PlayService{
   public injectWindowEdgeInternals(changeListener: PlayChangeListener, onGameCompleted: PlayGameCompletedListener){
     this.changeListener = changeListener;
     this.onGameCompleted = onGameCompleted;
-    (window as any).EdgeInternals = this.getEdgeInternalsObject();
+    (window as any).InternalsFromAngular = this.getEdgeInternalsObject();
   }
 
   /**
@@ -61,7 +61,7 @@ export class PlayService{
     this.sessionId = sessionId;
   }
 
-  private getEdgeInternalsObject(): IEdgeInternals{
+  private getEdgeInternalsObject(): IEdgeInternalsFromAngular{
     return {
       _on_updateGuidance: (name, hitPoints) => this.updateGuidanceTracker(name, hitPoints),
       _on_updateObjective: (name, progressPoints) => this.updateObjective(name, progressPoints),
@@ -89,6 +89,7 @@ export class PlayService{
     // Modify progress points
     // todo: Update Play Service as well?
     objective.progress += progress;
+    objective.progress = Math.min(objective.progress, objective.max_value);
 
     const objectiveStr = (objective.objective_id ?? 0).toString();
     const progressStr = objective.progress.toString();
@@ -134,6 +135,7 @@ export class PlayService{
     // Modify progress points
     // todo: Update Play Service as well?
     guidanceTracker.hits += hits;
+    guidanceTracker.hits = Math.min(guidanceTracker.hits, guidanceTracker.max_threshold);
 
     const trackerIdStr = (guidanceTracker.tracker_id ?? 0).toString();
     const progressStr = guidanceTracker.hits.toString();

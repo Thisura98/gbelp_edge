@@ -11,8 +11,8 @@ const EdgeProxy = {
      * @param {number} points Number of points to add to the objective.
      */
     increaseObjectiveProgress: function(name, points){
-        if (window.EdgeInternals._on_updateObjective != null)
-            window.EdgeInternals._on_updateObjective(name, points);
+        if (window.InternalsFromAngular._on_updateObjective != null)
+            window.InternalsFromAngular._on_updateObjective(name, points);
         else
             console.log("Edge Internal implementation for _on_updateObjective missing");
     },
@@ -22,13 +22,74 @@ const EdgeProxy = {
      * @param {number} points Number of points to add to the objective.
      */
     increaseGuidanceProgress: function(name, points){
-        if (window.EdgeInternals._on_updateGuidance != null)
-            window.EdgeInternals._on_updateGuidance(name, points);
+        if (window.InternalsFromAngular._on_updateGuidance != null)
+            window.InternalsFromAngular._on_updateGuidance(name, points);
         else
             console.log("Edge Internal implementation for _on_updateGuidance missing");
+    },
+    /**
+     * Notify the EDGE system that the user finished the game.
+     * For example, when the user is at the last level.
+     * @param {string} message The message to show to the user.
+     * @param {object | null | undefined} data Optional data
+     */
+    notifyGameCompleted: function(message, data){
+        if (window.InternalsFromAngular._on_gameCompleted != null)
+            window.InternalsFromAngular._on_gameCompleted(message, data);
+        else
+            console.log("Edge Internal implementation for _on_gameCompleted missing");
+    },
+    
+    /**
+     * Get a Phaser Sprite by using it's object name
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} key The scene object name you want the sprite for
+     * @returns {Phaser.GameObjects.Sprite} The sprite corresponding to the sceneObject name
+     */
+    getLevelSprite: function(scene, key){
+        return scene.spriteReferences[key];
+    },
+
+    /**
+     * Get a raw object with the displayNames and filePaths of resources
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} displayName Display name of the resources in the resource tab
+     * @returns {string} The filePath of the resource
+     */
+    getLevelRawResourcePath: function(scene, displayName){
+        return scene.rawResources[displayName];
+    },
+
+    /**
+     * Get the entire level as an object. Explore the 'objects' key in the return object.
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @returns {object}
+     */
+    getLevelData: function(scene){
+        return scene.levelData;
+    },
+
+    /**
+     * Get the value for each level property by it's name
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} propertyName The name of the property
+     * @returns {object}
+     */
+    getLevelProperty: function(scene, propertyName){
+        return scene.levelProperties[propertyName];
+    },
+
+    /**
+     * Returns the underlying raw level properties object
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @returns {{ [key: string]: object }}
+     */
+    getAllProperties: function(scene) {
+        return scene.levelProperties;
     }
 }
 
+// removed import
 // removed import
 
 /**
@@ -107,8 +168,19 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['bg.jpeg'] = "fs/res_upload/image/399c96bd-d16c-429c-930b-9fa68379da3f.jpeg";
+		this.rawResources['slime1.png'] = "fs/res_upload/image/463e66c4-7318-4825-865b-c68f0fe41a01.png";
+		this.rawResources['slime1_squashed.png'] = "fs/res_upload/image/1c692542-22a1-4fd3-90e8-f890791e936a.png";
+		this.rawResources['stand.png'] = "fs/res_upload/image/50f4e464-eecf-47aa-acba-cb23cba0c967.png";
+		this.rawResources['trophy1.png'] = "fs/res_upload/image/c2d2635d-36ac-40ca-b14f-8c1653eeb595.png";
+
 
 		this.load.image('bg', 'fs/res_upload/image/399c96bd-d16c-429c-930b-9fa68379da3f.jpeg');
 		this.load.image('slime', 'fs/res_upload/image/463e66c4-7318-4825-865b-c68f0fe41a01.png');
@@ -118,7 +190,9 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		this.load.image('stand3', 'fs/res_upload/image/50f4e464-eecf-47aa-acba-cb23cba0c967.png');
 		this.load.image('trophy1', 'fs/res_upload/image/c2d2635d-36ac-40ca-b14f-8c1653eeb595.png');
 		this.load.image('trophy2', 'fs/res_upload/image/c2d2635d-36ac-40ca-b14f-8c1653eeb595.png');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "638188e34645dd4e39f96b13",
@@ -293,13 +367,13 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {}
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+
+		this.levelProperties = {}
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
 
@@ -308,6 +382,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object bg ---
 		const sprite_1 = this.add.sprite(402.5, 264.5, 'bg').setInteractive();
 		sprite_1.name = "bg";
@@ -378,6 +453,14 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		scaleY = 38 / sprite_8.displayHeight;
 		sprite_8.setScale(scaleX, scaleY);
 		this.spriteReferences['trophy2'] = sprite_8;
+
+
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
 
@@ -472,6 +555,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         });
         this.physics.add.collider(this.player, this.trophy2, () => {
             EdgeProxy.increaseObjectiveProgress(this.obj2, 1);
+            EdgeProxy.notifyGameCompleted('You Finished the game!');
             this.trophy2.destroy();
         });
     }
@@ -524,6 +608,11 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         super({key: "LevelScene_Game_Over_Screen", active: false });
 
         /**
+         * Resource filename lookup using their display names
+         * @type {{ [key: string] : string }}
+         */
+        this.rawResources = {};
+        /**
          * All sprites loaded in the create() method
          * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
          */
@@ -541,10 +630,23 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
 
-        this.levelData = {
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['bg.jpeg'] = "fs/res_upload/image/399c96bd-d16c-429c-930b-9fa68379da3f.jpeg";
+		this.rawResources['slime1.png'] = "fs/res_upload/image/463e66c4-7318-4825-865b-c68f0fe41a01.png";
+		this.rawResources['slime1_squashed.png'] = "fs/res_upload/image/1c692542-22a1-4fd3-90e8-f890791e936a.png";
+		this.rawResources['stand.png'] = "fs/res_upload/image/50f4e464-eecf-47aa-acba-cb23cba0c967.png";
+		this.rawResources['trophy1.png'] = "fs/res_upload/image/c2d2635d-36ac-40ca-b14f-8c1653eeb595.png";
+
+
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "638188e34645dd4e39f96b13",
@@ -567,31 +669,37 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {}
-        		const objects = this.levelData.objects;
+
+
+		this.levelProperties = {}
+	
+
+        // Add your code below this line
+        
+    }
+    create(){
+        let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
+		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
 		console.log("Camera width & height", camera.frame.w, camera.frame.h);
 		this.scale.setGameSize(camera.frame.w, camera.frame.h);
 		this.scale.resize(camera.frame.w, camera.frame.h);
 		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
-        // Add your code below this line
 
-
-        
-    }
-    create(){
-        let scaleX = 0, scaleY = 0;
 
         // Add your code below this line
 
     }
     update(){
+        // EDGTOKEN_UPDATE
 
         // Add your code below this line
 
     }
     destroy(){
+        // EDGTOKEN_DESTROY
         
         // Add your code below this line
 
@@ -618,7 +726,7 @@ const config = {
     // backgroundColor: "#FFFFFF",
     backgroundColor: "#000000",
     fps: {
-        target: 30,
+        target: 60,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,
@@ -634,7 +742,7 @@ const config = {
 
 
 /**
- * @type Phaser.Scene
+ * @type Phaser.Game
  */
 const edgeGame = new Phaser.Game(config);
 scenes.forEach((scn, index) => {
@@ -643,6 +751,22 @@ scenes.forEach((scn, index) => {
 
 // edgeGame.scene.add('scene', startingScene, true, null);
 // edgeGame.scene.scenes = scenes;
+
+window.InternalsFromGame = {
+    _on_changeGameState: (paused) => {
+        const scenes = edgeGame.scene.getScenes(true);
+        if (scenes.length > 0){
+            let scene = scenes[0].scene;
+
+            if (!scene.isPaused() && paused){
+                scene.pause();
+            }
+            else if (scene.isPaused() && !paused){
+                scene.resume();
+            }
+        }
+    }
+}
 
 /**
  * Proxying methods

@@ -17,8 +17,12 @@ import { ProgressfulGameObjective } from '../../../../../../../commons/src/model
 import { combineLatest } from 'rxjs';
 import { ProgressfulGameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
 import { PlayService } from 'src/app/services/play.service';
+import { IEdgeInternalsFromGame } from '../../../../../../../commons/src/models/play/edgeinternals.interface';
 
 type EdgeSocket = Socket<DefaultEventsMap, DefaultEventsMap>
+const kChatPanelTitle = 'Chats';
+const kObjectivesPanelTitle = 'Objectives';
+const kGuidancePanelTitle = 'Guidance';
 
 /**
  * Singleplayer Game Player
@@ -43,6 +47,10 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   objectives: ProgressfulGameObjective[] = [];
   guidanceTrackers: ProgressfulGameGuidanceTracker[] = [];
   activeGuidance: ProgressfulGameGuidanceTracker | undefined;
+  shouldFlashGuidance: boolean = false;
+  shouldFlashChat: boolean = false;
+  isGamePaused: boolean = false;
+  private displayedGuidanceTrackers: Map<number, boolean> = new Map();
 
   @ViewChild(PlayerChatPanelComponent)
   chatPanel: PlayerChatPanelComponent | undefined;
@@ -103,16 +111,17 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   chatButtonPressed(){
-    this.expandPanel("Chats");
+    this.shouldFlashChat = false;
+    this.expandPanel(kChatPanelTitle);
   }
 
   objectivesButtonPressed(){
-    this.expandPanel("Objectives");
+    this.expandPanel(kObjectivesPanelTitle);
   }
   
   guidanceButtonPressed(){
-    this.expandPanel("Guidance");
-
+    this.shouldFlashGuidance = false;
+    this.expandPanel(kGuidancePanelTitle);
   }
 
   sendChatMessage(message: ChatMessage){
@@ -168,7 +177,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
           this.game = gameResponse.data;
 
           this.playService.injectWindowEdgeInternals(
-            () => this.handleChangeDetectionRequest, 
+            () => this.handleChangeDetectionRequest(), 
             (msg, data) => this.handleGameCompletedNotification(msg, data)
           );
           this.loadCompiledGame();
@@ -270,13 +279,13 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private handleErrors(){
     window.onerror = (event, source, linno, colno, error) => {
-      this.dialogService.showDismissable(
-        "Error occurred in game",
-        error!.stack!,
-        () => {
-          window.location = window.location;
-        }
-      );
+      this.zone.run(() => {
+        this.dialogService.showDismissable(
+          "Error occurred in game",
+          error!.stack!,
+          () => window.location = window.location
+        );
+      })
     };
   }
 
@@ -301,20 +310,22 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   private expandPanel(item: string){
     if (this.panelExpanded && this.panelTitle == item){
       this.panelExpanded = false;
+      this.setGameStatePaused(false);
       return;
     }
 
     this.panelExpanded = true;
     this.panelTitle = item;
 
-    if (this.panelTitle == 'Chats'){
+    if (this.panelTitle == kChatPanelTitle){
       this.chatPanel?.scrollToBottom();
     }
+    this.setGameStatePaused(true);
   }
 
   private initSocketConnection(): Promise<any>{
     return this.getGameUsageSocket().then(() => {
-      return this.getChatsSocket();
+      return this.getChatSocket();
     }).catch(err => {
       this.dialogService.showDismissable(
         "Socket Error", 
@@ -358,11 +369,11 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Initilize the Chats Socket
    */
-  private getChatsSocket(): Promise<EdgeSocket>{
+  private getChatSocket(): Promise<EdgeSocket>{
     return new Promise<EdgeSocket>((resolve, reject) => {
       const ioChatsAddress = ApiService.getSocketURL() + '/chats';
       const authData = this.userService.getUserAndToken();
-      const chatsSocket = io(ioChatsAddress, {
+      const chatSocket = io(ioChatsAddress, {
         autoConnect: true,
         auth: {
           uid: authData.user.userId ?? '',
@@ -372,22 +383,26 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
-      this.destroyableSockets.push(chatsSocket);
-      this.chatSocket = chatsSocket;
+      this.destroyableSockets.push(chatSocket);
+      this.chatSocket = chatSocket;
 
-      chatsSocket.on('chat-did-add', (message) => {
+      chatSocket.on('chat-did-add', (message) => {
         this.zone.run(() => {
           this.chats.push(message);
           this.chatPanel?.scrollToBottom();
+
+          if (!this.panelExpanded && this.panelTitle != kChatPanelTitle){
+            this.shouldFlashChat = true;
+          }
         });
       })
-      chatsSocket.on('chat-init', (currentMessages) => {
+      chatSocket.on('chat-init', (currentMessages) => {
         this.zone.run(() => {
           this.chats = currentMessages;
         })
-        resolve(chatsSocket);
+        resolve(chatSocket);
       })
-      chatsSocket.on('connect_error', (error) => {
+      chatSocket.on('connect_error', (error) => {
         reject(error);
       })
     })
@@ -395,7 +410,8 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private handleChangeDetectionRequest(){
     this.zone.run(() => {
-      this.changeDetectionRef.markForCheck();
+      this.evaluateGuidanceTrackers();
+      this.changeDetectionRef.detectChanges();
     })
   }
 
@@ -420,6 +436,26 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
     window.open(route, '_blank');
     this.goBack();
+  }
+
+  private evaluateGuidanceTrackers(){
+    for (let tracker of this.guidanceTrackers){
+      if (tracker.hits >= tracker.max_threshold){
+        const trackerId = tracker.tracker_id;
+
+        if (trackerId != undefined && !this.displayedGuidanceTrackers.has(trackerId)){
+          this.activeGuidance = tracker;
+          this.displayedGuidanceTrackers.set(trackerId, true);
+          this.shouldFlashGuidance = true;
+          break;
+        }
+      }
+    }
+  }
+
+  private setGameStatePaused(paused: boolean){
+    this.isGamePaused = paused;
+    ((window as any).InternalsFromGame as IEdgeInternalsFromGame)._on_changeGameState(paused);
   }
 
 }

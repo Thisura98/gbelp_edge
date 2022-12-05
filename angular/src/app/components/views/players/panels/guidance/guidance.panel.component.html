@@ -1,12 +1,18 @@
 
-<div *ngIf="guidance != undefined">
-    Hey {{username}},
+<div *ngIf="guidance != undefined" class="guidance-rows">
+    <div class="guidance-str">
+        Hey <span class="bold">{{username}},</span>
+    </div>
+
+    <div class="guidance-str">
+        Looks like you are having a little trouble with the game.
+    </div>
     
-    Looks like you are having a little trouble with the game.
+    <div class="guidance-str highlight">
+        We noticed that you <span class="bold">{{guidance!.name}}.</span>
+    </div>
 
-    We noticed that you didn't {{guidance!.name}}.
-
-    <div>
+    <div class="guidance-feedback-box guidance-str">
         Relax, take a deep breath.
 
         {{guidance!.message}}

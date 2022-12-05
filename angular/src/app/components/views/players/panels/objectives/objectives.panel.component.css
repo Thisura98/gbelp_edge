@@ -25,14 +25,15 @@
 }
 
 .track{
-    height: 25px;
+    height: 10px;
+    margin-top: 5px;
     background: #1d1d1d;
     border-radius: 8px;
     overflow: hidden;
 }
 
 .fill{
-    background: #00fd00;
+    background: #00A560;
     width: 50%;
     height: 100%;
 }

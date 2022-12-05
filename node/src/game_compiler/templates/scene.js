@@ -6,6 +6,11 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
         super({key: "LevelScene_EDGTOKEN_1", active: false });
 
         /**
+         * Resource filename lookup using their display names
+         * @type {{ [key: string] : string }}
+         */
+        this.rawResources = {};
+        /**
          * All sprites loaded in the create() method
          * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
          */
@@ -25,13 +30,8 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
     preload(){
         this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         // EDGTOKEN_PRELOAD
-        // EDGTOKEN_LEVEL
-        // EDGTOKEN_PROPERTIES
-        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
-
-
         
     }
     create(){
@@ -41,11 +41,13 @@ class LevelScene_EDGTOKEN_1 extends Phaser.Scene{
 
     }
     update(){
+        // EDGTOKEN_UPDATE
 
         // Add your code below this line
 
     }
     destroy(){
+        // EDGTOKEN_DESTROY
         
         // Add your code below this line
 

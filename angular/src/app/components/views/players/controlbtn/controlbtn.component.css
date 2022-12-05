@@ -44,3 +44,36 @@
     cursor: pointer;
     gap: 5px;
 }
+.circle.flash{
+    border: 1px solid #FFF966;
+    background-color: #3E3B00;
+    animation-name: flashingBorderAnimation;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+.title.flash{
+    color: #FFF966;
+    animation-name: flashingColorAnimation;
+    animation-duration: 1s;
+    animation-iteration-count: 3;
+    animation-direction: alternate;
+}
+
+@keyframes flashingBorderAnimation{
+    0% {
+        border-color: #FFF966;
+    }
+    100% {
+        border-color: #908b00;
+    }
+}
+
+@keyframes flashingColorAnimation{
+    0% {
+        color: #FFF966;
+    }
+    100% {
+        color: #908b00;
+    }
+}

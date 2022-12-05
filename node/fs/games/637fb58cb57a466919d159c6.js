@@ -11,8 +11,8 @@ const EdgeProxy = {
      * @param {number} points Number of points to add to the objective.
      */
     increaseObjectiveProgress: function(name, points){
-        if (window.EdgeInternals._on_updateObjective != null)
-            window.EdgeInternals._on_updateObjective(name, points);
+        if (window.InternalsFromAngular._on_updateObjective != null)
+            window.InternalsFromAngular._on_updateObjective(name, points);
         else
             console.log("Edge Internal implementation for _on_updateObjective missing");
     },
@@ -22,8 +22,8 @@ const EdgeProxy = {
      * @param {number} points Number of points to add to the objective.
      */
     increaseGuidanceProgress: function(name, points){
-        if (window.EdgeInternals._on_updateGuidance != null)
-            window.EdgeInternals._on_updateGuidance(name, points);
+        if (window.InternalsFromAngular._on_updateGuidance != null)
+            window.InternalsFromAngular._on_updateGuidance(name, points);
         else
             console.log("Edge Internal implementation for _on_updateGuidance missing");
     },
@@ -34,13 +34,62 @@ const EdgeProxy = {
      * @param {object | null | undefined} data Optional data
      */
     notifyGameCompleted: function(message, data){
-        if (window.EdgeInternals._on_gameCompleted != null)
-            window.EdgeInternals._on_gameCompleted(message, data);
+        if (window.InternalsFromAngular._on_gameCompleted != null)
+            window.InternalsFromAngular._on_gameCompleted(message, data);
         else
             console.log("Edge Internal implementation for _on_gameCompleted missing");
+    },
+    
+    /**
+     * Get a Phaser Sprite by using it's object name
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} key The scene object name you want the sprite for
+     * @returns {Phaser.GameObjects.Sprite} The sprite corresponding to the sceneObject name
+     */
+    getLevelSprite: function(scene, key){
+        return scene.spriteReferences[key];
+    },
+
+    /**
+     * Get a raw object with the displayNames and filePaths of resources
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} displayName Display name of the resources in the resource tab
+     * @returns {string} The filePath of the resource
+     */
+    getLevelRawResourcePath: function(scene, displayName){
+        return scene.rawResources[displayName];
+    },
+
+    /**
+     * Get the entire level as an object. Explore the 'objects' key in the return object.
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @returns {object}
+     */
+    getLevelData: function(scene){
+        return scene.levelData;
+    },
+
+    /**
+     * Get the value for each level property by it's name
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} propertyName The name of the property
+     * @returns {object}
+     */
+    getLevelProperty: function(scene, propertyName){
+        return scene.levelProperties[propertyName];
+    },
+
+    /**
+     * Returns the underlying raw level properties object
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @returns {{ [key: string]: object }}
+     */
+    getAllProperties: function(scene) {
+        return scene.levelProperties;
     }
 }
 
+// removed import
 // removed import
 
 /**
@@ -78,12 +127,30 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sky1.png'] = "fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/7363f872-1f5b-4c14-81c6-f9d91eccdd74.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/3837edeb-a9d4-43dc-b438-e0c3dedd0234.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/c2fed0e2-bd7b-42b6-95b4-6ad585b8ddf3.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/6a853da3-ed38-4f81-97ec-61faa7df245e.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg";
+
 
 		this.load.image('sky', 'fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png');
 		this.load.image('title', 'fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "6372aaa7b3861d1bc51ee400",
@@ -144,13 +211,13 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {}
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+
+		this.levelProperties = {}
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
 
@@ -159,6 +226,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object sky ---
 		const sprite_1 = this.add.sprite(450, 245, 'sky').setInteractive();
 		sprite_1.name = "sky";
@@ -175,6 +243,14 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		scaleY = 200 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
 		this.spriteReferences['title'] = sprite_2;
+
+
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
 
@@ -325,8 +401,24 @@ class LevelScene_Level1 extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sky1.png'] = "fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/7363f872-1f5b-4c14-81c6-f9d91eccdd74.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/3837edeb-a9d4-43dc-b438-e0c3dedd0234.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/c2fed0e2-bd7b-42b6-95b4-6ad585b8ddf3.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/6a853da3-ed38-4f81-97ec-61faa7df245e.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg";
+
 
 		this.load.image('sky', 'fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png');
 		this.load.image('rocket', 'fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png');
@@ -336,7 +428,9 @@ class LevelScene_Level1 extends Phaser.Scene{
 		this.load.image('heart3', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
 		this.load.image('heart2', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
 		this.load.image('heart1', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "6372aaa7b3861d1bc51ee400",
@@ -511,25 +605,26 @@ class LevelScene_Level1 extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {
+
+
+		this.levelProperties = {
     "Question": "Shoot all prime numbers",
     "Points Required": 10,
     "Meteor Velocity": 80,
     "Correct Answers": "1, 3, 5, 7, 11, 13, 17",
     "Wrong Answers": "0, -1, 2, 4, 6, 9, 12, 14"
 }
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
         
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object sky ---
 		const sprite_1 = this.add.sprite(450, 245.25000000000003, 'sky').setInteractive();
 		sprite_1.name = "sky";
@@ -600,6 +695,14 @@ class LevelScene_Level1 extends Phaser.Scene{
 		scaleY = 36 / sprite_8.displayHeight;
 		sprite_8.setScale(scaleX, scaleY);
 		this.spriteReferences['heart1'] = sprite_8;
+
+
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
 
@@ -1014,8 +1117,24 @@ class LevelScene_Level2 extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sky1.png'] = "fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/7363f872-1f5b-4c14-81c6-f9d91eccdd74.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/3837edeb-a9d4-43dc-b438-e0c3dedd0234.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/c2fed0e2-bd7b-42b6-95b4-6ad585b8ddf3.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/6a853da3-ed38-4f81-97ec-61faa7df245e.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg";
+
 
 		this.load.image('sky', 'fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png');
 		this.load.image('rocket', 'fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png');
@@ -1025,7 +1144,9 @@ class LevelScene_Level2 extends Phaser.Scene{
 		this.load.image('heart3', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
 		this.load.image('heart2', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
 		this.load.image('heart1', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "6372aaa7b3861d1bc51ee400",
@@ -1200,25 +1321,26 @@ class LevelScene_Level2 extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {
+
+
+		this.levelProperties = {
     "Question": "Shoot all square numbers",
     "Points Required": 15,
     "Meteor Velocity": 130,
     "Correct Answers": "1, 4, 9, 16, 25, 36, 49",
     "Wrong Answers": "0, 2, 6, 12, 18, 24, 27, 32"
 }
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
         
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object sky ---
 		const sprite_1 = this.add.sprite(450, 245.25000000000003, 'sky').setInteractive();
 		sprite_1.name = "sky";
@@ -1289,6 +1411,14 @@ class LevelScene_Level2 extends Phaser.Scene{
 		scaleY = 36 / sprite_8.displayHeight;
 		sprite_8.setScale(scaleX, scaleY);
 		this.spriteReferences['heart1'] = sprite_8;
+
+
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
 
@@ -1700,8 +1830,24 @@ class LevelScene_Level3 extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sky1.png'] = "fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/7363f872-1f5b-4c14-81c6-f9d91eccdd74.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/3837edeb-a9d4-43dc-b438-e0c3dedd0234.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/c2fed0e2-bd7b-42b6-95b4-6ad585b8ddf3.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/6a853da3-ed38-4f81-97ec-61faa7df245e.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg";
+
 
 		this.load.image('sky', 'fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png');
 		this.load.image('rocket', 'fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png');
@@ -1711,7 +1857,9 @@ class LevelScene_Level3 extends Phaser.Scene{
 		this.load.image('heart3', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
 		this.load.image('heart2', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
 		this.load.image('heart1', 'fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "6372aaa7b3861d1bc51ee400",
@@ -1886,25 +2034,26 @@ class LevelScene_Level3 extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {
+
+
+		this.levelProperties = {
     "Question": "Shoot all proper fractions",
     "Points Required": 20,
     "Meteor Velocity": 160,
     "Correct Answers": "1/2, 1/4, 4/5, 10/20, 3/4, 2/8, 9/100, 4/6, 13/19, 23/2",
     "Wrong Answers": "2/2, 3/2, 10/9, 2 ½, ⅜, 4 ⅘, 24/14, 9/6, 2, 3/2"
 }
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
         
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object sky ---
 		const sprite_1 = this.add.sprite(450, 245.25000000000003, 'sky').setInteractive();
 		sprite_1.name = "sky";
@@ -1975,6 +2124,14 @@ class LevelScene_Level3 extends Phaser.Scene{
 		scaleY = 36 / sprite_8.displayHeight;
 		sprite_8.setScale(scaleX, scaleY);
 		this.spriteReferences['heart1'] = sprite_8;
+
+
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
 
@@ -2293,12 +2450,30 @@ class LevelScene_Win extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sky1.png'] = "fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/7363f872-1f5b-4c14-81c6-f9d91eccdd74.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/3837edeb-a9d4-43dc-b438-e0c3dedd0234.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/c2fed0e2-bd7b-42b6-95b4-6ad585b8ddf3.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/6a853da3-ed38-4f81-97ec-61faa7df245e.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg";
+
 
 		this.load.image('sky', 'fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png');
 		this.load.image('youwin', 'fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "6372aaa7b3861d1bc51ee400",
@@ -2359,24 +2534,25 @@ class LevelScene_Win extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {
+
+
+		this.levelProperties = {
     "Question": "Shot all prime numbers",
     "Points Required": 10,
     "Correct Answers": "1, 3, 5, 7, 11, 13, 17",
     "Wrong Answers": "0, -1, 2, 4, 6, 9, 12, 14"
 }
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
         
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object sky ---
 		const sprite_1 = this.add.sprite(450, 245.25000000000003, 'sky').setInteractive();
 		sprite_1.name = "sky";
@@ -2393,6 +2569,14 @@ class LevelScene_Win extends Phaser.Scene{
 		scaleY = 253.1960227272727 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
 		this.spriteReferences['youwin'] = sprite_2;
+
+
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
 
@@ -2444,10 +2628,28 @@ class LevelScene_DataLevel extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
 
-        this.levelData = {
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sky1.png'] = "fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/7363f872-1f5b-4c14-81c6-f9d91eccdd74.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/3837edeb-a9d4-43dc-b438-e0c3dedd0234.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/c2fed0e2-bd7b-42b6-95b4-6ad585b8ddf3.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/6a853da3-ed38-4f81-97ec-61faa7df245e.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg";
+
+
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "637fa31c8fe88c7d54ae3efb",
@@ -2470,13 +2672,13 @@ class LevelScene_DataLevel extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {}
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+
+		this.levelProperties = {}
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
 
@@ -2485,6 +2687,15 @@ class LevelScene_DataLevel extends Phaser.Scene{
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+
 
         // Add your code below this line
 
@@ -2690,12 +2901,30 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sky1.png'] = "fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/b40eb268-3a2f-4a6b-a59d-2ca8d3f34d41.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/d15fce49-54d9-475e-8d2e-112bb749914a.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/7363f872-1f5b-4c14-81c6-f9d91eccdd74.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/3837edeb-a9d4-43dc-b438-e0c3dedd0234.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/c2fed0e2-bd7b-42b6-95b4-6ad585b8ddf3.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/6a853da3-ed38-4f81-97ec-61faa7df245e.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/19d37f76-abb7-4448-a7f7-da3dd63c19c5.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/525c72be-25bd-4e6a-81d5-2df90b8fdc32.jpg";
+
 
 		this.load.image('sky', 'fs/res_upload/image/62a793f0-9583-440e-b547-2d7951713f55.png');
 		this.load.image('gameover_jpeg', 'fs/res_upload/image/d0143ce7-10a6-40b4-84ac-8c1247db7541.jpeg');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "6372aaa7b3861d1bc51ee400",
@@ -2756,13 +2985,13 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {}
-        		const objects = this.levelData.objects;
-		const camera = objects.find((o) => o.type == 'camera');
-		console.log("Camera width & height", camera.frame.w, camera.frame.h);
-		this.scale.setGameSize(camera.frame.w, camera.frame.h);
-		this.scale.resize(camera.frame.w, camera.frame.h);
-		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+
+		this.levelProperties = {}
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
 
@@ -2771,6 +3000,7 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object sky ---
 		const sprite_1 = this.add.sprite(452.5, 259.5, 'sky').setInteractive();
 		sprite_1.name = "sky";
@@ -2787,6 +3017,14 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 		scaleY = 260 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
 		this.spriteReferences['gameover_jpeg'] = sprite_2;
+
+
+		const objects = this.levelData.objects;
+		const camera = objects.find((o) => o.type == 'camera');
+		console.log("Camera width & height", camera.frame.w, camera.frame.h);
+		this.scale.setGameSize(camera.frame.w, camera.frame.h);
+		this.scale.resize(camera.frame.w, camera.frame.h);
+		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
 
@@ -2856,7 +3094,7 @@ const config = {
 
 
 /**
- * @type Phaser.Scene
+ * @type Phaser.Game
  */
 const edgeGame = new Phaser.Game(config);
 scenes.forEach((scn, index) => {
@@ -2865,6 +3103,28 @@ scenes.forEach((scn, index) => {
 
 // edgeGame.scene.add('scene', startingScene, true, null);
 // edgeGame.scene.scenes = scenes;
+
+window.InternalsFromGame = {
+    _on_changeGameState: (paused) => {
+        if (paused){
+            const scenes = edgeGame.scene.getScenes(true);
+            if (scenes.length > 0){
+                scenes.forEach(scn => {
+                    if (!scn.scene.isPaused()){
+                        scn.scene.pause();
+                    }
+                })
+            }
+        }
+        else{
+            const pausedScenes = edgeGame.scene.getScenes(null)
+                .filter(scn => scn.scene.isPaused());
+            if (pausedScenes.length > 0){
+                pausedScenes.forEach(scn => scn.scene.resume());
+            }
+        }
+    }
+}
 
 /**
  * Proxying methods

@@ -1,4 +1,5 @@
 require('../phaser/phaser');
+require('./edgeinternals');
 
 /**
  * Check SPLAY component for this canvas.
@@ -43,7 +44,7 @@ const config = {
 
 
 /**
- * @type Phaser.Scene
+ * @type Phaser.Game
  */
 const edgeGame = new Phaser.Game(config);
 scenes.forEach((scn, index) => {
@@ -52,6 +53,37 @@ scenes.forEach((scn, index) => {
 
 // edgeGame.scene.add('scene', startingScene, true, null);
 // edgeGame.scene.scenes = scenes;
+
+window.InternalsFromGame = {
+    _on_changeGameState: (paused) => {
+
+        edgeGame.input.enabled = !paused;
+        edgeGame.input.keyboard.enabled = !paused;
+        edgeGame.input.mouse.enabled = !paused;
+
+        if (paused){
+            const scenes = edgeGame.scene.getScenes(true);
+            if (scenes.length > 0){
+                scenes.forEach(scn => {
+                    if (!scn.scene.isPaused()){
+                        scn.scene.pause();
+                    }
+                })
+            }
+        }
+        else{
+            const pausedScenes = edgeGame.scene.getScenes(null)
+                .filter(scn => scn.scene.isPaused());
+            if (pausedScenes.length > 0){
+                pausedScenes.forEach(scn => {
+                    scn.scene.resume();
+                    scn.input.enabled = true;
+                });
+                edgeGame.input.enabled = true;
+            }
+        }
+    }
+}
 
 /**
  * Proxying methods

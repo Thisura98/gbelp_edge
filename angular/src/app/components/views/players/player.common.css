@@ -88,6 +88,11 @@ app-userstatus{
     justify-content: center;
 }
 
+.canvas-container.paused{
+    opacity: 0.2;
+    transform: scale(0.93, 0.93)
+}
+
 .loading-indicator{
     line-height: 14px;
     font-size: 14px;

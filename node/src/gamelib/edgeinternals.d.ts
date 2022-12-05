@@ -1,10 +1,15 @@
-import { IEdgeInternals } from "../../../commons/src/models/play/edgeinternals.interface";
+import { IEdgeInternalsFromAngular, IEdgeInternalsFromGame } from "../../../commons/src/models/play/edgeinternals.interface";
 
 declare global{
     interface Window { 
         /**
          * EdgeInternals defined at PlayService in the angular module
          */
-        EdgeInternals: IEdgeInternals
+        InternalsFromAngular: IEdgeInternalsFromAngular,
+
+        /**
+         * EdgeInternals defined from each game and can be accessed by window.InternalsFromGame
+         */
+        InternalsFromGame: IEdgeInternalsFromGame
     }
 }

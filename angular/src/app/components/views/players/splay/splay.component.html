@@ -14,20 +14,23 @@
         
         <div class="primary-container">
             <!-- Check the game.js template (in game compiler) to find where this is used -->
-            <div class="canvas-container" id="canvas-container">
+            <div class="canvas-container" id="canvas-container" [class.paused]="isGamePaused">
                 <div class="loading-indicator">Loading game...</div>
             </div>
             <div class="buttons-container">
-                <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat"
+                <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat" flashImage="splay/btn.chat.flashing.icon.png"
+                    [flash]="shouldFlashChat"   
                     (click)="chatButtonPressed()">
                 </app-player-controlbtn>
                 <app-player-controlbtn imageName="splay/btn.objectives.icon.png" title="Objectives"
                     (click)="objectivesButtonPressed()">
                 </app-player-controlbtn>
-                <app-player-controlbtn imageName="splay/btn.guidance.icon.png" title="Guidance"
+                <app-player-controlbtn imageName="splay/btn.guidance.icon.png" title="Guidance" flashImage="splay/btn.guidance.flashing.icon.png"
+                    [flash]="shouldFlashGuidance"
                     (click)="guidanceButtonPressed()">
                 </app-player-controlbtn>
-                <app-player-controlbtn imageName="splay/btn.leave.icon.png" title="Leave" [dangerous]="true">
+                <app-player-controlbtn imageName="splay/btn.leave.icon.png" title="Leave" [dangerous]="true"
+                    (click)="goBack()">
                 </app-player-controlbtn>
             </div>
         </div>

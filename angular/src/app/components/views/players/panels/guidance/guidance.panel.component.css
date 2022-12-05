@@ -1,3 +1,33 @@
 :host{
     color: red;
 }
+
+.guidance-rows{
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    margin-top: 20px;
+}
+
+.guidance-str{
+    font-size: 24px;
+    line-height: 32px;
+    color: #979797;
+    font-weight: 200;
+}
+
+.highlight{
+    color: white;
+}
+
+span.bold{
+    font-weight: 600;
+}
+
+.guidance-feedback-box{
+    border-radius: 11px;
+    background-color: #201F1F;
+    color: #04E285;
+    font-weight: 600;
+    padding: 10px;
+}

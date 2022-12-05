@@ -7,7 +7,6 @@ import * as util from '../../../../Util/utils';
 import { SceneObjectType } from "../../../../../../commons/src/models/game/levels/scene";
 
 const EDGTOKEN_CREATE = 'EDGTOKEN_CREATE';
-const EDGTOKEN_SETCAMERA = 'EDGTOKEN_SETCAMERA';
 
 export function generateCreateCode(
     code: string,
@@ -21,7 +20,9 @@ export function generateCreateCode(
     let commands: string[] = [];
     let i = 1;
 
+    // No need to indent the 'scaleX' line
     commands.push(`let scaleX = 0, scaleY = 0;`);
+    commands.push(`\t\tthis.spriteReferences = {}`);
 
     for (let so of level.scene.objects){
 
@@ -49,14 +50,13 @@ export function generateCreateCode(
         i++;
     }
 
+    commands.push(createSetCameraCode());
+    commands.push('\n');
+
     return Promise.resolve(code)
     .then(t => {
         const createLines = commands.join('\n');
         return TemplateManager.replacePlaceholder(t, EDGTOKEN_CREATE, false, false, createLines);
-    })
-    .then(t => {
-        const cameraCoode = createSetCameraCode();
-        return TemplateManager.replacePlaceholder(t, EDGTOKEN_SETCAMERA, false, false, cameraCoode);
     })
     .catch(err => {
         l.logc(err, 'generateCreateCode');
