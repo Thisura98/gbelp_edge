@@ -59,7 +59,7 @@ export function getUserObjectiveProgressByCompletion(sessionId: string): Promise
             WHERE ${j.sessionId} = ?
             GROUP BY ${j.userId}, ${j.objectiveId}
         ) J
-        INNER JOIN \`${gameObjectives}\` O ON J.${j.objectiveId} = O.${o.objectiveId}
+        JOIN \`${gameObjectives}\` O ON J.${j.objectiveId} = O.${o.objectiveId}
     ) J2
     GROUP BY J2.${j.objectiveId}`;
 

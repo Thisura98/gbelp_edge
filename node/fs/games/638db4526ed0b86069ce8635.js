@@ -117,28 +117,28 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
-		this.load.image('title', 'fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png');
+		this.load.image('sky', 'fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png');
+		this.load.image('title', 'fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png');
 
 
 		this.levelData = {
@@ -187,9 +187,9 @@ class LevelScene_Title_Screen extends Phaser.Scene{
             "type": "sprite",
             "name": "title",
             "frame": {
-                "x": 300,
+                "x": 275,
                 "y": 50,
-                "w": 300,
+                "w": 350,
                 "h": 200
             },
             "rotation": 0,
@@ -229,7 +229,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		// --- scene object title ---
 		const sprite_2 = this.add.sprite(450, 150, 'title').setInteractive();
 		sprite_2.name = "title";
-		scaleX = 300 / sprite_2.displayWidth;
+		scaleX = 350 / sprite_2.displayWidth;
 		scaleY = 200 / sprite_2.displayHeight;
 		sprite_2.setScale(scaleX, scaleY);
 		this.spriteReferences['title'] = sprite_2;
@@ -341,24 +341,24 @@ class LevelScene_DataLevel extends Phaser.Scene{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
 
@@ -1269,34 +1269,34 @@ class LevelScene_Level1 extends CommonLevel{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
-		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
-		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
-		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
-		this.load.image('panel', 'fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png');
-		this.load.image('heart3', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart2', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart1', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
+		this.load.image('sky', 'fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png');
+		this.load.image('rocket', 'fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png');
+		this.load.image('bullet', 'fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png');
+		this.load.image('meteor', 'fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png');
+		this.load.image('panel', 'fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png');
+		this.load.image('heart3', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart2', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart1', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
 
 
 		this.levelData = {
@@ -1623,34 +1623,34 @@ class LevelScene_Level2 extends CommonLevel{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png');
-		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
-		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
-		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
-		this.load.image('panel', 'fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png');
-		this.load.image('heart3', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart2', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart1', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
+		this.load.image('sky', 'fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png');
+		this.load.image('rocket', 'fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png');
+		this.load.image('bullet', 'fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png');
+		this.load.image('meteor', 'fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png');
+		this.load.image('panel', 'fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png');
+		this.load.image('heart3', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart2', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart1', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
 
 
 		this.levelData = {
@@ -1981,34 +1981,34 @@ class LevelScene_Level3 extends CommonLevel{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png');
-		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
-		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
-		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
-		this.load.image('panel', 'fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png');
-		this.load.image('heart3', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart2', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart1', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
+		this.load.image('sky', 'fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png');
+		this.load.image('rocket', 'fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png');
+		this.load.image('bullet', 'fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png');
+		this.load.image('meteor', 'fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png');
+		this.load.image('panel', 'fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png');
+		this.load.image('heart3', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart2', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart1', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
 
 
 		this.levelData = {
@@ -2333,34 +2333,34 @@ class LevelScene_Level4 extends CommonLevel{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png');
-		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
-		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
-		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
-		this.load.image('panel', 'fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png');
-		this.load.image('heart3', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart2', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart1', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
+		this.load.image('sky', 'fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png');
+		this.load.image('rocket', 'fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png');
+		this.load.image('bullet', 'fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png');
+		this.load.image('meteor', 'fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png');
+		this.load.image('panel', 'fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png');
+		this.load.image('heart3', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart2', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart1', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
 
 
 		this.levelData = {
@@ -2690,34 +2690,34 @@ class LevelScene_Level5 extends CommonLevel{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png');
-		this.load.image('rocket', 'fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png');
-		this.load.image('bullet', 'fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png');
-		this.load.image('meteor', 'fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png');
-		this.load.image('panel', 'fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png');
-		this.load.image('heart3', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart2', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
-		this.load.image('heart1', 'fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png');
+		this.load.image('sky', 'fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png');
+		this.load.image('rocket', 'fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png');
+		this.load.image('bullet', 'fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png');
+		this.load.image('meteor', 'fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png');
+		this.load.image('panel', 'fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png');
+		this.load.image('heart3', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart2', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
+		this.load.image('heart1', 'fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png');
 
 
 		this.levelData = {
@@ -3066,28 +3066,28 @@ class LevelScene_Win extends Phaser.Scene{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
-		this.load.image('youwin', 'fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg');
+		this.load.image('sky', 'fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png');
+		this.load.image('youwin', 'fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg');
 
 
 		this.levelData = {
@@ -3260,28 +3260,28 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 
 
 		this.rawResources = {}
-		this.rawResources['sky1.png'] = "fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png";
-		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/7f321712-4567-485f-bc7c-4b2d09b4354d.png";
-		this.rawResources['rocket.png'] = "fs/res_upload/image/af846e3e-142f-4e82-825d-d95ab196eb8b.png";
-		this.rawResources['smallbullet.png'] = "fs/res_upload/image/93b193d9-3939-48a0-bde0-e983d4df60cc.png";
-		this.rawResources['meteor.png'] = "fs/res_upload/image/19b17164-f17c-4d14-b6f9-309986e823d8.png";
-		this.rawResources['meteor2.png'] = "fs/res_upload/image/1ac64204-33ab-4658-a229-223ef9695c87.png";
-		this.rawResources['panel.png'] = "fs/res_upload/image/e825ee7e-0a7f-417d-bce0-ab15f83e6895.png";
-		this.rawResources['heart.png'] = "fs/res_upload/image/f9c94337-a6ac-4580-b8dc-41a3b80d84a5.png";
-		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg";
-		this.rawResources['youwin.jpg'] = "fs/res_upload/image/5df0a14f-62ee-49fb-a9d1-d97487a1ae3c.jpg";
-		this.rawResources['explosion.png'] = "fs/res_upload/image/d47f1e63-761f-46c4-9353-22ddce5ab0d3.png";
-		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/12d9b5bf-9881-4418-b481-af49c0000484.json";
-		this.rawResources['sky2.png'] = "fs/res_upload/image/90aacdb7-fe86-4cf1-97ad-7cb644555ff3.png";
-		this.rawResources['sky3.png'] = "fs/res_upload/image/f4cc8449-9546-4f8c-aaf5-a2d412919d38.png";
-		this.rawResources['sky4.png'] = "fs/res_upload/image/d21a5ffb-8f8b-44a0-8281-6119e73974de.png";
-		this.rawResources['sky5.png'] = "fs/res_upload/image/a6c70c46-1f8d-4af9-ac58-377a01496bfc.png";
-		this.rawResources['starcluster1.png'] = "fs/res_upload/image/a5363afd-462b-4bae-bca7-6d8f8704372f.png";
-		this.rawResources['starcluster2.png'] = "fs/res_upload/image/f49cded7-a404-4fda-8f70-9be2e369e655.png";
+		this.rawResources['sky1.png'] = "fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png";
+		this.rawResources['titleplaceholder.png'] = "fs/res_upload/image/2797a124-65dc-40cf-ab4f-6bc7f45f22f4.png";
+		this.rawResources['rocket.png'] = "fs/res_upload/image/bca2e447-ca37-465b-bb58-4379ea332163.png";
+		this.rawResources['smallbullet.png'] = "fs/res_upload/image/8622fd94-fda5-48a0-89c0-377ca10966c1.png";
+		this.rawResources['meteor.png'] = "fs/res_upload/image/55bccd09-9ace-4c10-8c9e-3f7e23e58549.png";
+		this.rawResources['meteor2.png'] = "fs/res_upload/image/a64f7732-e9ce-4a3e-9497-c9916acdf1e9.png";
+		this.rawResources['panel.png'] = "fs/res_upload/image/b0411eac-e3a4-4910-b232-d5bf66061855.png";
+		this.rawResources['heart.png'] = "fs/res_upload/image/1e3df53c-a1c7-44ec-af52-66bc96313531.png";
+		this.rawResources['gameover.jpeg'] = "fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg";
+		this.rawResources['youwin.jpg'] = "fs/res_upload/image/cd1a20d9-2428-41c8-bf98-065629ea8e5f.jpg";
+		this.rawResources['explosion.png'] = "fs/res_upload/image/74262ce4-b87e-47e2-bba5-072262dc593c.png";
+		this.rawResources['explosion_atlas.json'] = "fs/res_upload/other/cd336fb7-927e-4504-a80c-207c07d7b337.json";
+		this.rawResources['sky2.png'] = "fs/res_upload/image/1676b713-b5f5-4e5e-95b8-99fad8dbf795.png";
+		this.rawResources['sky3.png'] = "fs/res_upload/image/ade53129-e7d8-4195-86f9-55c9e097e629.png";
+		this.rawResources['sky4.png'] = "fs/res_upload/image/4224c77c-0b2c-4851-a89c-f04f4c16390a.png";
+		this.rawResources['sky5.png'] = "fs/res_upload/image/7270288f-b202-4df4-aa99-4c3a551379ce.png";
+		this.rawResources['starcluster1.png'] = "fs/res_upload/image/2e14482f-933c-4420-9eab-423935c06775.png";
+		this.rawResources['starcluster2.png'] = "fs/res_upload/image/84c63e9c-4242-49c9-aa6d-295be9883fc4.png";
 
 
-		this.load.image('sky', 'fs/res_upload/image/543a1bf2-5735-4778-99fd-1ab26ec6373f.png');
-		this.load.image('gameover_jpeg', 'fs/res_upload/image/5d5f6894-ad08-49ee-a28a-de9d89356caf.jpeg');
+		this.load.image('sky', 'fs/res_upload/image/c78a2f36-5932-409d-b576-6ff7e7743ed6.png');
+		this.load.image('gameover_jpeg', 'fs/res_upload/image/a6fec028-2c3f-4a8d-afb6-99427132406b.jpeg');
 
 
 		this.levelData = {

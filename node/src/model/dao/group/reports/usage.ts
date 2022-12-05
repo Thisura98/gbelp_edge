@@ -16,7 +16,7 @@ export function getUserUsageGroupedByNonce(sessionId: string): Promise<GameSessi
         ORDER BY start_time ASC`;
     const values: string[] = [sessionId];
 
-    // l.logc(query, 'usage-data-bynonce-query');
+    l.logc(query, 'usage-data-bynonce-query');
 
     return new Promise<GameSessionUserUsageGroupedByNonce[]>((resolve, reject) => {
         sql.getPool()!.query(query, values, (error, result) => {
