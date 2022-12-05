@@ -4,7 +4,7 @@ import { debounce, delay, throttleTime } from 'rxjs/operators';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
-import { LevelPropertySection } from '../../../../../../../../../commons/src/models/game/levels/properties';
+import { LevelProperty, LevelPropertySection } from '../../../../../../../../../commons/src/models/game/levels/properties';
 import { GameProject } from '../../../../../../../../../commons/src/models/game/project';
 import { Example } from './example.levelprops';
 import { getMonacoLevelPropsTextModel } from './monaco.editor.model';

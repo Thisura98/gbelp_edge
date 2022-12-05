@@ -205,7 +205,7 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 
 
 		this.levelProperties = {
-    "First Level": "LevelScene_Level5"
+    "First Level": "LevelScene_Level3"
 }
 	
 
@@ -484,7 +484,7 @@ class RocketBulletsGroup extends Phaser.Physics.Arcade.Group {
  */
 class MeteorTextContainer extends Phaser.GameObjects.Container{
 
-    constructor(scene){
+    constructor(scene, fontSize){
         super(scene);
 
         /**
@@ -502,6 +502,8 @@ class MeteorTextContainer extends Phaser.GameObjects.Container{
          */
         this.correct = false;
 
+        this.fontSize = fontSize;
+
         this.setup();
     }
 
@@ -513,7 +515,7 @@ class MeteorTextContainer extends Phaser.GameObjects.Container{
          */
         const textStyle = {
             fontFamily: 'Arial',
-            fontSize: '16px',
+            fontSize: `${this.fontSize}px`,
             align: 'center',
             color: '#ffc800',
             wordWrap: {
@@ -573,10 +575,11 @@ class MeteorGroup extends Phaser.Physics.Arcade.Group {
      * @param {number} velocity Y Velocity
      * @param {boolean} correct Does the meteor represent correct or incorrect state?
      * @param {string} text The answer visible on the meteor
+     * @param {number} fontSize
      */
-    addMeteor (x, y, velocityX, velocityY, correct, text)
+    addMeteor (x, y, velocityX, velocityY, correct, text, fontSize)
     {
-        const meteor = new MeteorTextContainer(this.scene);
+        const meteor = new MeteorTextContainer(this.scene, fontSize);
         this.add(meteor)
         this.scene.add.existing(meteor);
         meteor.queue(x, y, velocityX, velocityY, correct, text);
@@ -591,7 +594,7 @@ class CommonLevel extends Phaser.Scene{
     constructor(object){
         super(object);
 
-        this.kObj5Points12Seconds = '5 points in 12 seconds'
+        this.kObj5Points12Seconds = '5 points in 20 seconds';
 
         this.kObjCompleteLvl1 = 'Complete Lvl 1';
         this.kObjCompleteLvl2 = 'Complete Lvl 2';
@@ -686,6 +689,13 @@ class CommonLevel extends Phaser.Scene{
         this.asteroidDirection = 1;
 
         /**
+         * Answer font size
+         * 
+         * @type {number}
+         */
+        this.answerFontSize = 16;
+
+        /**
          * Correct answer array
          * @type {string[]}
          */
@@ -741,6 +751,10 @@ class CommonLevel extends Phaser.Scene{
     }
 
     update(){
+        if (this.cameras.main == undefined){
+            return;
+        }
+
         this.handleRocketMovement();
         this.handleRocketBullets();
     }
@@ -781,6 +795,8 @@ class CommonLevel extends Phaser.Scene{
         this.setupMeteorTimer();
         this.setupExplosionAnimation();
         this.setupStarCluster();
+        this.setupLevelText();
+        this.setupTransitions();
     }
 
     /**
@@ -917,6 +933,41 @@ class CommonLevel extends Phaser.Scene{
         });
     }
 
+    setupLevelText(){
+        const x = this.cameras.main.displayWidth / 2;
+        const y = this.cameras.main.displayHeight / 2;
+        // getLevelName
+        const text = this.getLevelName();
+        const sprite = this.add.text(x, y, text, {
+            fontFamily: 'Arial',
+            fontSize: '20px',
+            color: '#FFFFFF'
+        });
+
+        sprite.setOrigin(0.5, 0.5);
+        sprite.alpha = 0;
+        
+        const fadeOut = this.add.tween({
+            targets: sprite,
+            alpha: 1,
+            duration: 1000,
+            hold: 2000,
+            yoyo: true,
+        })
+    }
+
+    setupTransitions(){
+        this.events.on('transitionout', (scene, duration) => {
+            this.add.tween({
+                targets: this.cameras.main,
+                alpha: 0,
+                duration: duration
+            });
+            this.physics.pause();
+            this.cameras.main.zoomTo(0.001, duration, 'Power2')
+        });
+    }
+
     /**
      * When the meteor creation ticker ticks, pick an answer from the 
      * answers pool and add a meteor to the scene.
@@ -990,7 +1041,8 @@ class CommonLevel extends Phaser.Scene{
             velocityX, 
             velocityY, 
             isCorrectAnswer,
-            value
+            value,
+            this.answerFontSize
         );
     }
 
@@ -1001,6 +1053,7 @@ class CommonLevel extends Phaser.Scene{
         this.wrongAnswers = this.splitCSV(EdgeProxy.getLevelProperty(this, 'Wrong Answers'));
         this.meteorVelocity = Number.parseInt(EdgeProxy.getLevelProperty(this, 'Meteor Velocity'));
         this.asteroidDirection = Number.parseInt(EdgeProxy.getLevelProperty(this, 'Asteroid Direction'));
+        this.answerFontSize = Number.parseInt(EdgeProxy.getLevelProperty(this, 'Answer Font Size'));
     }
 
     /**
@@ -1155,7 +1208,24 @@ class CommonLevel extends Phaser.Scene{
     }
 
     moveToNextLevel(){
+        const nextLevel = this.getNextLevelName();
+        this.scene.transition({
+            target: nextLevel,
+            duration: 1000,
+            moveBelow: true
+        });
+        // this.scene.start(nextLevel);
+    }
+
+    // MARK: Override Properties
+
+    getLevelName(){
+        return 'Level Name Not Overridden!';
+    }
+
+    getNextLevelName(){
         console.log('Move to next level not implemented. Do not call super implementation.');
+        return 'EmptyLevel';
     }
 
 }
@@ -1387,9 +1457,10 @@ class LevelScene_Level1 extends CommonLevel{
 
 		this.levelProperties = {
     "Question": "Shoot all even numbers",
-    "Points Required": 10,
+    "Points Required": 1,
     "Meteor Velocity": 80,
     "Asteroid Direction": "1",
+    "Answer Font Size": 16,
     "Correct Answers": "2, 4, 6, 8, 10, 12",
     "Wrong Answers": "1, 3, 5, 7, 9, 11"
 }
@@ -1503,15 +1574,13 @@ class LevelScene_Level1 extends CommonLevel{
 
     }
 
-    moveToNextLevel(){
-        EdgeProxy.increaseObjectiveProgress(this.kObjCompleteLvl1, 1);
+    getLevelName(){
+        return 'Level 1';
+    }
 
-        /**
-         * @type {Phaser.Scene}
-         */
-        const ref = this;
-        ref.scene.start('LevelScene_Level2');
-        // ref.scene.start('LevelScene_Win');
+    getNextLevelName(){
+        EdgeProxy.increaseObjectiveProgress(this.kObjCompleteLvl1, 1);
+        return 'LevelScene_Level2';
     }
 }
 
@@ -1745,6 +1814,7 @@ class LevelScene_Level2 extends CommonLevel{
     "Points Required": 15,
     "Meteor Velocity": 130,
     "Asteroid Direction": "2",
+    "Answer Font Size": 16,
     "Correct Answers": "1, 4, 9, 16, 25, 36, 49",
     "Wrong Answers": "0, 2, 6, 12, 18, 24, 27, 32"
 }
@@ -1860,14 +1930,13 @@ class LevelScene_Level2 extends CommonLevel{
 
     }
 
-    moveToNextLevel(){
-        EdgeProxy.increaseObjectiveProgress(this.kObjCompleteLvl2, 1);
+    getLevelName(){
+        return 'Level 2';
+    }
 
-        /**
-         * @type {Phaser.Scene}
-         */
-        const ref = this;
-        ref.scene.start('LevelScene_Level3');
+    getNextLevelName(){
+        EdgeProxy.increaseObjectiveProgress(this.kObjCompleteLvl2, 1);
+        return 'LevelScene_Level3';
     }
 
 }
@@ -2005,10 +2074,10 @@ class LevelScene_Level3 extends CommonLevel{
             "type": "sprite",
             "name": "meteor",
             "frame": {
-                "x": 58.00000000000007,
+                "x": 58.00000000000002,
                 "y": 524,
-                "w": 53.33333333333328,
-                "h": 26.666666666666643
+                "w": 65.99999999999999,
+                "h": 43
             },
             "rotation": 0,
             "physicsBehavior": "0",
@@ -2103,6 +2172,7 @@ class LevelScene_Level3 extends CommonLevel{
     "Points Required": 20,
     "Meteor Velocity": 160,
     "Asteroid Direction": "3",
+    "Answer Font Size": 24,
     "Correct Answers": "1/2, 1/4, 4/5, 10/20, 3/4, 2/8, 9/100, 4/6, 13/19, ⅜",
     "Wrong Answers": "2/2, 3/2, 10/9, 2 ½, 4 ⅘, 24/14, 9/6, 2, 3/2"
 }
@@ -2143,10 +2213,10 @@ class LevelScene_Level3 extends CommonLevel{
 
 
 		// --- scene object meteor ---
-		const sprite_4 = this.add.sprite(84.66666666666671, 537.3333333333334, 'meteor').setInteractive();
+		const sprite_4 = this.add.sprite(91.00000000000001, 545.5, 'meteor').setInteractive();
 		sprite_4.name = "meteor";
-		scaleX = 53.33333333333328 / sprite_4.displayWidth;
-		scaleY = 26.666666666666643 / sprite_4.displayHeight;
+		scaleX = 65.99999999999999 / sprite_4.displayWidth;
+		scaleY = 43 / sprite_4.displayHeight;
 		sprite_4.setScale(scaleX, scaleY);
 		this.spriteReferences['meteor'] = sprite_4;
 
@@ -2213,14 +2283,13 @@ class LevelScene_Level3 extends CommonLevel{
 
     }
 
-    moveToNextLevel(){
-        EdgeProxy.increaseObjectiveProgress(this.kObjCompleteLvl3, 1);
+    getLevelName(){
+        return 'Level 3';
+    }
 
-        /**
-         * @type {Phaser.Scene}
-         */
-        const ref = this;
-        ref.scene.start('LevelScene_Level4');
+    getNextLevelName(){
+        EdgeProxy.increaseObjectiveProgress(this.kObjCompleteLvl3, 1);
+        return 'LevelScene_Level4';
     }
 
 }
@@ -2455,6 +2524,7 @@ class LevelScene_Level4 extends CommonLevel{
     "Points Required": 20,
     "Meteor Velocity": 120,
     "Asteroid Direction": "1",
+    "Answer Font Size": 16,
     "Correct Answers": "kg, cm, m3, km, meter, mm",
     "Wrong Answers": "°C, liters, inch, feet, ounce, pound"
 }
@@ -2568,15 +2638,13 @@ class LevelScene_Level4 extends CommonLevel{
 
     }
 
-    moveToNextLevel(){
-        EdgeProxy.increaseGuidanceProgress(this.kObjCompleteLvl4, 1);
+    getLevelName(){
+        return 'Level 4';
+    }
 
-        /**
-         * @type {Phaser.Scene}
-         */
-        const ref = this;
-        ref.scene.start('LevelScene_Level5');
-        // ref.scene.start('LevelScene_Win');
+    getNextLevelName(){
+        EdgeProxy.increaseGuidanceProgress(this.kObjCompleteLvl4, 1);
+        return 'LevelScene_Level5';
     }
 }
 
@@ -2809,10 +2877,11 @@ class LevelScene_Level5 extends CommonLevel{
 
 
 		this.levelProperties = {
-    "Question": "Shoot correct representations of fractions",
+    "Question": "Shoot correct representations of fractions Shoot correct representations of fractions",
     "Points Required": 25,
     "Meteor Velocity": 130,
     "Asteroid Direction": "1",
+    "Answer Font Size": 16,
     "Correct Answers": "🌓 = 1/2, ✅✅❌ = 2/3, ✅✅❌ = 1/3, 🎩🎩🎩👒 = 3/4, 🌕🌑🌑🌕 = 2/4",
     "Wrong Answers": "🍎🍊🍊 = 1/2, ✅✅✅❌ = 2/4, 🎩🎩👒👒👒 = 4/5, 🌕🌑🌑🌕🌕 = 1/5"
 }
@@ -2926,13 +2995,13 @@ class LevelScene_Level5 extends CommonLevel{
 
     }
 
-    moveToNextLevel(){
-        /**
-         * @type {Phaser.Scene}
-         */
-        const ref = this;
-        // ref.scene.start('LevelScene_Level2');
-        ref.scene.start('LevelScene_Win');
+    getLevelName(){
+        return 'Level 5';
+    }
+
+    getNextLevelName(){
+        EdgeProxy.increaseGuidanceProgress(this.kObjCompleteLvl5, 1);
+        return 'LevelScene_Win';
     }
 }
 

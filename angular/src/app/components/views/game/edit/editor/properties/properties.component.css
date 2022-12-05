@@ -66,6 +66,7 @@ ngx-monaco-editor{
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    gap: 11px;
 }
 
 .property-title{
@@ -73,7 +74,6 @@ ngx-monaco-editor{
     padding: 8px 13px;
     display: flex;
     border-radius: 7px;
-    margin-bottom: 11px;
 }
 
 .property-item{
@@ -121,4 +121,10 @@ ngx-monaco-editor{
 
 .property-control{
     border: none;
+}
+
+.property-item-value-text{
+    font-family: 'Roboto';
+    resize: none;
+    height: 50px;
 }

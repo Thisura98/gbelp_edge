@@ -129,6 +129,11 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chatSocket!.emit('chat-add', message);
   }
 
+  hidePanels(){
+    this.panelExpanded = false;
+    this.setGameStatePaused(false);
+  }
+
   @HostListener('window:popstate', ['$event'])
   onPopState(event: Event){
     this.manualDestroyGameSession();
