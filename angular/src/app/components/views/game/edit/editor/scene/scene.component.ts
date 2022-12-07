@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { SceneObject, SceneObjectHelper, SceneObjectType } from '../../../../../../../../../commons/src/models/game/levels/scene';
 import { GameProjectResource } from '../../../../../../../../../commons/src/models/game/resources';
 import { DialogService } from 'src/app/services/dialog.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -19,7 +21,9 @@ import { GameListing } from '../../../../../../../../../commons/src/models/game/
     '../editor.component.css'
   ]
 })
-export class SceneEditorComponent implements OnInit {
+export class SceneEditorComponent implements OnInit, OnDestroy {
+
+  private notifier$ = new Subject();
 
   editingLevelId: string | undefined;
   gameListing: GameListing | undefined;
@@ -42,7 +46,9 @@ export class SceneEditorComponent implements OnInit {
 
   ngOnInit(): void {
     // Get from Parent Editor Component
-    this.editorDataService.getEditorChildData().subscribe(value => {
+    this.editorDataService.getEditorChildData()
+    .pipe(takeUntil(this.notifier$))
+    .subscribe(value => {
       this.gameListing = value?.gameListing?.data;
 
       if (value.selectedLevelIndex == undefined)
@@ -55,15 +61,23 @@ export class SceneEditorComponent implements OnInit {
       this.sceneObjects = levels[value.selectedLevelIndex!].scene.objects;
       this.editorDataService.setSceneMapData(this.sceneObjects, value.selectedLevelIndex);
     });
+    
     // Get from Child Scene Map Component
-    this.editorDataService.getSceneObjectSelection().subscribe(objectId => {
+    this.editorDataService.getSceneObjectSelection()
+    .pipe(takeUntil(this.notifier$))
+    .subscribe(objectId => {
       const index = this.sceneObjects.findIndex(obj => obj._id == objectId);
       this.selectedSceneObjIndex = index;
       console.log('getSceneObjectSelection', index)
     });
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe(params => {
       this.editingLevelId = params['levelId'];
     });
+  }
+
+  ngOnDestroy(): void {
+    this.notifier$.next();
+    this.notifier$.complete();
   }
 
   didDoubleClickLibraryItem(resource: GameProjectResource){

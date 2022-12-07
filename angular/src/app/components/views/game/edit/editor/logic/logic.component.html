@@ -1,6 +1,7 @@
 <div class="container3 dyn-anim-fadein-delayed">
     <div class="section-editor">
         <h2>Editor</h2>
+        <div *ngIf="!editorLoaded">Loading editor...</div>
         <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" (init)="editorInit($event)"></ngx-monaco-editor>
     </div>
     <div class="section-pane">

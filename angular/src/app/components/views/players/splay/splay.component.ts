@@ -50,6 +50,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
   shouldFlashGuidance: boolean = false;
   shouldFlashChat: boolean = false;
   isGamePaused: boolean = false;
+  pauseButtonText = "Pause";
   private displayedGuidanceTrackers: Map<number, boolean> = new Map();
 
   @ViewChild(PlayerChatPanelComponent)
@@ -108,6 +109,15 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
     //   this.location.back()
     // else
     //   this.router.navigate(['dashboard']);
+  }
+
+  pauseButtonPressed(){
+    if (this.isGamePaused){
+      this.hidePanels();
+    }
+    else{
+      this.setGameStatePaused(true);
+    }
   }
 
   chatButtonPressed(){
@@ -460,6 +470,7 @@ export class SplayComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private setGameStatePaused(paused: boolean){
     this.isGamePaused = paused;
+    this.pauseButtonText = paused ? "Resume" : "Pause";
     ((window as any).InternalsFromGame as IEdgeInternalsFromGame)._on_changeGameState(paused);
   }
 

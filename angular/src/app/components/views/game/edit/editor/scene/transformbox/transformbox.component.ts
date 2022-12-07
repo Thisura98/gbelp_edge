@@ -1,12 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 import { SceneObject } from "../../../../../../../../../../commons/src/models/game/levels/scene";
 
 @Component({
   selector: 'scene-transform-box',
   templateUrl: './transformbox.component.html'
 })
-export class SceneObjectTransformBoxComponent {
-
+export class SceneObjectTransformBoxComponent implements OnDestroy {
   @Input('object')
   public sceneObject: SceneObject | undefined;
 
@@ -27,6 +26,10 @@ export class SceneObjectTransformBoxComponent {
 
   @ViewChild('y')
   top!: ElementRef<HTMLInputElement>;
+
+  ngOnDestroy(): void {
+    this.objectChanged.complete();
+  }
 
   public triggerChange() {
     let changeRequired = false;

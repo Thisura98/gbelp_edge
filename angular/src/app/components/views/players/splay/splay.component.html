@@ -18,6 +18,10 @@
                 <div class="loading-indicator">Loading game...</div>
             </div>
             <div class="buttons-container">
+                <app-player-controlbtn imageName="{{ 'splay/' + (isGamePaused ? 'btn.play.icon.png' : 'btn.pause.icon.png') }}" 
+                    [title]="pauseButtonText"
+                    (click)="pauseButtonPressed()">
+                </app-player-controlbtn>
                 <app-player-controlbtn imageName="splay/btn.chat.icon.png" title="Chat" flashImage="splay/btn.chat.flashing.icon.png"
                     [flash]="shouldFlashChat"   
                     (click)="chatButtonPressed()">

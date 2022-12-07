@@ -14,6 +14,7 @@ import { GameObjective } from '../../../../../../../commons/src/models/game/obje
 import { GameGuidanceTracker } from '../../../../../../../commons/src/models/game/trackers';
 import { GameEditConstants } from 'src/app/constants/constants';
 import { MetaKeyService } from 'src/app/services/metakey.service';
+import { UserTypeNames } from '../../../../../../../commons/src/models/user';
 
 @Component({
   selector: 'app-game-create',
@@ -266,7 +267,7 @@ export class GameCreateComponent implements OnInit {
 
   private loadData(){
     // Load Game Template
-    this.apiService.game.getAllGames(true, true, this.userService.getUserAndToken().user.userId).subscribe((entries) => {
+    this.apiService.game.getAllGames(true, true).subscribe((entries) => {
       this.gameTemplates = entries.data;
     });
 
@@ -314,17 +315,26 @@ export class GameCreateComponent implements OnInit {
 
     // Protect Unauthorized Editing
 
-    const userId = this.userService.getUserAndToken().user.userId;
+    const user = this.userService.getUserAndToken().user;
+    const userId = user.userId;
     const allowedAuthors = data.author_id.split(',');
     const inList = allowedAuthors.find(id => id == userId);
 
     this.editingGame = data;
 
     if (inList == undefined){
-      this.dialogService.showDismissable('No Permission', 'You do not have permission to edit this game', () => {
-        this.location.back();
-      });
-      return
+      if (user.userTypeName == UserTypeNames.admin){
+        this.dialogService.showDismissable(
+          'Permission Notice', 
+          'This game was not created by you. Please be careful when making changes');
+      }
+      else{
+        this.dialogService.showDismissable(
+          'No Permission', 
+          'You do not have permission to edit this game', 
+          () => this.location.back());
+        return
+      }
     }
 
     // Set data to UI

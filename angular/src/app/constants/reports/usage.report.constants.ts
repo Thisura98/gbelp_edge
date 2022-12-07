@@ -50,6 +50,12 @@ export function getUsageOverviewChartOptions(onChartZoomed: (params: any) => voi
       axisBorder: {
         show: true,
         color: '#8f8f8f'
+      },
+      min: 0,
+      labels: {
+        formatter: function (val, opts?) {
+          return val.toFixed(0);
+        },
       }
     },
     dataLabels: { enabled: false },

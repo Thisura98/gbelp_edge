@@ -48,6 +48,10 @@ export class GroupSessionCreateComponent implements OnInit{
     return [];
   }
 
+  get isSelectedGameDisabled(): boolean{
+    return this.isTestEditSession();
+  }
+
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
@@ -93,19 +97,24 @@ export class GroupSessionCreateComponent implements OnInit{
     if (this.startDateAndTime == undefined){
       this.hasDateError = true;
       this.sessionScheduleSummary = 'Enter valid start date & time';
+      return;
     }
-    else if (this.endDateAndTime == undefined){
-      this.hasDateError = true;
-      this.sessionScheduleSummary = 'Enter valid end date & time';
+
+    if (!this.isTestEditSession()){
+      if (this.endDateAndTime == undefined){
+        this.hasDateError = true;
+        this.sessionScheduleSummary = 'Enter valid end date & time';
+        return;
+      }
+      else if (this.endDateAndTime < this.startDateAndTime){
+        this.hasDateError = true;
+        this.sessionScheduleSummary = 'End date must be after start date';
+        return;
+      }
     }
-    else if (this.endDateAndTime < this.startDateAndTime){
-      this.hasDateError = true;
-      this.sessionScheduleSummary = 'End date must be after start date';
-    }
-    else{
-      this.hasDateError = false;
-      this.sessionScheduleSummary = this.getSessionDurationString();
-    }
+    
+    this.hasDateError = false;
+    this.sessionScheduleSummary = this.getSessionDurationString();
   }
 
   /**
@@ -127,6 +136,11 @@ export class GroupSessionCreateComponent implements OnInit{
    * Get the duration of the session as text
    */
   private getSessionDurationString(): string{
+
+    if (this.isTestEditSession()){
+      return 'Session will be open forever, since it is a test session';
+    }
+
     let startDate = new Date(this.startDateAndTime!);
     let endDate = new Date(this.endDateAndTime!);
     let diff = (endDate.getTime() - startDate.getTime()) / 1000;  // in seconds
@@ -199,13 +213,33 @@ export class GroupSessionCreateComponent implements OnInit{
         this.groupUsers = response.data;
 
         // Get Games List
-        this.apiService.game.getAllGames(false, true, userId!).subscribe(
+        const published = this.getShouldRequestPublishedGames();
+        this.apiService.game.getAllGames(false, published, userId!).subscribe(
           res => this.handleGamesResponse(res), 
           error => this.handleError(error)
         );
       },
       error => this.handleError(error)
     )
+  }
+
+  private isTestEditSession(): boolean{
+    return this.editingSession?.type_id == GameSessionType.test;
+  }
+
+  /**
+   * If we're displaying a Test Session,
+   * we should show all published and un-published games.
+   * But for others & when in create mode,
+   * we should only show published games.
+   */
+  private getShouldRequestPublishedGames(): boolean | null{
+    if (this.isEditMode && this.isTestEditSession()){
+      return null;
+    }
+    else{
+      return true;
+    }
   }
 
   private handleSessionLoadResponse(response: ServerResponse<GameSession>){

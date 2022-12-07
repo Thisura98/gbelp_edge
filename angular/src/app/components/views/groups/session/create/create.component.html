@@ -23,7 +23,7 @@
                 </div>
                 <div class="dyn-form-row">
                     <div class="dyn-form-label">Game</div>
-                    <select class="dyn-select" [(ngModel)]="selectedGame">
+                    <select class="dyn-select" [(ngModel)]="selectedGame" [disabled]="isSelectedGameDisabled">
                         <option *ngIf="games == undefined || games.length == 0" selected value="">
                             No games to show
                         </option>

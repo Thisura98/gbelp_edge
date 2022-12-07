@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UtilsService } from 'src/app/services/utils.service';
-import { UserTypeNames } from '../../../../../../../../commons/src/models/user';
+import { UserType, UserTypeNames } from '../../../../../../../../commons/src/models/user';
 
 @Component({
   selector: 'app-dashboard-menuselector',
@@ -16,7 +16,7 @@ import { UserTypeNames } from '../../../../../../../../commons/src/models/user';
   <div *ngIf="expanded" class="ds-selector-menu" #dsMenuSelectorMenu>
     <div class="ds-ms-mitem" (click)="overviewClicked()">Overview</div>
     <div *ngIf="canEditGames" class="ds-ms-mitem" (click)="gamesClicked()">Games</div>
-    <div *ngIf="canEditGames" class="ds-ms-mitem" (click)="templatesClicked()">Templates</div>
+    <div *ngIf="canEditTemplates" class="ds-ms-mitem" (click)="templatesClicked()">Templates</div>
     <div class="ds-ms-mitem" (click)="groupsClicked()">Groups</div>
   </div>
   `,
@@ -30,6 +30,7 @@ export class MenuselectorComponent implements OnInit {
   menuIcon: string = "";
   private userType: String = "";
   canEditGames = false;
+  canEditTemplates = false;
 
   @ViewChild('dsMenuSelector')
   menuSelector: ElementRef | undefined;
@@ -45,12 +46,10 @@ export class MenuselectorComponent implements OnInit {
     this.utilsService.documentClickedTarget.subscribe((target) => {
       this.handleTap(target);
     });
-
-    const userTypeName = this.userService.getUserAndToken().user.userTypeName;
-    this.canEditGames = userTypeName == UserTypeNames.creator || userTypeName == UserTypeNames.admin;
   }
 
   ngOnInit(): void {
+    this.evaluatePermissions();
     this.findDetails();
   }
 
@@ -93,10 +92,6 @@ export class MenuselectorComponent implements OnInit {
   toggleExpanded(){
     this.expanded = !this.expanded;
   }
-
-  private getNavPath(destination: String): String{
-    return `dashboard/${this.userType}/${destination}`;
-  }
   
   overviewClicked(){
     this.router.navigate([this.getNavPath('overview')]).finally(() => {
@@ -122,5 +117,23 @@ export class MenuselectorComponent implements OnInit {
     });
   }
 
+  private getNavPath(destination: String): String{
+    return `dashboard/${this.userType}/${destination}`;
+  }
+
+  private evaluatePermissions(){
+    const userTypeName = this.userService.getUserAndToken().user.userTypeName ?? "";
+
+    const gameEditors = [
+      UserTypeNames.admin, UserTypeNames.creator, UserTypeNames.teacher
+    ];
+
+    const templateEditors = [
+      UserTypeNames.admin, UserTypeNames.creator
+    ];
+
+    this.canEditGames = gameEditors.findIndex(v => v == userTypeName) >= 0;
+    this.canEditTemplates = templateEditors.findIndex(v => v == userTypeName) >= 0;
+  }
 
 }

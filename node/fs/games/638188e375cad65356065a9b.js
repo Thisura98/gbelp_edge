@@ -606,27 +606,6 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 
     constructor(){
         super({key: "LevelScene_Game_Over_Screen", active: false });
-
-        /**
-         * Resource filename lookup using their display names
-         * @type {{ [key: string] : string }}
-         */
-        this.rawResources = {};
-        /**
-         * All sprites loaded in the create() method
-         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
-         */
-        this.spriteReferences = {};
-        /**
-         * The entire scene object (contains the raw game objects in the 'objects' array)
-         * @type {Array}
-         */
-        this.levelData = null;
-        /**
-         * Properties loaded from the Property Editor
-         * @type {Object.<string, any>}
-         */
-        this.levelProperties = null;
     }
 
     preload(){
@@ -673,7 +652,6 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 
 		this.levelProperties = {}
 	
-
         // Add your code below this line
         
     }
@@ -688,19 +666,16 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
 
-
         // Add your code below this line
 
     }
     update(){
         // EDGTOKEN_UPDATE
-
         // Add your code below this line
 
     }
     destroy(){
         // EDGTOKEN_DESTROY
-        
         // Add your code below this line
 
     }
@@ -754,15 +729,30 @@ scenes.forEach((scn, index) => {
 
 window.InternalsFromGame = {
     _on_changeGameState: (paused) => {
-        const scenes = edgeGame.scene.getScenes(true);
-        if (scenes.length > 0){
-            let scene = scenes[0].scene;
 
-            if (!scene.isPaused() && paused){
-                scene.pause();
+        edgeGame.input.enabled = !paused;
+        edgeGame.input.keyboard.enabled = !paused;
+        edgeGame.input.mouse.enabled = !paused;
+
+        if (paused){
+            const scenes = edgeGame.scene.getScenes(true);
+            if (scenes.length > 0){
+                scenes.forEach(scn => {
+                    if (!scn.scene.isPaused()){
+                        scn.scene.pause();
+                    }
+                })
             }
-            else if (scene.isPaused() && !paused){
-                scene.resume();
+        }
+        else{
+            const pausedScenes = edgeGame.scene.getScenes(null)
+                .filter(scn => scn.scene.isPaused());
+            if (pausedScenes.length > 0){
+                pausedScenes.forEach(scn => {
+                    scn.scene.resume();
+                    scn.input.enabled = true;
+                });
+                edgeGame.input.enabled = true;
             }
         }
     }

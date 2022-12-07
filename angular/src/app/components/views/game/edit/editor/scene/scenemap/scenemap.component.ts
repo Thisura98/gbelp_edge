@@ -4,9 +4,10 @@ import { GameProjectResource } from "../../../../../../../../../../commons/src/m
 import { fabric } from 'fabric';
 import { ResourceUrlTransformPipe } from "src/app/pipes/resource-url-transform.pipe";
 import { EditorDataService, ReorderPack } from "src/app/services/editor.data.service";
-import { debounceTime } from "rxjs/operators";
+import { debounceTime, takeUntil } from "rxjs/operators";
 import { CameraBoundingBox } from "./cameragroup.scenemap";
 import { GameListing } from "../../../../../../../../../../commons/src/models/game/game";
+import { Subject } from "rxjs";
 
 export class SceneMapDataPack{
     constructor(
@@ -74,6 +75,7 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
     // private canvasObjects: fabric.Object[] = [];
     private sceneObjects: SceneObject[] = [];
     private selectedLevelIndex: number | undefined;
+    private notifier$ = new Subject();
 
     readonly kIgnoreSelectionEvent = 'scenemap:ignorSelectionEvent';
 
@@ -101,6 +103,10 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
     ngOnDestroy(): void {
         console.log('On Destroy called for scenemap!');
+
+        this.notifier$.next();
+        this.notifier$.complete();
+
         this.canvas?.on('after:render', () => {
             this.canvas?.dispose();
         })
@@ -241,7 +247,10 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
 
     private setupData(){
         // Listen to setting all scene objects
-        this.dataService.getSceneMapData().pipe(debounceTime(100)).subscribe(pack => {
+        this.dataService.getSceneMapData()
+        .pipe(takeUntil(this.notifier$))
+        .pipe(debounceTime(100))
+        .subscribe(pack => {
             this.sceneObjects = pack.sceneObjects;
             this.selectedLevelIndex = pack.selectedLevelIndex;
             while(this.canvas!._objects.length > 0){
@@ -252,23 +261,31 @@ export class SceneMapComponent implements OnInit, AfterViewInit, OnDestroy{
         });
 
         // Listen to adding invidual scene objects
-        this.dataService.onAddSceneObject().subscribe((obj) => {
+        this.dataService.onAddSceneObject()
+        .pipe(takeUntil(this.notifier$))
+        .subscribe((obj) => {
             this.addImageToCanvas(obj);
         });
 
         // Listen to selection changes
-        this.dataService.getSceneObjectSelection().subscribe((sel) => {
+        this.dataService.getSceneObjectSelection()
+        .pipe(takeUntil(this.notifier$))
+        .subscribe((sel) => {
             this.selectedObjectId = sel;
             this.updateCanvasSelection()
         });
 
         // Listen to object state (active state, frame changes, etc.)
-        this.dataService.getSceneObjectState().subscribe((obj) => {
+        this.dataService.getSceneObjectState()
+        .pipe(takeUntil(this.notifier$))
+        .subscribe((obj) => {
             this.handleObjectState(obj);
         });
 
         // Listen to re-order
-        this.dataService.getReorder().subscribe(pack => {
+        this.dataService.getReorder()
+        .pipe(takeUntil(this.notifier$))
+        .subscribe(pack => {
             if (pack == undefined){
                 return;
             }

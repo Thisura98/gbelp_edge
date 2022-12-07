@@ -98,7 +98,7 @@ export class UserstatusComponent implements OnInit {
   logoutPressed(){
     this.dialogService.showYesNo('Confirm Logout', 'Are you sure you want to logout?', () => {
       this.userService.clearCredentials();
-      window.location.reload();
+      this.router.navigate(['']);
     });
   }
 

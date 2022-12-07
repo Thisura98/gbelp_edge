@@ -20,6 +20,24 @@ export async function getGroupUsers(groupId: string, searchName: string | undefi
     );
 }
 
+export async function getAllUsersInGroup(groupId: string): Promise<UserGroupMemberRaw[]>{
+    let users = await getGroupUsers(groupId);
+    let rawUsers: UserGroupMemberRaw[] = [];
+
+    for (let groupProp in users){
+        let group = ((users as any)[groupProp] as UserGroupMember[]);
+        group.forEach(u => {
+            rawUsers.push(new UserGroupMemberRaw(
+                u.user_id,
+                u.user_email,
+                u.user_name
+            ));
+        })
+    }
+    
+    return rawUsers;
+}
+
 /**
  * Returns ID and Name __(without associations)__
  * of members in a group.

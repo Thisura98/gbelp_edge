@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { InfiniteLoadingDialogComponent } from '../components/ui/dialogs/infinite.loading.component';
@@ -12,6 +12,7 @@ export class DialogService{
 
     constructor(
         public dialog: MatDialog,
+        private zone: NgZone,
         private toastr: ToastrService
     ){}
 
@@ -48,11 +49,13 @@ export class DialogService{
     }
 
     showSnackbar(title: string, duration: number | undefined = 1500){
-        this.toastr.error(title, undefined, {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'dyn-toast-class',
-            
-            timeOut: duration
+        this.zone.runOutsideAngular(() => {
+            this.toastr.error(title, undefined, {
+                positionClass: 'toast-bottom-center',
+                toastClass: 'dyn-toast-class',
+                
+                timeOut: duration
+            });
         });
     }
 

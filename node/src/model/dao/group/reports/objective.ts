@@ -129,10 +129,7 @@ export function getUserObjectiveBreakdown(sessionId: string): Promise<GameSessio
     ROUND( SUM(M.progress) / COUNT(M.progress), 4) as total_progress, 
     M2.total_play_duration, 
     COALESCE(M3.completed_objective_count, 0) as completed_objective_count,
-    ROUND (
-        COALESCE(M3.completed_objective_count, 0) / ROUND( SUM(M.progress) / COUNT(M.progress), 4),
-        4
-    ) as velocity
+    0 as velocity
 
 /* Total Progress (M) */
 FROM (
@@ -180,15 +177,42 @@ GROUP BY M.${j.userId}`;
     // l.logc(query, fn);
 
     return new Promise<GameSessionUserObjectiveBreakdown[]>((resolve, reject) => {
-        sql.getPool()!.query(query, values, (err, result) => {
+        sql.getPool()!.query(query, values, async (err, result) => {
             if (err) {
                 l.logc(err.message, fn)
                 reject('Could not retrieve User Objectives breakdown');
             }
             else {
+                await processObjectiveVelocities(result);
                 resolve(result);
             }
         });
     });
 
+}
+
+/**
+ * Post-process the objective completiting velocities
+ */
+function processObjectiveVelocities(data: GameSessionUserObjectiveBreakdown[] | undefined | null): Promise<void>{
+    return new Promise<void>((resolve, reject) => {
+        if (data == undefined || data == null){
+            resolve();
+        }
+        else{
+            for (let row of data){
+                const count = Number.parseInt(row.completed_objective_count);
+                const duration = Number.parseFloat(row.total_play_duration);
+
+                if (count == NaN || duration == NaN){
+                    continue;
+                }
+                else{
+                    row.velocity = (count / duration).toFixed(2);
+                }
+            }
+
+            resolve();
+        }
+    });
 }

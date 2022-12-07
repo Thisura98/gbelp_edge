@@ -58,7 +58,7 @@ export function createSession(
  * @param userIds List of users (not csv, should be array)
  * @returns True if success. Promise error if failed.
  */
- export function insertUsersToSession(
+export function insertUsersToSession(
     sessionId: string,
     userIds: string[]
 ): Promise<boolean>{
@@ -83,6 +83,41 @@ export function createSession(
                 resolve(true);
             }
         })
+    });
+}
+
+/**
+ * Inserts the provided userId into all the sessions of a provided groupId
+ */
+export async function insertUserIntoAllSessions(
+    groupId: string,
+    userId: string
+): Promise<boolean>{
+    
+    const tag = 'insertUserIntoAllSessions';
+    const groupSessions = await getSessionsInGroup(groupId, []);
+
+    const sessionMembers = sql.tables.gameSessionMembers;
+    const m = sql.columns.gameSessionMembers;
+
+    const sUserId = sql.smartEscape(userId);
+    const valuesStr = groupSessions.map(s => {
+        return `(${s.session_id}, ${sUserId})`;
+    })
+    .join(', ');
+    
+    const query = `INSERT INTO ${sessionMembers} (${m.sessionId}, ${m.userId}) VALUES ${valuesStr}`;
+
+    return new Promise<boolean>((resolve, reject) => {
+        sql.getPool()?.query(query, (error, result) => {
+            if (error){
+                l.logc(String(error), tag);
+                reject('Could not insert the user into all sessions of the group')
+            }
+            else{
+                resolve(true);
+            }
+        });
     });
 }
 

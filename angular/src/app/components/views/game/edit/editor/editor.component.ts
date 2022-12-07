@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { EditorIdentifier, getGameSidebarItems, QueryKey, ViewMode } from 'src/app/constants/constants';
 import { DynamicSidebarItem } from 'src/app/components/ui/dynamicsidebar/dynamicsidebar.component';
 import { GameLevel } from '../../../../../../../../commons/src/models/game/levels';
@@ -12,8 +12,9 @@ import { SceneEditorComponent } from './scene/scene.component';
 import { PropertiesEditorComponent } from './properties/properties.component';
 import { LogicEditorComponent } from './logic/logic.component';
 import { GameListing, GameType } from '../../../../../../../../commons/src/models/game/game';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { MetaKeyService } from 'src/app/services/metakey.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editor',
@@ -26,7 +27,7 @@ import { MetaKeyService } from 'src/app/services/metakey.service';
     '../../common/game.commonstyles.css'
   ]
 })
-export class GameEditorComponents implements OnInit, AfterViewInit {
+export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * Left sidebar
@@ -64,6 +65,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   viewMode = ViewMode.UNKNOWN;
   private editingGameId: number | undefined;
   private gameListing: GameListing | undefined;
+  private notifier$ = new Subject();
   
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -80,11 +82,18 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-    combineLatest([this.activatedRoute.queryParams, this.activatedRoute.data]).subscribe(([map, data]) => {
+    combineLatest([this.activatedRoute.queryParams, this.activatedRoute.data])
+    .pipe(take(1))
+    .subscribe(([map, data]) => {
       this.viewMode = data.mode;
       this.editingGameId = map['gameId'];
       this.loadData();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.notifier$.next();
+    this.notifier$.complete();
   }
 
   handleBack(){
@@ -214,6 +223,15 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
       return;
     }
 
+    const hasUnsavedChanges = this.editorDataService.getHasUnsuavedChanges().getValue();
+    if (hasUnsavedChanges){
+      this.dialogService.showDismissable(
+        "Unsaved Changes", 
+        "You have unsaved changes. Save your work first, and then switch tabs"
+      );
+      return;
+    }
+
     const queryParams = {
       gameId: this.editingGameId,
       levelId: this.selectedLevel!._id
@@ -323,7 +341,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit {
     // Find the level index from level ID then,
     // set the data for child views.
     let indexOfLevel = null;
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe(params => {
       const levelId = params['levelId'];
       const matchingLevelIndex = this.gameLevels.findIndex((lvl) => {return lvl._id == levelId});
 

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, interval } from 'rxjs';
-import { debounce, delay, throttleTime } from 'rxjs/operators';
+import { BehaviorSubject, interval, Subject } from 'rxjs';
+import { debounce, delay, takeUntil, throttleTime } from 'rxjs/operators';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EditorDataService } from 'src/app/services/editor.data.service';
 import { GameListing } from '../../../../../../../../../commons/src/models/game/game';
@@ -40,6 +40,9 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
   private selectedLevelIndex: number | undefined;
   private editorReference = new BehaviorSubject<Editor | undefined>(undefined);
   private codeChanged = new BehaviorSubject<string>(this.code);
+  private notifier$ = new Subject();
+  private saveListener$: number = -1;
+  private editorModelChanged: monaco.IDisposable | undefined;
 
   constructor(
     private editorDataService: EditorDataService,
@@ -48,19 +51,28 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Get from Parent Editor Component
-    this.editorDataService.getEditorChildData().subscribe(data => {
+    this.editorDataService.getEditorChildData()
+    .pipe(takeUntil(this.notifier$))
+    .subscribe(data => {
       this.gameListing = data.gameListing?.data;
       this.selectedLevelIndex = data.selectedLevelIndex;
       this.setLevelProperties();
     });
 
-    this.editorDataService.addOnSaveListener(project => this.prepareForSave(project))
+    this.saveListener$ = this.editorDataService.addOnSaveListener(project => this.prepareForSave(project))
   }
 
   ngOnDestroy(): void {
     console.log('On Destroy called for properties editor!');
+
+    this.notifier$.next();
+    this.notifier$.complete();
+    this.editorDataService.removeOnSaveListener(this.saveListener$);
+    this.editorModelChanged?.dispose();
     this.editorReference.subscribe(editor => {
       editor?.dispose();
+      monaco.editor.getModels().forEach(m => m.dispose());
+      this.editorReference.complete();
     })
   }
 
@@ -103,7 +115,11 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
     // Monaco Markers are warnings/errors in the Editor
     // If there are errors, don't display sections.
     // Else show errors.
-    this.codeChanged.pipe(debounce(() => interval(800))).pipe(delay(200)).subscribe(code => {
+    this.codeChanged
+    .pipe(takeUntil(this.notifier$))
+    .pipe(debounce(() => interval(800)))
+    .pipe(delay(200))
+    .subscribe(code => {
       let modelMarkers = monaco.editor.getModelMarkers({owner: 'json'});
 
       if (modelMarkers.length == 0 && code.length > 0){
@@ -116,10 +132,14 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
     });
   }
 
-  valueChanged(){
+  valueChanged(setHasUnsavedChanges: boolean = true){
     // TODO: Capture values from the controls
     // TODO:
     this.code = JSON.stringify(this.sections, null, 4);
+
+    if (setHasUnsavedChanges){
+      this.editorDataService.setHasUnsavedChanges(true);
+    }
   }
 
   private setLevelProperties(){
@@ -128,7 +148,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
 
     const index = this.selectedLevelIndex!;
     this.sections = this.gameListing?.project.levels[index].properties.properties!;
-    this.valueChanged();
+    this.valueChanged(false);
   }
 
   private prepareForSave(project: GameProject){

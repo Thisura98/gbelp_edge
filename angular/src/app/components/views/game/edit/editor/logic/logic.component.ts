@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 import { EditorChildDataPack, EditorDataService } from 'src/app/services/editor.data.service';
 import { LevelScript } from '../../../../../../../../../commons/src/models/game/levels/logic';
@@ -22,6 +22,11 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
   // MARK: Editor Properties
   code: string = '// Welcome to EDGE!';
   editorOptions = EDGEMonacoEditorOptions;
+  editorLoaded = false;
+
+  private notifier$ = new Subject();
+  private saveListener$: number = -1;
+  private editorModelChanged: monaco.IDisposable | undefined;
 
   // MARK: Game Properties
   readonly scriptTypes: string[] = ['Main Script'];
@@ -41,12 +46,14 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Get from Editor Component
-    this.editorDataService.getEditorChildData().subscribe((data) => {
-      this.setData(data);
+    this.editorDataService.getEditorChildData()
+    .pipe(takeUntil(this.notifier$))
+    .subscribe((data) => {
+        this.setData(data);
     });
 
     // Update the game project with current values when saving
-    this.editorDataService.addOnSaveListener((project) => {
+    this.saveListener$ = this.editorDataService.addOnSaveListener((project) => {
       if (this.selectedLevelIndex == undefined)
         return;
       project.levels[this.selectedLevelIndex!].logic.script = {
@@ -59,8 +66,15 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     console.log('On Destroy called for properties editor!');
+    
+    this.notifier$.next();
+    this.notifier$.complete();
+    this.editorDataService.removeOnSaveListener(this.saveListener$);
+    this.editorModelChanged?.dispose();
     this.editorReference.subscribe(editor => {
       editor?.dispose();
+      monaco.editor.getModels().forEach(m => m.dispose());
+      this.editorReference.complete();
     })
   }
 
@@ -68,8 +82,9 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
    * 'init' callback set on ngx-monaco-editor from template.
    */
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
+    this.editorLoaded = true;
     this.editorReference.next(editor);
-    editor.onDidChangeModelContent(() => this.copyCurrentCodeToScriptObject());
+    this.editorModelChanged = editor.onDidChangeModelContent(() => this.copyCurrentCodeToScriptObject());
   }
 
   scriptItemClicked(index: number){
@@ -82,6 +97,7 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
     if (this.selectedScriptIndex == undefined)
       return;
 
+    this.editorDataService.setHasUnsavedChanges(true);
     this.levelScripts[this.selectedScriptIndex!] = this.code;
   }
 

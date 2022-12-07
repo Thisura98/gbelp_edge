@@ -49,7 +49,6 @@ export function getGuidanceTrackerTimeChartOptions(): ApexChartOptions{
         text: 'Value'
       },
       min: 0,
-      tickAmount: 6,
       labels: {
         formatter: (value, opts) => {
           return Math.floor(value).toString();

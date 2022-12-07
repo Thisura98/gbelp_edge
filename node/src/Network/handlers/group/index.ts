@@ -1,10 +1,12 @@
 import { Express } from 'express';
 import { aurl } from '../../api_handler';
 import * as groupsDAO from '../../../model/dao/group';
+import * as sessionDAO from '../../../model/dao/session';
 import * as playDAO from '../../../model/dao/play';
 import * as l from '../../../Util/logger';
 import { StatusCodes } from '../../../../../commons/src/constants';
 import { ResponseModel } from '../../../model/models/common';
+import { getAllUsersInGroup } from '../../../model/dao/group/users';
 
 export function handlerGroups(app: Express){
 
@@ -110,11 +112,11 @@ export function handlerGroups(app: Express){
             const groupId = group.group_id as string;
             destinationGroupId = groupId;
             return groupsDAO.insertUsersToGroup(groupId, [uid]);
-        }) 
+        })
         .then(status => {
-            if (!status)
-                return Promise.reject('Inserting User to Group failed');
-
+            return sessionDAO.insertUserIntoAllSessions(destinationGroupId, uid);
+        })
+        .then(status => {
             const response = {
                 groupId: destinationGroupId
             }

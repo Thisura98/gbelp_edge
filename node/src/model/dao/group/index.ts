@@ -4,6 +4,7 @@ import * as userDAO from '../users';
 import * as crypto from '../../../Util/crypto';
 import * as l from '../../../Util/logger';
 import { UserType } from '../../../../../commons/src/models/user';
+import { UserGroupMemberRaw } from '../../../../../commons/src/models/groups/member';
 
 /**
  * Creates a new group with the details. Optionally 
