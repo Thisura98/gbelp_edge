@@ -1,0 +1,1838 @@
+{
+    _id: ObjectId('638f57ed0887dbdcf806cabd'),
+    resources: [
+        {
+            _id: ObjectId('638f59070887dbdcf806cac0'),
+            displayName: 'gameover.jpeg',
+            filename: 'fs/res_upload/image/26a70e06-7ab3-45ac-9268-5b8c250efa7e.jpeg',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f590a0887dbdcf806cac1'),
+            displayName: 'youwin.jpg',
+            filename: 'fs/res_upload/image/8b431ab4-66b9-486b-bca0-d60a8098d059.jpg',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f590c0887dbdcf806cac2'),
+            displayName: 'heart.png',
+            filename: 'fs/res_upload/image/a7f46bce-c48d-4f2b-8de3-67ac2ecae059.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f590f0887dbdcf806cac3'),
+            displayName: 'meteor.png',
+            filename: 'fs/res_upload/image/51cebacd-4640-412a-b710-bd441474bbe1.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59110887dbdcf806cac4'),
+            displayName: 'meteor2.png',
+            filename: 'fs/res_upload/image/246b2b99-80cf-42a2-9053-68cbca44af0c.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59140887dbdcf806cac5'),
+            displayName: 'panel.png',
+            filename: 'fs/res_upload/image/b6b3e8c2-8850-4873-aa8c-21d42a367bcb.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59170887dbdcf806cac6'),
+            displayName: 'rocket.png',
+            filename: 'fs/res_upload/image/da251736-41a4-4112-9ffb-47bad4256f0f.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f591a0887dbdcf806cac7'),
+            displayName: 'sky2.png',
+            filename: 'fs/res_upload/image/8b63916a-468f-480c-8722-bdab16ea22cd.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f591d0887dbdcf806cac8'),
+            displayName: 'sky3.png',
+            filename: 'fs/res_upload/image/640589f7-3810-49d3-bc22-0d7d45dbcb5c.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59200887dbdcf806cac9'),
+            displayName: 'sky4.png',
+            filename: 'fs/res_upload/image/b56b94f8-d3e2-49c9-9fe3-b4dc25336374.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59230887dbdcf806caca'),
+            displayName: 'sky5.png',
+            filename: 'fs/res_upload/image/916c0ca5-75e1-4c7b-9db1-a250ec5307fc.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59260887dbdcf806cacb'),
+            displayName: 'smallbullet.png',
+            filename: 'fs/res_upload/image/2e077c4f-e694-4b5f-8a11-a2e93f6901ee.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59290887dbdcf806cacc'),
+            displayName: 'starcluster3.png',
+            filename: 'fs/res_upload/image/b7586dbc-0730-49e7-af66-306038b1f638.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59300887dbdcf806cacd'),
+            displayName: 'testtitle.png',
+            filename: 'fs/res_upload/image/8da235f1-d86e-43ff-a309-ee78ba8c24af.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f59370887dbdcf806cace'),
+            displayName: 'titleplaceholder.png',
+            filename: 'fs/res_upload/image/3ec25acb-ec91-4320-bc3e-64b75cc2c441.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f594c0887dbdcf806cacf'),
+            displayName: 'sky1.png',
+            filename: 'fs/res_upload/image/7d13db85-8df3-4848-b602-f885fa0f3ca0.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f64cb0887dbdcf806cad0'),
+            displayName: 'explosion.png',
+            filename: 'fs/res_upload/image/f691bc16-3575-4a92-b3a8-79b982258ce2.png',
+            type: 'image'
+        },
+        {
+            _id: ObjectId('638f64cf0887dbdcf806cad1'),
+            displayName: 'explosion_atlas.json',
+            filename: 'fs/res_upload/other/f5d9d2cb-4964-4e35-86dc-560a9cc3b3f4.json',
+            type: 'other'
+        }
+    ],
+    levels: [
+        {
+            _id: '638f57ed8698d67260b6443c',
+            name: 'Title Screen',
+            type: 'single_title_screen',
+            displayMode: 'replace',
+            locked: true,
+            exitCriteriaType: 'manual',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f57ed8698d67260b6443b',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670341909689',
+                        spriteResourceId: '638f594c0887dbdcf806cacf',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 490
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670341928070',
+                        spriteResourceId: '638f59370887dbdcf806cace',
+                        type: 'sprite',
+                        name: 'title',
+                        frame: {
+                            x: 300,
+                            y: 50,
+                            w: 300,
+                            h: 200
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [
+                    {
+                        section: 'Game Properties',
+                        properties: [
+                            {
+                                name: 'First Level',
+                                type: 'select',
+                                select: {
+                                    options: {
+                                        LevelScene_Level1: 'Level 1',
+                                        LevelScene_Level2: 'Level 2',
+                                        LevelScene_Level3: 'Level 3',
+                                        LevelScene_Level4: 'Level 4',
+                                        LevelScene_Level5: 'Level 5'
+                                    },
+                                    value: 'LevelScene_Level1'
+                                }
+                            }
+                        ]
+                    }
+                ],
+                propertyValues: {
+                    'First Level': 'LevelScene_Level1'
+                }
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCmNsYXNzIExldmVsU2NlbmVfVGl0bGVfU2NyZWVuIGV4dGVuZHMgUGhhc2VyLlNjZW5lewoKICAgIGNvbnN0cnVjdG9yKCl7CiAgICAgICAgc3VwZXIoe2tleTogIkxldmVsU2NlbmVfVGl0bGVfU2NyZWVuIiwgYWN0aXZlOiBmYWxzZSB9KTsKCiAgICAgICAgLyoqCiAgICAgICAgICogQHR5cGUge1BoYXNlci5HYW1lT2JqZWN0cy5UZXh0fQogICAgICAgICAqLwogICAgICAgIHRoaXMuc3RhcnRCdXR0b24gPSBudWxsOwogICAgfQoKICAgIHByZWxvYWQoKXsKICAgICAgICAvLyBFREdUT0tFTl9QUkVMT0FECgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgCiAgICB9CiAgICBjcmVhdGUoKXsKICAgICAgICAvLyBFREdUT0tFTl9DUkVBVEUKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKCiAgICAgICAgdGhpcy5zZXR1cFN0YXJ0QnV0dG9uKCk7CiAgICAgICAgCiAgICB9CiAgICB1cGRhdGUoKXsKICAgICAgICAvLyBFREdUT0tFTl9VUERBVEUKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKCiAgICB9CiAgICBkZXN0cm95KCl7CiAgICAgICAgLy8gRURHVE9LRU5fREVTVFJPWQogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCgogICAgfQoKICAgIHNldHVwU3RhcnRCdXR0b24oKXsKICAgICAgICBjb25zdCBmaXJzdExldmVsTmFtZSA9IEVkZ2VQcm94eS5nZXRMZXZlbFByb3BlcnR5KHRoaXMsICdGaXJzdCBMZXZlbCcpOwoKICAgICAgICB0aGlzLnN0YXJ0QnV0dG9uID0gdGhpcy5hZGQudGV4dCgwLCAwLCAnU3RhcnQnLCB7CiAgICAgICAgICAgIGZvbnRTaXplOiAnMzBweCcsCiAgICAgICAgICAgIGZvbnRGYW1pbHk6ICdBcmlhbCcsCiAgICAgICAgICAgIGNvbG9yOiAnI0ZGRkZGRicKICAgICAgICB9KQogICAgICAgIC5zZXRJbnRlcmFjdGl2ZSgpCiAgICAgICAgLm9uKCdwb2ludGVyZG93bicsICgpID0+IHsKICAgICAgICAgICAgdGhpcy5zY2VuZS5zdGFydChmaXJzdExldmVsTmFtZSk7CiAgICAgICAgfSk7CgogICAgICAgIHRoaXMuc3RhcnRCdXR0b24uc2V0WCggdGhpcy5jYW1lcmFzLm1haW4uY2VudGVyWCAtICh0aGlzLnN0YXJ0QnV0dG9uLndpZHRoIC8gMi4wKSApOwogICAgICAgIHRoaXMuc3RhcnRCdXR0b24uc2V0WSggdGhpcy5jYW1lcmFzLm1haW4uaGVpZ2h0ICogMC43NSAtIHRoaXMuc3RhcnRCdXR0b24uaGVpZ2h0ICk7CiAgICB9Cn0=',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f57ed8698d67260b6443d',
+            name: 'DataLevel',
+            type: 'single_level',
+            displayMode: 'replace',
+            locked: false,
+            exitCriteriaType: 'time',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f57ed8698d67260b6443b',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 1366,
+                            h: 768
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [],
+                propertyValues: {}
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCmxldCBtZXRlb3JfZ2xvYmFscyA9IHsKICAgIHNjYWxlWDogMCwKICAgIHNjYWxlWTogMAp9OwoKbGV0IG9iamVjdGl2ZV9nbG9iYWxzID0gewogICAgZGlkT2J0YWluNVBvaW50czIwU2Vjb25kczogZmFsc2UKfTsKCmNsYXNzIERpcmVjdGlvbkhlbHBlcnsKICAgIC8qKgogICAgICogQHBhcmFtIHtudW1iZXJ9IGRpcmVjdGlvbiB0aGUgcGFyc2VkIGFzdGVyb2lkIGRpcmVjdGlvbgogICAgICogQHJldHVybnMge3tkeDogbnVtYmVyLCBkeTogbnVtYmVyfX0gRGlyZWN0aW9uYWwgY29tcG9uZW50cyB0aGF0IGNhbiBiZSBtdWx0aXBsaWVkIGJ5IHNvdXJjZSB2YWx1ZXMKICAgICAqLwogICAgc3RhdGljIGdldENvbXBvbmVudHMoZGlyZWN0aW9uKXsKICAgICAgICBsZXQgZHggPSAxOwogICAgICAgIGxldCBkeSA9IDE7CgogICAgICAgIC8qKgogICAgICAgICAqIDEgPSBSaWdodAogICAgICAgICAqIDIgPSBEb3duCiAgICAgICAgICogMyA9IExlZnQKICAgICAgICAgKiA0ID0gVG9wCiAgICAgICAgICovCiAgICAgICAgaWYgKGRpcmVjdGlvbiA9PSAxKXsKICAgICAgICAgICAgZHggPSAtMTsKICAgICAgICAgICAgZHkgPSAwOwogICAgICAgIH0KICAgICAgICBpZiAoZGlyZWN0aW9uID09IDIpewogICAgICAgICAgICBkeCA9IDA7CiAgICAgICAgICAgIGR5ID0gLTE7CiAgICAgICAgfQogICAgICAgIGVsc2UgaWYgKGRpcmVjdGlvbiA9PSAzKXsKICAgICAgICAgICAgZHggPSAxOwogICAgICAgICAgICBkeSA9IDA7CiAgICAgICAgfQogICAgICAgIGVsc2UgaWYgKGRpcmVjdGlvbiA9PSA0KXsKICAgICAgICAgICAgZHggPSAwOwogICAgICAgICAgICBkeSA9IDE7CiAgICAgICAgfQoKICAgICAgICByZXR1cm4geyBkeDogZHgsIGR5OiBkeSB9OwogICAgfQoKfQoKY2xhc3MgTGV2ZWxTY2VuZV9EYXRhTGV2ZWwgZXh0ZW5kcyBQaGFzZXIuU2NlbmV7CgogICAgY29uc3RydWN0b3IoKXsKICAgICAgICBzdXBlcih7a2V5OiAiTGV2ZWxTY2VuZV9EYXRhTGV2ZWwiLCBhY3RpdmU6IGZhbHNlIH0pOwogICAgfQoKICAgIHByZWxvYWQoKXsKICAgICAgICAvLyBFREdUT0tFTl9QUkVMT0FECgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgCiAgICB9CiAgICBjcmVhdGUoKXsKICAgICAgICAvLyBFREdUT0tFTl9DUkVBVEUKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKCiAgICB9CiAgICB1cGRhdGUoKXsKICAgICAgICAvLyBFREdUT0tFTl9VUERBVEUKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKCiAgICB9CiAgICBkZXN0cm95KCl7CiAgICAgICAgLy8gRURHVE9LRU5fREVTVFJPWQogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCgogICAgfQp9CgovKioKICogUmVwcmVzZW50cyAxIGJ1bGxldC4KICogRGVmaW5lZCBpbiBsZXZlbDEsIGF2YWlsYWJsZSBvbiBzdWJzZXF1ZW50IGxldmVscy4KICovCmNsYXNzIFJvY2tldEJ1bGxldCBleHRlbmRzIFBoYXNlci5QaHlzaWNzLkFyY2FkZS5TcHJpdGUgewogICAgY29uc3RydWN0b3IgKHNjZW5lLCB4LCB5KQogICAgewogICAgICAgIC8vIEFsbCBsZXZlbHMgbXVzdCBoYXZlIGEgYnVsbGV0IG9iamVjdC4KICAgICAgICAvLyBTYW1lIGFzIG91dCBvZiBjYW1lcmEgYm91bmRzIG9iamVjdC4gCiAgICAgICAgbGV0IHRleHR1cmVOYW1lID0gJ2J1bGxldCc7IAogICAgICAgIHN1cGVyKHNjZW5lLCB4LCB5LCB0ZXh0dXJlTmFtZSk7CiAgICAgICAgdGhpcy5zZXROYW1lKCdidWxsZXQnKTsKICAgIH0KCiAgICBmaXJlICh4LCB5LCB2WCwgdlkpCiAgICB7CiAgICAgICAgdGhpcy5ib2R5LnJlc2V0KHgsIHkpOwogICAgICAgIHRoaXMuc2V0QWN0aXZlKHRydWUpOwogICAgICAgIHRoaXMuc2V0VmlzaWJsZSh0cnVlKTsKICAgICAgICB0aGlzLnNldFZlbG9jaXR5WCh2WCk7CiAgICAgICAgdGhpcy5zZXRWZWxvY2l0eVkodlkpOwogICAgfQoKICAgIHByZVVwZGF0ZSAodGltZSwgZGVsdGEpCiAgICB7CiAgICAgICAgc3VwZXIucHJlVXBkYXRlKHRpbWUsIGRlbHRhKTsKCiAgICAgICAgaWYgKHRoaXMueCArIHRoaXMuZGlzcGxheVdpZHRoID49IHRoaXMuc2NlbmUuY2FtZXJhcy5tYWluLndpZHRoKQogICAgICAgIHsKICAgICAgICAgICAgdGhpcy5zZXRBY3RpdmUoZmFsc2UpOwogICAgICAgICAgICB0aGlzLnNldFZpc2libGUoZmFsc2UpOwogICAgICAgIH0KICAgIH0KfQoKLyoqCiAqIFJlcHJlc2VudHMgYWxsIHRoZSBidWxsZXRzLgogKiBEZWZpbmVkIGluIGxldmVsMSwgYXZhaWxhYmxlIG9uIHN1YnNlcXVlbnQgbGV2ZWxzLgogKi8KY2xhc3MgUm9ja2V0QnVsbGV0c0dyb3VwIGV4dGVuZHMgUGhhc2VyLlBoeXNpY3MuQXJjYWRlLkdyb3VwIHsKICAgIGNvbnN0cnVjdG9yIChzY2VuZSkKICAgIHsKICAgICAgICBzdXBlcihzY2VuZS5waHlzaWNzLndvcmxkLCBzY2VuZSk7CiAgICAgICAgdGhpcy5jcmVhdGVNdWx0aXBsZSh7CiAgICAgICAgICAgIGZyYW1lUXVhbnRpdHk6IDEwLAogICAgICAgICAgICBrZXk6ICdyb2NrZXRidWxsZXQnLAogICAgICAgICAgICBhY3RpdmU6IGZhbHNlLAogICAgICAgICAgICB2aXNpYmxlOiBmYWxzZSwKICAgICAgICAgICAgY2xhc3NUeXBlOiBSb2NrZXRCdWxsZXQKICAgICAgICB9KTsKICAgIH0KCiAgICBmaXJlQnVsbGV0ICh4LCB5LCB2WCwgdlkpCiAgICB7CiAgICAgICAgbGV0IGJ1bGxldCA9IHRoaXMuZ2V0Rmlyc3REZWFkKHRydWUpOwogICAgICAgIGlmIChidWxsZXQpCiAgICAgICAgICAgIGJ1bGxldC5maXJlKHgsIHksIHZYLCB2WSk7CiAgICB9Cn0KCi8qKgogKiBSZXByZXNlbnRzIG9uZSBtZXRlb3IgdGV4dCBzcHJpdGUKICovCmNsYXNzIE1ldGVvclRleHRDb250YWluZXIgZXh0ZW5kcyBQaGFzZXIuR2FtZU9iamVjdHMuQ29udGFpbmVyewoKICAgIGNvbnN0cnVjdG9yKHNjZW5lLCBmb250U2l6ZSl7CiAgICAgICAgc3VwZXIoc2NlbmUpOwoKICAgICAgICAvKioKICAgICAgICAgKiBAdHlwZSB7UGhhc2VyLkdhbWVPYmplY3RzLlNwcml0ZX0KICAgICAgICAgKi8KICAgICAgICB0aGlzLm1ldGVvciA9IG51bGw7CgogICAgICAgIC8qKgogICAgICAgICAqIEB0eXBlIHtQaGFzZXIuR2FtZU9iamVjdHMuVGV4dH0KICAgICAgICAgKi8KICAgICAgICB0aGlzLnRleHQgPSBudWxsOwoKICAgICAgICAvKioKICAgICAgICAgKiBAdHlwZSB7Qm9vbGVhbn0KICAgICAgICAgKi8KICAgICAgICB0aGlzLmNvcnJlY3QgPSBmYWxzZTsKCiAgICAgICAgdGhpcy5mb250U2l6ZSA9IGZvbnRTaXplOwoKICAgICAgICB0aGlzLnNldHVwKCk7CiAgICB9CgogICAgc2V0dXAoKXsKICAgICAgICB0aGlzLm1ldGVvciA9IHRoaXMuc2NlbmUuYWRkLnNwcml0ZSgwLCAwLCAnbWV0ZW9yJyk7CgogICAgICAgIC8qKgogICAgICAgICAqIEB0eXBlIHtQaGFzZXIuVHlwZXMuR2FtZU9iamVjdHMuVGV4dC5UZXh0U3R5bGV9CiAgICAgICAgICovCiAgICAgICAgY29uc3QgdGV4dFN0eWxlID0gewogICAgICAgICAgICBmb250RmFtaWx5OiAnQXJpYWwnLAogICAgICAgICAgICBmb250U2l6ZTogYCR7dGhpcy5mb250U2l6ZX1weGAsCiAgICAgICAgICAgIGFsaWduOiAnY2VudGVyJywKICAgICAgICAgICAgY29sb3I6ICcjZmZjODAwJywKICAgICAgICAgICAgd29yZFdyYXA6IHsKICAgICAgICAgICAgICAgIHdpZHRoOiB0aGlzLm1ldGVvci5kaXNwbGF5V2lkdGgKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgdGhpcy50ZXh0ID0gdGhpcy5zY2VuZS5hZGQudGV4dCgwLCAwLCAnMS8yICcsIHRleHRTdHlsZSk7CiAgICAgICAgdGhpcy50ZXh0LnNldE9yaWdpbigwLjUsIDAuNSk7CgogICAgICAgIHRoaXMuYWRkKHRoaXMubWV0ZW9yKTsKICAgICAgICB0aGlzLmFkZCh0aGlzLnRleHQpOwoKICAgICAgICB0aGlzLnNldE5hbWUoJ21ldGVvcicpOwogICAgICAgIC8vIHRoaXMuc2V0U2l6ZSh0aGlzLm1ldGVvci5kaXNwbGF5V2lkdGgsIHRoaXMubWV0ZW9yLmRpc3BsYXlIZWlnaHQpOwogICAgICAgIHRoaXMubWV0ZW9yLnNldFNjYWxlKG1ldGVvcl9nbG9iYWxzLnNjYWxlWCwgbWV0ZW9yX2dsb2JhbHMuc2NhbGVZKTsKICAgICAgICB0aGlzLnNldFNpemUodGhpcy5tZXRlb3IuZGlzcGxheVdpZHRoLCB0aGlzLm1ldGVvci5kaXNwbGF5SGVpZ2h0KTsKICAgIH0KCiAgICAvKioKICAgICAqIEFkZCBhIG1ldGVvciB0byB0aGUgc2NlbmUKICAgICAqIEBwYXJhbSB7bnVtYmVyfSB4IE9yaWdpbiBYCiAgICAgKiBAcGFyYW0ge251bWJlcn0geSBPcmlnaW4gWQogICAgICogQHBhcmFtIHtudW1iZXJ9IHZlbG9jaXR5WCBYIHZlbG9jaXR5CiAgICAgKiBAcGFyYW0ge251bWJlcn0gdmVsb2NpdHlZIFkgdmVsb2NpdHkKICAgICAqIEBwYXJhbSB7Ym9vbGVhbn0gY29ycmVjdCBEb2VzIHRoZSBtZXRlb3IgcmVwcmVzZW50IGNvcnJlY3Qgb3IgaW5jb3JyZWN0IHN0YXRlPwogICAgICogQHBhcmFtIHtzdHJpbmd9IHRleHRTdHIgVGhlIGFuc3dlciB2aXNpYmxlIG9uIHRoZSBtZXRlb3IKICAgICAqLwogICAgcXVldWUoeCwgeSwgdmVsb2NpdHlYLCB2ZWxvY2l0eVksIGNvcnJlY3QsIHRleHRTdHIpewogICAgICAgIHRoaXMudGV4dC50ZXh0ID0gdGV4dFN0cjsKICAgICAgICB0aGlzLmlzQ29ycmVjdCA9IGNvcnJlY3Q7CiAgICAgICAgdGhpcy5zZXRQb3NpdGlvbih4LCB5KTsKCiAgICAgICAgLy8gRW5hYmxlIHBoeXNpY3MgZm9yIHRoaXMgY29udGFpbmVyCiAgICAgICAgdGhpcy5zY2VuZS5waHlzaWNzLndvcmxkLmVuYWJsZUJvZHkodGhpcyk7CiAgICAgICAgdGhpcy5ib2R5LnNldFZlbG9jaXR5WChOdW1iZXIucGFyc2VJbnQodmVsb2NpdHlYKSkKICAgICAgICB0aGlzLmJvZHkuc2V0VmVsb2NpdHlZKE51bWJlci5wYXJzZUludCh2ZWxvY2l0eVkpKTsKICAgIH0KCn0KCi8qKgogKiBSZXByZXNlbnRzIGFsbCBtZXRlb3JzLgogKiBEZWZpbmVkIGluIGxldmVsMSwgYXZhaWxhYmxlIG9uIHN1YnNlcXVlbnQgbGV2ZWxzLgogKi8KY2xhc3MgTWV0ZW9yR3JvdXAgZXh0ZW5kcyBQaGFzZXIuUGh5c2ljcy5BcmNhZGUuR3JvdXAgewogICAgY29uc3RydWN0b3IgKHNjZW5lKQogICAgewogICAgICAgIHN1cGVyKHNjZW5lLnBoeXNpY3Mud29ybGQsIHNjZW5lKTsKICAgIH0KCiAgICAvKioKICAgICAqIEFkZCBhIG1ldGVvciB0byB0aGUgc2NlbmUKICAgICAqIEBwYXJhbSB7bnVtYmVyfSB4IE9yaWdpbiBYCiAgICAgKiBAcGFyYW0ge251bWJlcn0geSBPcmlnaW4gWQogICAgICogQHBhcmFtIHtudW1iZXJ9IHZlbG9jaXR5IFggVmVsb2NpdHkKICAgICAqIEBwYXJhbSB7bnVtYmVyfSB2ZWxvY2l0eSBZIFZlbG9jaXR5CiAgICAgKiBAcGFyYW0ge2Jvb2xlYW59IGNvcnJlY3QgRG9lcyB0aGUgbWV0ZW9yIHJlcHJlc2VudCBjb3JyZWN0IG9yIGluY29ycmVjdCBzdGF0ZT8KICAgICAqIEBwYXJhbSB7c3RyaW5nfSB0ZXh0IFRoZSBhbnN3ZXIgdmlzaWJsZSBvbiB0aGUgbWV0ZW9yCiAgICAgKiBAcGFyYW0ge251bWJlcn0gZm9udFNpemUKICAgICAqLwogICAgYWRkTWV0ZW9yICh4LCB5LCB2ZWxvY2l0eVgsIHZlbG9jaXR5WSwgY29ycmVjdCwgdGV4dCwgZm9udFNpemUpCiAgICB7CiAgICAgICAgY29uc3QgbWV0ZW9yID0gbmV3IE1ldGVvclRleHRDb250YWluZXIodGhpcy5zY2VuZSwgZm9udFNpemUpOwogICAgICAgIHRoaXMuYWRkKG1ldGVvcikKICAgICAgICB0aGlzLnNjZW5lLmFkZC5leGlzdGluZyhtZXRlb3IpOwogICAgICAgIG1ldGVvci5xdWV1ZSh4LCB5LCB2ZWxvY2l0eVgsIHZlbG9jaXR5WSwgY29ycmVjdCwgdGV4dCk7CiAgICB9Cn0KCi8vICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioKLy8gTUFSSzogQ29tbW9uIGxldmVsIHVzZWQgYnkgYWxsIGxldmVscwoKY2xhc3MgQ29tbW9uTGV2ZWwgZXh0ZW5kcyBQaGFzZXIuU2NlbmV7CgogICAgY29uc3RydWN0b3Iob2JqZWN0KXsKICAgICAgICBzdXBlcihvYmplY3QpOwoKICAgICAgICB0aGlzLmtPYmo1UG9pbnRzMjBTZWNvbmRzID0gJzUgcG9pbnRzIGluIDIwIHNlY29uZHMnOwogICAgICAgIHRoaXMua09iakNvbXBsZXRlTHZsMSA9ICdDb21wbGV0ZSBMdmwgMSc7CiAgICAgICAgdGhpcy5rT2JqQ29tcGxldGVMdmwyID0gJ0NvbXBsZXRlIEx2bCAyJzsKICAgICAgICB0aGlzLmtPYmpDb21wbGV0ZUx2bDMgPSAnQ29tcGxldGUgTHZsIDMnOwogICAgICAgIHRoaXMua09iakNvbXBsZXRlTHZsNCA9ICdDb21wbGV0ZSBMdmwgNCc7CiAgICAgICAgdGhpcy5rT2JqQ29tcGxldGVMdmw1ID0gJ0NvbXBsZXRlIEx2bCA1JzsKCiAgICAgICAgdGhpcy5rR3VpTm9Qb2ludHMxTWludXRlID0gJ0hhZCBubyBwb2ludHMgZm9yIDEgbWludXRlJzsKICAgICAgICB0aGlzLmtHdWlOb1BvaW50czJNaW51dGVzID0gJ0hhZCBubyBwb2ludHMgZm9yIDIgbWludXRlcyc7CiAgICAgICAgdGhpcy5rR3VpNVdyb25nQW5zd2VycyA9ICc1IFdyb25nIEFuc3dlcnMnOwogICAgICAgIHRoaXMua0d1aTEwV3JvbmdBbnN3ZXJzID0gJzEwIFdyb25nIEFuc3dlcnMnOwogICAgICAgIHRoaXMua0d1aTE1V3JvbmdBbnN3ZXJzID0gJzE1IFdyb25nIEFuc3dlcnMnOwoKICAgICAgICAvKioKICAgICAgICAgKiBWZWxvY3RpeSBvZiB0aGUgcm9ja2V0LgogICAgICAgICAqIEB0eXBlIHtudW1iZXJ9CiAgICAgICAgICovCiAgICAgICAgdGhpcy5yb2NrZXRWZWxvY2l0eSA9IDg7CgogICAgICAgIC8qKgogICAgICAgICAqIEB0eXBlIHtQaGFzZXIuR2FtZU9iamVjdHMuU3ByaXRlfQogICAgICAgICAqLwogICAgICAgIHRoaXMucm9ja2V0ID0gbnVsbDsKCiAgICAgICAgLyoqCiAgICAgICAgICogQHR5cGUge1BoYXNlci5HYW1lT2JqZWN0cy5UaWxlU3ByaXRlfQogICAgICAgICAqLwogICAgICAgIHRoaXMuc3RhckNsdXN0ZXIxID0gbnVsbDsKCiAgICAgICAgLyoqCiAgICAgICAgICogQHR5cGUge1BoYXNlci5UeXBlcy5JbnB1dC5LZXlib2FyZC5DdXJzb3JLZXlzfQogICAgICAgICAqLwogICAgICAgIHRoaXMuY3Vyc29ycyA9IG51bGw7CgogICAgICAgIC8qKgogICAgICAgICAqIEB0eXBlIHtSb2NrZXRCdWxsZXRzR3JvdXB9CiAgICAgICAgICovCiAgICAgICAgdGhpcy5idWxsZXRzID0gbnVsbDsKCiAgICAgICAgLyoqCiAgICAgICAgICogSWYgdHJ1ZSwgYnVsbGV0cyB3aWxsIGFwcGVhciBvbiBzY3JlZW4uCiAgICAgICAgICovCiAgICAgICAgdGhpcy5maXJlID0gZmFsc2U7CgogICAgICAgIC8qKgogICAgICAgICAqIEB0eXBlIHtNZXRlb3JHcm91cH0KICAgICAgICAgKi8KICAgICAgICB0aGlzLm1ldGVvcnMgPSBudWxsOwoKICAgICAgICAvKioKICAgICAgICAgKiBAdHlwZSB7UGhhc2VyLlRpbWUuVGltZXJFdmVudH0KICAgICAgICAgKi8KICAgICAgICB0aGlzLm1ldGVvclRpbWVyID0gbnVsbDsKCiAgICAgICAgLyoqCiAgICAgICAgICogQHR5cGUge1BoYXNlci5HYW1lT2JqZWN0cy5UZXh0fQogICAgICAgICAqLwogICAgICAgIHRoaXMuc2NvcmVUZXh0ID0gbnVsbDsKCiAgICAgICAgLy8gTUFSSzogR2FtZSBEYXRhCgogICAgICAgIC8qKgogICAgICAgICAqIE51bWJlciBvZiBsaXZlcyBiZWZvcmUgYSBnYW1lIG92ZXIKICAgICAgICAgKiBAdHlwZSB7bnVtYmVyfQogICAgICAgICAqLwogICAgICAgIHRoaXMubGl2ZXMgPSAzOwoKICAgICAgICAvKioKICAgICAgICAgKiBUaGUgdGV4dCBvbiB0aGUgcXVlc3Rpb24gcHJvbXB0CiAgICAgICAgICogQHR5cGUge3N0cmluZ30KICAgICAgICAgKi8KICAgICAgICB0aGlzLnF1ZXN0aW9uID0gJyc7CgogICAgICAgIC8qKgogICAgICAgICAqIEN1cnJlbnQgcG9pbnRzCiAgICAgICAgICogQHR5cGUge251bWJlcn0KICAgICAgICAgKi8KICAgICAgICB0aGlzLnBvaW50cyA9IDA7CgogICAgICAgIC8qKgogICAgICAgICAqIFJlcXVpcmVkIHBvaW50cwogICAgICAgICAqIEB0eXBlIHtudW1iZXJ9CiAgICAgICAgICovCiAgICAgICAgdGhpcy5yZXF1aXJlZFBvaW50cyA9IDA7CgogICAgICAgIC8qKgogICAgICAgICAqIEFzdGVyb2lkIERpcmVjdGlvbgogICAgICAgICAqICgxID0gUmlnaHQsIDIgPSBEb3duLCAzID0gTGVmdCwgNCA9IFRvcCkKICAgICAgICAgKiAKICAgICAgICAgKiBAdHlwZSB7bnVtYmVyfQogICAgICAgICAqLwogICAgICAgIHRoaXMuYXN0ZXJvaWREaXJlY3Rpb24gPSAxOwoKICAgICAgICAvKioKICAgICAgICAgKiBBbnN3ZXIgZm9udCBzaXplCiAgICAgICAgICogCiAgICAgICAgICogQHR5cGUge251bWJlcn0KICAgICAgICAgKi8KICAgICAgICB0aGlzLmFuc3dlckZvbnRTaXplID0gMTY7CgogICAgICAgIC8qKgogICAgICAgICAqIENvcnJlY3QgYW5zd2VyIGFycmF5CiAgICAgICAgICogQHR5cGUge3N0cmluZ1tdfQogICAgICAgICAqLwogICAgICAgIHRoaXMuY29ycmVjdEFuc3dlcnMgPSBbXTsKCiAgICAgICAgLyoqCiAgICAgICAgICogV3JvbmcgYW5zd2VyIGFycmF5CiAgICAgICAgICogQHR5cGUge3N0cmluZ1tdfQogICAgICAgICAqLwogICAgICAgIHRoaXMud3JvbmdBbnN3ZXJzID0gW107CgogICAgICAgIC8qKgogICAgICAgICAqIE1ldGVvciBWZWxvY2l0eQogICAgICAgICAqIEB0eXBlIHtudW1iZXJ9CiAgICAgICAgICovCiAgICAgICAgdGhpcy5tZXRlb3JWZWxvY2l0eSA9IDAKICAgIH0KCiAgICBwcmVsb2FkKCl7CiAgICAgICAgdGhpcy5wcmVsb2FkRXhwbG9zaW9uQXRsYXMoKTsKICAgICAgICB0aGlzLmNyZWF0ZVN0YXJDbHVzdGVyKCk7CiAgICB9CgogICAgY3JlYXRlKCl7CiAgICAgICAgY29uc3QgbWV0ZW9yID0gRWRnZVByb3h5LmdldExldmVsU3ByaXRlKHRoaXMsICdtZXRlb3InKTsKICAgICAgICBtZXRlb3JfZ2xvYmFscy5zY2FsZVggPSBtZXRlb3Iuc2NhbGVYOwogICAgICAgIG1ldGVvcl9nbG9iYWxzLnNjYWxlWSA9IG1ldGVvci5zY2FsZVk7CgogICAgICAgIHRoaXMucmVhZFByb3BlcnRpZXMoKTsKICAgICAgICB0aGlzLnNldHVwKCk7CiAgICAgICAgdGhpcy5saXN0ZW5Ub1NwYWNlQmFyKCk7CiAgICAgICAgdGhpcy5zaG93UHJvbXB0KCk7CiAgICAgICAgdGhpcy51cGRhdGVQb2ludHMoMCk7CgogICAgICAgIC8vIE5FVzoKCiAgICAgICAgbGV0IGFuZ2xlID0gMDsKICAgICAgICBzd2l0Y2godGhpcy5hc3Rlcm9pZERpcmVjdGlvbil7CiAgICAgICAgICAgIGNhc2UgMTogYW5nbGUgPSAwOyBicmVhazsKICAgICAgICAgICAgY2FzZSAyOiBhbmdsZSA9IDkwOyBicmVhazsKICAgICAgICAgICAgY2FzZSAzOiBhbmdsZSA9IDE4MDsgYnJlYWs7CiAgICAgICAgICAgIGNhc2UgNDogYW5nbGUgPSAyNzA7IGJyZWFrOwogICAgICAgIH0KICAgICAgICB0aGlzLnJvY2tldC5zZXRBbmdsZShhbmdsZSk7CgogICAgICAgIC8vIFRlc3QgTWV0ZW9yIFRleHQgQ29udGFpbmVyIC0gd29ya3MhCiAgICAgICAgLy8gdGhpcy5tZXRlb3IxID0gbmV3IE1ldGVvclRleHRDb250YWluZXIodGhpcyk7CiAgICAgICAgLy8gdGhpcy5tZXRlb3IxLnNldFBvc2l0aW9uKDIwMCwgNTApOwogICAgICAgIC8vIHRoaXMuYWRkLmV4aXN0aW5nKHRoaXMubWV0ZW9yMSk7CgogICAgICAgIC8vIFRlc3QKICAgICAgICAvLyBFZGdlUHJveHkuaW5jcmVhc2VPYmplY3RpdmVQcm9ncmVzcyh0aGlzLm9iamVjdGl2ZTIsIDMpOwogICAgfQoKICAgIHVwZGF0ZSgpewogICAgICAgIGlmICh0aGlzLmNhbWVyYXMubWFpbiA9PSB1bmRlZmluZWQpewogICAgICAgICAgICByZXR1cm47CiAgICAgICAgfQoKICAgICAgICB0aGlzLmhhbmRsZVJvY2tldE1vdmVtZW50KCk7CiAgICAgICAgdGhpcy5oYW5kbGVSb2NrZXRCdWxsZXRzKCk7CiAgICB9CgogICAgZGVzdHJveSgpewogICAgICAgIAogICAgfQoKICAgIGNyZWF0ZVN0YXJDbHVzdGVyKCl7CiAgICAgICAgY29uc3QgcmVzID0gJ3N0YXJjbHVzdGVyMy5wbmcnOwogICAgICAgIGNvbnN0IHBhdGggPSBFZGdlUHJveHkuZ2V0TGV2ZWxSYXdSZXNvdXJjZVBhdGgodGhpcywgcmVzKTsKICAgICAgICB0aGlzLmtUZXh0dXJlU3RhckNsdXN0ZXIgPSAnc3Rhci1jbHVzdGVyJzsKICAgICAgICBjb25zb2xlLmxvZygnTG9hZCBTdGFyIENsdXN0ZXInLCBwYXRoKTsKICAgICAgICB0aGlzLmxvYWQuaW1hZ2UodGhpcy5rVGV4dHVyZVN0YXJDbHVzdGVyLCBwYXRoKTsKICAgIH0KCiAgICBwcmVsb2FkRXhwbG9zaW9uQXRsYXMoKXsKICAgICAgICBjb25zdCByZXNTaGVldCA9ICdleHBsb3Npb24ucG5nJzsKICAgICAgICBjb25zdCByZXNBdGxhc3QgPSAnZXhwbG9zaW9uX2F0bGFzLmpzb24nOwogICAgICAgIGNvbnN0IGZpbGVTaGVldCA9IEVkZ2VQcm94eS5nZXRMZXZlbFJhd1Jlc291cmNlUGF0aCh0aGlzLCByZXNTaGVldCk7CiAgICAgICAgY29uc3QgZmlsZUF0bGFzID0gRWRnZVByb3h5LmdldExldmVsUmF3UmVzb3VyY2VQYXRoKHRoaXMsIHJlc0F0bGFzdCk7CiAgICAgICAgdGhpcy5rQXRsYXNFeHBsb3Npb24gPSAnYXRsYXMtZXhwbG9zaW9uJzsKICAgICAgICB0aGlzLmxvYWQuYXRsYXModGhpcy5rQXRsYXNFeHBsb3Npb24sIGZpbGVTaGVldCwgZmlsZUF0bGFzKTsKICAgIH0KCiAgICAvKioKICAgICAqIFNldHMgdXAgb2JqZWN0IHJlZmVyZW5jZXMKICAgICAqLwogICAgc2V0dXAoKXsKICAgICAgICB0aGlzLnJvY2tldCA9IEVkZ2VQcm94eS5nZXRMZXZlbFNwcml0ZSh0aGlzLCAncm9ja2V0Jyk7CiAgICAgICAgdGhpcy5jdXJzb3JzID0gdGhpcy5pbnB1dC5rZXlib2FyZC5jcmVhdGVDdXJzb3JLZXlzKCk7CiAgICAgICAgdGhpcy5idWxsZXRzID0gbmV3IFJvY2tldEJ1bGxldHNHcm91cCh0aGlzKTsKICAgICAgICB0aGlzLm1ldGVvcnMgPSBuZXcgTWV0ZW9yR3JvdXAodGhpcyk7CgogICAgICAgIHRoaXMuc2V0dXBHdWlkYW5jZVRyaWdnZXJzKCk7CiAgICAgICAgdGhpcy5zZXR1cE9iamVjdGl2ZXMoKTsKICAgICAgICB0aGlzLnNldHVwQnVsbGV0QW5kTWV0ZW9yQ29sbGlzaW9uKCk7CiAgICAgICAgdGhpcy5zZXR1cFJvY2tldEFuZE1ldGVvckNvbGxpc2lvbigpOwogICAgICAgIHRoaXMuc2V0dXBNZXRlb3JUaW1lcigpOwogICAgICAgIHRoaXMuc2V0dXBFeHBsb3Npb25BbmltYXRpb24oKTsKICAgICAgICB0aGlzLnNldHVwU3RhckNsdXN0ZXIoKTsKICAgICAgICB0aGlzLnNldHVwTGV2ZWxUZXh0KCk7CiAgICAgICAgdGhpcy5zZXR1cFRyYW5zaXRpb25zKCk7CiAgICB9CgogICAgLyoqCiAgICAgKiBBZGQga2V5Ym9hcmQgY29udHJvbHMgdG8gcm9ja2V0CiAgICAgKi8KICAgIGhhbmRsZVJvY2tldE1vdmVtZW50KCl7CiAgICAgICAgbGV0IHZlbG9jaXR5ID0gdGhpcy5yb2NrZXRWZWxvY2l0eTsKICAgICAgICBsZXQga2IgPSB0aGlzLmN1cnNvcnM7CiAgICAgICAgbGV0IHJvY2tldCA9IHRoaXMucm9ja2V0OwogICAgICAgIGxldCB4ID0gcm9ja2V0Lng7CiAgICAgICAgbGV0IHkgPSByb2NrZXQueTsKICAgICAgICBsZXQgdzIgPSByb2NrZXQuZGlzcGxheVdpZHRoIC8gMjsKICAgICAgICBsZXQgaDIgPSByb2NrZXQuZGlzcGxheUhlaWdodCAvIDI7CiAgICAgICAgbGV0IGNhbSA9IHRoaXMuY2FtZXJhcy5tYWluOwoKICAgICAgICBpZiAoa2IubGVmdC5pc0Rvd24pCiAgICAgICAgICAgIHJvY2tldC5zZXRYKHggLSB2ZWxvY2l0eSk7CgogICAgICAgIGlmIChrYi5yaWdodC5pc0Rvd24pCiAgICAgICAgICAgIHJvY2tldC5zZXRYKHggKyB2ZWxvY2l0eSk7CgogICAgICAgIGlmIChrYi51cC5pc0Rvd24pCiAgICAgICAgICAgIHJvY2tldC5zZXRZKHkgLSB2ZWxvY2l0eSk7CgogICAgICAgIGlmIChrYi5kb3duLmlzRG93bikKICAgICAgICAgICAgcm9ja2V0LnNldFkoeSArIHZlbG9jaXR5KTsKCiAgICAgICAgLy8gQ2hlY2sgQm91bmRzCiAgICAgICAgcm9ja2V0LnNldFgoTWF0aC5tYXgodzIsIE1hdGgubWluKGNhbS53aWR0aCAtIHcyLCByb2NrZXQueCkpKTsKICAgICAgICByb2NrZXQuc2V0WShNYXRoLm1heChoMiwgTWF0aC5taW4oY2FtLmhlaWdodCAtIGgyLCByb2NrZXQueSkpKTsKICAgIH0KCiAgICBsaXN0ZW5Ub1NwYWNlQmFyKCl7CiAgICAgICAgdGhpcy5pbnB1dC5rZXlib2FyZC5vbigna2V5ZG93bi1TUEFDRScsICgpID0+IHsKICAgICAgICAgICAgLy8gdGhpcy5maXJlID0gdHJ1ZTsKICAgICAgICAgICAgdGhpcy5maXJlUm9ja2V0QnVsbGV0KCk7CiAgICAgICAgfSk7CiAgICAgICAgdGhpcy5pbnB1dC5rZXlib2FyZC5vbigna2V5dXAtU1BBQ0UnLCAoKSA9PiB0aGlzLmZpcmUgPSBmYWxzZSk7CiAgICB9CgogICAgaGFuZGxlUm9ja2V0QnVsbGV0cygpewogICAgICAgIGlmICh0aGlzLmZpcmUpewogICAgICAgICAgICB0aGlzLmZpcmVSb2NrZXRCdWxsZXQoKTsKICAgICAgICB9CiAgICB9CgogICAgZmlyZVJvY2tldEJ1bGxldCgpewogICAgICAgIGxldCByb2NrZXQgPSB0aGlzLnJvY2tldDsKICAgICAgICBjb25zdCBidWxsZXRWZWxvY2l0eSA9IDQzMDsKICAgICAgICBsZXQgdmVsb2NpdHlYID0gMDsKICAgICAgICBsZXQgdmVsb2NpdHlZID0gMDsKCiAgICAgICAgY29uc3QgY29tcG9uZW50cyA9IERpcmVjdGlvbkhlbHBlci5nZXRDb21wb25lbnRzKHRoaXMuYXN0ZXJvaWREaXJlY3Rpb24pOwogICAgICAgIHZlbG9jaXR5WCA9IGNvbXBvbmVudHMuZHggKiAtMSAqIGJ1bGxldFZlbG9jaXR5OwogICAgICAgIHZlbG9jaXR5WSA9IGNvbXBvbmVudHMuZHkgKiAtMSAqIGJ1bGxldFZlbG9jaXR5OwogICAgICAgIHRoaXMuYnVsbGV0cy5maXJlQnVsbGV0KHJvY2tldC54LCByb2NrZXQueSwgdmVsb2NpdHlYLCB2ZWxvY2l0eVkpOwogICAgfQoKICAgIHNldHVwQnVsbGV0QW5kTWV0ZW9yQ29sbGlzaW9uKCl7CiAgICAgICAgdGhpcy5waHlzaWNzLmFkZC5jb2xsaWRlcih0aGlzLmJ1bGxldHMsIHRoaXMubWV0ZW9ycywgKGZpcnN0LCBzZWNvbmQpID0+IHsKICAgICAgICAgICAgLyoqCiAgICAgICAgICAgICAqIEB0eXBlIHtNZXRlb3JUZXh0Q29udGFpbmVyfQogICAgICAgICAgICAgKi8KICAgICAgICAgICAgbGV0IG1ldGVvciA9IGZpcnN0Lm5hbWUgPT0gJ21ldGVvcicgPyBmaXJzdCA6IHNlY29uZDsKICAgICAgICAgICAgCiAgICAgICAgICAgIGlmIChtZXRlb3IuaXNDb3JyZWN0KXsKICAgICAgICAgICAgICAgIC8vIEluY3JlYXNlIHBvaW50cwogICAgICAgICAgICAgICAgdGhpcy51cGRhdGVQb2ludHModGhpcy5wb2ludHMgKyAxKTsKICAgICAgICAgICAgfQogICAgICAgICAgICBlbHNlewogICAgICAgICAgICAgICAgLy8gRGVjcmVhc2UgcG9pbnRzCiAgICAgICAgICAgICAgICB0aGlzLnVwZGF0ZVBvaW50cyh0aGlzLnBvaW50cyAtIDEpOwogICAgICAgICAgICB9CgogICAgICAgICAgICBmaXJzdC5kZXN0cm95KCk7CiAgICAgICAgICAgIHNlY29uZC5kZXN0cm95KCk7CiAgICAgICAgICAgIHRoaXMuc2hvd0V4cGxvc2lvbkF0KG1ldGVvci54LCBtZXRlb3IueSk7CiAgICAgICAgfSk7CiAgICB9CgogICAgc2V0dXBSb2NrZXRBbmRNZXRlb3JDb2xsaXNpb24oKXsKICAgICAgICB0aGlzLnBoeXNpY3Mud29ybGQuZW5hYmxlQm9keSh0aGlzLnJvY2tldCk7CiAgICAgICAgdGhpcy5waHlzaWNzLmFkZC5vdmVybGFwKHRoaXMucm9ja2V0LCB0aGlzLm1ldGVvcnMsIChmaXJzdCwgc2Vjb25kKSA9PiB7CiAgICAgICAgICAgIHRoaXMudXBkYXRlTGl2ZXModGhpcy5saXZlcyAtIDEpOwogICAgICAgIH0pOwogICAgfQoKICAgIHNldHVwTWV0ZW9yVGltZXIoKXsKICAgICAgICAvKioKICAgICAgICAgKiBAdHlwZSB7UGhhc2VyLlR5cGVzLlRpbWUuVGltZXJFdmVudENvbmZpZ30KICAgICAgICAgKi8KICAgICAgICBjb25zdCBjb25maWcgPSB7CiAgICAgICAgICAgIGRlbGF5OiAyNTAwLAogICAgICAgICAgICBjYWxsYmFjazogKCkgPT4gdGhpcy5oYW5kbGVNZXRlb3JUaW1lVGlja2VkKCksCiAgICAgICAgICAgIGNhbGxiYWNrU2NvcGU6IHRoaXMsCiAgICAgICAgICAgIGxvb3A6IHRydWUsCiAgICAgICAgfTsKICAgICAgICB0aGlzLm1ldGVvclRpbWVyID0gdGhpcy50aW1lLmFkZEV2ZW50KGNvbmZpZyk7CiAgICB9CgogICAgc2V0dXBFeHBsb3Npb25BbmltYXRpb24oKXsKCiAgICAgICAgdGhpcy5rQW5pbUV4cGxvc2lvbiA9ICdhbmltLWV4cGxvc2lvbic7CiAgICAgICAgdGhpcy5hbmltcy5jcmVhdGUoewogICAgICAgICAgICBrZXk6ICdhbmltLWV4cGxvc2lvbicsCiAgICAgICAgICAgIGZyYW1lczogdGhpcy5hbmltcy5nZW5lcmF0ZUZyYW1lTmFtZXModGhpcy5rQXRsYXNFeHBsb3Npb24sIHsgc3RhcnQ6IDEsIGVuZDogNyB9KSwKICAgICAgICAgICAgcmVwZWF0OiAwLAogICAgICAgICAgICBoaWRlT25Db21wbGV0ZTogdHJ1ZQogICAgICAgIH0pOwogICAgfQoKICAgIHNldHVwU3RhckNsdXN0ZXIoKXsKICAgICAgICBjb25zdCBjYW1XaWR0aCA9IHRoaXMuY2FtZXJhcy5tYWluLmRpc3BsYXlXaWR0aDsKICAgICAgICBjb25zdCBjYW1IZWlnaHQgPSB0aGlzLmNhbWVyYXMubWFpbi5kaXNwbGF5SGVpZ2h0OwogICAgICAgIGNvbnN0IHggPSBjYW1XaWR0aCAvIDI7CiAgICAgICAgY29uc3QgeSA9IGNhbUhlaWdodCAvIDI7CiAgICAgICAgY29uc3QgY2x1c3RlclRleHR1cmUxID0gdGhpcy50ZXh0dXJlcy5nZXQodGhpcy5rVGV4dHVyZVN0YXJDbHVzdGVyKS5nZXRTb3VyY2VJbWFnZSgpOwogICAgICAgIHRoaXMuc3RhckNsdXN0ZXIxID0gdGhpcy5hZGQudGlsZVNwcml0ZSh4LCB5LCBjYW1XaWR0aCwgY2FtSGVpZ2h0LCB0aGlzLmtUZXh0dXJlU3RhckNsdXN0ZXIpOwoKICAgICAgICBsZXQgdGlsZVhUd2VlbiA9IDA7CiAgICAgICAgbGV0IHRpbGVZVHdlZW4gPSAwOwoKICAgICAgICBjb25zdCBjb21wb25lbnRzID0gRGlyZWN0aW9uSGVscGVyLmdldENvbXBvbmVudHModGhpcy5hc3Rlcm9pZERpcmVjdGlvbik7CgogICAgICAgIHRpbGVYVHdlZW4gPSBjb21wb25lbnRzLmR4ICogLTEgKiBjbHVzdGVyVGV4dHVyZTEud2lkdGg7CiAgICAgICAgdGlsZVlUd2VlbiA9IGNvbXBvbmVudHMuZHkgKiAtMSAqIGNsdXN0ZXJUZXh0dXJlMS5oZWlnaHQ7CgogICAgICAgIHRoaXMudHdlZW5zLmFkZCh7CiAgICAgICAgICAgIHRhcmdldHM6IHRoaXMuc3RhckNsdXN0ZXIxLAogICAgICAgICAgICB0aWxlUG9zaXRpb25YOiB0aWxlWFR3ZWVuLAogICAgICAgICAgICB0aWxlUG9zaXRpb25ZOiB0aWxlWVR3ZWVuLAogICAgICAgICAgICByZXBlYXQ6IC0xLAogICAgICAgICAgICBkdXJhdGlvbjogMjAwMDAKICAgICAgICB9KTsKICAgIH0KCiAgICBzZXR1cExldmVsVGV4dCgpewogICAgICAgIGNvbnN0IHggPSB0aGlzLmNhbWVyYXMubWFpbi5kaXNwbGF5V2lkdGggLyAyOwogICAgICAgIGNvbnN0IHkgPSB0aGlzLmNhbWVyYXMubWFpbi5kaXNwbGF5SGVpZ2h0IC8gMjsKICAgICAgICAvLyBnZXRMZXZlbE5hbWUKICAgICAgICBjb25zdCB0ZXh0ID0gdGhpcy5nZXRMZXZlbE5hbWUoKTsKICAgICAgICBjb25zdCBzcHJpdGUgPSB0aGlzLmFkZC50ZXh0KHgsIHksIHRleHQsIHsKICAgICAgICAgICAgZm9udEZhbWlseTogJ0FyaWFsJywKICAgICAgICAgICAgZm9udFNpemU6ICcyMHB4JywKICAgICAgICAgICAgY29sb3I6ICcjRkZGRkZGJwogICAgICAgIH0pOwoKICAgICAgICBzcHJpdGUuc2V0T3JpZ2luKDAuNSwgMC41KTsKICAgICAgICBzcHJpdGUuYWxwaGEgPSAwOwogICAgICAgIAogICAgICAgIGNvbnN0IGZhZGVPdXQgPSB0aGlzLmFkZC50d2Vlbih7CiAgICAgICAgICAgIHRhcmdldHM6IHNwcml0ZSwKICAgICAgICAgICAgYWxwaGE6IDEsCiAgICAgICAgICAgIGR1cmF0aW9uOiAxMDAwLAogICAgICAgICAgICBob2xkOiAyMDAwLAogICAgICAgICAgICB5b3lvOiB0cnVlLAogICAgICAgIH0pCiAgICB9CgogICAgc2V0dXBUcmFuc2l0aW9ucygpewogICAgICAgIHRoaXMuZXZlbnRzLm9uKCd0cmFuc2l0aW9ub3V0JywgKHNjZW5lLCBkdXJhdGlvbikgPT4gewogICAgICAgICAgICB0aGlzLmFkZC50d2Vlbih7CiAgICAgICAgICAgICAgICB0YXJnZXRzOiB0aGlzLmNhbWVyYXMubWFpbiwKICAgICAgICAgICAgICAgIGFscGhhOiAwLAogICAgICAgICAgICAgICAgZHVyYXRpb246IGR1cmF0aW9uCiAgICAgICAgICAgIH0pOwogICAgICAgICAgICB0aGlzLnBoeXNpY3MucGF1c2UoKTsKICAgICAgICAgICAgdGhpcy5jYW1lcmFzLm1haW4uem9vbVRvKDAuMDAxLCBkdXJhdGlvbiwgJ1Bvd2VyMicpCiAgICAgICAgfSk7CiAgICB9CgogICAgLyoqCiAgICAgKiBXaGVuIHRoZSBtZXRlb3IgY3JlYXRpb24gdGlja2VyIHRpY2tzLCBwaWNrIGFuIGFuc3dlciBmcm9tIHRoZSAKICAgICAqIGFuc3dlcnMgcG9vbCBhbmQgYWRkIGEgbWV0ZW9yIHRvIHRoZSBzY2VuZS4KICAgICAqLwogICAgaGFuZGxlTWV0ZW9yVGltZVRpY2tlZCgpewoKICAgICAgICBsZXQgaXNDb3JyZWN0QW5zd2VyID0gTWF0aC5yYW5kb20oKSA+IDAuNTsKICAgICAgICBsZXQgdmFsdWUgPSAnJzsKCiAgICAgICAgaWYgKGlzQ29ycmVjdEFuc3dlcil7CiAgICAgICAgICAgIGxldCBpbmRleCA9IE1hdGguZmxvb3IoTWF0aC5yYW5kb20oKSAqIHRoaXMuY29ycmVjdEFuc3dlcnMubGVuZ3RoKTsKICAgICAgICAgICAgdmFsdWUgPSB0aGlzLmNvcnJlY3RBbnN3ZXJzW2luZGV4XTsKICAgICAgICB9CiAgICAgICAgZWxzZXsKICAgICAgICAgICAgbGV0IGluZGV4ID0gTWF0aC5mbG9vcihNYXRoLnJhbmRvbSgpICogdGhpcy53cm9uZ0Fuc3dlcnMubGVuZ3RoKTsKICAgICAgICAgICAgdmFsdWUgPSB0aGlzLndyb25nQW5zd2Vyc1tpbmRleF07CiAgICAgICAgfQoKICAgICAgICBjb25zdCBwYW5lbCA9IEVkZ2VQcm94eS5nZXRMZXZlbFNwcml0ZSh0aGlzLCAncGFuZWwnKTsKICAgICAgICBjb25zdCBtZXRlb3IgPSBFZGdlUHJveHkuZ2V0TGV2ZWxTcHJpdGUodGhpcywgJ21ldGVvcicpOwogICAgICAgIGNvbnN0IHBhbmVsSGVpZ2h0ID0gcGFuZWwuZGlzcGxheUhlaWdodDsKICAgICAgICBjb25zdCBtZXRlb3JXaWR0aCA9IG1ldGVvci5mcmFtZS53aWR0aDsKICAgICAgICBjb25zdCBtZXRlb3JIZWlnaHQgPSBtZXRlb3IuZnJhbWUuaGVpZ2h0OwogICAgICAgIGNvbnN0IHRvcE9mZnNldCA9IDMwOwogICAgICAgIGNvbnN0IGxlZnRPZmZzZXQgPSAzMDsKICAgICAgICBjb25zdCB3aWR0aEFyZWEgPSAodGhpcy5jYW1lcmFzLm1haW4ud2lkdGggLSBtZXRlb3JXaWR0aCAtIGxlZnRPZmZzZXQpOwogICAgICAgIGNvbnN0IGhlaWdodEFyZWEgPSAodGhpcy5jYW1lcmFzLm1haW4uaGVpZ2h0IC0gcGFuZWxIZWlnaHQgLSBtZXRlb3JIZWlnaHQgLSB0b3BPZmZzZXQpOwogICAgICAgIGxldCBtZXRlb3JYID0gMDsKICAgICAgICBsZXQgbWV0ZW9yWSA9IDA7CiAgICAgICAgLy8gY29uc3QgbWV0ZW9yWSA9IHRvcE9mZnNldCArIGhlaWdodEFyZWEgKiBNYXRoLnJhbmRvbSgpOwoKICAgICAgICAvLyBORVc6IENoYW5nZSB0aGUgYXBwZWFyaW5nIHBvc2l0aW9uIG9mIHRoZSBhc3Rlcm9pZHMKICAgICAgICBsZXQgdmVsb2NpdHlYID0gMDsKICAgICAgICBsZXQgdmVsb2NpdHlZID0gMDsKCiAgICAgICAgY29uc3QgY29tcG9uZW50cyA9IERpcmVjdGlvbkhlbHBlci5nZXRDb21wb25lbnRzKHRoaXMuYXN0ZXJvaWREaXJlY3Rpb24pOwoKICAgICAgICB2ZWxvY2l0eVggPSBjb21wb25lbnRzLmR4ICogdGhpcy5tZXRlb3JWZWxvY2l0eTsKICAgICAgICB2ZWxvY2l0eVkgPSBjb21wb25lbnRzLmR5ICogdGhpcy5tZXRlb3JWZWxvY2l0eTsKCiAgICAgICAgc3dpdGNoKHRoaXMuYXN0ZXJvaWREaXJlY3Rpb24pewoKICAgICAgICAgICAgLy8gUmlnaHQKICAgICAgICAgICAgY2FzZSAxOiAKICAgICAgICAgICAgbWV0ZW9yWCA9IHRoaXMuY2FtZXJhcy5tYWluLndpZHRoOwogICAgICAgICAgICBtZXRlb3JZID0gdG9wT2Zmc2V0ICsgaGVpZ2h0QXJlYSAqIE1hdGgucmFuZG9tKCk7CiAgICAgICAgICAgIGJyZWFrOwoKICAgICAgICAgICAgLy8gRG93bgogICAgICAgICAgICBjYXNlIDI6IAogICAgICAgICAgICBtZXRlb3JYID0gbGVmdE9mZnNldCArIHdpZHRoQXJlYSAqIE1hdGgucmFuZG9tKCk7CiAgICAgICAgICAgIG1ldGVvclkgPSB0aGlzLmNhbWVyYXMubWFpbi5oZWlnaHQ7CiAgICAgICAgICAgIGJyZWFrOwoKICAgICAgICAgICAgLy8gTGVmdAogICAgICAgICAgICBjYXNlIDM6IAogICAgICAgICAgICBtZXRlb3JYID0gLW1ldGVvcldpZHRoOwogICAgICAgICAgICBtZXRlb3JZID0gdG9wT2Zmc2V0ICsgaGVpZ2h0QXJlYSAqIE1hdGgucmFuZG9tKCk7CiAgICAgICAgICAgIGJyZWFrOwoKICAgICAgICAgICAgLy8gVG9wCiAgICAgICAgICAgIGNhc2UgNDogCiAgICAgICAgICAgIG1ldGVvclggPSBsZWZ0T2Zmc2V0ICsgd2lkdGhBcmVhICogTWF0aC5yYW5kb20oKTsKICAgICAgICAgICAgbWV0ZW9yWSA9IC1tZXRlb3JIZWlnaHQ7CiAgICAgICAgICAgIGJyZWFrOwogICAgICAgIH0KCiAgICAgICAgdGhpcy5tZXRlb3JzLmFkZE1ldGVvcigKICAgICAgICAgICAgbWV0ZW9yWCwgCiAgICAgICAgICAgIG1ldGVvclksIAogICAgICAgICAgICB2ZWxvY2l0eVgsIAogICAgICAgICAgICB2ZWxvY2l0eVksIAogICAgICAgICAgICBpc0NvcnJlY3RBbnN3ZXIsCiAgICAgICAgICAgIHZhbHVlLAogICAgICAgICAgICB0aGlzLmFuc3dlckZvbnRTaXplCiAgICAgICAgKTsKICAgIH0KCiAgICByZWFkUHJvcGVydGllcygpewogICAgICAgIHRoaXMucXVlc3Rpb24gPSBFZGdlUHJveHkuZ2V0TGV2ZWxQcm9wZXJ0eSh0aGlzLCAnUXVlc3Rpb24nKTsKICAgICAgICB0aGlzLnJlcXVpcmVkUG9pbnRzID0gRWRnZVByb3h5LmdldExldmVsUHJvcGVydHkodGhpcywgJ1BvaW50cyBSZXF1aXJlZCcpOwogICAgICAgIHRoaXMuY29ycmVjdEFuc3dlcnMgPSB0aGlzLnNwbGl0Q1NWKEVkZ2VQcm94eS5nZXRMZXZlbFByb3BlcnR5KHRoaXMsICdDb3JyZWN0IEFuc3dlcnMnKSk7CiAgICAgICAgdGhpcy53cm9uZ0Fuc3dlcnMgPSB0aGlzLnNwbGl0Q1NWKEVkZ2VQcm94eS5nZXRMZXZlbFByb3BlcnR5KHRoaXMsICdXcm9uZyBBbnN3ZXJzJykpOwogICAgICAgIHRoaXMubWV0ZW9yVmVsb2NpdHkgPSBOdW1iZXIucGFyc2VJbnQoRWRnZVByb3h5LmdldExldmVsUHJvcGVydHkodGhpcywgJ01ldGVvciBWZWxvY2l0eScpKTsKICAgICAgICB0aGlzLmFzdGVyb2lkRGlyZWN0aW9uID0gTnVtYmVyLnBhcnNlSW50KEVkZ2VQcm94eS5nZXRMZXZlbFByb3BlcnR5KHRoaXMsICdBc3Rlcm9pZCBEaXJlY3Rpb24nKSk7CiAgICAgICAgdGhpcy5hbnN3ZXJGb250U2l6ZSA9IE51bWJlci5wYXJzZUludChFZGdlUHJveHkuZ2V0TGV2ZWxQcm9wZXJ0eSh0aGlzLCAnQW5zd2VyIEZvbnQgU2l6ZScpKTsKICAgIH0KCiAgICAvKioKICAgICAqIFNwbGl0cyBhIGNvbW1hIHNlcGFyYXRlZCBsaXN0IG9mIHZhbHVlcyBpbnRvIGEgc3RyaW5nIGFycmF5CiAgICAgKiBAcGFyYW0ge3N0cmluZ30gY3N2CiAgICAgKiBAcmV0dXJucyB7c3RyaW5nW119CiAgICAgKi8KICAgIHNwbGl0Q1NWKGNzdil7CiAgICAgICAgcmV0dXJuIGNzdi5zcGxpdCgiLCIpLm1hcChzID0+IHMudHJpbSgpKTsKICAgIH0KCiAgICBzaG93UHJvbXB0KCl7CiAgICAgICAgbGV0IHBhbmVsID0gRWRnZVByb3h5LmdldExldmVsU3ByaXRlKHRoaXMsICdwYW5lbCcpOwogICAgICAgIGxldCB0ZXh0ID0gdGhpcy5hZGQudGV4dChwYW5lbC54LCBwYW5lbC55LCB0aGlzLnF1ZXN0aW9uLCB7CiAgICAgICAgICAgIGZpeGVkV2lkdGg6IHBhbmVsLmRpc3BsYXlXaWR0aCwKICAgICAgICAgICAgYWxpZ246ICdjZW50ZXInLAogICAgICAgICAgICBmb250RmFtaWx5OiAnQXJpYWwnLAogICAgICAgICAgICBmb250U2l6ZTogJzIwcHgnLAogICAgICAgIH0pOwogICAgICAgIHRleHQuc2V0T3JpZ2luKDAuNSwgMC41KTsKICAgIH0KCiAgICAvKioKICAgICAqIFVwZGF0ZSB0aGUgc2NvcmUgdGV4dCBvciBjcmVhdGUgaXQgaWYgaXQgZG9lc24ndCBleGlzdC4KICAgICAqIE9wdGlvbmFsbHkgcGFzcyB0aGUgbmV3IHBvaW50cyB0byB1cGRhdGUuCiAgICAgKiBAcGFyYW0ge251bWJlciB8IG51bGx9IG5ld1BvaW50cwogICAgICovCiAgICB1cGRhdGVQb2ludHMobmV3UG9pbnRzKXsKICAgICAgICBpZiAobmV3UG9pbnRzICE9IG51bGwpewogICAgICAgICAgICBjb25zdCBsYXN0UG9pbnRzID0gdGhpcy5wb2ludHM7CiAgICAgICAgICAgIHRoaXMucG9pbnRzID0gbmV3UG9pbnRzOwoKICAgICAgICAgICAgLy8gaWYgKCh0aGlzLnRpbWUubm93IC8gMTAwMCkgPD0gMjApewogICAgICAgICAgICAvLyAgICAgRWRnZVByb3h5LmluY3JlYXNlT2JqZWN0aXZlUHJvZ3Jlc3ModGhpcy5rT2JqNVBvaW50czIwU2Vjb25kcywgbmV3UG9pbnRzIC0gbGFzdFBvaW50cyk7CiAgICAgICAgICAgIC8vIH0KCiAgICAgICAgICAgIGlmICh0aGlzLnBvaW50cyA8PSAtNSl7CiAgICAgICAgICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VHdWlkYW5jZVByb2dyZXNzKHRoaXMua0d1aTVXcm9uZ0Fuc3dlcnMsIDEpOwogICAgICAgICAgICB9CgogICAgICAgICAgICBpZiAodGhpcy5wb2ludHMgPD0gLTEwKXsKICAgICAgICAgICAgICAgIEVkZ2VQcm94eS5pbmNyZWFzZUd1aWRhbmNlUHJvZ3Jlc3ModGhpcy5rR3VpMTBXcm9uZ0Fuc3dlcnMsIDEpOwogICAgICAgICAgICB9CgogICAgICAgICAgICBpZiAodGhpcy5wb2ludHMgPD0gLTE1KXsKICAgICAgICAgICAgICAgIEVkZ2VQcm94eS5pbmNyZWFzZUd1aWRhbmNlUHJvZ3Jlc3ModGhpcy5rR3VpMTVXcm9uZ0Fuc3dlcnMsIDEpOwogICAgICAgICAgICB9CgogICAgICAgICAgICBpZiAodGhpcy5wb2ludHMgPj0gdGhpcy5yZXF1aXJlZFBvaW50cyl7CiAgICAgICAgICAgICAgICB0aGlzLm1vdmVUb05leHRMZXZlbCgpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBjb25zdCB0ZXh0ID0gYFNjb3JlOiAke3RoaXMucG9pbnRzfS8ke3RoaXMucmVxdWlyZWRQb2ludHN9YDsKCiAgICAgICAgaWYgKHRoaXMuc2NvcmVUZXh0ID09IG51bGwpewogICAgICAgICAgICB0aGlzLnNjb3JlVGV4dCA9IHRoaXMuYWRkLnRleHQoMTAsIDEwLCB0ZXh0LCB7CiAgICAgICAgICAgICAgICBmb250RmFtaWx5OiAnQXJpYWwnLAogICAgICAgICAgICAgICAgZm9udFNpemU6ICcyNHB4JywKICAgICAgICAgICAgICAgIGNvbG9yOiAnI2ZmYzgwMCcKICAgICAgICAgICAgfSkKICAgICAgICB9CiAgICAgICAgZWxzZXsKICAgICAgICAgICAgdGhpcy5zY29yZVRleHQudGV4dCA9IHRleHQ7CiAgICAgICAgfQogICAgfQoKICAgIHNldHVwR3VpZGFuY2VUcmlnZ2VycygpewogICAgICAgIGNvbnN0IG9uZU1pbnV0ZSA9IDYwMDAwOwoKICAgICAgICAvKioKICAgICAgICAgKiBAdHlwZSB7UGhhc2VyLlRpbWUuVGltZXJFdmVudH0KICAgICAgICAgKi8KICAgICAgICBjb25zdCBjb25maWcxID0gewogICAgICAgICAgICBkZWxheTogb25lTWludXRlLAogICAgICAgICAgICBjYWxsYmFjazogKCkgPT4geyAKICAgICAgICAgICAgICAgIGlmICh0aGlzLnBvaW50cyA8PSAwKXsKICAgICAgICAgICAgICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VHdWlkYW5jZVByb2dyZXNzKHRoaXMua0d1aU5vUG9pbnRzMU1pbnV0ZSwgMSk7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KICAgICAgICB9OwoKICAgICAgICAvKioKICAgICAgICAgKiBAdHlwZSB7UGhhc2VyLlRpbWUuVGltZXJFdmVudH0KICAgICAgICAgKi8KICAgICAgICBjb25zdCBjb25maWcyID0gewogICAgICAgICAgICBkZWxheTogMiAqIG9uZU1pbnV0ZSwKICAgICAgICAgICAgY2FsbGJhY2s6ICgpID0+IHsgCiAgICAgICAgICAgICAgICBpZiAodGhpcy5wb2ludHMgPD0gMCl7CiAgICAgICAgICAgICAgICAgICAgRWRnZVByb3h5LmluY3JlYXNlR3VpZGFuY2VQcm9ncmVzcyh0aGlzLmtHdWlOb1BvaW50czJNaW51dGVzLCAxKTsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgIH07CgogICAgICAgIHRoaXMudGltZS5hZGRFdmVudChjb25maWcxKTsKICAgICAgICB0aGlzLnRpbWUuYWRkRXZlbnQoY29uZmlnMik7CiAgICB9CgogICAgc2V0dXBPYmplY3RpdmVzKCl7CiAgICAgICAgLyoqCiAgICAgICAgICogQHR5cGUge1BoYXNlci5UaW1lLlRpbWVyRXZlbnR9CiAgICAgICAgICovCiAgICAgICAgY29uc3QgY29uZmlnMSA9IHsKICAgICAgICAgICAgZGVsYXk6IDIwMDAwLAogICAgICAgICAgICBjYWxsYmFjazogKCkgPT4geyAKICAgICAgICAgICAgICAgIGlmICh0aGlzLnBvaW50cyA+PSA1ICYmICFvYmplY3RpdmVfZ2xvYmFscy5kaWRPYnRhaW41UG9pbnRzMjBTZWNvbmRzKXsKICAgICAgICAgICAgICAgICAgICBvYmplY3RpdmVfZ2xvYmFscy5kaWRPYnRhaW41UG9pbnRzMjBTZWNvbmRzID0gdHJ1ZTsKICAgICAgICAgICAgICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VHdWlkYW5jZVByb2dyZXNzKHRoaXMua09iajVQb2ludHMyMFNlY29uZHMsIDEpOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICB0aGlzLnRpbWUuYWRkRXZlbnQoY29uZmlnMSk7CiAgICB9CgogICAgdXBkYXRlTGl2ZXMobmV3TGl2ZXMpewogICAgICAgIHRoaXMubGl2ZXMgPSBuZXdMaXZlczsKICAgICAgICBjb25zdCBoMSA9IEVkZ2VQcm94eS5nZXRMZXZlbFNwcml0ZSh0aGlzLCAnaGVhcnQxJyk7CiAgICAgICAgY29uc3QgaDIgPSBFZGdlUHJveHkuZ2V0TGV2ZWxTcHJpdGUodGhpcywgJ2hlYXJ0MicpOwogICAgICAgIGNvbnN0IGgzID0gRWRnZVByb3h5LmdldExldmVsU3ByaXRlKHRoaXMsICdoZWFydDMnKTsKCiAgICAgICAgaDEuc2V0VmlzaWJsZShuZXdMaXZlcyA+IDApOwogICAgICAgIGgyLnNldFZpc2libGUobmV3TGl2ZXMgPiAxKTsKICAgICAgICBoMy5zZXRWaXNpYmxlKG5ld0xpdmVzID4gMik7CgogICAgICAgIGlmICh0aGlzLmxpdmVzIDwgMSl7CiAgICAgICAgICAgIC8vIEdhbWUgT3ZlcgogICAgICAgICAgICB0aGlzLnNjZW5lLnN0YXJ0KCdMZXZlbFNjZW5lX0dhbWVfT3Zlcl9TY3JlZW4nKTsKICAgICAgICB9CiAgICAgICAgZWxzZXsKICAgICAgICAgICAgdGhpcy5yZXNldFBsYXllclBvc2l0aW9uKCk7CiAgICAgICAgICAgIHRoaXMuZmxhc2hSb2NrZXQoKTsKICAgICAgICAgICAgdGhpcy5yZW1vdmVBbGxNZXRlb3JzKCk7CiAgICAgICAgfQogICAgfQoKICAgIHJlc2V0UGxheWVyUG9zaXRpb24oKXsKICAgICAgICB0aGlzLnJvY2tldC5ib2R5LnNldFZlbG9jaXR5WCgwKTsKICAgICAgICB0aGlzLnJvY2tldC5ib2R5LnNldFZlbG9jaXR5WSgwKTsKICAgICAgICB0aGlzLnJvY2tldC5zZXRQb3NpdGlvbigKICAgICAgICAgICAgNSArIHRoaXMucm9ja2V0LmRpc3BsYXlXaWR0aCAvIDIsCiAgICAgICAgICAgIHRoaXMuY2FtZXJhcy5tYWluLmNlbnRlclkKICAgICAgICApOwogICAgfQoKICAgIHJlbW92ZUFsbE1ldGVvcnMoKXsKICAgICAgICB0aGlzLm1ldGVvcnMuY2hpbGRyZW4uZ2V0QXJyYXkoKS5mb3JFYWNoKG0gPT4gewogICAgICAgICAgICB0aGlzLm1ldGVvcnMucmVtb3ZlKG0pOwogICAgICAgIH0pCiAgICB9CgogICAgc2hvd0V4cGxvc2lvbkF0KHgsIHkpewogICAgICAgIGNvbnN0IGFuaW1Db21wbGV0aW9uRXZlbnQgPSBQaGFzZXIuQW5pbWF0aW9ucy5FdmVudHMuQU5JTUFUSU9OX0NPTVBMRVRFOwogICAgICAgIGNvbnN0IGV4cGxvc2lvbiA9IHRoaXMuYWRkLnNwcml0ZSh4LCB5LCAndGV4dHVyZS1leHBsb3Npb24nKQogICAgICAgICAgICAucGxheSh0aGlzLmtBbmltRXhwbG9zaW9uKQogICAgICAgICAgICAuc2V0RGlzcGxheVNpemUoODAsIDgwKQoKICAgICAgICBleHBsb3Npb24ub24oYW5pbUNvbXBsZXRpb25FdmVudCwgKCkgPT4gewogICAgICAgICAgICBleHBsb3Npb24uZGVzdHJveSgpOwogICAgICAgIH0pCiAgICB9CgogICAgZmxhc2hSb2NrZXQoKXsKICAgICAgICB0aGlzLnR3ZWVucy5hZGQoewogICAgICAgICAgICB0YXJnZXRzOiB0aGlzLnJvY2tldCwKICAgICAgICAgICAgYWxwaGE6IDAuMSwKICAgICAgICAgICAgZHVyYXRpb246IDYwMCwKICAgICAgICAgICAgeW95bzogdHJ1ZSwKICAgICAgICAgICAgcmVwZWF0OiAzCiAgICAgICAgfSk7CiAgICB9CgogICAgbW92ZVRvTmV4dExldmVsKCl7CiAgICAgICAgY29uc3QgbmV4dExldmVsID0gdGhpcy5nZXROZXh0TGV2ZWxOYW1lKCk7CiAgICAgICAgdGhpcy5zY2VuZS50cmFuc2l0aW9uKHsKICAgICAgICAgICAgdGFyZ2V0OiBuZXh0TGV2ZWwsCiAgICAgICAgICAgIGR1cmF0aW9uOiAxMDAwLAogICAgICAgICAgICBtb3ZlQmVsb3c6IHRydWUKICAgICAgICB9KTsKICAgICAgICAvLyB0aGlzLnNjZW5lLnN0YXJ0KG5leHRMZXZlbCk7CiAgICB9CgogICAgLy8gTUFSSzogT3ZlcnJpZGUgUHJvcGVydGllcwoKICAgIGdldExldmVsTmFtZSgpewogICAgICAgIHJldHVybiAnTGV2ZWwgTmFtZSBOb3QgT3ZlcnJpZGRlbiEnOwogICAgfQoKICAgIGdldE5leHRMZXZlbE5hbWUoKXsKICAgICAgICBjb25zb2xlLmxvZygnTW92ZSB0byBuZXh0IGxldmVsIG5vdCBpbXBsZW1lbnRlZC4gRG8gbm90IGNhbGwgc3VwZXIgaW1wbGVtZW50YXRpb24uJyk7CiAgICAgICAgcmV0dXJuICdFbXB0eUxldmVsJzsKICAgIH0KCn0=',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f64e38698d67260b64440',
+            name: 'Level1',
+            type: 'single_level',
+            displayMode: 'replace',
+            locked: false,
+            exitCriteriaType: 'time',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f64e38698d67260b6443f',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342094002',
+                        spriteResourceId: '638f594c0887dbdcf806cacf',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 490
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342111822',
+                        spriteResourceId: '638f59170887dbdcf806cac6',
+                        type: 'sprite',
+                        name: 'rocket',
+                        frame: {
+                            x: 0,
+                            y: 190,
+                            w: 100,
+                            h: 100
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342277478',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart1',
+                        frame: {
+                            x: 858,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342278143',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart2',
+                        frame: {
+                            x: 812,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342280248',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart3',
+                        frame: {
+                            x: 766,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342384994',
+                        spriteResourceId: '638f59260887dbdcf806cacb',
+                        type: 'sprite',
+                        name: 'bullet',
+                        frame: {
+                            x: 30,
+                            y: 530,
+                            w: 13,
+                            h: 13
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342424841',
+                        spriteResourceId: '638f590f0887dbdcf806cac3',
+                        type: 'sprite',
+                        name: 'meteor',
+                        frame: {
+                            x: 73,
+                            y: 528,
+                            w: 66,
+                            h: 33
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342337496',
+                        spriteResourceId: '638f59140887dbdcf806cac5',
+                        type: 'sprite',
+                        name: 'panel',
+                        frame: {
+                            x: 250,
+                            y: 400,
+                            w: 400,
+                            h: 70
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [
+                    {
+                        section: 'Question',
+                        properties: [
+                            {
+                                name: 'Question',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: 'Shoot all even numbers'
+                                }
+                            },
+                            {
+                                name: 'Points Required',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 30,
+                                    value: 5
+                                }
+                            },
+                            {
+                                name: 'Meteor Velocity',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 1000,
+                                    value: 80
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Game Properties',
+                        properties: [
+                            {
+                                name: 'Asteroid Direction',
+                                type: 'select',
+                                select: {
+                                    options: {
+                                        '1': 'Right',
+                                        '2': 'Down',
+                                        '3': 'Left',
+                                        '4': 'Top'
+                                    },
+                                    value: '1'
+                                }
+                            },
+                            {
+                                name: 'Answer Font Size',
+                                type: 'number',
+                                number: {
+                                    max: 30,
+                                    min: 9,
+                                    value: 16
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Answers',
+                        properties: [
+                            {
+                                name: 'Correct Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '2, 4, 6, 8, 10, 12'
+                                }
+                            },
+                            {
+                                name: 'Wrong Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '1, 3, 5, 7, 9, 11'
+                                }
+                            }
+                        ]
+                    }
+                ],
+                propertyValues: {
+                    Question: 'Shoot all even numbers',
+                    'Points Required': 5,
+                    'Meteor Velocity': 80,
+                    'Asteroid Direction': '1',
+                    'Answer Font Size': 16,
+                    'Correct Answers': '2, 4, 6, 8, 10, 12',
+                    'Wrong Answers': '1, 3, 5, 7, 9, 11'
+                }
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCi8qKgogKiBAdHlwZSB7UGhhc2VyLlNjZW5lfQogKi8KY2xhc3MgTGV2ZWxTY2VuZV9MZXZlbDEgZXh0ZW5kcyBDb21tb25MZXZlbHsKCiAgICBjb25zdHJ1Y3RvcigpewogICAgICAgIHN1cGVyKHtrZXk6ICJMZXZlbFNjZW5lX0xldmVsMSIsIGFjdGl2ZTogZmFsc2UgfSk7CiAgICB9CgogICAgcHJlbG9hZCgpewogICAgICAgIC8vIEVER1RPS0VOX1BSRUxPQUQKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKICAgICAgICBzdXBlci5wcmVsb2FkKCk7CgogICAgfQoKICAgIGNyZWF0ZSgpewogICAgICAgIC8vIEVER1RPS0VOX0NSRUFURQoKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQogICAgICAgIHN1cGVyLmNyZWF0ZSgpOwoKICAgIH0KCiAgICB1cGRhdGUoKXsKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKICAgICAgICBzdXBlci51cGRhdGUoKTsKCiAgICB9CgogICAgZGVzdHJveSgpewogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIuZGVzdHJveSgpOwoKICAgIH0KCiAgICBnZXRMZXZlbE5hbWUoKXsKICAgICAgICByZXR1cm4gJ0xldmVsIDEnOwogICAgfQoKICAgIGdldE5leHRMZXZlbE5hbWUoKXsKICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VPYmplY3RpdmVQcm9ncmVzcyh0aGlzLmtPYmpDb21wbGV0ZUx2bDEsIDEpOwogICAgICAgIHJldHVybiAnTGV2ZWxTY2VuZV9MZXZlbDInOwogICAgfQp9CgoK',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f68de8698d67260b64445',
+            name: 'Level2',
+            type: 'single_level',
+            displayMode: 'replace',
+            locked: false,
+            exitCriteriaType: 'time',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f64e38698d67260b6443f',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670343005094',
+                        spriteResourceId: '638f591a0887dbdcf806cac7',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 904,
+                            h: 523
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342111822',
+                        spriteResourceId: '638f59170887dbdcf806cac6',
+                        type: 'sprite',
+                        name: 'rocket',
+                        frame: {
+                            x: 14,
+                            y: 204,
+                            w: 72,
+                            h: 72
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342277478',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart1',
+                        frame: {
+                            x: 858,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342278143',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart2',
+                        frame: {
+                            x: 812,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342280248',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart3',
+                        frame: {
+                            x: 766,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342384994',
+                        spriteResourceId: '638f59260887dbdcf806cacb',
+                        type: 'sprite',
+                        name: 'bullet',
+                        frame: {
+                            x: 30,
+                            y: 530,
+                            w: 13,
+                            h: 13
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342424841',
+                        spriteResourceId: '638f590f0887dbdcf806cac3',
+                        type: 'sprite',
+                        name: 'meteor',
+                        frame: {
+                            x: 73,
+                            y: 528,
+                            w: 66,
+                            h: 33
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342337496',
+                        spriteResourceId: '638f59140887dbdcf806cac5',
+                        type: 'sprite',
+                        name: 'panel',
+                        frame: {
+                            x: 250,
+                            y: 400,
+                            w: 400,
+                            h: 70
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [
+                    {
+                        section: 'Question',
+                        properties: [
+                            {
+                                name: 'Question',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: 'Shoot all square numbers'
+                                }
+                            },
+                            {
+                                name: 'Points Required',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 30,
+                                    value: 15
+                                }
+                            },
+                            {
+                                name: 'Meteor Velocity',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 1000,
+                                    value: 130
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Game Properties',
+                        properties: [
+                            {
+                                name: 'Asteroid Direction',
+                                type: 'select',
+                                select: {
+                                    options: {
+                                        '1': 'Right',
+                                        '2': 'Down',
+                                        '3': 'Left',
+                                        '4': 'Top'
+                                    },
+                                    value: '2'
+                                }
+                            },
+                            {
+                                name: 'Answer Font Size',
+                                type: 'number',
+                                number: {
+                                    max: 30,
+                                    min: 9,
+                                    value: 16
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Answers',
+                        properties: [
+                            {
+                                name: 'Correct Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '1, 4, 9, 16, 25, 36, 49'
+                                }
+                            },
+                            {
+                                name: 'Wrong Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '0, 2, 6, 12, 18, 24, 27, 32'
+                                }
+                            }
+                        ]
+                    }
+                ],
+                propertyValues: {
+                    Question: 'Shoot all square numbers',
+                    'Points Required': 15,
+                    'Meteor Velocity': 130,
+                    'Asteroid Direction': '2',
+                    'Answer Font Size': 16,
+                    'Correct Answers': '1, 4, 9, 16, 25, 36, 49',
+                    'Wrong Answers': '0, 2, 6, 12, 18, 24, 27, 32'
+                }
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCmNsYXNzIExldmVsU2NlbmVfTGV2ZWwyIGV4dGVuZHMgQ29tbW9uTGV2ZWx7CgogICAgY29uc3RydWN0b3IoKXsKICAgICAgICBzdXBlcih7a2V5OiAiTGV2ZWxTY2VuZV9MZXZlbDIiLCBhY3RpdmU6IGZhbHNlIH0pOwogICAgfQoKICAgIHByZWxvYWQoKXsKICAgICAgICAvLyBFREdUT0tFTl9QUkVMT0FECgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCgogICAgICAgIHN1cGVyLnByZWxvYWQoKTsKICAgICAgICAKICAgIH0KICAgIGNyZWF0ZSgpewogICAgICAgIC8vIEVER1RPS0VOX0NSRUFURQoKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQogICAgICAgIAogICAgICAgIHN1cGVyLmNyZWF0ZSgpOwoKICAgIH0KICAgIHVwZGF0ZSgpewogICAgICAgIC8vIEVER1RPS0VOX1VQREFURQoKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQoKICAgICAgICBzdXBlci51cGRhdGUoKTsKCiAgICB9CiAgICBkZXN0cm95KCl7CiAgICAgICAgLy8gRURHVE9LRU5fREVTVFJPWQogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIuZGVzdHJveSgpOwoKICAgIH0KCiAgICBnZXRMZXZlbE5hbWUoKXsKICAgICAgICByZXR1cm4gJ0xldmVsIDInOwogICAgfQoKICAgIGdldE5leHRMZXZlbE5hbWUoKXsKICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VPYmplY3RpdmVQcm9ncmVzcyh0aGlzLmtPYmpDb21wbGV0ZUx2bDIsIDEpOwogICAgICAgIHJldHVybiAnTGV2ZWxTY2VuZV9MZXZlbDMnOwogICAgfQoKfQoKCg==',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f68de8698d67260b64444',
+            name: 'Level3',
+            type: 'single_level',
+            displayMode: 'replace',
+            locked: false,
+            exitCriteriaType: 'time',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f64e38698d67260b6443f',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342094002',
+                        spriteResourceId: '638f594c0887dbdcf806cacf',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 490
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342111822',
+                        spriteResourceId: '638f59170887dbdcf806cac6',
+                        type: 'sprite',
+                        name: 'rocket',
+                        frame: {
+                            x: 0,
+                            y: 190,
+                            w: 100,
+                            h: 100
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342277478',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart1',
+                        frame: {
+                            x: 858,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342278143',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart2',
+                        frame: {
+                            x: 812,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342280248',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart3',
+                        frame: {
+                            x: 766,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342384994',
+                        spriteResourceId: '638f59260887dbdcf806cacb',
+                        type: 'sprite',
+                        name: 'bullet',
+                        frame: {
+                            x: 30,
+                            y: 530,
+                            w: 13,
+                            h: 13
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342424841',
+                        spriteResourceId: '638f590f0887dbdcf806cac3',
+                        type: 'sprite',
+                        name: 'meteor',
+                        frame: {
+                            x: 73,
+                            y: 528,
+                            w: 66,
+                            h: 33
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342337496',
+                        spriteResourceId: '638f59140887dbdcf806cac5',
+                        type: 'sprite',
+                        name: 'panel',
+                        frame: {
+                            x: 250,
+                            y: 400,
+                            w: 400,
+                            h: 70
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [
+                    {
+                        section: 'Question',
+                        properties: [
+                            {
+                                name: 'Question',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: 'Shoot all even numbers'
+                                }
+                            },
+                            {
+                                name: 'Points Required',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 30,
+                                    value: 5
+                                }
+                            },
+                            {
+                                name: 'Meteor Velocity',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 1000,
+                                    value: 80
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Game Properties',
+                        properties: [
+                            {
+                                name: 'Asteroid Direction',
+                                type: 'select',
+                                select: {
+                                    options: {
+                                        '1': 'Right',
+                                        '2': 'Down',
+                                        '3': 'Left',
+                                        '4': 'Top'
+                                    },
+                                    value: '1'
+                                }
+                            },
+                            {
+                                name: 'Answer Font Size',
+                                type: 'number',
+                                number: {
+                                    max: 30,
+                                    min: 9,
+                                    value: 16
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Answers',
+                        properties: [
+                            {
+                                name: 'Correct Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '2, 4, 6, 8, 10, 12'
+                                }
+                            },
+                            {
+                                name: 'Wrong Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '1, 3, 5, 7, 9, 11'
+                                }
+                            }
+                        ]
+                    }
+                ],
+                propertyValues: {
+                    Question: 'Shoot all even numbers',
+                    'Points Required': 5,
+                    'Meteor Velocity': 80,
+                    'Asteroid Direction': '1',
+                    'Answer Font Size': 16,
+                    'Correct Answers': '2, 4, 6, 8, 10, 12',
+                    'Wrong Answers': '1, 3, 5, 7, 9, 11'
+                }
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCmNsYXNzIExldmVsU2NlbmVfTGV2ZWwzIGV4dGVuZHMgQ29tbW9uTGV2ZWx7CgogICAgY29uc3RydWN0b3IoKXsKICAgICAgICBzdXBlcih7a2V5OiAiTGV2ZWxTY2VuZV9MZXZlbDMiLCBhY3RpdmU6IGZhbHNlIH0pOwogICAgfQoKICAgIHByZWxvYWQoKXsKICAgICAgICB0aGlzLmxvYWQuc2V0QmFzZVVSTCgnRURHVE9LRU5fTE9BREJBU0VVUkwnKTsKICAgICAgICAvLyBFREdUT0tFTl9QUkVMT0FECgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIucHJlbG9hZCgpOwogICAgICAgIAogICAgfQogICAgY3JlYXRlKCl7CiAgICAgICAgLy8gRURHVE9LRU5fQ1JFQVRFCgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIuY3JlYXRlKCk7CgogICAgfQogICAgdXBkYXRlKCl7CgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIudXBkYXRlKCk7CgogICAgfQogICAgZGVzdHJveSgpewogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIuZGVzdHJveSgpOwoKICAgIH0KCiAgICBnZXRMZXZlbE5hbWUoKXsKICAgICAgICByZXR1cm4gJ0xldmVsIDMnOwogICAgfQoKICAgIGdldE5leHRMZXZlbE5hbWUoKXsKICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VPYmplY3RpdmVQcm9ncmVzcyh0aGlzLmtPYmpDb21wbGV0ZUx2bDMsIDEpOwogICAgICAgIHJldHVybiAnTGV2ZWxTY2VuZV9MZXZlbDQnOwogICAgfQoKfQ==',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f68dd8698d67260b64443',
+            name: 'Level4',
+            type: 'single_level',
+            displayMode: 'replace',
+            locked: false,
+            exitCriteriaType: 'time',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f64e38698d67260b6443f',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342094002',
+                        spriteResourceId: '638f594c0887dbdcf806cacf',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 490
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342111822',
+                        spriteResourceId: '638f59170887dbdcf806cac6',
+                        type: 'sprite',
+                        name: 'rocket',
+                        frame: {
+                            x: 0,
+                            y: 190,
+                            w: 100,
+                            h: 100
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342277478',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart1',
+                        frame: {
+                            x: 858,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342278143',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart2',
+                        frame: {
+                            x: 812,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342280248',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart3',
+                        frame: {
+                            x: 766,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342384994',
+                        spriteResourceId: '638f59260887dbdcf806cacb',
+                        type: 'sprite',
+                        name: 'bullet',
+                        frame: {
+                            x: 30,
+                            y: 530,
+                            w: 13,
+                            h: 13
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342424841',
+                        spriteResourceId: '638f590f0887dbdcf806cac3',
+                        type: 'sprite',
+                        name: 'meteor',
+                        frame: {
+                            x: 73,
+                            y: 528,
+                            w: 66,
+                            h: 33
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342337496',
+                        spriteResourceId: '638f59140887dbdcf806cac5',
+                        type: 'sprite',
+                        name: 'panel',
+                        frame: {
+                            x: 250,
+                            y: 400,
+                            w: 400,
+                            h: 70
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [
+                    {
+                        section: 'Question',
+                        properties: [
+                            {
+                                name: 'Question',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: 'Shoot all even numbers'
+                                }
+                            },
+                            {
+                                name: 'Points Required',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 30,
+                                    value: 5
+                                }
+                            },
+                            {
+                                name: 'Meteor Velocity',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 1000,
+                                    value: 80
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Game Properties',
+                        properties: [
+                            {
+                                name: 'Asteroid Direction',
+                                type: 'select',
+                                select: {
+                                    options: {
+                                        '1': 'Right',
+                                        '2': 'Down',
+                                        '3': 'Left',
+                                        '4': 'Top'
+                                    },
+                                    value: '1'
+                                }
+                            },
+                            {
+                                name: 'Answer Font Size',
+                                type: 'number',
+                                number: {
+                                    max: 30,
+                                    min: 9,
+                                    value: 16
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Answers',
+                        properties: [
+                            {
+                                name: 'Correct Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '2, 4, 6, 8, 10, 12'
+                                }
+                            },
+                            {
+                                name: 'Wrong Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '1, 3, 5, 7, 9, 11'
+                                }
+                            }
+                        ]
+                    }
+                ],
+                propertyValues: {
+                    Question: 'Shoot all even numbers',
+                    'Points Required': 5,
+                    'Meteor Velocity': 80,
+                    'Asteroid Direction': '1',
+                    'Answer Font Size': 16,
+                    'Correct Answers': '2, 4, 6, 8, 10, 12',
+                    'Wrong Answers': '1, 3, 5, 7, 9, 11'
+                }
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCi8qKgogKiBAdHlwZSB7UGhhc2VyLlNjZW5lfQogKi8KY2xhc3MgTGV2ZWxTY2VuZV9MZXZlbDQgZXh0ZW5kcyBDb21tb25MZXZlbHsKCiAgICBjb25zdHJ1Y3RvcigpewogICAgICAgIHN1cGVyKHtrZXk6ICJMZXZlbFNjZW5lX0xldmVsNCIsIGFjdGl2ZTogZmFsc2UgfSk7CiAgICB9CgogICAgcHJlbG9hZCgpewogICAgICAgIC8vIEVER1RPS0VOX1BSRUxPQUQKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKICAgICAgICBzdXBlci5wcmVsb2FkKCk7CgogICAgfQoKICAgIGNyZWF0ZSgpewogICAgICAgIC8vIEVER1RPS0VOX0NSRUFURQoKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQogICAgICAgIHN1cGVyLmNyZWF0ZSgpOwoKICAgIH0KCiAgICB1cGRhdGUoKXsKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKICAgICAgICBzdXBlci51cGRhdGUoKTsKCiAgICB9CgogICAgZGVzdHJveSgpewogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIuZGVzdHJveSgpOwoKICAgIH0KCiAgICBnZXRMZXZlbE5hbWUoKXsKICAgICAgICByZXR1cm4gJ0xldmVsIDQnOwogICAgfQoKICAgIGdldE5leHRMZXZlbE5hbWUoKXsKICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VHdWlkYW5jZVByb2dyZXNzKHRoaXMua09iakNvbXBsZXRlTHZsNCwgMSk7CiAgICAgICAgcmV0dXJuICdMZXZlbFNjZW5lX0xldmVsNSc7CiAgICB9Cn0KCgo=',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f69018698d67260b64446',
+            name: 'Level5',
+            type: 'single_level',
+            displayMode: 'replace',
+            locked: false,
+            exitCriteriaType: 'time',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f64e38698d67260b6443f',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342094002',
+                        spriteResourceId: '638f594c0887dbdcf806cacf',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 490
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342111822',
+                        spriteResourceId: '638f59170887dbdcf806cac6',
+                        type: 'sprite',
+                        name: 'rocket',
+                        frame: {
+                            x: 0,
+                            y: 190,
+                            w: 100,
+                            h: 100
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342277478',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart1',
+                        frame: {
+                            x: 858,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342278143',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart2',
+                        frame: {
+                            x: 812,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342280248',
+                        spriteResourceId: '638f590c0887dbdcf806cac2',
+                        type: 'sprite',
+                        name: 'heart3',
+                        frame: {
+                            x: 766,
+                            y: 3,
+                            w: 36,
+                            h: 36
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342384994',
+                        spriteResourceId: '638f59260887dbdcf806cacb',
+                        type: 'sprite',
+                        name: 'bullet',
+                        frame: {
+                            x: 30,
+                            y: 530,
+                            w: 13,
+                            h: 13
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342424841',
+                        spriteResourceId: '638f590f0887dbdcf806cac3',
+                        type: 'sprite',
+                        name: 'meteor',
+                        frame: {
+                            x: 73,
+                            y: 528,
+                            w: 66,
+                            h: 33
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342337496',
+                        spriteResourceId: '638f59140887dbdcf806cac5',
+                        type: 'sprite',
+                        name: 'panel',
+                        frame: {
+                            x: 250,
+                            y: 400,
+                            w: 400,
+                            h: 70
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [
+                    {
+                        section: 'Question',
+                        properties: [
+                            {
+                                name: 'Question',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: 'Shoot correct representations of fractions Shoot correct representations of fractions'
+                                }
+                            },
+                            {
+                                name: 'Points Required',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 30,
+                                    value: 25
+                                }
+                            },
+                            {
+                                name: 'Meteor Velocity',
+                                type: 'number',
+                                number: {
+                                    min: 0,
+                                    max: 1000,
+                                    value: 130
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Game Properties',
+                        properties: [
+                            {
+                                name: 'Asteroid Direction',
+                                type: 'select',
+                                select: {
+                                    options: {
+                                        '1': 'Right',
+                                        '2': 'Down',
+                                        '3': 'Left',
+                                        '4': 'Top'
+                                    },
+                                    value: '1'
+                                }
+                            },
+                            {
+                                name: 'Answer Font Size',
+                                type: 'number',
+                                number: {
+                                    max: 30,
+                                    min: 9,
+                                    value: 16
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        section: 'Answers',
+                        properties: [
+                            {
+                                name: 'Correct Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '🌓 = 1/2, ✅✅❌ = 2/3, ✅✅❌ = 1/3, 🎩🎩🎩👒 = 3/4, 🌕🌑🌑🌕 = 2/4'
+                                }
+                            },
+                            {
+                                name: 'Wrong Answers',
+                                type: 'text',
+                                text: {
+                                    charLimit: 100,
+                                    value: '🍎🍊🍊 = 1/2, ✅✅✅❌ = 2/4, 🎩🎩👒👒👒 = 4/5, 🌕🌑🌑🌕🌕 = 1/5'
+                                }
+                            }
+                        ]
+                    }
+                ],
+                propertyValues: {
+                    Question: 'Shoot correct representations of fractions Shoot correct representations of fractions',
+                    'Points Required': 25,
+                    'Meteor Velocity': 130,
+                    'Asteroid Direction': '1',
+                    'Answer Font Size': 16,
+                    'Correct Answers': '🌓 = 1/2, ✅✅❌ = 2/3, ✅✅❌ = 1/3, 🎩🎩🎩👒 = 3/4, 🌕🌑🌑🌕 = 2/4',
+                    'Wrong Answers': '🍎🍊🍊 = 1/2, ✅✅✅❌ = 2/4, 🎩🎩👒👒👒 = 4/5, 🌕🌑🌑🌕🌕 = 1/5'
+                }
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCi8qKgogKiBAdHlwZSB7UGhhc2VyLlNjZW5lfQogKi8KY2xhc3MgTGV2ZWxTY2VuZV9MZXZlbDUgZXh0ZW5kcyBDb21tb25MZXZlbHsKCiAgICBjb25zdHJ1Y3RvcigpewogICAgICAgIHN1cGVyKHtrZXk6ICJMZXZlbFNjZW5lX0xldmVsNSIsIGFjdGl2ZTogZmFsc2UgfSk7CiAgICB9CgogICAgcHJlbG9hZCgpewogICAgICAgIC8vIEVER1RPS0VOX1BSRUxPQUQKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKICAgICAgICBzdXBlci5wcmVsb2FkKCk7CgogICAgfQoKICAgIGNyZWF0ZSgpewogICAgICAgIC8vIEVER1RPS0VOX0NSRUFURQoKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQogICAgICAgIHN1cGVyLmNyZWF0ZSgpOwoKICAgIH0KCiAgICB1cGRhdGUoKXsKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKICAgICAgICBzdXBlci51cGRhdGUoKTsKCiAgICB9CgogICAgZGVzdHJveSgpewogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgc3VwZXIuZGVzdHJveSgpOwoKICAgIH0KCiAgICBnZXRMZXZlbE5hbWUoKXsKICAgICAgICByZXR1cm4gJ0xldmVsIDUnOwogICAgfQoKICAgIGdldE5leHRMZXZlbE5hbWUoKXsKICAgICAgICBFZGdlUHJveHkuaW5jcmVhc2VHdWlkYW5jZVByb2dyZXNzKHRoaXMua09iakNvbXBsZXRlTHZsNSwgMSk7CiAgICAgICAgcmV0dXJuICdMZXZlbFNjZW5lX1dpbic7CiAgICB9Cn0KCgo=',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f64f18698d67260b64442',
+            name: 'Win',
+            type: 'single_level',
+            displayMode: 'replace',
+            locked: false,
+            exitCriteriaType: 'time',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f64f18698d67260b64441',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342669420',
+                        spriteResourceId: '638f594c0887dbdcf806cacf',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 480
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342640518',
+                        spriteResourceId: '638f590a0887dbdcf806cac1',
+                        type: 'sprite',
+                        name: 'youwin',
+                        frame: {
+                            x: 184,
+                            y: 76,
+                            w: 521,
+                            h: 253
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [],
+                propertyValues: {}
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCmNsYXNzIExldmVsU2NlbmVfV2luIGV4dGVuZHMgUGhhc2VyLlNjZW5lewoKICAgIGNvbnN0cnVjdG9yKCl7CiAgICAgICAgc3VwZXIoe2tleTogIkxldmVsU2NlbmVfV2luIiwgYWN0aXZlOiBmYWxzZSB9KTsKCiAgICAgICAgLyoqCiAgICAgICAgICogQHR5cGUge1BoYXNlci5HYW1lT2JqZWN0cy5TcHJpdGV9CiAgICAgICAgICovCiAgICAgICAgdGhpcy5leGl0QnV0dG9uOwoKICAgICAgICAvKioKICAgICAgICAgKiBBbGwgc3ByaXRlcyBsb2FkZWQgaW4gdGhlIGNyZWF0ZSgpIG1ldGhvZAogICAgICAgICAqIEB0eXBlIHt7IFtrZXk6IHN0cmluZ10gOiBQaGFzZXIuR2FtZU9iamVjdHMuU3ByaXRlIH19CiAgICAgICAgICovCiAgICAgICAgdGhpcy5zcHJpdGVSZWZlcmVuY2VzID0ge307CiAgICAgICAgLyoqCiAgICAgICAgICogVGhlIGVudGlyZSBzY2VuZSBvYmplY3QgKGNvbnRhaW5zIHRoZSByYXcgZ2FtZSBvYmplY3RzIGluIHRoZSAnb2JqZWN0cycgYXJyYXkpCiAgICAgICAgICogQHR5cGUge0FycmF5fQogICAgICAgICAqLwogICAgICAgIHRoaXMubGV2ZWxEYXRhID0gbnVsbDsKICAgICAgICAvKioKICAgICAgICAgKiBQcm9wZXJ0aWVzIGxvYWRlZCBmcm9tIHRoZSBQcm9wZXJ0eSBFZGl0b3IKICAgICAgICAgKiBAdHlwZSB7T2JqZWN0LjxzdHJpbmcsIGFueT59CiAgICAgICAgICovCiAgICAgICAgdGhpcy5sZXZlbFByb3BlcnRpZXMgPSBudWxsOwogICAgfQoKICAgIHByZWxvYWQoKXsKICAgICAgICB0aGlzLmxvYWQuc2V0QmFzZVVSTCgnRURHVE9LRU5fTE9BREJBU0VVUkwnKTsKICAgICAgICAvLyBFREdUT0tFTl9QUkVMT0FECiAgICAgICAgLy8gRURHVE9LRU5fTEVWRUwKICAgICAgICAvLyBFREdUT0tFTl9QUk9QRVJUSUVTCiAgICAgICAgLy8gRURHVE9LRU5fU0VUQ0FNRVJBCgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCiAgICAgICAgCiAgICB9CiAgICBjcmVhdGUoKXsKICAgICAgICAvLyBFREdUT0tFTl9DUkVBVEUKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKCiAgICAgICAgY29uc3QgeCA9IHRoaXMuY2FtZXJhcy5tYWluLmRpc3BsYXlXaWR0aCAqIDAuNTsKICAgICAgICBjb25zdCB5ID0gdGhpcy5jYW1lcmFzLm1haW4uZGlzcGxheUhlaWdodCAqIDAuNjc7CiAgICAgICAgdGhpcy5leGl0QnV0dG9uID0gdGhpcy5hZGQudGV4dCh4LCB5LCAnQ2xpY2sgdG8gRmluaXNoJywgewogICAgICAgICAgICBmb250RmFtaWx5OiAnQXJpYWwnLAogICAgICAgICAgICBmb250U2l6ZTogJzI1cHgnLAogICAgICAgICAgICBjb2xvcjogJyNGRkZGRkYnCiAgICAgICAgfSk7CiAgICAgICAgdGhpcy5leGl0QnV0dG9uLnNldE9yaWdpbigwLjUsIDAuNSk7CiAgICAgICAgdGhpcy5leGl0QnV0dG9uLnNldEludGVyYWN0aXZlKCk7CiAgICAgICAgdGhpcy5leGl0QnV0dG9uLm9uKCdwb2ludGVydXAnLCAoKSA9PiB7CiAgICAgICAgICAgIEVkZ2VQcm94eS5ub3RpZnlHYW1lQ29tcGxldGVkKCdDb25ncmF0dWxhdGlvbnMgb24gZmluaXNoaW5nIHRoZSBnYW1lIScpOwogICAgICAgIH0pOwogICAgfQogICAgdXBkYXRlKCl7CgogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCgogICAgfQogICAgZGVzdHJveSgpewogICAgICAgIAogICAgICAgIC8vIEFkZCB5b3VyIGNvZGUgYmVsb3cgdGhpcyBsaW5lCgogICAgfQp9CgoK',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        },
+        {
+            _id: '638f57ed8698d67260b6443e',
+            name: 'Game Over Screen',
+            type: 'single_game_over',
+            displayMode: 'replace',
+            locked: true,
+            exitCriteriaType: 'manual',
+            exitCriteriaValue: null,
+            scene: {
+                objects: [
+                    {
+                        _id: '638f57ed8698d67260b6443b',
+                        spriteResourceId: '',
+                        type: 'camera',
+                        name: 'Camera',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 490
+                        },
+                        rotation: 0,
+                        physicsBehavior: '1',
+                        physicsCollision: '2',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342752689',
+                        spriteResourceId: '638f594c0887dbdcf806cacf',
+                        type: 'sprite',
+                        name: 'sky',
+                        frame: {
+                            x: 0,
+                            y: 0,
+                            w: 900,
+                            h: 493
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    },
+                    {
+                        _id: 'temp_1670342770569',
+                        spriteResourceId: '638f59070887dbdcf806cac0',
+                        type: 'sprite',
+                        name: 'GameOverText',
+                        frame: {
+                            x: 250,
+                            y: 62,
+                            w: 400,
+                            h: 260
+                        },
+                        rotation: 0,
+                        physicsBehavior: '0',
+                        physicsCollision: '0',
+                        opacity: 0,
+                        spawnBehavior: '1',
+                        spriteStretch: '1',
+                        hidden: false
+                    }
+                ]
+            },
+            properties: {
+                properties: [],
+                propertyValues: {}
+            },
+            logic: {
+                script: {
+                    setup: 'Ly8gcmVtb3ZlZCBpbXBvcnQKCmNsYXNzIExldmVsU2NlbmVfR2FtZV9PdmVyX1NjcmVlbiBleHRlbmRzIFBoYXNlci5TY2VuZXsKCiAgICBjb25zdHJ1Y3RvcigpewogICAgICAgIHN1cGVyKHtrZXk6ICJMZXZlbFNjZW5lX0dhbWVfT3Zlcl9TY3JlZW4iLCBhY3RpdmU6IGZhbHNlIH0pOwoKICAgICAgICAvKioKICAgICAgICAgKiBBbGwgc3ByaXRlcyBsb2FkZWQgaW4gdGhlIGNyZWF0ZSgpIG1ldGhvZAogICAgICAgICAqIEB0eXBlIHt7IFtrZXk6IHN0cmluZ10gOiBQaGFzZXIuR2FtZU9iamVjdHMuU3ByaXRlIH19CiAgICAgICAgICovCiAgICAgICAgdGhpcy5zcHJpdGVSZWZlcmVuY2VzID0ge307CiAgICAgICAgLyoqCiAgICAgICAgICogVGhlIGVudGlyZSBzY2VuZSBvYmplY3QgKGNvbnRhaW5zIHRoZSByYXcgZ2FtZSBvYmplY3RzIGluIHRoZSAnb2JqZWN0cycgYXJyYXkpCiAgICAgICAgICogQHR5cGUge0FycmF5fQogICAgICAgICAqLwogICAgICAgIHRoaXMubGV2ZWxEYXRhID0gbnVsbDsKICAgICAgICAvKioKICAgICAgICAgKiBQcm9wZXJ0aWVzIGxvYWRlZCBmcm9tIHRoZSBQcm9wZXJ0eSBFZGl0b3IKICAgICAgICAgKiBAdHlwZSB7T2JqZWN0LjxzdHJpbmcsIGFueT59CiAgICAgICAgICovCiAgICAgICAgdGhpcy5sZXZlbFByb3BlcnRpZXMgPSBudWxsOwoKICAgIH0KCiAgICBwcmVsb2FkKCl7CiAgICAgICAgdGhpcy5sb2FkLnNldEJhc2VVUkwoJ0VER1RPS0VOX0xPQURCQVNFVVJMJyk7CiAgICAgICAgLy8gRURHVE9LRU5fUFJFTE9BRAogICAgICAgIC8vIEVER1RPS0VOX0xFVkVMCiAgICAgICAgLy8gRURHVE9LRU5fUFJPUEVSVElFUwogICAgICAgIC8vIEVER1RPS0VOX1NFVENBTUVSQQoKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQoKCiAgICAgICAgCiAgICB9CiAgICBjcmVhdGUoKXsKICAgICAgICAvLyBFREdUT0tFTl9DUkVBVEUKCiAgICAgICAgLy8gQWRkIHlvdXIgY29kZSBiZWxvdyB0aGlzIGxpbmUKCiAgICAgICAgY29uc3QgY2FtID0gdGhpcy5jYW1lcmFzLm1haW47CiAgICAgICAgY29uc3QgZ2FtZU92ZXJUZXh0ID0gRWRnZVByb3h5LmdldExldmVsU3ByaXRlKHRoaXMsICdHYW1lT3ZlclRleHQnKTsKICAgICAgICBjb25zdCBtYWluTWVudUJ1dHRvbiA9IHRoaXMuYWRkLnRleHQoCiAgICAgICAgICAgIGNhbS5jZW50ZXJYLCAKICAgICAgICAgICAgZ2FtZU92ZXJUZXh0LmRpc3BsYXlIZWlnaHQgKyA4MCwKICAgICAgICAgICAgJ0dvIHRvIE1haW4gTWVudScsCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgIGZvbnRTaXplOiAnMjBweCcsCiAgICAgICAgICAgICAgICBmb250RmFtaWx5OiAnQXJpYWwnLAogICAgICAgICAgICAgICAgY29sb3I6ICcjRkZGRkZGJywKICAgICAgICAgICAgfQogICAgICAgICkuc2V0T3JpZ2luKDAuNSwgMC41KQogICAgICAgIC5zZXRJbnRlcmFjdGl2ZSgpCiAgICAgICAgLm9uKCdwb2ludGVyZG93bicsICgpID0+IHsKICAgICAgICAgICAgdGhpcy5zY2VuZS5zdGFydCgnTGV2ZWxTY2VuZV9UaXRsZV9TY3JlZW4nKTsKICAgICAgICB9KTsKICAgIH0KICAgIHVwZGF0ZSgpewoKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQoKICAgIH0KICAgIGRlc3Ryb3koKXsKICAgICAgICAKICAgICAgICAvLyBBZGQgeW91ciBjb2RlIGJlbG93IHRoaXMgbGluZQoKICAgIH0KfQ==',
+                    perframe: '',
+                    destroy: ''
+                }
+            }
+        }
+    ]
+}

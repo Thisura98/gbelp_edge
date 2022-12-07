@@ -27,7 +27,11 @@ export class Collections{
 
 export async function initialize(){
     // 'edge_gbelp' is the name of our Mongo Database
-    const url = 'mongodb://root:root@localhost:7001/edge_gbelp?authSource=admin';
+    
+    // const url = 'mongodb://root:root@localhost:7001/edge_gbelp?authSource=admin';
+    const url = 'mongodb://root:edgeknowledgesource1234567890@localhost:7001/edge_gbelp?authSource=admin';
+
+
     const dbName = 'edge_gbelp';
     // const options = {
     //     useNewUrlParser: true,

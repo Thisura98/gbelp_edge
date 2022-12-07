@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+    mongo:
+        hostname: mongohost
+        image: mongo
+        restart: always
+        ports:
+        # 7000 in use by AirPlay server on Mac
+          - 7001:27017
+        volumes: 
+          - eg_mongo_data:/data/db
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: edgeknowledgesource1234567890
+    
+    # mongo-express:
+    #     image: mongo-express
+    #     restart: always
+    #     ports:
+    #       - 7002:8081
+    #     environment:
+    #       ME_CONFIG_MONGODB_ADMINUSERNAME: root
+    #       ME_CONFIG_MONGODB_ADMINPASSWORD: edgeknowledgesource1234567890
+    #       ME_CONFIG_MONGODB_SERVER: mongohost
+
+    # Username/password is root
+    mysql:
+        hostname: mysqlhost
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        ports:
+            - 9000:3306
+        volumes: 
+            - eg_mysql_data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: edgeknowledgesource1234567890
+    
+    # MySQL Server Host Name: mysqlhost
+    # MySQL User: root
+    # MySQL PW: edgeknowledgesource1234567890
+    # phpmyadmin:
+    #     hostname: phpmyadminhost
+    #     image: phpmyadmin
+    #     restart: always
+    #     ports:
+    #       - 9004:80
+    #     environment:
+    #         - PMA_ARBITRARY=1
+
+volumes:
+  eg_mongo_data:
+  eg_mysql_data:
