@@ -97,6 +97,10 @@ export async function insertUserIntoAllSessions(
     const tag = 'insertUserIntoAllSessions';
     const groupSessions = await getSessionsInGroup(groupId, []);
 
+    if (groupSessions.length == 0){
+        return Promise.resolve(true);
+    }
+
     const sessionMembers = sql.tables.gameSessionMembers;
     const m = sql.columns.gameSessionMembers;
 

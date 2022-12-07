@@ -1,10 +1,10 @@
 <div class="dyn-flex-fullwidth dyn-fjc-space-between">
-    <div class="dyn-groups-contianer">
-        <div class="dyn-btn create-group-btn" (click)="createGroup()">
+    <div class="dyn-groups-container">
+        <div class="dyn-btn create-group-btn" (click)="createGroup()" *ngIf="canShowPrivilegedActions">
             <span>Create Group</span><img class="dyn-btn-image" src="assets/common/pluswhite.png">
         </div>
     </div>
-    <div class="dyn-groups-contianer">
+    <div class="dyn-groups-container">
         <div class="dyn-search1">
             <img src="assets/common/bluesearch.png">
             <input class="search-field groups-search" 

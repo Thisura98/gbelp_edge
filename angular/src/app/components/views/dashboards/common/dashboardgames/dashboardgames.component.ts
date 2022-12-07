@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { filter } from 'rxjs/operators';
 import { ViewMode } from 'src/app/constants/constants';
+import { UserService } from 'src/app/services/user.service';
 
 /**
  * A page that Shows Games & Templates
@@ -30,6 +31,7 @@ export class DashboardgamesComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private apiService: ApiService,
     private dialogService: DialogService
@@ -96,9 +98,14 @@ export class DashboardgamesComponent implements OnInit {
 
   private loadData(){
     const isTemplate = this.mode == 'template';
+    let userId: string | null = null;
+
+    if (!this.userService.getIsUserAdmin()){
+      userId = this.userService.getUserAndToken().user.userId!
+    }
 
     this.isLoading = true;
-    this.apiService.game.getAllGames(isTemplate, null).subscribe((data) => {
+    this.apiService.game.getAllGames(isTemplate, null, userId).subscribe((data) => {
       this.notifydataLoaded(data);
     });
   }

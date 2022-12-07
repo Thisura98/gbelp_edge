@@ -78,6 +78,10 @@ export class DashboardgroupsComponent implements OnInit {
     })
   };
 
+  get canShowPrivilegedActions(): boolean{
+    return !this.userService.getIsUserParent() && !this.userService.getIsUserStudent()
+  }
+
   /* Private Methods */
 
   private loadData(){

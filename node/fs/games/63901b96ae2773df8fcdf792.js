@@ -105,22 +105,6 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         super({key: "LevelScene_Title_Screen", active: false });
 
         this.startBtnName = 'start';
-
-        /**
-         * All sprites loaded in the create() method
-         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
-         */
-        this.spriteReferences = {};
-        /**
-         * The entire scene object (contains the raw game objects in the 'objects' array)
-         * @type {Array}
-         */
-        this.levelData = null;
-        /**
-         * Properties loaded from the Property Editor
-         * @type {Object.<string, any>}
-         */
-        this.levelProperties = null;
     }
 
     preload(){
@@ -252,14 +236,8 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     "Class 4 sprites": ""
 }
 	
-        // EDGTOKEN_LEVEL
-        // EDGTOKEN_PROPERTIES
-        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
-
-
-        
     }
     create(){
         let scaleX = 0, scaleY = 0;

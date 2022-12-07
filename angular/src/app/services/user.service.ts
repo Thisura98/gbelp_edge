@@ -70,6 +70,26 @@ export class UserService{
             return false;
     }
 
+    getIsUserAdmin(): boolean{
+        return this.getUserAndToken().user.userTypeName == UserTypeNames.admin;
+    }
+
+    getIsUserCreator(): boolean{
+        return this.getUserAndToken().user.userTypeName == UserTypeNames.creator;
+    }
+
+    getIsUserTeacher(): boolean{
+        return this.getUserAndToken().user.userTypeName == UserTypeNames.teacher;
+    }
+
+    getIsUserStudent(): boolean{
+        return this.getUserAndToken().user.userTypeName == UserTypeNames.student;
+    }
+
+    getIsUserParent(): boolean{
+        return this.getUserAndToken().user.userTypeName == UserTypeNames.parent;
+    }
+
     /**
      * Reidrect the user out of the system if they are logged out
      * @param outPath {string} Redirection Path

@@ -43,6 +43,18 @@ export class DashboardoverviewComponent implements OnInit {
 
   }
 
+  get headingText(): string{
+    if (this.userService.getIsUserStudent()){
+      return 'Sessions scheduled for you';
+    }
+    else if (this.userService.getIsUserParent()){
+      return 'Sessions scheduled for your child'
+    }
+    else{
+      return 'Sessions scheduled by you'
+    }
+  }
+
   // handleTableActionSelect(event: GameSessionTableActionEvent){
   //   console.log('Todo:', event.action);
   // }

@@ -9,6 +9,7 @@ import { UserService } from "src/app/services/user.service";
 import { StatusCodes } from "../../../../../../../commons/src/constants";
 import { UserGroup, UserGroupComposition } from "../../../../../../../commons/src/models/groups";
 import { UserGroupMemberData } from "../../../../../../../commons/src/models/groups/member";
+import { UserTypeNames } from "../../../../../../../commons/src/models/user";
 
 @Component({
   templateUrl: './users.component.html',
@@ -34,6 +35,19 @@ export class GroupUsersComponent implements OnInit{
       count = this.selection[key] ? (count + 1) : count;
     }
     return count;
+  }
+
+  get canShowPanelButtons(): boolean {
+    const userType = this.userService.getUserAndToken().user.userTypeName;
+
+    const hidePanelUsers = [
+      UserTypeNames.student, UserTypeNames.parent
+    ];
+
+    if (userType == null || hidePanelUsers.findIndex(v => v == userType) >= 0){
+      return false;
+    }
+    return true;
   }
   
   private groupId: string | undefined;

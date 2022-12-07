@@ -11,8 +11,8 @@ const EdgeProxy = {
      * @param {number} points Number of points to add to the objective.
      */
     increaseObjectiveProgress: function(name, points){
-        if (window.EdgeInternals._on_updateObjective != null)
-            window.EdgeInternals._on_updateObjective(name, points);
+        if (window.InternalsFromAngular._on_updateObjective != null)
+            window.InternalsFromAngular._on_updateObjective(name, points);
         else
             console.log("Edge Internal implementation for _on_updateObjective missing");
     },
@@ -22,13 +22,74 @@ const EdgeProxy = {
      * @param {number} points Number of points to add to the objective.
      */
     increaseGuidanceProgress: function(name, points){
-        if (window.EdgeInternals._on_updateGuidance != null)
-            window.EdgeInternals._on_updateGuidance(name, points);
+        if (window.InternalsFromAngular._on_updateGuidance != null)
+            window.InternalsFromAngular._on_updateGuidance(name, points);
         else
             console.log("Edge Internal implementation for _on_updateGuidance missing");
+    },
+    /**
+     * Notify the EDGE system that the user finished the game.
+     * For example, when the user is at the last level.
+     * @param {string} message The message to show to the user.
+     * @param {object | null | undefined} data Optional data
+     */
+    notifyGameCompleted: function(message, data){
+        if (window.InternalsFromAngular._on_gameCompleted != null)
+            window.InternalsFromAngular._on_gameCompleted(message, data);
+        else
+            console.log("Edge Internal implementation for _on_gameCompleted missing");
+    },
+    
+    /**
+     * Get a Phaser Sprite by using it's object name
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} key The scene object name you want the sprite for
+     * @returns {Phaser.GameObjects.Sprite} The sprite corresponding to the sceneObject name
+     */
+    getLevelSprite: function(scene, key){
+        return scene.spriteReferences[key];
+    },
+
+    /**
+     * Get a raw object with the displayNames and filePaths of resources
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} displayName Display name of the resources in the resource tab
+     * @returns {string} The filePath of the resource
+     */
+    getLevelRawResourcePath: function(scene, displayName){
+        return scene.rawResources[displayName];
+    },
+
+    /**
+     * Get the entire level as an object. Explore the 'objects' key in the return object.
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @returns {object}
+     */
+    getLevelData: function(scene){
+        return scene.levelData;
+    },
+
+    /**
+     * Get the value for each level property by it's name
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @param {string} propertyName The name of the property
+     * @returns {object}
+     */
+    getLevelProperty: function(scene, propertyName){
+        return scene.levelProperties[propertyName];
+    },
+
+    /**
+     * Returns the underlying raw level properties object
+     * @param {Phaser.Scene} scene Pass `this` as the first argument
+     * @returns {{ [key: string]: object }}
+     */
+    getAllProperties: function(scene) {
+        return scene.levelProperties;
     }
 }
 
+// removed import
 // removed import
 
 /**
@@ -74,8 +135,17 @@ class LevelScene_Title_Screen extends Phaser.Scene{
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
+
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sprite.png'] = "fs/res_upload/image/1657959470527.png";
+		this.rawResources['thumbstick.png'] = "fs/res_upload/image/1660211080337.png";
+		this.rawResources['rooster.png'] = "fs/res_upload/image/1667874442963.png";
+
 
 		this.load.image('sprite_png_1', 'fs/res_upload/image/1657959470527.png');
 		this.load.image('sprite_png_2', 'fs/res_upload/image/1657959470527.png');
@@ -83,7 +153,9 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		this.load.image('btn_guidance', 'fs/res_upload/image/1660211080337.png');
 		this.load.image('btn_objective_2', 'fs/res_upload/image/1660211080337.png');
 		this.load.image('btn_guidance_2', 'fs/res_upload/image/1660211080337.png');
-        this.levelData = {
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": "62d26abc47296535fac2889d",
@@ -220,17 +292,23 @@ class LevelScene_Title_Screen extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {
+
+
+		this.levelProperties = {
     "Level Difficulty": 0,
     "Game Title": "Example title",
     "Character Color": "2"
 }
+	
+        // EDGTOKEN_LEVEL
+        // EDGTOKEN_PROPERTIES
 
         // Add your code below this line
         
     }
     create(){
         let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
 		// --- scene object sprite_png_1 ---
 		const sprite_1 = this.add.sprite(406.202551845146, 153.56931402771235, 'sprite_png_1').setInteractive();
 		sprite_1.name = "sprite_png_1";
@@ -285,12 +363,15 @@ class LevelScene_Title_Screen extends Phaser.Scene{
 		this.spriteReferences['btn_guidance_2'] = sprite_6;
 
 
-        		const objects = this.levelData.objects;
+		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
 		console.log("Camera width & height", camera.frame.w, camera.frame.h);
 		this.scale.setGameSize(camera.frame.w, camera.frame.h);
 		this.scale.resize(camera.frame.w, camera.frame.h);
 		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
+
+
+        // EDGTOKEN_SETCAMERA
 
         // Add your code below this line
 
@@ -365,57 +446,54 @@ class LevelScene_Example_Level_Screen extends Phaser.Scene{
 
     constructor(){
         super({key: "LevelScene_Example_Level_Screen", active: false });
-
-        /**
-         * All sprites loaded in the create() method
-         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
-         */
-        this.spriteReferences = {};
-        /**
-         * The entire scene object (contains the raw game objects in the 'objects' array)
-         * @type {Array}
-         */
-        this.levelData = null;
-        /**
-         * Properties loaded from the Property Editor
-         * @type {Object.<string, any>}
-         */
-        this.levelProperties = null;
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
 
-        this.levelData = {
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sprite.png'] = "fs/res_upload/image/1657959470527.png";
+		this.rawResources['thumbstick.png'] = "fs/res_upload/image/1660211080337.png";
+		this.rawResources['rooster.png'] = "fs/res_upload/image/1667874442963.png";
+
+
+
+
+		this.levelData = {
     "objects": []
 }
-        this.levelProperties = {}
-        		const objects = this.levelData.objects;
+
+
+		this.levelProperties = {}
+	
+        // Add your code below this line
+        
+    }
+    create(){
+        let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
+		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
 		console.log("Camera width & height", camera.frame.w, camera.frame.h);
 		this.scale.setGameSize(camera.frame.w, camera.frame.h);
 		this.scale.resize(camera.frame.w, camera.frame.h);
 		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
-        // Add your code below this line
-
-
-        
-    }
-    create(){
-        let scaleX = 0, scaleY = 0;
 
         // Add your code below this line
 
     }
     update(){
-
+        // EDGTOKEN_UPDATE
         // Add your code below this line
 
     }
     destroy(){
-        
+        // EDGTOKEN_DESTROY
         // Add your code below this line
 
     }
@@ -427,29 +505,24 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
 
     constructor(){
         super({key: "LevelScene_Game_Over_Screen", active: false });
-
-        /**
-         * All sprites loaded in the create() method
-         * @type {{ [key: string] : Phaser.GameObjects.Sprite }}
-         */
-        this.spriteReferences = {};
-        /**
-         * The entire scene object (contains the raw game objects in the 'objects' array)
-         * @type {Array}
-         */
-        this.levelData = null;
-        /**
-         * Properties loaded from the Property Editor
-         * @type {Object.<string, any>}
-         */
-        this.levelProperties = null;
     }
 
     preload(){
-        this.load.setBaseURL('http://localhost/');
+        this.load.setBaseURL('EDGTOKEN_LOADBASEURL');
         
 
-        this.levelData = {
+		this.load.setBaseURL('http://localhost/');
+
+
+		this.rawResources = {}
+		this.rawResources['sprite.png'] = "fs/res_upload/image/1657959470527.png";
+		this.rawResources['thumbstick.png'] = "fs/res_upload/image/1660211080337.png";
+		this.rawResources['rooster.png'] = "fs/res_upload/image/1667874442963.png";
+
+
+
+
+		this.levelData = {
     "objects": [
         {
             "_id": null,
@@ -472,32 +545,34 @@ class LevelScene_Game_Over_Screen extends Phaser.Scene{
         }
     ]
 }
-        this.levelProperties = {}
-        		const objects = this.levelData.objects;
+
+
+		this.levelProperties = {}
+	
+        // Add your code below this line
+        
+    }
+    create(){
+        let scaleX = 0, scaleY = 0;
+		this.spriteReferences = {}
+		const objects = this.levelData.objects;
 		const camera = objects.find((o) => o.type == 'camera');
 		console.log("Camera width & height", camera.frame.w, camera.frame.h);
 		this.scale.setGameSize(camera.frame.w, camera.frame.h);
 		this.scale.resize(camera.frame.w, camera.frame.h);
 		this.cameras.main.setBounds(camera.frame.x, camera.frame.y, camera.frame.w, camera.frame.h)
 
-        // Add your code below this line
-
-
-        
-    }
-    create(){
-        let scaleX = 0, scaleY = 0;
 
         // Add your code below this line
 
     }
     update(){
-
+        // EDGTOKEN_UPDATE
         // Add your code below this line
 
     }
     destroy(){
-        
+        // EDGTOKEN_DESTROY
         // Add your code below this line
 
     }
@@ -520,22 +595,65 @@ const config = {
     width: 1366,
     height: 500,
     title: 'Shock and Awesome',
-    backgroundColor: "#FFFFFF",
+    // backgroundColor: "#FFFFFF",
+    backgroundColor: "#000000",
     fps: {
-        target: 30,
+        target: 60,
         forceSetTimeOut: true
     },
     scaleMode: Phaser.Scale.NONE,
-    zoom: gameZoom
+    zoom: gameZoom,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false,
+            gravity: { y: 0 }
+        }
+    },
 };
 
 
 /**
- * @type Phaser.Scene
+ * @type Phaser.Game
  */
-const startingScene = LevelScene_Title_Screen;
 const edgeGame = new Phaser.Game(config);
-edgeGame.scene.add('scene', startingScene, true, null);
+scenes.forEach((scn, index) => {
+    edgeGame.scene.add('scene', scn, index == 0, null);
+});
+
+// edgeGame.scene.add('scene', startingScene, true, null);
+// edgeGame.scene.scenes = scenes;
+
+window.InternalsFromGame = {
+    _on_changeGameState: (paused) => {
+
+        edgeGame.input.enabled = !paused;
+        edgeGame.input.keyboard.enabled = !paused;
+        edgeGame.input.mouse.enabled = !paused;
+
+        if (paused){
+            const scenes = edgeGame.scene.getScenes(true);
+            if (scenes.length > 0){
+                scenes.forEach(scn => {
+                    if (!scn.scene.isPaused()){
+                        scn.scene.pause();
+                    }
+                })
+            }
+        }
+        else{
+            const pausedScenes = edgeGame.scene.getScenes(null)
+                .filter(scn => scn.scene.isPaused());
+            if (pausedScenes.length > 0){
+                pausedScenes.forEach(scn => {
+                    scn.scene.resume();
+                    scn.input.enabled = true;
+                });
+                edgeGame.input.enabled = true;
+            }
+        }
+    }
+}
 
 /**
  * Proxying methods

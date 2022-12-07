@@ -27,11 +27,6 @@ export class GroupSessionComponent implements OnInit{
   get sidebarItems(): DynamicSidebarItem[]{
     return getGroupSidebarItems('Sessions');
   }
-
-  get today(): string | null{
-    const date = new Date();
-    return this.datePipe.transform(date, 'dd MMMM yyyy');
-  }
   
   private groupId: string | undefined;
   private loggedUserType: string | null = null;
@@ -58,6 +53,23 @@ export class GroupSessionComponent implements OnInit{
       this.groupId = map.get('groupId') ?? undefined;
       this.loadData();
     });
+  }
+
+  get today(): string | null{
+    const date = new Date();
+    return this.datePipe.transform(date, 'dd MMMM yyyy');
+  }
+
+  get canShowPanelButtons(): boolean {
+    const userType = this.userService.getUserAndToken().user.userTypeName;
+    const hidePanelUsers = [
+      UserTypeNames.student, UserTypeNames.parent
+    ];
+
+    if (userType == null || hidePanelUsers.findIndex(v => v == userType) >= 0){
+      return false;
+    }
+    return true;
   }
 
   navigateToSessionCreate(){

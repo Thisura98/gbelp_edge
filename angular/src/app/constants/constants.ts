@@ -138,14 +138,14 @@ export function getGameSidebarItems(
             path: '/groups/users',
             subItems: [], handler: undefined
         },
-        {
-            name: "Chats",    
-            sel: false, 
-            n: prefix+"mcomms.png",    
-            s: prefix+"mcomms_sel.png",    
-            path: '/groups/chats',
-            subItems: [], handler: undefined
-        },
+        // {
+        //     name: "Chats",    
+        //     sel: false, 
+        //     n: prefix+"mcomms.png",    
+        //     s: prefix+"mcomms_sel.png",    
+        //     path: '/groups/chats',
+        //     subItems: [], handler: undefined
+        // },
         {   
             name: "Sessions",    
             sel: false, 
