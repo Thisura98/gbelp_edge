@@ -65,7 +65,8 @@ export function initialize(config: IConfig){
         host: 'localhost',
         port: 9000,
         user: 'root',
-        password: 'edgeknowledgesource1234567890',
+        // password: 'edgeknowledgesource1234567890',
+        password: 'root',
         database: dbName,
         dateStrings: true
     });

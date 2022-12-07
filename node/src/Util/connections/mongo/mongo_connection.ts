@@ -28,8 +28,10 @@ export class Collections{
 export async function initialize(){
     // 'edge_gbelp' is the name of our Mongo Database
     
-    // const url = 'mongodb://root:root@localhost:7001/edge_gbelp?authSource=admin';
-    const url = 'mongodb://root:edgeknowledgesource1234567890@localhost:7001/edge_gbelp?authSource=admin';
+    const url = 'mongodb://root:root@localhost:7001/edge_gbelp?authSource=admin';
+    // const url = 'mongodb://root:edgeknowledgesource1234567890@localhost:7001/edge_gbelp?authSource=admin';
+
+    // mongosh mongodb://root:edgeknowledgesource1234567890@127.0.0.1:27017/edge_gbelp?authSource=admin
 
 
     const dbName = 'edge_gbelp';
