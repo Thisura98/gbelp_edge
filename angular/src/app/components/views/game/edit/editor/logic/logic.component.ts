@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 import { EditorChildDataPack, EditorDataService } from 'src/app/services/editor.data.service';
 import { LevelScript } from '../../../../../../../../../commons/src/models/game/levels/logic';
@@ -27,6 +27,7 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
   private notifier$ = new Subject();
   private saveListener$: number = -1;
   private editorModelChanged: monaco.IDisposable | undefined;
+  private didSetCodeOnce = false;
 
   // MARK: Game Properties
   readonly scriptTypes: string[] = ['Main Script'];
@@ -65,7 +66,7 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('On Destroy called for properties editor!');
+    console.log('On Destroy called for logic editor!');
     
     this.notifier$.next();
     this.notifier$.complete();
@@ -82,7 +83,6 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
    * 'init' callback set on ngx-monaco-editor from template.
    */
   editorInit(editor: monaco.editor.IStandaloneCodeEditor){
-    this.editorLoaded = true;
     this.editorReference.next(editor);
     this.editorModelChanged = editor.onDidChangeModelContent(() => this.copyCurrentCodeToScriptObject());
   }
@@ -97,6 +97,11 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
     if (this.selectedScriptIndex == undefined)
       return;
 
+    if (!this.didSetCodeOnce){
+      this.didSetCodeOnce = true;
+      return;
+    }
+    
     this.editorDataService.setHasUnsavedChanges(true);
     this.levelScripts[this.selectedScriptIndex!] = this.code;
   }
@@ -125,6 +130,7 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
     if (this.selectedLevelIndex == undefined)
       return;
 
+    this.didSetCodeOnce = false;
     this.code = this.levelScripts[this.selectedScriptIndex!];
 
     this.loadTemplateIfNeeded(data);
@@ -143,13 +149,24 @@ export class LogicEditorComponent implements OnInit, OnDestroy {
         const gameLib = this.stripUnwantedImports(_gameLib);
         const phaserLib = this.stripUnwantedImports(_phaserLib);
 
-        // console.log("Received Game LIB:", gameLib);
+        console.log("Received Game LIB");
 
         this.editorReference.pipe(filter(v => v != undefined)).subscribe(value => {
-          console.log("Editor exists? ", value == undefined ? 'yes' : 'no');
-          console.log(monaco.languages.typescript.javascriptDefaults.getExtraLibs());
+
+          // console.log('loadExtraLib will add libraries now.')
+          // const existingLibs = monaco.languages.typescript.javascriptDefaults.getExtraLibs();
+          // let libCount = 0;
+          // for (let lib in existingLibs){
+          //   libCount += 1;
+          // }
+          // console.log('Existing library count:', libCount);
+
+          monaco.languages.typescript.javascriptDefaults.setExtraLibs([]); // remove everything first
           monaco.languages.typescript.javascriptDefaults.addExtraLib(gameLib);
           monaco.languages.typescript.javascriptDefaults.addExtraLib(phaserLib);
+
+          this.gameLibLoaded = true;
+          this.editorLoaded = true;
         })
 
       }, (err) => this.showLibLoadError(err))

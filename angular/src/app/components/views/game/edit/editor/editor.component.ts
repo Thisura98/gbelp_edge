@@ -14,7 +14,7 @@ import { LogicEditorComponent } from './logic/logic.component';
 import { GameListing, GameType } from '../../../../../../../../commons/src/models/game/game';
 import { combineLatest, Subject } from 'rxjs';
 import { MetaKeyService } from 'src/app/services/metakey.service';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editor',
@@ -32,11 +32,13 @@ export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Left sidebar
    */
-  get sidebarItems(): DynamicSidebarItem[]{
-    return getGameSidebarItems('Editor', this.viewMode, this.getSelectedTabIndex(), (item, index) => {
-      this.didSelectedEditorTab(item, index);
-    });
-  }
+  // get sidebarItems(): DynamicSidebarItem[]{
+  //   return getGameSidebarItems('Editor', this.viewMode, this.getSelectedTabIndex(), (item, index) => {
+  //     this.didSelectedEditorTab(item, index);
+  //   });
+  // }
+
+  sidebarItems: DynamicSidebarItem[] = [];
 
   get editorQueryParams(): Params{
     const params: Params = {
@@ -124,7 +126,10 @@ export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
         "Save Changes?",
         "Your level has unsaved changes. Do you want to save before switching levels? ",
         () => this.saveAndSwitchLEvels(levelId),
-        () => this.navigateToLevelId(levelId)
+        () => {
+          this.editorDataService.setHasUnsavedChanges(false);
+          this.navigateToLevelId(levelId);
+        }
       )
     }
     else{
@@ -225,29 +230,20 @@ export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
 
     const hasUnsavedChanges = this.editorDataService.getHasUnsuavedChanges().getValue();
     if (hasUnsavedChanges){
-      this.dialogService.showDismissable(
-        "Unsaved Changes", 
-        "You have unsaved changes. Save your work first, and then switch tabs"
-      );
+      this.dialogService.showYesNo(
+        "Save Changes?",
+        "Your level has unsaved changes. Do you want to save before switching levels? ",
+        () => this.saveGame(true, () => this.navigateToEditorMaintainingLevel(index)),
+        () => {
+          this.editorDataService.setHasUnsavedChanges(false);
+          this.navigateToEditorMaintainingLevel(index);
+        }
+      )
       return;
     }
-
-    const queryParams = {
-      gameId: this.editingGameId,
-      levelId: this.selectedLevel!._id
-    };
-    let command = this.viewMode == ViewMode.GAME ? 'game' : 'template';
-    const editor = this.getTabNavComponentForIndex(index);
-
-    command = command + "/edit/editor/" + editor;
-    
-    console.log('Saving game...')
-    this.saveGame(true, () => {
-      console.log('Saved game now navigating...')
-      this.router.navigate([command], {
-        queryParams: queryParams
-      });
-    });
+    else{
+      this.navigateToEditorMaintainingLevel(index);
+    }
   }
 
   openHelpPressed(){
@@ -323,6 +319,15 @@ export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
 
   /* private methods */
 
+  private updateSidebar(){
+    this.sidebarItems = getGameSidebarItems(
+      'Editor', 
+      this.viewMode, 
+      this.getSelectedTabIndex(), 
+      (item, index) => this.didSelectedEditorTab(item, index)
+    );
+  }
+
   private loadData(){
     if (!this.editingGameId){
       this.handleError('Game Id Not Found');
@@ -341,7 +346,20 @@ export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
     // Find the level index from level ID then,
     // set the data for child views.
     let indexOfLevel = null;
-    this.activatedRoute.queryParams.pipe(take(1)).subscribe(params => {
+    this.activatedRoute.url
+    .pipe(takeUntil(this.notifier$))
+    .subscribe(url => {
+      this.updateSidebar();
+    });
+
+    console.log('editor.component.queryParams subscribed 1 time');
+
+    this.activatedRoute.queryParams
+    .pipe(takeUntil(this.notifier$))
+    .subscribe(params => {
+
+      console.log('editor.component.queryParams subscription called!');
+
       const levelId = params['levelId'];
       const matchingLevelIndex = this.gameLevels.findIndex((lvl) => {return lvl._id == levelId});
 
@@ -359,6 +377,7 @@ export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
       this.editorDataService.setEditorChildData(response, this.selectedLevelIndex, this.selectedLevel!._id!);
       this.navigateToDefaultChildIfNeeded();
       this.didLoadData = true;
+      this.updateSidebar();
     });
   }
 
@@ -422,6 +441,23 @@ export class GameEditorComponents implements OnInit, AfterViewInit, OnDestroy {
         levelId: levelId
       },
       replaceUrl: true
+    });
+  }
+
+  private navigateToEditorMaintainingLevel(editorIndex: number){
+    const queryParams = {
+      gameId: this.editingGameId,
+      levelId: this.selectedLevel!._id
+    };
+    let command = this.viewMode == ViewMode.GAME ? 'game' : 'template';
+    const editor = this.getTabNavComponentForIndex(editorIndex);
+
+    command = command + "/edit/editor/" + editor;
+    
+    console.log('Saving game...')
+    console.log('Saved game now navigating...')
+    this.router.navigate([command], {
+      queryParams: queryParams
     });
   }
 

@@ -17,56 +17,61 @@
             </div>
             <div class="sub-section-preview" [class.animatehide]="userHidPreview">
                 <form class="properties-form">
-                    <div class="property-section" *ngFor="let section of sections">
-                        <div class="property-title">{{section.section}}</div>
-                        <div class="property-item" *ngFor="let item of section.properties">
-                            <div class="property-item-name">
-                                {{item.name}}
-                                <div class="property-item-hint" *ngIf='item.hint != undefined && item.hint != ""'>
-                                    <img class="property-item-hint-ico" 
-                                        src="assets/editor/properties/ico_property_hint.png"
-                                        [matTooltip]="item.hint" matTooltipPosition="right"
-                                        />
+                    <ng-container *ngIf="!propertiesEmpty">
+                        <div class="property-section" *ngFor="let section of sections">
+                            <div class="property-title">{{section.section}}</div>
+                            <div class="property-item" *ngFor="let item of section.properties">
+                                <div class="property-item-name">
+                                    {{item.name}}
+                                    <div class="property-item-hint" *ngIf='item.hint != undefined && item.hint != ""'>
+                                        <img class="property-item-hint-ico" 
+                                            src="assets/editor/properties/ico_property_hint.png"
+                                            [matTooltip]="item.hint" matTooltipPosition="right"
+                                            />
+                                    </div>
+                                </div>
+                                <div class="property-item-value">
+                                    <!-- Number Properties -->
+                                    <ng-container *ngIf="item.type == 'number'">
+                                        <input type="number" 
+                                            class="property-item-value-number property-control"
+                                            name="{{item.name}}" 
+                                            min="{{item.number?.min}}" 
+                                            max="{{item.number?.max}}"
+                                            [(ngModel)]="item.number!.value"
+                                            (change)="numberValueChanged(item)"/>
+                                    </ng-container>
+    
+                                    <!-- Text Properties -->
+                                    <ng-container *ngIf="item.type == 'text'">
+                                        <textarea type="text" 
+                                            #textAreaRef
+                                            class="property-item-value-text property-control"
+                                            name="{{item.name}}" 
+                                            [attr.maxlength]="item.text?.charLimit"
+                                            [(ngModel)]="item.text!.value"
+                                            (change)="valueChanged()">
+                                        </textarea>
+                                    </ng-container>
+                                    
+                                    <!-- Select Properties -->
+                                    <ng-container *ngIf="item.type == 'select'">
+                                        <select name="{{item.name}}" class="property-item-value-select property-control" 
+                                            [(ngModel)]="item.select!.value" (change)="valueChanged()">
+                                            <option *ngFor="let option of item.select!.options | keyvalue" 
+                                                [attr.selected]="option.value == item.select!.value"
+                                                value="{{option.key}}">
+                                                {{option.value}}
+                                            </option>
+                                        </select>
+                                    </ng-container>
+                                    <!-- TODO the rest of the properties types -->
                                 </div>
                             </div>
-                            <div class="property-item-value">
-                                <!-- Number Properties -->
-                                <ng-container *ngIf="item.type == 'number'">
-                                    <input type="number" 
-                                        class="property-item-value-number property-control"
-                                        name="{{item.name}}" 
-                                        min="{{item.number?.min}}" 
-                                        max="{{item.number?.max}}"
-                                        [(ngModel)]="item.number!.value"
-                                        (change)="valueChanged()"/>
-                                </ng-container>
-
-                                <!-- Text Properties -->
-                                <ng-container *ngIf="item.type == 'text'">
-                                    <textarea type="text" 
-                                        #textAreaRef
-                                        class="property-item-value-text property-control"
-                                        name="{{item.name}}" 
-                                        [attr.maxlength]="item.text?.charLimit"
-                                        [(ngModel)]="item.text!.value"
-                                        (change)="valueChanged()">
-                                    </textarea>
-                                </ng-container>
-                                
-                                <!-- Select Properties -->
-                                <ng-container *ngIf="item.type == 'select'">
-                                    <select name="{{item.name}}" class="property-item-value-select property-control" 
-                                        [(ngModel)]="item.select!.value" (change)="valueChanged()">
-                                        <option *ngFor="let option of item.select!.options | keyvalue" 
-                                            [attr.selected]="option.value == item.select!.value"
-                                            value="{{option.key}}">
-                                            {{option.value}}
-                                        </option>
-                                    </select>
-                                </ng-container>
-                                <!-- TODO the rest of the properties types -->
-                            </div>
                         </div>
+                    </ng-container>
+                    <div class="properties-empty-label" *ngIf="propertiesEmpty">
+                        No properties to show. Try selecting a different level frop the top.
                     </div>
                 </form>
             </div>

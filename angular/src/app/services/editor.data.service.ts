@@ -75,7 +75,7 @@ export class EditorDataService{
                 resolve(gameProject);
             });
         })
-        console.log("Going to wait on all listeners...");
+        console.log("Going to wait on", onSaveListeners.length, "listeners...");
         Promise.all(promises).then(() => {
             console.log("All listeners resolved");
             callback();

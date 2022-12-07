@@ -136,6 +136,10 @@
 
 /* Options Panel */
 
+.pane-options{
+    margin-bottom: 20px;
+}
+
 .options-selected-name{
     color: #009EFF;
     font-family: 'Roboto Medium';

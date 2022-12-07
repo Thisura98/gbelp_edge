@@ -49,7 +49,7 @@ export class DialogService{
     }
 
     showSnackbar(title: string, duration: number | undefined = 1500){
-        this.zone.runOutsideAngular(() => {
+        this.zone.run(() => {
             this.toastr.error(title, undefined, {
                 positionClass: 'toast-bottom-center',
                 toastClass: 'dyn-toast-class',

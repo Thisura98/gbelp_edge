@@ -32,6 +32,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
 
   userHidEditor: boolean = false;
   userHidPreview: boolean = false;
+  propertiesEmpty: boolean = false;
 
   get isTemplate(): boolean{
     return this.gameListing?.entry.is_template ?? false;
@@ -43,6 +44,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
   private notifier$ = new Subject();
   private saveListener$: number = -1;
   private editorModelChanged: monaco.IDisposable | undefined;
+  private model: monaco.editor.ITextModel | undefined;
 
   constructor(
     private editorDataService: EditorDataService,
@@ -69,6 +71,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
     this.notifier$.complete();
     this.editorDataService.removeOnSaveListener(this.saveListener$);
     this.editorModelChanged?.dispose();
+    this.model?.dispose();
     this.editorReference.subscribe(editor => {
       editor?.dispose();
       monaco.editor.getModels().forEach(m => m.dispose());
@@ -83,7 +86,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
     this.editorReference.next(editor);
     const modelUri = monaco.Uri.parse('edge://b/foo.json');
     if (monaco.editor.getModel(modelUri) == null){
-      const model = monaco.editor.createModel(this.code, 'json', modelUri);
+      this.model = monaco.editor.createModel(this.code, 'json', modelUri);
       const sectionsSchema = getMonacoLevelPropsTextModel(modelUri);
 
       monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
@@ -91,7 +94,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
         schemas: [ sectionsSchema ]
       });
 
-      editor.setModel(model);
+      editor.setModel(this.model!);
     }
     else{
       editor.setModel(monaco.editor.getModel(modelUri));
@@ -142,13 +145,35 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  numberValueChanged(item: LevelProperty){
+    let value = item.number?.value
+
+    if (value == undefined){
+      this.valueChanged();
+      return;
+    }
+
+    const min = item.number!.min;
+    const max = item.number!.max;
+
+    item.number!.value = Math.min(Math.max(value, min), max);
+  }
+
   private setLevelProperties(){
     if (this.selectedLevelIndex == undefined)
       return;
 
     const index = this.selectedLevelIndex!;
-    this.sections = this.gameListing?.project.levels[index].properties.properties!;
-    this.valueChanged(false);
+    const sections = this.gameListing?.project.levels[index].properties?.properties;
+
+    if (sections == undefined || sections.length == 0){
+      this.propertiesEmpty = true;
+    }
+    else{
+      this.propertiesEmpty = false;
+      this.sections = sections;
+      this.valueChanged(false);
+    }
   }
 
   private prepareForSave(project: GameProject){

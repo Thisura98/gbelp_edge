@@ -70,7 +70,9 @@ export class SceneEditorComponent implements OnInit, OnDestroy {
       this.selectedSceneObjIndex = index;
       console.log('getSceneObjectSelection', index)
     });
-    this.activatedRoute.queryParams.pipe(take(1)).subscribe(params => {
+    this.activatedRoute.queryParams
+    .pipe(takeUntil(this.notifier$))
+    .subscribe(params => {
       this.editingLevelId = params['levelId'];
     });
   }
