@@ -11,7 +11,7 @@ services:
           - eg_mongo_data:/data/db
         environment:
           MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: edgeknowledgesource1234567890
+    #       MONGO_INITDB_ROOT_PASSWORD:
     
     # mongo-express:
     #     image: mongo-express
@@ -34,7 +34,7 @@ services:
         volumes: 
             - eg_mysql_data:/var/lib/mysql
         environment:
-            MYSQL_ROOT_PASSWORD: edgeknowledgesource1234567890
+    #         MYSQL_ROOT_PASSWORD: 
     
     # MySQL Server Host Name: mysqlhost
     # MySQL User: root
