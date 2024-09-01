@@ -1,6 +1,12 @@
 # Game base E-Learning Platform (codename: Edge)
 Repo for the UCSC MIT 3201 Thesis Project
 
+## Video Demo
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hn7QkOJSCEQ?si=GXcFhEIh5jzUfuTx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Full youtube playlist: https://youtube.com/playlist?list=PLYyKxvPeH7y0A_qSqwtvfOOloWLHxhvaI&si=RzOZEpH8HtTF-t2e
+
 ## Project Structure
 
 ```txt
