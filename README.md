@@ -1,11 +1,15 @@
 # Game base E-Learning Platform (codename: Edge)
 Repo for the UCSC MIT 3201 Thesis Project
 
+## Thesis
+
+The Thesis for my project is published in the University of Colombo School of Computing (Sri Lanka)'s Digital Library.
+- [UCSC Digital Library - DODANGODA T.N. Thesis abstract page](https://dl.ucsc.cmb.ac.lk/jspui/handle/123456789/4708)
+- [UCSC Digital Library - Game based E-Learning Platform - T. N. DODANGODA (PDF)](https://dl.ucsc.cmb.ac.lk/jspui/bitstream/123456789/4708/1/2018%20MIT%20016.pdf)
+
 ## Video Demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/hn7QkOJSCEQ?si=GXcFhEIh5jzUfuTx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-Full youtube playlist: https://youtube.com/playlist?list=PLYyKxvPeH7y0A_qSqwtvfOOloWLHxhvaI&si=RzOZEpH8HtTF-t2e
+<a href="https://youtube.com/playlist?list=PLYyKxvPeH7y0A_qSqwtvfOOloWLHxhvaI&si=RzOZEpH8HtTF-t2e"><img width="400" src="https://github.com/user-attachments/assets/94434ea3-c2e4-4911-baf4-9de1a7054dc1"/></a>
 
 ## Project Structure
 
